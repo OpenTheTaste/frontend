@@ -1,15 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #242424;
   --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Pretendard */
+  --font-pretendard:
+    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+
+  --font-sans: var(--font-pretendard);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Colors */
+  --color-ot-primary-50: #ffecef;
+  --color-ot-primary-100: #ffd1d7;
+  --color-ot-primary-200: #ffa4b2;
+  --color-ot-primary-300: #ff768f;
+  --color-ot-primary-400: #ff396c;
+  --color-ot-primary-500: #f10059;
+  --color-ot-primary-600: #c90049;
+  --color-ot-primary-700: #9d0037;
+  --color-ot-primary-800: #700025;
+  --color-ot-primary-900: #430013;
+  --color-ot-primary-950: #2c0009;
+
+  --color-ot-gray-100: #f7f7f7;
+  --color-ot-gray-200: #f0f0f0;
+  --color-ot-gray-300: #e8e8e8;
+  --color-ot-gray-400: #e1e1e1;
+  --color-ot-gray-500: #d9d9d9;
+  --color-ot-gray-600: #aeaeae;
+  --color-ot-gray-700: #828282;
+  --color-ot-gray-800: #575757;
+  --color-ot-gray-900: #2b2b2b;
+
+  --color-ot-text: #fafaf8;
+  --color-ot-background: #242424;
+
+  --gradient-ot-primary-diagonal: linear-gradient(
+    0deg,
+    #ff6a87 0%,
+    #d7526c 100%
+  );
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +60,10 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+.bg-ot-primary-gradient {
+  background: var(--gradient-ot-primary-diagonal);
+  color: #fafaf8;
 }
