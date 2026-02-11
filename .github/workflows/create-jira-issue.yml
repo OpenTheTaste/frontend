@@ -4,9 +4,6 @@ on:
     types:
       - opened
 
-permissions:
-  contents: write
-
 jobs:
   create-issue:
     name: Create Jira issue
