@@ -1,0 +1,25 @@
+#!/bin/sh
+
+BRANCH_NAME=$(git branch --show-current)
+
+# hotfix/* 브랜치는 예외 허용
+if echo "$BRANCH_NAME" | grep -q "^hotfix/"; then
+  exit 0
+fi
+
+# main 브랜치 커밋 차단
+if [ "$BRANCH_NAME" = "main" ]; then
+  echo "❌ main 브랜치에서는 커밋할 수 없습니다."
+  echo "👉 개인 브랜치에서 작업하세요."
+  exit 1
+fi
+
+# grep 실패 시에도 exit 0 유지
+JIRA_TICKET=$(echo "$BRANCH_NAME" | grep -o '[A-Z]\+-[0-9]\+' || true)
+
+COMMIT_MSG_FILE=$1
+
+# 티켓 번호가 있고, 이미 포함 안 돼 있을 때만 추가
+if [ -n "$JIRA_TICKET" ] && ! grep -q "\[$JIRA_TICKET\]" "$COMMIT_MSG_FILE"; then
+  sed -i "" "1s/^/\[$JIRA_TICKET\] /" "$COMMIT_MSG_FILE"
+fi
