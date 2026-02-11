@@ -1,0 +1,9 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+BRANCH_NAME=$(git branch --show-current)
+
+if [ "$BRANCH_NAME" = "main" ]; then
+  echo "❌ main 브랜치에서는 커밋할 수 없습니다."
+  exit 1
+fi
