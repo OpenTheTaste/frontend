@@ -2,7 +2,7 @@
 
 :root {
   --background: #242424;
-  --foreground: #171717;
+  --foreground: #FAFAF8;
 }
 
 @theme inline {
@@ -44,7 +44,7 @@
   --color-ot-background: #242424;
 
   --gradient-ot-primary-diagonal: linear-gradient(
-    0deg,
+    180deg,
     #ff6a87 0%,
     #d7526c 100%
   );
