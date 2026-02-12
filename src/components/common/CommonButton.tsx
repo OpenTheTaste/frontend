@@ -21,12 +21,12 @@ export default function CommonButton({ children, className = "", ...props }: Com
 
   return (
     <button
+      {...props}
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}
       onMouseLeave={() => setIsPressed(false)}
-      className={`flex items-center justify-center gap-4 transition-all ${className}`}
-      style={isPressed ? pressedColor : defaultColor}
-      {...props}
+      className={`flex items-center justify-center gap-4 rounded-lg transition-all ${className}`}
+      style={{ ...(props.style || {}), ...(isPressed ? pressedColor : defaultColor) }}
     >
       {children}
     </button>

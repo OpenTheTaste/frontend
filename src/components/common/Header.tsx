@@ -25,14 +25,23 @@ const Header = () => {
       >
         {/* 검색 아이콘 버튼 (36 x 36 px) - 검색 페이지가 아닐 때만 표기 */}
         {!isSearchPage && (
-          <button className="flex items-center justify-center w-9 h-9 cursor-pointer">
+          <Link href="/search" className="flex items-center justify-center w-9 h-9 cursor-pointer">
             <Search className="w-full h-full stroke-[1.5px] stroke-ot-text" strokeWidth={1.5} />
-          </button>
+          </Link>
         )}
         {/* 마이페이지 아이콘 버튼 (36 x 36 px) : 클릭하면 마이페이지 메인으로 이동 (/mypage) */}
-        <button className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden cursor-pointer">
-          <img src="/icons/logo.png" alt="Logo" width={36} height={36} className="object-cover" />
-        </button>
+        <Link
+          href="/mypage"
+          className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden cursor-pointer"
+        >
+          <img
+            src="/icons/logo.png"
+            alt="마이페이지"
+            width={36}
+            height={36}
+            className="object-cover"
+          />
+        </Link>
       </div>
     </header>
   );
