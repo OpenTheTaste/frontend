@@ -17,7 +17,6 @@ export default function CommonButton({ children, className = "", ...props }: Com
   // 2) 클릭 상태
   const pressedColor: React.CSSProperties = {
     backgroundColor: "var(--color-ot-primary-700)",
-    backgroundImage: "none",
   };
 
   return (
