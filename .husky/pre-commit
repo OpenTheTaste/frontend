@@ -1,9 +1,7 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 BRANCH_NAME=$(git branch --show-current)
 
-if [ "$BRANCH_NAME" = "main" ]; then
-  echo "❌ main 브랜치에서는 커밋할 수 없습니다."
+if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "develop" ]; then
+  echo "❌ main 또는 develop 브랜치에서는 직접 커밋할 수 없습니다."
+  echo "💡 feature 브랜치를 생성해서 작업해주세요."
   exit 1
 fi
