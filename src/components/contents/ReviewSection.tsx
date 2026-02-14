@@ -244,7 +244,7 @@ export default function ReviewSection({
             id="spoiler"
             name="spoiler"
             type="checkbox"
-            className="accent-ot-primary-gradient"
+            className="custom-checkbox"
             checked={isSpoilerReview}
             onChange={() => setIsSpoilerReview((prev) => !prev)}
           />
