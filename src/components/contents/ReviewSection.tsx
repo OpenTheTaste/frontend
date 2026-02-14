@@ -50,6 +50,8 @@ export default function ReviewSection({
     };
 
     setReviewList((prev) => [newReviewItem, ...prev]);
+
+    if (isSpoilerReview) setShowSpoiler(true); // 스포포함 등록 시 바로 스포포함한 댓글 조회
     setNewReview("");
     setIsSpoilerReview(false);
   };
@@ -122,7 +124,7 @@ export default function ReviewSection({
               id="spoiler-expanded"
               name="spoiler"
               type="checkbox"
-              className="accent-ot-primary-gradient"
+              className="custom-checkbox"
               checked={isSpoilerReview}
               onChange={() => setIsSpoilerReview((prev) => !prev)}
             />
