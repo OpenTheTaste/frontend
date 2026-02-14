@@ -3,7 +3,7 @@ import HeaderButton from './HedaerButton';
 
 export default function OnboardHeader() {
   return (
-    <header className="flex justify-between items-center px-6 py-4 border-b border-gray-700">
+    <header className="flex justify-between items-center px-6 py-4 bg-background">
       <HeaderBrand />
       <HeaderButton />
     </header>
