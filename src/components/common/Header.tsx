@@ -17,7 +17,7 @@ const Header = () => {
         className="flex items-center justify-center cursor-pointer"
       >
         <Image
-          src="/icons/logo.png"
+          src="/icons/logo.svg"
           alt="Logo"
           width={45}
           height={45}
@@ -44,7 +44,7 @@ const Header = () => {
           className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden cursor-pointer"
         >
           <Image
-            src="/icons/logo.png"
+            src="/icons/logo.svg"
             alt="마이페이지 이동"
             width={36}
             height={36}
