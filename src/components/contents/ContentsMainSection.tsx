@@ -36,6 +36,7 @@ export default function ContentsMainSection({
     } else {
       // 시리즈일 경우 이어보기 or 1화로 이동
       const series = content as SeriesContent;
+      if (series.episodes.length === 0) return;
       const targetEpisodeId =
         series.lastWatchedEpisode ?? series.episodes[0].id;
       router.push(`/contents/${content.id}/episode/${targetEpisodeId}`);

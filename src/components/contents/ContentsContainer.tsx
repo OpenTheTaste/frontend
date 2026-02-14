@@ -70,10 +70,12 @@ export default function ContentsContainer({
 
           {isEpisodeView ? (
             // 시리즈 별 회차 (에피소드 - 댓글 O)
-            <EpisodeSideSection
-              seriesId={seriesId!}
-              otherEpisodes={otherEpisodes}
-            />
+            seriesId ? (
+              <EpisodeSideSection
+                seriesId={seriesId}
+                otherEpisodes={otherEpisodes}
+              />
+            ) : null
           ) : displayContent.type === "single" ? (
             // 단편 콘텐츠
             <SingleSideSection recommendations={recommendations} />

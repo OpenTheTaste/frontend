@@ -34,7 +34,7 @@ export const InteractionButton = ({
     // size : 72 * 56 px, radius : 36px
     <button
       onClick={onAction}
-      className={`${config.button} ${config.image} flex items-center justify-center rounded-[2.25rem] shrink-0 cursor-pointer`}
+      className={`${config.button} flex items-center justify-center rounded-[2.25rem] shrink-0 cursor-pointer`}
     >
       <Image
         src={
