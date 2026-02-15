@@ -7,7 +7,7 @@ export default function OnboardContent() {
   const router = useRouter();
 
   return (
-    <section className="w-full max-w-480 flex flex-col items-center justify-center py-[5rem] px-6 mx-auto bg-background">
+    <section className="w-full max-w-480 flex flex-col items-center justify-center py-[3rem] px-3 mx-auto bg-background">
       <h1 className="text-[3rem] font-bold text-white mb-2">O+T</h1>
       
       <p className="text-[2rem] text-ot-white text-center mb-2 font-bold">
