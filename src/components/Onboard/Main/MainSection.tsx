@@ -21,7 +21,7 @@ export default function OnboardContent() {
       
       <CommonButton 
         onClick={() => router.push('/auth/login')}
-        className="px-[3rem] py-[1rem] text-[1rem]"
+        className="px-[2.5rem] py-[0.75rem] text-[1rem] font-bold"
       >
         시작하기
       </CommonButton>

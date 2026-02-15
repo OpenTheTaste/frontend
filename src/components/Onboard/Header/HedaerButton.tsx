@@ -9,7 +9,7 @@ export default function HeaderButton() {
   return (
     <CommonButton 
       onClick={() => router.push('/login')}
-      className="px-[1.25rem] py-[0.5rem] text-[0.875rem]"
+      className="px-[1.25rem] py-[0.5rem] text-[0.875rem] font-bold"
     >
       로그인하기
     </CommonButton>
