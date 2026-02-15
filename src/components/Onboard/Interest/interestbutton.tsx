@@ -16,7 +16,7 @@ export default function InterestButton({
 
   return (
     <CommonButton
-      onClick={() => router.push('/onboard/complete')}
+      onClick={() => router.push('/home')}
       disabled={disabled}
       className="w-full py-4 text-[1rem] disabled:opacity-50 disabled:cursor-not-allowed"
     >
