@@ -9,7 +9,7 @@ export default function LoginContent() {
   const router = useRouter();
 
   return (
-    <section className="w-full bg-background flex-1 flex items-center justify-center py-12">
+    <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-12">
       <div className="px-6 max-w-2xl mx-auto w-full flex flex-col items-center">
         <h1 className="text-[1.5rem] font-bold text-white mb-4 text-center">
           로그인 정보를 입력해주세요
