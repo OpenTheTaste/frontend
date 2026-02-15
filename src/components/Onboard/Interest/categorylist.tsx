@@ -1,6 +1,8 @@
 'use client';
 
 import { Category } from "@/types/interest/category";
+import { ChevronRight } from 'lucide-react';
+
 
 interface CategoryListProps {
   categories: Category[];
@@ -14,7 +16,7 @@ export default function CategoryList({
   onSelectCategory
 }: CategoryListProps) {
   return (
-    <div className="w-[180px] bg-ot-gray-800">
+    <div className="w-[180px] bg-ot-background">
       {categories.map((category) => (
         <button
           key={category}
@@ -25,14 +27,16 @@ export default function CategoryList({
               : 'hover:bg-ot-gray-750'
           }`}
         >
-          <span className={`text-[1rem] font-medium ${
+          <span className={`text-[1rem] font-bold ${
             selectedCategory === category ? 'text-ot-primary-500' : 'text-ot-gray-300'
           }`}>
             {category}
           </span>
-          <span className={selectedCategory === category ? 'text-ot-primary-500' : 'text-ot-gray-500'}>
-            &gt;
-          </span>
+          <ChevronRight
+            size={20}
+            className={selectedCategory === category ? 'text-ot-primary-500' : 'text-ot-gray-500'}
+          />
+
         </button>
       ))}
     </div>

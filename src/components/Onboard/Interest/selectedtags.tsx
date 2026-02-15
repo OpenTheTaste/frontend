@@ -18,9 +18,9 @@ export default function SelectedTags({
     );
 
   return (
-    <div className="border border-ot-gray-700 rounded-lg bg-ot-gray-800 p-6 mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[0.875rem] font-bold text-ot-gray-400">
+    <div className="border border-ot-white rounded-lg bg-ot-background p-6 mb-3">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-[1rem] font-bold text-white">
           선택한 관심사 ({allSelectedTags.length})
         </h3>
         <button
@@ -36,10 +36,10 @@ export default function SelectedTags({
           {allSelectedTags.map(({ category, tag }, idx) => (
             <div
               key={`${category}-${tag}-${idx}`}
-              className="bg-ot-primary-50 text-ot-primary-500 px-3 py-1 rounded-full text-[0.75rem] font-medium flex items-center gap-2"
+              className="bg-ot-primary-50 text-ot-primary-500 px-3 py-1 rounded text-[0.75rem] font-medium flex items-center gap-2"
             >
               <span>{tag}</span>
-              <span className="text-ot-primary-400">|</span>
+              <span className="text-ot-primary-500">|</span>
               <span>{category}</span>
             </div>
           ))}

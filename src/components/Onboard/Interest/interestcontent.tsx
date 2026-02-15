@@ -49,19 +49,19 @@ export default function InterestContent() {
   const totalSelectedTags = Object.values(selectedTagsByCategory).flat().length;
 
   return (
-    <section className="w-full bg-background flex-1 flex items-center justify-center py-6">
+    <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-6">
       <div className="px-3 max-w-[1100px] mx-auto w-full flex flex-col">
-        <h1 className="text-[1.75rem] font-bold text-white mb-3">
+        <h1 className="text-[2rem] font-bold text-white mb-1">
           관심사를 선택해주세요
         </h1>
         
-        <p className="text-[0.875rem] text-ot-gray-500 mb-8">
+        <p className="text-[1rem] font-bold text-ot-gray-600 mb-4">
           좋아하는 카테고리와 장르를 선택하면 맞춤 콘텐츠를 추천해드립니다.
         </p>
 
         {/* 카테고리 & 테그 섹션 */}
-        <div className="flex border border-ot-gray-700 rounded-lg overflow-hidden mb-8">
-          <div className="border-r border-ot-gray-700">
+        <div className="flex border border-text-white rounded-lg overflow-hidden mb-2">
+          <div className="border-r border-text-white">
             <CategoryList
               categories={CATEGORIES}
               selectedCategory={selectedCategory}
