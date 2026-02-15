@@ -1,11 +1,11 @@
-import OnboardHeader from "@/components/onboard/Header/Header";
+import NoButtonHeader from "@/components/onboard/Header/nobuttonheader";
 import LoginContent from "@/components/onboard/login/LoginContent";
 import Footer from "@/components/common/Footer";
 
 export default function Login() { 
     return (
         <div className="bg-background min-h-screen">
-            <OnboardHeader />
+            <NoButtonHeader/>
             <LoginContent/>
             <Footer/>
         </div>
