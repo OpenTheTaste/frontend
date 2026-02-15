@@ -12,7 +12,7 @@ export default function FAQItem({ question, answer }: FAQItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border border-ot-gray-700 rounded-lg bg-background mb-3">
+    <div className="border border-ot-gray-700 rounded-lg bg-ot-background mb-3">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-ot-gray-750 transition-colors"

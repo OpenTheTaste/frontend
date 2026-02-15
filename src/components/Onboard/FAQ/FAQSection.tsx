@@ -13,7 +13,7 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <section className="w-full bg-background">
+    <section className="w-full bg-ot-background">
       <div className="px-6 py-12 max-w-2xl mx-auto">
         <h2 className="text-xl font-bold text-white mb-6">자주 묻는 질문</h2>
         {faqs.map((faq, idx) => (

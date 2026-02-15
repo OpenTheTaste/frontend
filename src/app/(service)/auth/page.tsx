@@ -5,7 +5,7 @@ import Footer from "@/components/common/Footer";
 
 export default function OTPage() {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-ot-background min-h-screen">
       <OnboardHeader />
       <OnboardContent />
       <FAQSection />

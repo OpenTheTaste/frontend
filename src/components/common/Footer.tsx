@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="w-full px-12 py-10 bg-background">
+    <footer className="w-full px-12 py-10 bg-ot-background">
       <div className="border-t border-ot-gray-700 pt-10">
         <div className="flex items-center justify-center gap-6 text-[0.75rem] text-ot-gray-600">
           <button className="hover:underline">문의하기</button>

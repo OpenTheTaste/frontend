@@ -10,7 +10,7 @@ const Header = () => {
   const isSearchPage = pathname === "/search"; // 현재 검색 페이지인지 확인
 
   return (
-    <header className="w-full flex items-center justify-between bg-background text-ot-text px-11 py-4">
+    <header className="w-full flex items-center justify-between bg-ot-background text-ot-text px-11 py-4">
       {/* 로고 (W:91, H:50) : 클릭하면 홈화면으로 이동 */}
       <Link
         href="/"
