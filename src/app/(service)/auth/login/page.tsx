@@ -1,5 +1,5 @@
-import OnboardHeader from "@/components/Onboard/Header/Header";
-import LoginContent from "@/components/Onboard/login/LoginContent";
+import OnboardHeader from "@/components/onboard/Header/Header";
+import LoginContent from "@/components/onboard/login/LoginContent";
 import Footer from "@/components/common/Footer";
 
 export default function Login() { 
