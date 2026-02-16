@@ -9,7 +9,7 @@ export default function BookmarkShortsList() {
       {BookmarkShortsMockData.map((item) => (
         <div key={item.id} className="relative flex shrink-0 h-60 w-full">
           {/* 숏폼 이미지 (135 * 240) */}
-          <div className="relative shrink-0 w-33.75 h-60 bg-ot-gray-800 rounded-lg overflow-hidden">
+          <div className="relative shrink-0 w-30 h-53.25 bg-ot-gray-800 rounded-lg overflow-hidden">
             {item.image ? (
               <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
             ) : (

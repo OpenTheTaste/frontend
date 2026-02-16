@@ -9,7 +9,7 @@ export default function BookmarkContentList() {
       {BookmarkContentsMockData.map((item) => (
         <div key={item.id} className="relative flex shrink-0 h-60 w-full">
           {/* 포스터 이미지 (320 * 240) */}
-          <div className="relative shrink-0 w-80 h-60 bg-ot-gray-800 rounded-lg overflow-hidden">
+          <div className="relative shrink-0 w-50 h-37.5 bg-ot-gray-800 rounded-lg overflow-hidden">
             {item.image ? (
               <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
             ) : (
