@@ -9,7 +9,7 @@ interface FAQItemProps {
 }
 
 export default function FAQItem({ question, answer }: FAQItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <div className="border border-ot-gray-700 rounded-lg bg-ot-background mb-3">
