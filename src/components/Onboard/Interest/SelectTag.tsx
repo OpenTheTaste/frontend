@@ -6,7 +6,7 @@ interface TagSelectionProps {
   onToggleTag: (tag: string) => void;
 }
 
-export default function TagSelect({
+export default function SelectTag({
   tags,
   selectedTags,
   onToggleTag

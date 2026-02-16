@@ -2,10 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import CategoryList from './categorylist';
-import TagSelect from './tagselect';
-import InterestButton from './interestbutton';
-import SelectedTags from './selectedtags';
+import ListCategory from '@/components/onboard/Interest/ListCategory';
+import TagSelect from '@/components/onboard/Interest/SelectTag';
+import InterestButton from '@/components/onboard/Interest/ButtonInterest';
+import SelectedTags from '@/components/onboard/Interest/SelectedTag';
 import { Category } from '@/types/interest/category';
 import { TAGS } from '@/types/interest/tags';
 
@@ -20,7 +20,7 @@ const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
   스포츠: []
 };
 
-export default function InterestContent() {
+export default function ContentInterest() {
   const [selectedCategory, setSelectedCategory] = useState<Category>('영화');
   const [selectedTagsByCategory, setSelectedTagsByCategory] = useState<Record<Category, string[]>>(
     INITIAL_TAGS_BY_CATEGORY
@@ -62,7 +62,7 @@ export default function InterestContent() {
         {/* 카테고리 & 테그 섹션 */}
         <div className="flex border border-text-white rounded-lg overflow-hidden mb-2">
           <div className="border-r border-text-white">
-            <CategoryList
+            <ListCategory
               categories={CATEGORIES}
               selectedCategory={selectedCategory}
               onSelectCategory={handleSelectCategory}

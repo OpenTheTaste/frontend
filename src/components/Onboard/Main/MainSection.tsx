@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import CommonButton from '@/components/common/CommonButton';
 
-export default function OnboardContent() {
+export default function MainSection() {
   const router = useRouter();
 
   return (

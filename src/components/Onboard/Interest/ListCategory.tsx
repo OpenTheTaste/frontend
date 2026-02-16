@@ -10,7 +10,7 @@ interface CategoryListProps {
   onSelectCategory: (category: Category) => void;
 }
 
-export default function CategoryList({
+export default function ListCategory({
   categories,
   selectedCategory,
   onSelectCategory

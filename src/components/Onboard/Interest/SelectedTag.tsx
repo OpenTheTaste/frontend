@@ -8,7 +8,7 @@ interface SelectedTagsDisplayProps {
   onClearAll: () => void;
 }
 
-export default function SelectedTags({
+export default function SelectedTag({
   selectedTagsByCategory,
   onClearAll
 }: SelectedTagsDisplayProps) {

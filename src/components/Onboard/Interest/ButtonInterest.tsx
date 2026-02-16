@@ -8,7 +8,7 @@ interface InterestButtonProps {
   disabled?: boolean;
 }
 
-export default function InterestButton({ 
+export default function ButtonInterest({ 
   selectedTagCount,
   disabled = false 
 }: InterestButtonProps) {
