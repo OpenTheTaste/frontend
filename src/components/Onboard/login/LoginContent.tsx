@@ -21,7 +21,7 @@ export default function LoginContent() {
 
         <button
           onClick={() => router.push('/auth/userinfo')}
-          className="w-full max-w-[250px] hover:opacity-90 transition-opacity"
+          className="w-full max-w-62.5 hover:opacity-90 transition-opacity"
         >
           <Image
             src={kakaoLoginBtn}
