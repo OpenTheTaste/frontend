@@ -1,17 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import CommonButton from '@/components/common/CommonButton';
 
 export default function HeaderButton() {
-  const router = useRouter();
-
   return (
-    <CommonButton 
-      onClick={() => router.push('/login')}
-      className="px-[1.25rem] py-[0.5rem] text-[0.875rem] font-bold"
-    >
+    <Link href = "auth/login">
+      <CommonButton 
+      className="px-[1.25rem] py-[0.5rem] text-[0.875rem] font-bold">
       로그인하기
     </CommonButton>
+    </Link>
   );
 }
