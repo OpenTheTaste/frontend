@@ -9,7 +9,7 @@ interface UseHlsProps {
   onLevels?: (levels: Level[]) => void;
 }
 
-export function useHls({ src, videoRef, onLevels }: UseHlsProps) {
+export const useHls = ({ src, videoRef, onLevels }: UseHlsProps) => {
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ export function useHls({ src, videoRef, onLevels }: UseHlsProps) {
   }, [src]);
 
   return hlsRef;
-}
+};

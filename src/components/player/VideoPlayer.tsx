@@ -3,7 +3,9 @@
 import { useHls } from "@/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
 import type { Level } from "hls.js";
+import { SettingModal } from "@/components/player/SettingModal";
 import {
+  ArrowLeft,
   FastForward,
   Gauge,
   Hd,
@@ -15,45 +17,71 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { useRouter } from "next/navigation";
 
 interface VideoPlayerProps {
   src: string;
 }
 
 export const VideoPlayer = ({ src }: VideoPlayerProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const router = useRouter();
+  // ref
+  const videoRef = useRef<HTMLVideoElement>(null); // 비디오
   const containerRef = useRef<HTMLDivElement>(null);
-  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null); // 컨트롤러 숨기기
+  const levelModalRef = useRef<HTMLDivElement>(null); // 화질 모달
+  const speedModalRef = useRef<HTMLDivElement>(null); // 배속 모달
 
-  const levelModalRef = useRef<HTMLDivElement>(null);
+  // 화질 선택 관련 state
   const [isOpenLevels, setIsOpenLevels] = useState<boolean>(false);
-  const [isAutoLevels, setIsAutoLevels] = useState<boolean>(true);
+  const [levels, setLevels] = useState<Level[]>([]); // 화질 선택
+  const [isAutoLevels, setIsAutoLevels] = useState<boolean>(true); // auto
 
-  const SpeedModalRef = useRef<HTMLDivElement>(null);
+  // 배속 선택 관련 state
   const [isOpenSpeed, setIsOpenSpeed] = useState<boolean>(false);
+  const [playbackRate, setPlaybackRate] = useState<number>(1); // 배속
 
-  const [levels, setLevels] = useState<Level[]>([]);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
+  // 볼륨 state
+  const [volume, setVolume] = useState<number>(1); // 볼륨
+  const [isMuted, setIsMuted] = useState<boolean>(false); // 음소거 여부
+  const [prevVolume, setPrevVolume] = useState<number>(1); // 이전 볼륨
+
+  // 재생 관련
+  const [isPlaying, setIsPlaying] = useState<boolean>(false); // 재생 여부
+  const [currentTime, setCurrentTime] = useState<number>(0); // 현재 시간
+  const [duration, setDuration] = useState<number>(0); // 영상 길이
+
   const [showControls, setShowControls] = useState<boolean>(true); // 컨트롤러 표시 여부
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // 전체화면 상태
-
-  // 볼륨
-  const [volume, setVolume] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [prevVolume, setPrevVolume] = useState<number>(1);
-
-  // 배속
-  const [playbackRate, setPlaybackRate] = useState<number>(1);
-
+  // hls
   const hlsRef = useHls({
     src,
     videoRef,
     onLevels: setLevels,
   });
 
-  // 컨트롤러 숨김 타이머 설정
+  // 모달 외부 클릭 시 false 처리
+  useOutsideClick(levelModalRef, () => setIsOpenLevels(false), isOpenLevels);
+  useOutsideClick(speedModalRef, () => setIsOpenSpeed(false), isOpenSpeed);
+
+  // 화질 옵션 생성
+  const levelOptions = [
+    { label: "auto", value: -1, isActive: isAutoLevels },
+    ...levels.map((level, index) => ({
+      label: `${level.height}p`,
+      value: index,
+      isActive: !isAutoLevels && hlsRef.current?.currentLevel === index,
+    })),
+  ];
+
+  // 배속 옵션 생성
+  const speedOptions = [
+    { label: "1x", value: 1, isActive: playbackRate === 1 },
+    { label: "1.25x", value: 1.25, isActive: playbackRate === 1.25 },
+  ];
+
+  // 컨트롤러 숨김 타이머 설정 (5초 간 표시)
   const resetHideControlsTimer = () => {
     setShowControls(true);
 
@@ -83,7 +111,7 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
     };
   }, []);
 
-  // 마우스 움직임 이벤트 등록
+  // 마우스 움직임 이벤트 등록 -> 마우스 움직이면 컨트롤러 표시 관련
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -200,7 +228,7 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  // seek
+  // seek bar (= 시간대 조정 bar)
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const video = videoRef.current;
     if (!video) return;
@@ -226,51 +254,29 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
     }
   };
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 공통 볼륨 설정 로직
+  const adjustVolume = (newVolume: number) => {
     const video = videoRef.current;
     if (!video) return;
 
-    const newVolume = Number(e.target.value);
-    video.volume = newVolume;
-    setVolume(newVolume);
+    const clampedVolume = Math.max(0, Math.min(1, newVolume));
+    video.volume = clampedVolume;
+    setVolume(clampedVolume);
 
-    if (newVolume === 0) {
+    if (clampedVolume === 0) {
       video.muted = true;
       setIsMuted(true);
     } else {
       video.muted = false;
       setIsMuted(false);
-      setPrevVolume(newVolume);
+      setPrevVolume(clampedVolume);
     }
   };
 
-  // 모달 외부 클릭 감지
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      // 화질 모달
-      if (
-        isOpenLevels &&
-        levelModalRef.current &&
-        !levelModalRef.current.contains(event.target as Node)
-      ) {
-        setIsOpenLevels(false);
-      }
-
-      // 배속 모달
-      if (
-        isOpenSpeed &&
-        SpeedModalRef.current &&
-        !SpeedModalRef.current.contains(event.target as Node)
-      ) {
-        setIsOpenSpeed(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpenLevels, isOpenSpeed]);
+  // 볼륨 - input용
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    adjustVolume(Number(e.target.value));
+  };
 
   // 키보드 단축키 핸들러
   const handleKeyboardShortcuts = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -295,33 +301,21 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
     // 위쪽 화살표: 볼륨 올리기
     if (e.code === "ArrowUp") {
       e.preventDefault();
-      const video = videoRef.current;
-      if (!video) return;
-      const newVolume = Math.min(volume + 0.1, 1);
-      video.volume = newVolume;
-      setVolume(newVolume);
-      if (newVolume > 0) {
-        video.muted = false;
-        setIsMuted(false);
-        setPrevVolume(newVolume);
-      }
+      adjustVolume(volume + 0.1);
     }
-
     // 아래쪽 화살표: 볼륨 줄이기
     if (e.code === "ArrowDown") {
       e.preventDefault();
-      const video = videoRef.current;
-      if (!video) return;
-      const newVolume = Math.max(volume - 0.1, 0);
-      video.volume = newVolume;
-      setVolume(newVolume);
-      if (newVolume === 0) {
-        video.muted = true;
-        setIsMuted(true);
-      } else {
-        setPrevVolume(newVolume);
-      }
+      adjustVolume(volume - 0.1);
     }
+  };
+
+  // 뒤로 가기
+  const handleBack = () => {
+    if (videoRef.current && !videoRef.current.paused) {
+      videoRef.current.pause();
+    }
+    router.back();
   };
 
   return (
@@ -331,6 +325,15 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
       tabIndex={0}
       onKeyDown={handleKeyboardShortcuts}
     >
+      <div
+        className={`fixed top-0 left-0 right-0 z-20 p-4 flex items-center transition-opacity duration-300 bg-linear-to-b from-black/40 via-black/20 to-transparent
+        ${showControls ? "opacity-100" : "opacity-0"}`}
+      >
+        <button onClick={handleBack} className="p-2 cursor-pointer">
+          <ArrowLeft className="w-7 h-7 stroke-2 text-ot-text hover:text-ot-gray-600 active:text-ot-gray-600" />
+        </button>
+      </div>
+
       {/* 비디오 영역 */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative w-full h-full max-w-screen max-h-screen flex items-center justify-center">
@@ -343,9 +346,9 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
         </div>
       </div>
 
-      {/* 컨트롤러 - 조건부 표시 */}
+      {/* 컨트롤러 */}
       <div
-        className={`fixed bottom-0 left-0 right-0 p-2 text-ot-text z-10 transition-opacity duration-300  bg-linear-to-t from-black/40 via-black/20 to-transparent
+        className={`fixed bottom-0 left-0 right-0 p-3 text-ot-text z-10 transition-opacity duration-300  bg-linear-to-t from-black/40 via-black/20 to-transparent
            ${showControls ? "opacity-100" : "opacity-0"}`}
       >
         {/* Seek bar */}
@@ -364,6 +367,7 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
 
         {/* 컨트롤 버튼들 */}
         <div className="flex justify-between px-2 mt-2">
+          {/* 좌측: 재생, 감기, 음향 */}
           <div className="flex items-center gap-5">
             <button onClick={togglePlay}>
               {isPlaying ? (
@@ -409,108 +413,45 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
             </div>
           </div>
 
-          {/* 우측 컨트롤 */}
+          {/* 우측: 화질, 배속, 전체화면 */}
           <div className="flex items-center gap-5">
             {/* 화질 */}
-            <div className="relative flex items-center">
-              <button onClick={() => setIsOpenLevels(!isOpenLevels)}>
+            <div ref={levelModalRef} className="relative flex items-center">
+              <button
+                onClick={() => {
+                  setIsOpenSpeed(false);
+                  setIsOpenLevels((prev) => !prev);
+                }}
+              >
                 <Hd className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
               </button>
-
-              {isOpenLevels && (
-                <div
-                  ref={levelModalRef}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-ot-gray-800 rounded-lg p-5"
-                >
-                  <div className="flex gap-x-10">
-                    <p className="text-ot-text text-md font-semibold whitespace-nowrap">
-                      화질
-                    </p>
-
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => {
-                          changeLevels(-1);
-                          setIsOpenLevels(false);
-                        }}
-                        className={`text-sm text-right transition-colors cursor-pointer ${
-                          isAutoLevels
-                            ? "text-ot-text font-bold"
-                            : "text-ot-gray-600 hover:text-ot-text"
-                        }`}
-                      >
-                        auto
-                      </button>
-                      {levels.map((level, index) => (
-                        <button
-                          key={index}
-                          onClick={() => {
-                            changeLevels(index);
-                            setIsOpenLevels(false);
-                          }}
-                          className={`text-sm text-right transition-colors cursor-pointer ${
-                            !isAutoLevels &&
-                            hlsRef.current?.currentLevel === index
-                              ? "text-ot-text font-semibold"
-                              : "text-ot-gray-600 hover:text-ot-text"
-                          }`}
-                        >
-                          {level.height}p
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+              <SettingModal
+                title="화질"
+                isOpen={isOpenLevels}
+                options={levelOptions}
+                onClose={() => setIsOpenLevels(false)}
+                onSelect={(value) => changeLevels(value as number)}
+              />
             </div>
 
             {/* 배속 */}
-            <div className="relative flex items-center">
-              <button onClick={() => setIsOpenSpeed(!isOpenSpeed)}>
+            <div ref={speedModalRef} className="relative flex items-center">
+              <button
+                onClick={() => {
+                  setIsOpenLevels(false);
+                  setIsOpenSpeed((prev) => !prev);
+                }}
+              >
                 <Gauge className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
               </button>
 
-              {isOpenSpeed && (
-                <div
-                  ref={SpeedModalRef}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-ot-gray-800 rounded-lg p-5"
-                >
-                  <div className="flex gap-x-10">
-                    <p className="text-ot-text text-md font-semibold whitespace-nowrap">
-                      배속
-                    </p>
-
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={() => {
-                          changeSpeed(1);
-                          setIsOpenSpeed(false);
-                        }}
-                        className={`text-sm text-right transition-colors cursor-pointer ${
-                          playbackRate === 1
-                            ? "text-ot-text font-bold"
-                            : "text-ot-gray-600 hover:text-ot-text"
-                        }`}
-                      >
-                        1x
-                      </button>
-                      <button
-                        onClick={() => {
-                          changeSpeed(1.25);
-                          setIsOpenSpeed(false);
-                        }}
-                        className={`text-sm text-right transition-colors cursor-pointer ${
-                          playbackRate === 1.25
-                            ? "text-ot-text font-bold"
-                            : "text-ot-gray-600 hover:text-ot-text"
-                        }`}
-                      >
-                        1.25x
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <SettingModal
+                title="배속"
+                isOpen={isOpenSpeed}
+                options={speedOptions}
+                onClose={() => setIsOpenSpeed(false)}
+                onSelect={(value) => changeSpeed(value as number)}
+              />
             </div>
 
             {/* 전체화면 */}
