@@ -19,7 +19,10 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {/* 최대 넓이 570 -> 2280px 지정 */}
+        <div className="min-h-screen max-w-570 mx-auto">{children}</div>
+      </body>
     </html>
   );
 }
