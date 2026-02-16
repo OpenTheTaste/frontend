@@ -99,6 +99,10 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
     resetHideControlsTimer();
   };
 
+  useEffect(() => {
+    containerRef.current?.focus();
+  }, []);
+
   // 전체화면 상태 변경 감지
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -324,6 +328,7 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
       className="fixed inset-0 bg-black"
       tabIndex={0}
       onKeyDown={handleKeyboardShortcuts}
+      onClick={() => containerRef.current?.focus()}
     >
       <div
         className={`fixed top-0 left-0 right-0 z-20 p-4 flex items-center transition-opacity duration-300 bg-linear-to-b from-black/40 via-black/20 to-transparent
