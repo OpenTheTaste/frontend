@@ -1,8 +1,10 @@
 "use client";
 
+export type TabType = "recenthistory" | "bookmark";
+
 interface TabBarProps {
-  activeTab: "recent-3m" | "bookmark";
-  onTabChange: (tab: "recent-3m" | "bookmark") => void;
+  activeTab: TabType;
+  onTabChange: (tab: TabType) => void;
 }
 
 export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
@@ -10,12 +12,12 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
     <div className="flex items-center gap-0 w-fit">
       {/* 3개월 내 시청내역 버튼 */}
       <button
-        onClick={() => onTabChange("recent-3m")}
+        onClick={() => onTabChange("recenthistory")}
         className={`flex items-center justify-center rounded-t-lg rounded-b-none text-[20px] font-semibold
           px-8.25 py-4
           ${
-            activeTab === "recent-3m"
-              ? "bg-ot-primary-gradient text-ot-text rounded-t-xl"
+            activeTab === "recenthistory"
+              ? "bg-ot-primary-gradient text-ot-text rounded-t-xl border-b-2 border-ot-primary-500"
               : "bg-transparent text-ot-gray-600 border-b border-ot-gray-600"
           }`}
       >
@@ -29,7 +31,7 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
           px-21.25 py-4
           ${
             activeTab === "bookmark"
-              ? "bg-ot-primary-gradient text-ot-text rounded-t-xl"
+              ? "bg-ot-primary-gradient text-ot-text rounded-t-xl border-b-2 border-ot-primary-500"
               : "bg-transparent text-ot-gray-600 border-b border-ot-gray-600"
           }`}
       >

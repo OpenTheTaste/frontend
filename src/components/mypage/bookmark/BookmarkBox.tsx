@@ -6,16 +6,19 @@ import BookmarkFilterBar from "@/components/mypage/bookmark/BookmarkFilterBar";
 import BookmarkContentList from "@/components/mypage/bookmark/BookmarkContentList";
 import BookmarkShortsList from "@/components/mypage/bookmark/BookmarkShortsList";
 
-export default function BookmarkBox() {
+interface BookmarkBoxProps {
+  filter: "contents" | "shorts";
+}
+
+export default function BookmarkBox({ filter }: BookmarkBoxProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   // 도메인에서 filter값 가져옴 (없으면 기본값인 'contents'로 하기)
-  const activeFilter = (searchParams.get("filter") as "contents" | "shorts") || "contents";
+  const activeFilter = filter;
 
   useEffect(() => {
-    // 백엔드 API 호출
-    console.log(`현재 ${activeFilter} 데이터를 가저욤`);
+    // 백엔드 API 호출 등
+    console.log(`현재 ${activeFilter} 데이터를 가져옴`);
   }, [activeFilter]);
 
   const handleFilterChange = (filter: "contents" | "shorts") => {

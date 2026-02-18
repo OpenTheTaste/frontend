@@ -11,8 +11,8 @@
 
   /* Pretendard */
   --font-pretendard:
-    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 
   --font-sans: var(--font-pretendard);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -43,11 +43,16 @@
   --color-ot-text: #fafaf8;
   --color-ot-background: #242424;
 
-  --gradient-ot-primary-diagonal: linear-gradient(
-    180deg,
-    #ff6a87 0%,
-    #d7526c 100%
-  );
+  --gradient-ot-primary-diagonal: linear-gradient(180deg, #ff6a87 0%, #d7526c 100%);
+}
+
+/* 스크롤바 숨김 유틸리티 추가 */
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 @media (prefers-color-scheme: dark) {

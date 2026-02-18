@@ -13,6 +13,8 @@ export default function BookmarkFilterBar({
     <div className="flex items-center gap-5">
       {/* 콘텐츠 필터 버튼 */}
       <button
+        type="button"
+        aria-pressed={activeFilter === "contents"}
         onClick={() => onFilterChange("contents")}
         className={`flex items-center justify-center rounded-[10px] text-[18px] font-semibold
           py-3 px-7
@@ -27,6 +29,8 @@ export default function BookmarkFilterBar({
 
       {/* 숏폼 필터 버튼 */}
       <button
+        type="button"
+        aria-pressed={activeFilter === "shorts"}
         onClick={() => onFilterChange("shorts")}
         className={`flex items-center justify-center rounded-[10px] text-[18px] font-semibold
           py-[11.5px] px-9

@@ -8,7 +8,7 @@ import MyPageContent from "@/components/mypage/main/MyPageContent";
 
 export default function MyPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center">
+    <div className="min-h-screen bg-ot-background flex flex-col items-center">
       <Header />
 
       <main className="w-full max-w-480 flex-1 px-25 py-15.5">

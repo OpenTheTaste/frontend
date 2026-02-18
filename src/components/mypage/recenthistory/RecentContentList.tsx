@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import RightListScroll from "@/components/mypage/recent/RightListScroll";
+import RightListScroll from "@/components/mypage/recenthistory/RightListScroll";
 import { RecentItem } from "@/types/recent3m";
 
 interface RecentContentListProps {
@@ -11,22 +11,22 @@ interface RecentContentListProps {
 export default function RecentContentList({ items }: RecentContentListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // 가로 휠 스크롤 기능 추가
+  // 가로 휠 스크롤 기능
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return; // 수직 스크롤이 아니면 무시
+      if (e.deltaY === 0) return;
 
-      e.preventDefault(); // 브라우저 기본 수직 스크롤 방지
+      e.preventDefault();
       el.scrollTo({
-        left: el.scrollLeft + e.deltaY * 2, // 휠을 아래로 돌리면 오른쪽으로 이동 (속도 조절은 * 2)
-        behavior: "auto", // 부드러운 이동을 원하면 "smooth", 즉각적인 반응은 "auto"
+        left: el.scrollLeft - e.deltaY * 2,
+        behavior: "auto",
       });
     };
 
-    el.addEventListener("wheel", onWheel);
+    el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
