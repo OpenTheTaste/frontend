@@ -15,7 +15,7 @@ interface MyReviewModalProps {
 export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   // Mock 데이터 아직 리뷰 숫자만 있으니까 number, 아니면 string으로 나중에 바꾸기
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);

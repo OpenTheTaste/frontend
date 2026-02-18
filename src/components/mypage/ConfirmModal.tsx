@@ -22,7 +22,7 @@ export default function ConfirmModal({
   confirmText = "예",
   cancelText = "아니요",
 }: ConfirmModalProps) {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);

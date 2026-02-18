@@ -6,7 +6,7 @@ import MyReviewModal from "@/components/mypage/main/MyReviewModal";
 import CommonButton from "@/components/common/CommonButton";
 
 export default function UserMenuButtons() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <div className="flex items-center gap-5">
