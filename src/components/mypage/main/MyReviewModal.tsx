@@ -15,16 +15,25 @@ interface MyReviewModalProps {
 export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   // Mock 데이터 아직 리뷰 숫자만 있으니까 number, 아니면 string으로 나중에 바꾸기
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (!isOpen) {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isOpen || !isMounted) {
     return null;
   }
 
   const handleDeleteClick = (reviewId: number) => {
     setDeleteTargetId(reviewId);
   };
-  const closeConfirmModal = () => {
+
+  const closeConfirmModal = () => setDeleteTargetId(null);
+
+  const handleClose = () => {
     setDeleteTargetId(null);
+    onClose();
   };
 
   return createPortal(
@@ -35,7 +44,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
       >
         <button
           className="absolute right-7 top-7 transition-opacity hover:opacity-70"
-          onClick={onClose}
+          onClick={handleClose}
         >
           <X size={32} strokeWidth={2} />
         </button>
