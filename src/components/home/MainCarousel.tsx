@@ -102,7 +102,7 @@ export default function MainCarousel({
         )}
 
         {/* Indicator Dots (negative margin으로 위로 올리기) */}
-        <div className="flex justify-end gap-2 -mt-8 relative z-20 pr-4">
+        <div className="flex justify-end gap-2 -mt-8 relative z-20 pr-12">
           {Array.from({
             length: Math.ceil(itemCount / itemsPerScroll)
           }).map((_, idx) => (
