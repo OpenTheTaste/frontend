@@ -59,7 +59,7 @@ export default function ContentCarousel({
   return (
     <div className="w-full bg-ot-background pl-[3rem] pr-[3rem] pt-[1.33rem] pb-[1.33rem]">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-[1.5rem] font-bold text-white">{title}</h2>
+        <h2 className="text-[1.5rem] font-bold text-ot-text">{title}</h2>
 
         <div className="flex gap-2">
           {Array.from({
@@ -97,7 +97,7 @@ export default function ContentCarousel({
             onClick={() => handleScroll('left')}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
           >
-            <ChevronLeft size={28} className="text-white" />
+            <ChevronLeft size={28} className="text-ot-text" />
           </button>
         )}
 
@@ -126,7 +126,7 @@ export default function ContentCarousel({
             onClick={() => handleScroll('right')}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
           >
-            <ChevronRight size={28} className="text-white" />
+            <ChevronRight size={28} className="text-ot-text" />
           </button>
         )}
       </div>
