@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function GoMypageButton() {
   return (
-    <div className="fixed top-37 left-12 z-50 flex flex-row items-center gap-7">
+    <div className="flex flex-row items-center gap-7">
       <Link
         href="/mypage"
         aria-label="마이페이지로 이동하기"
@@ -13,7 +13,7 @@ export default function GoMypageButton() {
       >
         <Image src="/icons/BackButton.svg" alt="마이페이지로 이동하기" width={20} height={40} />
       </Link>
-      <p className="text-ot-text text-[36px] font-semibold">마이페이지로 돌아가기</p>
+      <p className="text-ot-text text-[18px] font-semibold">마이페이지로 돌아가기</p>
     </div>
   );
 }
