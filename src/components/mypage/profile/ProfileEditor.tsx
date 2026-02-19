@@ -12,7 +12,7 @@ export default function ProfileEditor() {
         <Image src="/icons/logo.svg" alt="Profile Logo" fill className="object-cover" />
       </div>
       {/* 이름 수정 Input 입력칸 + 연필 아이콘 버튼 */}
-      <div className="flex items-center justify-center w-full pt-3 pb-6">
+      <div className="flex items-center justify-center w-full pt-3">
         <div className="w-16" aria-hidden="true" />
         {/* Input 입력칸 */}
         <div className="w-full max-w-100 h-10">
