@@ -57,7 +57,7 @@ export default function ContentCarousel({
   const isAtEnd = currentIndex >= maxIndex;
 
   return (
-    <div className="w-full bg-ot-background px-8 py-10">
+    <div className="w-full bg-ot-background pl-[3rem] pr-[3rem] pt-[1.33rem] pb-[1.33rem]">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-[1.5rem] font-bold text-white">{title}</h2>
 
