@@ -1,5 +1,5 @@
-import HeaderWithNoButton from "@/components/onboard/Header/HeaderNoButton";
-import LoginContent from "@/components/onboard/login/LoginContent";
+import HeaderWithNoButton from "@/components/onboarding/Header/HeaderNoButton";
+import LoginContent from "@/components/onboarding/login/LoginContent";
 import Footer from "@/components/common/Footer";
 
 export default function Login() { 
