@@ -1,4 +1,5 @@
 import Header from "@/components/common/Header";
+import MainCarousel from "@/components/home/MainCarousel";
 import ContentCarousel from "@/components/home/ContentCarousel";
 import Footer from "@/components/common/Footer";
 
@@ -6,6 +7,12 @@ export default function Home() {
   return (
     <div>
       <Header />
+      <MainCarousel
+        title=""
+        itemCount={5}
+        itemHeight={400}
+        itemWidth={1350}
+        />
       <ContentCarousel 
         title="실시간 인기 차트"
         itemCount={20}
