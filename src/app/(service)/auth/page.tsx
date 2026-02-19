@@ -9,7 +9,7 @@ export default function OTPage() {
       <OnboardHeader />
       <MainSection />
       <FAQSection />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

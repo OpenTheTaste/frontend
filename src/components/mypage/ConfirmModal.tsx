@@ -57,13 +57,13 @@ export default function ConfirmModal({
           {/* 버튼 두 개 묶음 */}
           <div className="flex gap-8">
             <CommonButton
-              className="w-35 h-11.5 text-foreground font-bold transition-opacity hover:opacity-70"
+              className="w-35 h-11.5 text-foreground transition-opacity hover:opacity-70"
               onClick={onConfirm}
             >
               {confirmText}
             </CommonButton>
             <CommonButton
-              className="w-35 h-11.5 text-foreground font-bold transition-opacity hover:opacity-70"
+              className="w-35 h-11.5 text-foreground transition-opacity hover:opacity-70"
               onClick={onClose}
             >
               {cancelText}
