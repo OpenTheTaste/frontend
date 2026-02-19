@@ -10,7 +10,7 @@ export default function FinishEditButton() {
     <div>
       <CommonButton
         onClick={() => setIsFinishEdit(true)}
-        className="mt-8 mb-2.5 py-4 px-34 text-foreground text-[2.25rem] font-bold"
+        className="mt-4 mb-4 py-2 px-25 text-foreground text-[24px] font-bold"
       >
         수정하기
       </CommonButton>

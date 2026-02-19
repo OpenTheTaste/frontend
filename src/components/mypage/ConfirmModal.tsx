@@ -37,7 +37,7 @@ export default function ConfirmModal({
 
   return createPortal(
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative pt-30 px-33.75 pb-24.5 rounded-xl bg-ot-gray-800 shadow-2xl">
+      <div className="relative pt-18 px-20 pb-14 rounded-xl bg-ot-gray-800 shadow-2xl">
         {/* 모달창 닫기 X 버튼 */}
         <button
           className="absolute right-7 top-7 transition-opacity hover:opacity-70"
@@ -48,8 +48,8 @@ export default function ConfirmModal({
 
         <div className="flex flex-col items-center">
           {/* 안내 문구 */}
-          <div className="pb-12">
-            <p className="w-92.5 text-center text-[36px] font-bold text-foreground leading-tight">
+          <div className="pb-10">
+            <p className="w-72 text-center text-[24px] font-bold text-foreground leading-tight">
               {message}
             </p>
           </div>
@@ -57,13 +57,13 @@ export default function ConfirmModal({
           {/* 버튼 두 개 묶음 */}
           <div className="flex gap-8">
             <CommonButton
-              className="w-35 h-11.5 text-foreground transition-opacity hover:opacity-70"
+              className="w-32 h-10 text-foreground transition-opacity hover:opacity-70"
               onClick={onConfirm}
             >
               {confirmText}
             </CommonButton>
             <CommonButton
-              className="w-35 h-11.5 text-foreground transition-opacity hover:opacity-70"
+              className="w-32 h-10 text-foreground transition-opacity hover:opacity-70"
               onClick={onClose}
             >
               {cancelText}

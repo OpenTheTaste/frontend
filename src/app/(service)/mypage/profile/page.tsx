@@ -10,7 +10,7 @@ export default function MyPageProfile() {
     <div className="min-h-screen bg-ot-background flex flex-col items-center">
       <Header />
 
-      <main className="w-full max-w-480 flex-1 px-12 py-12">
+      <main className="w-full max-w-480 flex-1 px-10 py-6">
         <BackButton />
         <ProfileEditor />
         <div className="relative flex justify-center items-center w-full">

@@ -15,17 +15,17 @@ export default function AccoutActionButtons() {
   };
 
   return (
-    <div className="flex items-center mr-4 gap-8">
+    <div className="flex items-center gap-3">
       {/* 로그아웃 버튼 : 클릭 시 로그아웃 확인 모달창 열림 */}
       <CommonButton
         onClick={() => setIsLogoutModalOpen(true)}
-        className="py-3 px-10 text-foreground text-[18px] font-semibold"
+        className="py-2 px-5 text-foreground text-[14px] font-semibold"
       >
         로그아웃
       </CommonButton>
       {/* 회원탈퇴 버튼 : 클릭 시 회원탈퇴 페이지로 이동 */}
       <Link href="/mypage/withdraw">
-        <CommonButton className="py-3 px-10 text-foreground text-[18px] font-semibold">
+        <CommonButton className="py-2 px-5 text-foreground text-[14px] font-semibold">
           회원탈퇴
         </CommonButton>
       </Link>
