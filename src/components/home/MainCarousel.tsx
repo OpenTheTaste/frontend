@@ -58,17 +58,15 @@ export default function MainCarousel({
 
   return (
     <div className="w-full bg-ot-background pl-[3rem] pr-[3rem] pt-[1.33rem] pb-[1.33rem]">
-      {/* 제목 */}
-      <h2 className="text-[1.5rem] font-bold text-white mb-5">{title}</h2>
+      <h2 className="text-[1.5rem] font-bold text-ot-text mb-5">{title}</h2>
 
-      {/* 캐러셀 */}
       <div className="relative">
         {!isAtStart && (
           <button
             onClick={() => handleScroll('left')}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
           >
-            <ChevronLeft size={28} className="text-white" />
+            <ChevronLeft size={28} className="text-ot-text" />
           </button>
         )}
 
@@ -97,11 +95,10 @@ export default function MainCarousel({
             onClick={() => handleScroll('right')}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
           >
-            <ChevronRight size={28} className="text-white" />
+            <ChevronRight size={28} className="text-ot-text" />
           </button>
         )}
 
-        {/* Indicator Dots (negative margin으로 위로 올리기) */}
         <div className="flex justify-end gap-2 -mt-8 relative z-20 pr-12">
           {Array.from({
             length: Math.ceil(itemCount / itemsPerScroll)
