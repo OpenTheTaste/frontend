@@ -50,7 +50,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
         </button>
 
         <div className="flex-1 mt-30 mx-15 mb-4 overflow-y-auto no-scrollbar">
-          <div className="flex flex-col gap-7.5">
+          <div className="flex flex-col gap-7">
             {mockReviews.map((review) => (
               <div key={review.id} className="relative flex items-start w-full gap-5 shrink-0">
                 {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}

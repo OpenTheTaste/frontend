@@ -28,7 +28,7 @@ export default function BookmarkBox({ filter }: BookmarkBoxProps) {
   return (
     <div className="flex flex-col w-full">
       {/* 북마크 내 필터바 영역 */}
-      <div className="mt-11 mb-7.75">
+      <div className="mt-11 mb-8">
         <BookmarkFilterBar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
       </div>
 
