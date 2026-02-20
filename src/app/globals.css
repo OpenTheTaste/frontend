@@ -102,3 +102,11 @@ body {
 .custom-checkbox:checked {
   background-image: url("/icons/checkboxOn.svg");
 }
+
+.text-ot-primary-gradient {
+  background: var(--gradient-ot-primary-diagonal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

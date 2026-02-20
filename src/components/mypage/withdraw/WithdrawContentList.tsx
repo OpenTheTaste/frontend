@@ -4,16 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import RightListScroll from "@/components/mypage/RightListScroll";
 import LeftListScroll from "@/components/mypage/LeftListScroll";
-import { RecentItem } from "@/types/recenthistory";
+import { WithdrawContent } from "@/types/withdrawcontent";
 
-interface RecentContentListProps {
-  items: RecentItem[];
+interface WithdrawContentListProps {
+  items: WithdrawContent[];
 }
 
-export default function RecentContentList({ items }: RecentContentListProps) {
+export default function WithdrawContentList({ items }: WithdrawContentListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRightButton, setShowRightButton] = useState<boolean>(true); // 오른쪽 버튼 상태 (처음은 있음)
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false); // 왼쪽 버튼 상태 (처음엔 없음)
+
+  // 20개를 10개씩 묶어서 2묶음으로 표시
+  const chunkedContents = [];
+  for (let i = 0; i < items.length; i += 10) {
+    chunkedContents.push(items.slice(i, i + 10));
+  }
 
   const checkScrollPosition = () => {
     if (scrollRef.current) {
@@ -43,7 +49,7 @@ export default function RecentContentList({ items }: RecentContentListProps) {
       e.preventDefault(); // 세로 스크롤 방지 (지금은 가로 방향)
       // 가로 방향으로 스크롤 움직임
       el.scrollTo({
-        left: el.scrollLeft - e.deltaY * 2,
+        left: el.scrollLeft - e.deltaY * 2, // 숫자 줄이면 속도 감소
         behavior: "auto",
       });
       checkScrollPosition();
@@ -83,17 +89,21 @@ export default function RecentContentList({ items }: RecentContentListProps) {
   return (
     <div className="w-full relative group">
       {/* 가로 스크롤 */}
-      <div ref={scrollRef} className="flex gap-15 pt-5 pb-5 overflow-x-auto no-scrollbar">
-        {items.map((item) => (
-          <div key={item.id} className="shrink-0">
-            {/* 포스터 이미지 영역 (그림 320 * 240 크기) */}
-            <div className="w-50 h-37.5 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
-              {item.image ? (
-                <Image src={item.image} alt={item.title} fill className="object-cover" />
-              ) : (
-                <span className="text-ot-gray-400 text-sm px-2 text-center">{item.title}</span>
-              )}
-            </div>
+      <div ref={scrollRef} className="gap-10 flex pt-5 pb-5 overflow-x-auto no-scrollbar">
+        {chunkedContents.map((group, groupIndex) => (
+          <div key={groupIndex} className="shrink-0 grid grid-cols-5 gap-x-9 gap-y-5">
+            {group.map((item) => (
+              <div key={item.id} className="shrink-0">
+                {/* 4 : 3 (240 * 180) */}
+                <div className="w-60 h-45 flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
+                  {item.image ? (
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-ot-gray-400 text-sm">{item.title}</span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         ))}
       </div>

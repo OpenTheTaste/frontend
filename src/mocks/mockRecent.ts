@@ -1,4 +1,4 @@
-import { RecentItem } from "@/types/recent3m";
+import { RecentItem } from "@/types/recenthistory";
 
 export const mockRecentData: RecentItem[] = [
   {

@@ -33,7 +33,7 @@ export default function BookmarkFilterBar({
         aria-pressed={activeFilter === "shorts"}
         onClick={() => onFilterChange("shorts")}
         className={`flex items-center justify-center rounded-[10px] text-[18px] font-semibold
-          py-[11.5px] px-9
+          py-3 px-9
           ${
             activeFilter === "shorts"
               ? "bg-ot-primary-500 text-foreground"

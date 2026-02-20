@@ -1,11 +1,10 @@
-// src/components/Interest/InterestContent.tsx
 "use client";
 
 import { useState } from "react";
 import ListCategory from "@/components/onboarding/Interest/ListCategory";
-import TagSelect from "@/components/onboarding/Interest/SelectTag";
-import InterestButton from "@/components/onboarding/Interest/ButtonInterest";
-import SelectedTags from "@/components/onboarding/Interest/SelectedTag";
+import SelectTag from "@/components/onboarding/Interest/SelectTag";
+import SelectedTag from "@/components/onboarding/Interest/SelectedTag";
+import FinishEditButton from "@/components/mypage/profile/FinishEditButton";
 import { Category } from "@/types/interest/category";
 import { TAGS } from "@/types/interest/tags";
 
@@ -20,7 +19,7 @@ const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
   스포츠: [],
 };
 
-export default function ContentInterest() {
+export default function EditFavoriteTags() {
   const [selectedCategory, setSelectedCategory] = useState<Category>("영화");
   const [selectedTagsByCategory, setSelectedTagsByCategory] =
     useState<Record<Category, string[]>>(INITIAL_TAGS_BY_CATEGORY);
@@ -45,19 +44,14 @@ export default function ContentInterest() {
     setSelectedTagsByCategory(INITIAL_TAGS_BY_CATEGORY);
   };
 
+  // 아래 수정하기 버튼 기능 관련으로 사용하기
   const totalSelectedTags = Object.values(selectedTagsByCategory).flat().length;
 
   return (
-    <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-6">
-      <div className="px-3 max-w-[1100px] mx-auto w-full flex flex-col">
-        <h1 className="text-[2rem] font-bold text-white mb-1">관심사를 선택해주세요</h1>
-
-        <p className="text-[1rem] font-bold text-ot-gray-600 mb-4">
-          좋아하는 카테고리와 장르를 선택하면 맞춤 콘텐츠를 추천해드립니다.
-        </p>
-
+    <section className="w-full bg-ot-background flex-1 flex flex-col items-center justify-center py-6">
+      <div className="px-3 max-w-275 mx-auto w-full flex flex-col items-center">
         {/* 카테고리 & 테그 섹션 */}
-        <div className="flex border border-text-white rounded-lg overflow-hidden mb-2">
+        <div className="w-full flex border border-text-white rounded-lg overflow-hidden mb-2">
           <div className="border-r border-text-white">
             <ListCategory
               categories={CATEGORIES}
@@ -65,14 +59,18 @@ export default function ContentInterest() {
               onSelectCategory={handleSelectCategory}
             />
           </div>
-          <TagSelect tags={currentTags} selectedTags={selectedTags} onToggleTag={handleToggleTag} />
+          <SelectTag tags={currentTags} selectedTags={selectedTags} onToggleTag={handleToggleTag} />
         </div>
 
         {/* 선택된 관심사 표시 */}
-        <SelectedTags selectedTagsByCategory={selectedTagsByCategory} onClearAll={handleClearAll} />
+        <div className="w-full">
+          <SelectedTag
+            selectedTagsByCategory={selectedTagsByCategory}
+            onClearAll={handleClearAll}
+          />
+        </div>
 
-        {/* 하단 버튼 */}
-        <InterestButton selectedTagCount={totalSelectedTags} disabled={totalSelectedTags === 0} />
+        <FinishEditButton selectedTags={selectedTagsByCategory} />
       </div>
     </section>
   );
