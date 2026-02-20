@@ -17,7 +17,7 @@ export default function WithdrawButton() {
     <div>
       <CommonButton
         onClick={() => setIsWithdrawModalOpen(true)}
-        className="mt-6 py-3 px-25 text-foreground text-[18px] font-bold"
+        className="mt-6 mb-4 py-3 px-25 text-foreground text-[18px] font-bold"
       >
         탈퇴하기
       </CommonButton>

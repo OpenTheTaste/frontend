@@ -2,15 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import RightListScroll from "@/components/mypage/recenthistory/RightListScroll";
-import LeftListScroll from "@/components/mypage/recenthistory/LeftListScroll";
-import { RecentItem } from "@/types/recent3m";
+import RightListScroll from "@/components/mypage/RightListScroll";
+import LeftListScroll from "@/components/mypage/LeftListScroll";
+import { WithdrawContent } from "@/types/withdrawcontent";
 
-interface RecentContentListProps {
-  items: RecentItem[];
+interface WithdrawContentListProps {
+  items: WithdrawContent[];
 }
 
-export default function RecentContentList({ items }: RecentContentListProps) {
+export default function WithdrawContentList({ items }: WithdrawContentListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRightButton, setShowRightButton] = useState<boolean>(true); // 오른쪽 버튼 상태 (처음은 있음)
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false); // 왼쪽 버튼 상태 (처음엔 없음)
