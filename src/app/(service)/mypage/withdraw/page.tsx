@@ -9,7 +9,7 @@ export default function MyPageWithdraw() {
   return (
     <div className="min-h-screen bg-ot-background flex flex-col items-center">
       <Header />
-      <main className="w-full max-w-480 flex-1 px-10 py-6">
+      <main className="w-full max-w-480 flex-1 px-12 py-6">
         <div className="w-full">
           <GoMypageButton />
         </div>

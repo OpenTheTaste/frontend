@@ -1,6 +1,6 @@
 // /mypage/profile 도메인
 import Header from "@/components/common/Header";
-import BackButton from "@/components/mypage/profile/BackButton";
+import BackButton from "@/components/common/BackButton";
 import ProfileEditor from "@/components/mypage/profile/ProfileEditor";
 import EditFavoriteTagsUI from "@/components/mypage/profile/EditFavoriteTagsUI";
 import AccountActionButtons from "@/components/mypage/profile/AccountActionButtons";
@@ -10,7 +10,7 @@ export default function MyPageProfile() {
     <div className="min-h-screen bg-ot-background flex flex-col items-center">
       <Header />
 
-      <main className="w-full max-w-480 flex-1 px-10 py-6">
+      <main className="w-full max-w-480 flex-1 px-12 py-6">
         <BackButton />
         <ProfileEditor />
         <EditFavoriteTagsUI />
