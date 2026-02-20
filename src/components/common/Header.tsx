@@ -6,30 +6,40 @@ import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
 const Header = () => {
-  const pathname = usePathname(); // 현재 경로 값
-  const isSearchPage = pathname === "/search"; // 현재 검색 페이지인지 확인
+  const pathname = usePathname();
+  const isSearchPage = pathname === "/search";
+  const isHomePage = pathname === "/";
 
   return (
     <header className="w-full flex items-center justify-between bg-ot-background text-ot-text px-11 py-4">
-      {/* 로고 (W:91, H:50) : 클릭하면 홈화면으로 이동 */}
-      <Link
-        href="/"
-        className="flex items-center justify-center cursor-pointer"
-      >
-        <Image
-          src="/icons/logo.svg"
-          alt="Logo"
-          width={45}
-          height={45}
-          className="object-contain"
-        />
-      </Link>
+      <div className="flex items-center gap-12">
+        <Link
+          href="/"
+          className="flex items-center justify-center cursor-pointer"
+        >
+          <Image
+            src="/icons/logo.svg"
+            alt="Logo"
+            width={45}
+            height={45}
+            className="object-contain"
+          />
+        </Link>
 
-      {/* 2) 오른쪽: 검색 아이콘 버튼 + 마이페이지 아이콘 버튼 */}
+        {isHomePage && (
+          <Link
+            href="/shorts"
+            className="text-[1.125rem] font-bold text-ot-text hover:text-ot-primary-500 transition-colors cursor-pointer"
+          >
+            쇼츠
+          </Link>
+        )}
+      </div>
+
       <div
         className={`flex items-center ${isSearchPage ? "justify-end" : "justify-between"} w-25 h-9`}
       >
-        {/* 검색 아이콘 버튼 (36 x 36 px) - 검색 페이지가 아닐 때만 표기 */}
+
         {!isSearchPage && (
           <Link
             href="/search"
@@ -38,7 +48,7 @@ const Header = () => {
             <Search className="w-full h-full stroke-2 stroke-ot-text" />
           </Link>
         )}
-        {/* 마이페이지 아이콘 버튼 (36 x 36 px) : 클릭하면 마이페이지 메인으로 이동 (/mypage) */}
+
         <Link
           href="/mypage"
           className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden cursor-pointer"
