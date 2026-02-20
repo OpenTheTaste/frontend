@@ -25,6 +25,16 @@ export const ShortsPlayer = ({
     videoRef,
   });
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = src;
+      return;
+    }
+  }, [src]);
+
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (e.deltaY > 0) {
       onNextShorts();
