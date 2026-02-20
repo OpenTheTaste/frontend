@@ -5,7 +5,7 @@ import Link from "next/link";
 import CommonButton from "@/components/common/CommonButton";
 import ConfirmModal from "../ConfirmModal";
 
-export default function AccoutActionButtons() {
+export default function AccountActionButtons() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
 
   const handleLogout = () => {

@@ -17,7 +17,7 @@ export default function ProfileEditor() {
         {/* Input 입력칸 */}
         <div className="w-full max-w-100 h-10">
           <Input
-            className="w-full h-full text-ot-gray-700! bg-ot-primary-100 text-center"
+            className="w-full h-full text-ot-gray-800! bg-ot-primary-100 text-center placeholder:text-ot-gray-800"
             placeholder="클릭 시 수정 가능"
           />
         </div>
