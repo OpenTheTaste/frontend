@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { DashboardData } from "@/types/dashboard";
-// import { DashboardContentsMockData } from "@/mocks/mcokDashboardcontent";
+import { DashboardData, TagDetail } from "@/types/dashboard";
+import TagStatsModal from "@/components/mypage/dashboard/TagStatsModal";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -13,10 +14,41 @@ interface DashboardContentListProps {
 }
 
 export default function DashboardContentList({ data }: DashboardContentListProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // 클릭된 태그의 정보를 담을 상태 변수
+  const [selectedTag, setSelectedTag] = useState<{ name: string; detail: TagDetail } | null>(null);
+
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
     responsive: true,
     maintainAspectRatio: false,
+
+    onClick: (event, elements, chart) => {
+      if (elements.length > 0) {
+        const index = elements[0].index;
+        const label = chart.data.labels?.[index] as string;
+        if (label === "기타" || !data.tagDetails?.[index]) {
+          return;
+        }
+        setSelectedTag({
+          name: label,
+          detail: data.tagDetails[index],
+        });
+        setIsModalOpen(true);
+      }
+    },
+    onHover: (event, elements, chart) => {
+      if (event.native?.target) {
+        const target = event.native.target as HTMLElement;
+        if (elements.length > 0) {
+          const index = elements[0].index;
+          const label = chart.data.labels?.[index];
+          target.style.cursor = label !== "기타" ? "pointer" : "default";
+        } else {
+          target.style.cursor = "default";
+        }
+      }
+    },
 
     animation: {
       duration: 1500, // 애니메이션 지속 시간 (1.5초)
@@ -53,7 +85,6 @@ export default function DashboardContentList({ data }: DashboardContentListProps
           size: 14,
         },
         formatter: (value, context) => {
-          // return context.chart.data.labels ? context.chart.data.labels[context.dataIndex] : "";
           const idx = context.dataIndex;
           const label = context.chart.data.labels ? context.chart.data.labels[idx] : "";
           return `${label} - ${value}번`;
@@ -65,6 +96,15 @@ export default function DashboardContentList({ data }: DashboardContentListProps
   return (
     <div className="w-full h-125 flex justify-center items-center">
       <Pie data={data} options={options} />
+      {selectedTag && (
+        <TagStatsModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          tagName={selectedTag.name}
+          monthlyStats={selectedTag.detail.monthlyStats}
+          recommendations={selectedTag.detail.recommendations}
+        />
+      )}
     </div>
   );
 }
