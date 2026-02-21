@@ -14,7 +14,7 @@ import {
   ChartOptions,
 } from "chart.js";
 import { RecommendedContent } from "@/types/dashboard";
-import TagStatsModalList from "@/components/mypage/dashboard/TabStatsModalList";
+import TagStatsModalList from "@/components/mypage/dashboard/TagStatsModalList";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
