@@ -11,8 +11,8 @@
 
   /* Pretendard */
   --font-pretendard:
-    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 
   --font-sans: var(--font-pretendard);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -22,13 +22,25 @@
   --color-ot-primary-100: #ffd1d7;
   --color-ot-primary-200: #ffa4b2;
   --color-ot-primary-300: #ff768f;
-  --color-ot-primary-400: #ff396c;
+  --color-ot-primary-400: #ff396c; /* Primary 메인 */
   --color-ot-primary-500: #f10059;
   --color-ot-primary-600: #c90049;
   --color-ot-primary-700: #9d0037;
   --color-ot-primary-800: #700025;
   --color-ot-primary-900: #430013;
   --color-ot-primary-950: #2c0009;
+
+  --color-ot-secondary-50: #eff0f5;
+  --color-ot-secondary-100: #d9dce8;
+  --color-ot-secondary-200: #b7bcd4;
+  --color-ot-secondary-300: #99a1c2;
+  --color-ot-secondary-400: #7d88b2;
+  --color-ot-secondary-500: #65719d;
+  --color-ot-secondary-600: #525c81;
+  --color-ot-secondary-700: #404866; /* secondary 메인 */
+  --color-ot-secondary-800: #2f354d;
+  --color-ot-secondary-900: #1a1e2d;
+  --color-ot-secondary-950: #0e101b;
 
   --color-ot-gray-100: #f7f7f7;
   --color-ot-gray-200: #f0f0f0;
@@ -43,7 +55,11 @@
   --color-ot-text: #fafaf8;
   --color-ot-background: #242424;
 
-  --gradient-ot-primary-diagonal: linear-gradient(180deg, #ff6a87 0%, #d7526c 100%);
+  --gradient-ot-primary-diagonal: linear-gradient(
+    180deg,
+    #ff6a87 0%,
+    #d7526c 100%
+  );
 }
 
 /* 스크롤바 숨김 유틸리티 추가 */
