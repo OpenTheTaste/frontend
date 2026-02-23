@@ -1,14 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Category } from "@/domains/onboard/types/category";
+import { Category } from "@/types/category";
 import { CommonButton } from "@basecomponent";
 
 interface FinishEditButtonProps {
   selectedTags: Record<Category, string[]>;
 }
 
-export default function FinishEditButton({ selectedTags }: FinishEditButtonProps) {
+export default function FinishEditButton({
+  selectedTags,
+}: FinishEditButtonProps) {
   const router = useRouter();
 
   const handleFinishEdit = () => {
