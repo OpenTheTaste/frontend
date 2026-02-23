@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-interface ToggleProps {
+export interface ToggleProps {
   isOn: boolean;
   onToggle: () => void;
 }
 
-export default function Toggle({ isOn, onToggle }: ToggleProps) {
+export const Toggle = ({ isOn, onToggle }: ToggleProps) => {
   return (
     <div onClick={onToggle} className={`relative cursor-pointer w-4.75 h-3 shrink-0`}>
       <Image
@@ -17,4 +17,4 @@ export default function Toggle({ isOn, onToggle }: ToggleProps) {
       />
     </div>
   );
-}
+};

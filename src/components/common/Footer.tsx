@@ -1,4 +1,4 @@
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="w-full px-12 py-10 bg-ot-background">
       <div className="border-t border-ot-gray-700 pt-10">
@@ -11,5 +11,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

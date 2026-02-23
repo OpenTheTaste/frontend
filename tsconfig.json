@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@basecomponent": ["./src/components/common/index.ts"],
     }
   },
   "include": [
