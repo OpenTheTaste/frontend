@@ -1,5 +1,5 @@
 import { Header, BackButton } from "@basecomponent";
-import DashboardContentBox from "@/domains/mypage/components/dashboard/DashboardContentBox";
+import { DashboardContentBox } from "@mypage";
 
 export default function MyPageDashboard() {
   return (

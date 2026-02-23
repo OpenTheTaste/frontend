@@ -1,8 +1,6 @@
 import { Suspense } from "react";
 import { Header, Footer } from "@basecomponent";
-import UserMenuButtons from "@/domains/mypage/components/main/UserMenuButtons";
-import ProfileInfo from "@/domains/mypage/components/main/ProfileInfo";
-import MyPageContent from "@/domains/mypage/components/main/MyPageContent";
+import { ProfileInfo, UserMenuButtons, MyPageContent } from "@mypage";
 
 export default function MyPage() {
   return (

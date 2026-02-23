@@ -1,7 +1,7 @@
 "use client";
 
 import { mockWithdrawContentData } from "@/mocks/mockwithdrawcontent";
-import WithdrawContentList from "@/components/mypage/withdraw/WithdrawContentList";
+import { WithdrawContentList } from "@mypage";
 
 export default function WithdrawContentBox() {
   return (

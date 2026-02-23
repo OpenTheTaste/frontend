@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import RightListScroll from "@/components/mypage/RightListScroll";
-import LeftListScroll from "@/components/mypage/LeftListScroll";
+import { RightListScroll, LeftListScroll} from "@mypage"
 import { WithdrawContent } from "@/domains/mypage/types/withdrawcontent";
 
 interface WithdrawContentListProps {

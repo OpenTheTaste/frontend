@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CommonButton from "@/components/common/CommonButton";
+import { CommonButton } from "@basecomponent";
 import ConfirmModal from "../ConfirmModal";
 
 export default function WithdrawButton() {

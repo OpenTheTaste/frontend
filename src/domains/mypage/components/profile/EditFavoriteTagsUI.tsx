@@ -19,7 +19,7 @@ const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
   스포츠: [],
 };
 
-export default function EditFavoriteTags() {
+export default function EditFavoriteTagsUI() {
   const [selectedCategory, setSelectedCategory] = useState<Category>("영화");
   const [selectedTagsByCategory, setSelectedTagsByCategory] =
     useState<Record<Category, string[]>>(INITIAL_TAGS_BY_CATEGORY);

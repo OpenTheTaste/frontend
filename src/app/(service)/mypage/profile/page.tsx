@@ -1,7 +1,5 @@
 import { Header, BackButton } from "@basecomponent";
-import ProfileEditor from "@/domains/mypage/components/profile/ProfileEditor";
-import EditFavoriteTagsUI from "@/domains/mypage/components/profile/EditFavoriteTagsUI";
-import AccountActionButtons from "@/domains/mypage/components/profile/AccountActionButtons";
+import { ProfileEditor, EditFavoriteTagsUI, AccountActionButtons } from "@/domains/mypage/components";
 
 export default function MyPageProfile() {
   return (

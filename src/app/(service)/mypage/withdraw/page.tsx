@@ -1,9 +1,6 @@
 // /mypage/withdraw 도메인
-import Header from "@/components/common/Header";
-import GoMypageButton from "@/components/mypage/withdraw/GoMypageButton";
-import WithdrawNotice from "@/components/mypage/withdraw/WithdrawNotice";
-import WithdrawContentBox from "@/components/mypage/withdraw/WithdrawContentBox";
-import WithdrawButton from "@/components/mypage/withdraw/WithdrawButton";
+import { Header } from "@basecomponent";
+import { GoMypageButton, WithdrawNotice, WithdrawContentBox, WithdrawButton } from "@mypage";
 
 export default function MyPageWithdraw() {
   return (
