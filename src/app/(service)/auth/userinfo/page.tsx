@@ -5,7 +5,7 @@ import Footer from "@/components/common/Footer";
 export default function InterestPage() {
   return (
     <div className="bg-ot-background min-h-screen flex flex-col">
-      <HeaderWithNoButton/>
+      <HeaderWithNoButton />
       <InterestContent />
       <Footer />
     </div>

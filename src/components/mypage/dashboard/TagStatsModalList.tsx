@@ -2,15 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import RightListScroll from "@/components/mypage/RightListScroll";
+import { RecommendedContent } from "@/types/dashboard";
 import LeftListScroll from "@/components/mypage/LeftListScroll";
-import { RecentItem } from "@/types/recenthistory";
+import RightListScroll from "@/components/mypage/RightListScroll";
 
-interface RecentContentListProps {
-  items: RecentItem[];
+interface TagStatsModalListProps {
+  items: RecommendedContent[];
 }
 
-export default function RecentContentList({ items }: RecentContentListProps) {
+export default function TagStatsModalList({ items }: TagStatsModalListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRightButton, setShowRightButton] = useState<boolean>(true); // 오른쪽 버튼 상태 (처음은 있음)
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false); // 왼쪽 버튼 상태 (처음엔 없음)
@@ -81,17 +81,17 @@ export default function RecentContentList({ items }: RecentContentListProps) {
   };
 
   return (
-    <div className="w-full relative group">
+    <div className="w-full max-w-250 mx-auto relative group">
       {/* 가로 스크롤 */}
-      <div ref={scrollRef} className="flex gap-15 pt-5 pb-5 overflow-x-auto no-scrollbar">
+      <div ref={scrollRef} className="flex gap-5 py-3 px-2 overflow-x-auto no-scrollbar">
         {items.map((item) => (
           <div key={item.id} className="shrink-0">
             {/* 포스터 이미지 영역 (그림 320 * 240 크기) */}
             <div className="w-50 h-37.5 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
               {item.image ? (
-                <Image src={item.image} alt={item.title} fill className="object-cover" />
+                <Image src={item.image} alt={`content-${item.id}`} fill className="object-cover" />
               ) : (
-                <span className="text-ot-gray-400 text-sm px-2 text-center">{item.title}</span>
+                <span className="text-ot-gray-400 text-sm px-2 text-center">콘텐츠 {item.id}</span>
               )}
             </div>
           </div>
