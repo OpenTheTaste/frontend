@@ -2,9 +2,9 @@
 import { Suspense } from "react";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import UserMenuButtons from "@/components/mypage/main/UserMenuButtons";
-import ProfileInfo from "@/components/mypage/main/ProfileInfo";
-import MyPageContent from "@/components/mypage/main/MyPageContent";
+import UserMenuButtons from "@/domains/mypage/components/main/UserMenuButtons";
+import ProfileInfo from "@/domains/mypage/components/main/ProfileInfo";
+import MyPageContent from "@/domains/mypage/components/main/MyPageContent";
 
 export default function MyPage() {
   return (
