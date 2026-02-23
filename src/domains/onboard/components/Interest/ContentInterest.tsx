@@ -93,24 +93,8 @@ export default function ContentInterest() {
           selectedTagCount={totalSelectedTags}
           disabled={totalSelectedTags === 0}
         />
-        <SelectTag
-          tags={currentTags}
-          selectedTags={selectedTags}
-          onToggleTag={handleToggleTag}
-        />
+        
       </div>
-
-      {/* 선택된 관심사 표시 */}
-      <SelectedTag
-        selectedTagsByCategory={selectedTagsByCategory}
-        onClearAll={handleClearAll}
-      />
-
-      {/* 하단 버튼 */}
-      <ButtonInterest
-        selectedTagCount={totalSelectedTags}
-        disabled={totalSelectedTags === 0}
-      />
     </section>
   );
 }
