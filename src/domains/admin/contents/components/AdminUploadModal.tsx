@@ -1,6 +1,6 @@
 "use client";
 
-import CommonButton from "@/components/common/CommonButton";
+import { CommonButton } from "@basecomponent";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";

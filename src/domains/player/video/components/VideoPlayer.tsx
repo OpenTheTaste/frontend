@@ -3,7 +3,8 @@
 import { useHls } from "@/domains/player/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
 import type { Level } from "hls.js";
-import { SettingModal } from "@/components/player/SettingModal";
+import { SettingModal } from "@video";
+
 import {
   ArrowLeft,
   FastForward,

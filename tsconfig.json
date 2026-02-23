@@ -24,7 +24,8 @@
       "@home": ["./src/domains/home/components"],
       "@mypage": ["./src/domains/mypage/components"],
       "@onboard": ["./src/domains/onboard/components"],
-      "@player/*": ["./src/domains/player/*/components"],
+      "@video": ["./src/domains/player/video/components"],
+      "@shorts": ["./src/domains/player/shorts/components"],
       "@video-contents": ["./src/domains/video-contents/components"],
     }
   },
