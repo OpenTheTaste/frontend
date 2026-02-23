@@ -1,5 +1,4 @@
-import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
+import { Header, Footer } from "@basecomponent";
 import ContentMainSection from "@/domains/video-contents/components/ContentsMainSection";
 import SeriesSideSection from "@/domains/video-contents/components/SeriesSideSection";
 import SingleSideSection from "@/domains/video-contents/components/SingleSideSection";

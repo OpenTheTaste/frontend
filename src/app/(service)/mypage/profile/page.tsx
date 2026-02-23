@@ -1,6 +1,4 @@
-// /mypage/profile 도메인
-import Header from "@/components/common/Header";
-import BackButton from "@/components/common/BackButton";
+import { Header, BackButton } from "@basecomponent";
 import ProfileEditor from "@/domains/mypage/components/profile/ProfileEditor";
 import EditFavoriteTagsUI from "@/domains/mypage/components/profile/EditFavoriteTagsUI";
 import AccountActionButtons from "@/domains/mypage/components/profile/AccountActionButtons";

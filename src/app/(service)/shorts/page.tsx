@@ -1,4 +1,4 @@
-import Header from '@/components/common/Header';
+import { Header } from "@basecomponent";
 import { ShortsContainer } from '@/domains/player/shorts/components/ShortsContainer';
 import { ShortsData } from '@/domains/player/shorts/types/shorts';
 

@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@basecomponent": ["./src/components/common/index.ts"],
+      "@basecomponent": ["./src/components/common"],
     }
   },
   "include": [

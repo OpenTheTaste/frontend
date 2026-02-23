@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import CommonButton from '@/components/common/CommonButton';
+import { CommonButton } from "@basecomponent";
 
 interface InterestButtonProps {
   selectedTagCount: number;
