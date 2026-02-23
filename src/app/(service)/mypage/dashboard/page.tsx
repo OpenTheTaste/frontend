@@ -1,7 +1,5 @@
-// /mypage/dashboard 도메인
-import Header from "@/components/common/Header";
-import BackButton from "@/components/common/BackButton";
-import DashboardContentBox from "@/components/mypage/dashboard/DashboardContentBox";
+import { Header, BackButton } from "@basecomponent";
+import { DashboardContentBox } from "@mypage";
 
 export default function MyPageDashboard() {
   return (

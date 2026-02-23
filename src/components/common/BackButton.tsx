@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function BackButton() {
+export const BackButton = () => {
   const router = useRouter();
 
   return (
@@ -16,4 +16,4 @@ export default function BackButton() {
       <Image src="/icons/BackButton.svg" alt="뒤로 가기" width={20} height={40} />
     </button>
   );
-}
+};

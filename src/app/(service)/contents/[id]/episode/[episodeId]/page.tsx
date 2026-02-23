@@ -1,4 +1,4 @@
-import ContentsContainer from "@/components/contents/ContentsContainer";
+import { ContentsContainer } from "@video-contents";
 import { getContentById } from "@/mocks/mockContent";
 
 export default async function EpisodeDetailPage({

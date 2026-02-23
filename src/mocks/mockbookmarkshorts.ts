@@ -1,4 +1,4 @@
-import { BookmarkItem } from "@/types/bookmark";
+import { BookmarkItem } from "@/domains/mypage/types/bookmark";
 
 export const BookmarkShortsMockData: BookmarkItem[] = [
   {

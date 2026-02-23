@@ -1,7 +1,5 @@
-import OnboardHeader from "@/components/onboarding/Header/OnboardHeader";
-import MainSection from "@/components/onboarding/Main/MainSection";
-import FAQSection from "@/components/onboarding/FAQ/FAQSection";
-import Footer from "@/components/common/Footer";
+import { OnboardHeader, MainSection, FAQSection } from "@onboard";
+import { Footer } from "@basecomponent"
 
 export default function OTPage() {
   return (

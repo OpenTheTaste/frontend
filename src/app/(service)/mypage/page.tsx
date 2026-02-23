@@ -1,10 +1,6 @@
-// /mypage 도메인
 import { Suspense } from "react";
-import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
-import UserMenuButtons from "@/components/mypage/main/UserMenuButtons";
-import ProfileInfo from "@/components/mypage/main/ProfileInfo";
-import MyPageContent from "@/components/mypage/main/MyPageContent";
+import { Header, Footer } from "@basecomponent";
+import { ProfileInfo, UserMenuButtons, MyPageContent } from "@mypage";
 
 export default function MyPage() {
   return (

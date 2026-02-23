@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
-const Header = () => {
+export const Header = () => {
   const pathname = usePathname();
   const isSearchPage = pathname === "/search";
   const isHomePage = pathname === "/";
@@ -65,5 +65,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

@@ -1,0 +1,61 @@
+'use client';
+
+import { useState } from 'react';
+import { ShortsPlayer } from '@/domains/player/shorts/components/ShortsPlayer';
+import { ShortsInformation } from '@/domains/player/shorts/components/ShortsInformation';
+import { ShortsActionButtons } from '@/domains/player/shorts/components/ShortsActionButtons';
+import { ShortsContainerProps } from '@/domains/player/shorts/types/shorts';
+
+export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
+  const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const currentShorts = initialData[currentShortsIndex] || initialData[0];
+
+  const handleNextShorts = () => {
+    setCurrentShortsIndex((prev) => (prev + 1) % initialData.length);
+  };
+
+  const handleContentLinkClick = () => {
+    window.location.href = currentShorts.contentLink.url;
+  };
+
+  const handleLikeClick = () => {
+    setIsLiked((prev) => !prev);
+  };
+
+  const handleBookmarkClick = () => {
+    setIsBookmarked((prev) => !prev);
+  };
+
+  return (
+    <div className="flex-1 flex items-center justify-center px-8">
+      <div className="flex items-end gap-4">
+        <div className="max-w-sm mr-4">
+          <ShortsInformation
+            contentLink={currentShorts.contentLink}
+            onContentLinkClick={handleContentLinkClick}
+          />
+        </div>
+
+        <div className="h-[80vh] max-h-[720px] aspect-[9/16] bg-ot-gray-800 rounded-lg overflow-hidden">
+          <ShortsPlayer
+            src={currentShorts.src}
+            shortsId={currentShorts.id}
+            onNextShorts={handleNextShorts}
+          />
+        </div>
+
+        <div className="ml-4">
+          <ShortsActionButtons
+            isLiked={isLiked}
+            isBookmarked={isBookmarked}
+            onLikeClick={handleLikeClick}
+            onBookmarkClick={handleBookmarkClick}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};

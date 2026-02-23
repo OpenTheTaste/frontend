@@ -1,12 +1,12 @@
-interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-export default function CommonButton({
+export const CommonButton = ({
   children,
   className = "",
   ...props
-}: CommonButtonProps) {
+}: CommonButtonProps) => {
   return (
     <button
       className={`flex items-center justify-center gap-4 rounded-lg bg-ot-primary-gradient-btn cursor-pointer ${className}`}
@@ -15,4 +15,4 @@ export default function CommonButton({
       {children}
     </button>
   );
-}
+};

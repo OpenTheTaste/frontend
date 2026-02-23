@@ -1,4 +1,4 @@
-import { DashboardData } from "@/types/dashboard";
+import { DashboardData } from "@/domains/mypage/types/dashboard";
 
 export const DashboardContentsMockData: DashboardData = {
   labels: ["#태그1", "#태그2", "#태그3", "#태그4", "기타"],
