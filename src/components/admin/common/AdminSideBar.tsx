@@ -45,7 +45,7 @@ const user = {
   email: "ott@gmail.com",
 };
 
-const AdminSideBar = () => {
+export const AdminSideBar = () => {
   const pathname = usePathname();
 
   return (
@@ -81,4 +81,3 @@ const AdminSideBar = () => {
     </aside>
   );
 };
-export default AdminSideBar;
