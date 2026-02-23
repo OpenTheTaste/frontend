@@ -1,7 +1,13 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { Drama, Clapperboard, Users, LineChart } from "lucide-react";
+import {
+  Drama,
+  Clapperboard,
+  Users,
+  LineChart,
+  SquarePlay,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,6 +21,11 @@ const menus = [
     name: "콘텐츠 관리",
     href: "/admin/contents",
     icon: Clapperboard,
+  },
+  {
+    name: "숏폼 관리",
+    href: "/admin/shorts",
+    icon: SquarePlay,
   },
   {
     name: "사용자",
