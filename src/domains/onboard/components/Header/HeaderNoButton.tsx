@@ -1,4 +1,4 @@
-import HeaderBrand from "@/components/onboarding/Header/HeaderBrand";
+import HeaderBrand from "@/domains/onboard/components/Header/HeaderBrand";
 
 export default function HeaderNoButton() {
   return (

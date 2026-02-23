@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Upload } from "lucide-react";
 import CommonButton from "@/components/common/CommonButton";
-import AdminUploadModal from "@/components/admin/contents/AdminUploadModal";
+import AdminUploadModal from "@/domains/admin/contents/components/AdminUploadModal";
 
 export default function UploadButton() {
   const [open, setOpen] = useState<boolean>(false);

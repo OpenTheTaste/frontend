@@ -1,5 +1,5 @@
-import HeaderBrand from "@/components/onboarding/Header/HeaderBrand";
-import HeaderButton from "@/components/onboarding/Header/HedaerButton";
+import HeaderBrand from "@/domains/onboard/components/Header/HeaderBrand";
+import HeaderButton from "@/domains/onboard/components/Header/HedaerButton";
 
 export default function OnboardHeader() {
   return (

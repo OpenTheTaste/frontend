@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import CommonButton from "@/components/common/CommonButton";
-import { Category } from "@/types/interest/category";
+import { Category } from "@/domains/onboard/types/category";
 
 interface FinishEditButtonProps {
   selectedTags: Record<Category, string[]>;

@@ -1,5 +1,5 @@
 import Header from '@/components/common/Header';
-import { ShortsContainer } from '@/components/player/ShortsContainer';
+import { ShortsContainer } from '@/domains/player/shorts/components/ShortsContainer';
 import { ShortsData } from '@/types/shorts';
 
 // 임시 데이터 - 나중에 API로 교체

@@ -1,6 +1,6 @@
 'use client';
 
-import { Category } from "@/types/interest/category";
+import { Category } from "@/domains/onboard/types/category";
 import { ChevronRight } from 'lucide-react';
 
 

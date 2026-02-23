@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import ListCategory from "@/components/onboarding/Interest/ListCategory";
-import SelectTag from "@/components/onboarding/Interest/SelectTag";
-import SelectedTag from "@/components/onboarding/Interest/SelectedTag";
+import ListCategory from "@/domains/onboard/components/Interest/ListCategory";
+import SelectTag from "@/domains/onboard/components/Interest/SelectTag";
+import SelectedTag from "@/domains/onboard/components/Interest/SelectedTag";
 import FinishEditButton from "@/components/mypage/profile/FinishEditButton";
-import { Category } from "@/types/interest/category";
-import { TAGS } from "@/types/interest/tags";
+import { Category } from "@/domains/onboard/types/category";
+import { TAGS } from "@/domains/onboard/types/tags";
 
 const CATEGORIES: Category[] = ["영화", "드라마", "예능", "다큐", "뉴스", "스포츠"];
 

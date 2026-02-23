@@ -1,5 +1,5 @@
-import HeaderWithNoButton from "@/components/onboarding/Header/HeaderNoButton";
-import InterestContent from "@/components/onboarding/Interest/ContentInterest";
+import HeaderWithNoButton from "@/domains/onboard/components/Header/HeaderNoButton";
+import InterestContent from "@/domains/onboard/components/Interest/ContentInterest";
 import Footer from "@/components/common/Footer";
 
 export default function InterestPage() {

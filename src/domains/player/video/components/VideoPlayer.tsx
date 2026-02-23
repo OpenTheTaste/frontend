@@ -1,6 +1,6 @@
 "use client";
 
-import { useHls } from "@/hooks/useHls";
+import { useHls } from "@/domains/player/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
 import type { Level } from "hls.js";
 import { SettingModal } from "@/components/player/SettingModal";

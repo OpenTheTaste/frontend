@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import ReviewContainer from "@/components/contents/ReviewSection";
+import ReviewContainer from "@/domains/video-contents/components/ReviewSection";
 import { useState } from "react";
 import { Recommendation } from "@/types/contents";
 

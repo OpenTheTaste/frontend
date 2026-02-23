@@ -1,7 +1,7 @@
 // src/components/Interest/SelectedTagsDisplay.tsx
 'use client';
 
-import { Category } from "@/types/interest/category";
+import { Category } from "@/domains/onboard/types/category";
 
 interface SelectedTagsDisplayProps {
   selectedTagsByCategory: Record<Category, string[]>;

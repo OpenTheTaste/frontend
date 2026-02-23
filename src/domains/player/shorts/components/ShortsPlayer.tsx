@@ -1,6 +1,6 @@
 'use client';
 
-import { useHls } from "@/hooks/useHls";
+import { useHls } from "@/domains/player/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause } from "lucide-react";
 

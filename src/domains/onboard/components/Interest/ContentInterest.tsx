@@ -2,12 +2,12 @@
 "use client";
 
 import { useState } from "react";
-import { Category } from "@/types/interest/category";
-import { TAGS } from "@/types/interest/tags";
-import ListCategory from "@/components/onboarding/Interest/ListCategory";
-import SelectedTag from "@/components/onboarding/Interest/SelectedTag";
-import SelectTag from "@/components/onboarding/Interest/SelectTag";
-import ButtonInterest from "@/components/onboarding/Interest/ButtonInterest";
+import { Category } from "@/domains/onboard/types/category";
+import { TAGS } from "@/domains/onboard/types/tags";
+import ListCategory from "@/domains/onboard/components/Interest/ListCategory";
+import SelectedTag from "@/domains/onboard/components/Interest/SelectedTag";
+import SelectTag from "@/domains/onboard/components/Interest/SelectTag";
+import ButtonInterest from "@/domains/onboard/components/Interest/ButtonInterest";
 
 const CATEGORIES: Category[] = [
   "영화",

@@ -1,9 +1,9 @@
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import ContentMainSection from "@/components/contents/ContentsMainSection";
-import SeriesSideSection from "@/components/contents/SeriesSideSection";
-import SingleSideSection from "@/components/contents/SingleSideSection";
-import EpisodeSideSection from "@/components/contents/EpisodeSideSection";
+import ContentMainSection from "@/domains/video-contents/components/ContentsMainSection";
+import SeriesSideSection from "@/domains/video-contents/components/SeriesSideSection";
+import SingleSideSection from "@/domains/video-contents/components/SingleSideSection";
+import EpisodeSideSection from "@/domains/video-contents/components/EpisodeSideSection";
 import {
   Episode,
   Recommendation,

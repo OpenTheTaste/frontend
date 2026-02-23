@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ShortsPlayer } from '@/components/player/ShortsPlayer';
-import { ShortsInformation } from '@/components/player/ShortsInformation';
-import { ShortsActionButtons } from '@/components/player/ShortsActionButtons';
+import { ShortsPlayer } from '@/domains/player/shorts/components/ShortsPlayer';
+import { ShortsInformation } from '@/domains/player/shorts/components/ShortsInformation';
+import { ShortsActionButtons } from '@/domains/player/shorts/components/ShortsActionButtons';
 import { ShortsContainerProps } from '@/types/shorts';
 
 export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
