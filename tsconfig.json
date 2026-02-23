@@ -21,6 +21,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@basecomponent": ["./src/components/common"],
+      "@home": ["./src/domains/home/components"],
+      "@mypage": ["./src/domains/mypage/components"],
+      "@onboard": ["./src/domains/onboard/components"],
+      "@player/*": ["./src/domains/player/*/components"],
+      "@video-contents": ["./src/domains/video-contents/components"],
     }
   },
   "include": [

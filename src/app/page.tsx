@@ -1,6 +1,5 @@
 import { Header, Footer } from "@basecomponent";
-import MainCarousel from "@/domains/home/components/MainCarousel";
-import ContentCarousel from "@/domains/home/components/ContentCarousel";
+import { MainCarousel, ContentCarousel } from "@home";
 
 export default function Home() {
   return (
