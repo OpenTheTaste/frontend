@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import CommonButton from '@/components/common/CommonButton';
+import { CommonButton } from "@basecomponent";
 
 export default function HeaderButton() {
   return (

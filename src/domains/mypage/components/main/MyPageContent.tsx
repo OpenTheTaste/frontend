@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import TabBar from "@/components/mypage/main/TabBar";
-import RecentContentBox from "@/components/mypage/recenthistory/RecentContentBox";
-import BookmarkBox from "@/components/mypage/bookmark/BookmarkBox";
+import TabBar from "@/domains/mypage/components/main/TabBar";
+import RecentContentBox from "@/domains/mypage/components/recenthistory/RecentContentBox";
+import BookmarkBox from "@/domains/mypage/components/bookmark/BookmarkBox";
 
 type TabType = "recenthistory" | "bookmark";
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import ListCategory from "@/domains/onboard/components/Interest/ListCategory";
 import SelectTag from "@/domains/onboard/components/Interest/SelectTag";
 import SelectedTag from "@/domains/onboard/components/Interest/SelectedTag";
-import FinishEditButton from "@/components/mypage/profile/FinishEditButton";
+import FinishEditButton from "@/domains/mypage/components/profile/FinishEditButton";
 import { Category } from "@/domains/onboard/types/category";
 import { TAGS } from "@/domains/onboard/types/tags";
 

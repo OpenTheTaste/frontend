@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { mockReviews } from "@/mocks/mockReviews";
-import ConfirmModal from "@/components/mypage/ConfirmModal";
+import ConfirmModal from "@/domains/mypage/components/ConfirmModal";
 
 interface MyReviewModalProps {
   isOpen: boolean;

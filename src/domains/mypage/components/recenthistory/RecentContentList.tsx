@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import RightListScroll from "@/components/mypage/RightListScroll";
-import LeftListScroll from "@/components/mypage/LeftListScroll";
+import RightListScroll from "@/domains/mypage/components/RightListScroll";
+import LeftListScroll from "@/domains/mypage/components/LeftListScroll";
 import { RecentItem } from "@/domains/mypage/types/recenthistory";
 
 interface RecentContentListProps {

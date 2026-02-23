@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import CommonButton from "@/components/common/CommonButton";
+import { CommonButton } from "@basecomponent";
 import ConfirmModal from "../ConfirmModal";
 
 export default function AccountActionButtons() {

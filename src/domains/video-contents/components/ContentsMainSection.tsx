@@ -1,10 +1,9 @@
 "use client";
 
+import { CommonButton, Badge } from "@basecomponent";
 import { Play, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import CommonButton from "@/components/common/CommonButton";
 import { InteractionButton } from "@/components/common/InteractionButton";
-import Badge from "@/components/common/Badge";
 import Link from "next/link";
 import { DESCRIPTION_MAX_LENGTH } from "@/domains/video-contents/constants/contentDescription";
 import { SingleContent, SeriesContent } from "@/domains/video-contents/types/contents";

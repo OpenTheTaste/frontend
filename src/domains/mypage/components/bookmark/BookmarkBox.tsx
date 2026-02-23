@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import BookmarkFilterBar from "@/components/mypage/bookmark/BookmarkFilterBar";
-import BookmarkContentList from "@/components/mypage/bookmark/BookmarkContentList";
-import BookmarkShortsList from "@/components/mypage/bookmark/BookmarkShortsList";
+import BookmarkFilterBar from "@/domains/mypage/components/bookmark/BookmarkFilterBar";
+import BookmarkContentList from "@/domains/mypage/components/bookmark/BookmarkContentList";
+import BookmarkShortsList from "@/domains/mypage/components/bookmark/BookmarkShortsList";
 
 interface BookmarkBoxProps {
   filter: "contents" | "shorts";

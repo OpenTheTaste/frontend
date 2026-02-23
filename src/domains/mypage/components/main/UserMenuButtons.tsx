@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import MyReviewModal from "@/components/mypage/main/MyReviewModal";
-import CommonButton from "@/components/common/CommonButton";
+import MyReviewModal from "@/domains/mypage/components/main/MyReviewModal";
+import { CommonButton } from "@basecomponent";
 
 export default function UserMenuButtons() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import CommonButton from "@/components/common/CommonButton";
+import { CommonButton } from "@basecomponent";
 
 interface ConfirmModalProps {
   isOpen: boolean; // 모달 열림 여부
