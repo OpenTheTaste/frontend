@@ -6,8 +6,8 @@ import { Category } from "@/types/interest/category";
 import { TAGS } from "@/types/interest/tags";
 import ListCategory from "@/components/onboarding/Interest/ListCategory";
 import SelectedTag from "@/components/onboarding/Interest/SelectedTag";
-import ButtonInterest from "@/components/onboarding/Interest/ButtonInterest";
 import SelectTag from "@/components/onboarding/Interest/SelectTag";
+import ButtonInterest from "@/components/onboarding/Interest/ButtonInterest";
 
 const CATEGORIES: Category[] = [
   "영화",
@@ -82,7 +82,7 @@ export default function ContentInterest() {
           />
         </div>
 
-        {/* 선택된 관심사 표시 */}
+        {/* 선택된 관심사 표시  */}
         <SelectedTag
           selectedTagsByCategory={selectedTagsByCategory}
           onClearAll={handleClearAll}
