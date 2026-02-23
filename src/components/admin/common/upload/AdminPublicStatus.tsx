@@ -7,7 +7,7 @@ import { AdminPublicToggle } from "@/components/admin/common/AdminPublicToggle";
 export default function AdminPublicStatus() {
   const [isPublic, setIsPublic] = useState<boolean>(false);
   return (
-    <>
+    <div>
       <p className="font-semibold text-lg mb-2">공개 여부</p>
       <div className="flex items-center text-ot-gray-600 text-xs">
         <AdminPublicToggle
@@ -26,6 +26,6 @@ export default function AdminPublicStatus() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
