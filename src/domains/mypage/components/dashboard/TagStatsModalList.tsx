@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { RecommendedContent } from "@/types/dashboard";
+import { RecommendedContent } from "@/domains/mypage/types/dashboard";
 import LeftListScroll from "@/components/mypage/LeftListScroll";
 import RightListScroll from "@/components/mypage/RightListScroll";
 

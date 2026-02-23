@@ -9,7 +9,7 @@ import {
   Recommendation,
   SeriesContent,
   SingleContent,
-} from "@/types/contents";
+} from "@/domains/video-contents/types/contents";
 
 interface ContentsContainerProps {
   content: SingleContent | SeriesContent;

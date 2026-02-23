@@ -13,7 +13,7 @@ import {
   Tooltip,
   ChartOptions,
 } from "chart.js";
-import { RecommendedContent } from "@/types/dashboard";
+import { RecommendedContent } from "@/domains/mypage/types/dashboard";
 import TagStatsModalList from "@/components/mypage/dashboard/TagStatsModalList";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);

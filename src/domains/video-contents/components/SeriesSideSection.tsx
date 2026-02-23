@@ -1,4 +1,4 @@
-import { Episode } from "@/types/contents";
+import { Episode } from "@/domains/video-contents/types/contents";
 import Link from "next/link";
 
 interface SeriesSideSectionProps {

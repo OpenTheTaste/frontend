@@ -6,8 +6,8 @@ import CommonButton from "@/components/common/CommonButton";
 import { InteractionButton } from "@/components/common/InteractionButton";
 import Badge from "@/components/common/Badge";
 import Link from "next/link";
-import { DESCRIPTION_MAX_LENGTH } from "@/constants/contentDescription";
-import { SingleContent, SeriesContent } from "@/types/contents";
+import { DESCRIPTION_MAX_LENGTH } from "@/domains/video-contents/constants/contentDescription";
+import { SingleContent, SeriesContent } from "@/domains/video-contents/types/contents";
 import { useRouter } from "next/navigation";
 
 interface ContentsMainSectionProps {

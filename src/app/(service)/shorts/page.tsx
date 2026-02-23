@@ -1,6 +1,6 @@
 import Header from '@/components/common/Header';
 import { ShortsContainer } from '@/domains/player/shorts/components/ShortsContainer';
-import { ShortsData } from '@/types/shorts';
+import { ShortsData } from '@/domains/player/shorts/types/shorts';
 
 // 임시 데이터 - 나중에 API로 교체
 const shortsList: ShortsData[] = [

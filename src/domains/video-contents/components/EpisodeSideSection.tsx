@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ReviewContainer from "@/domains/video-contents/components/ReviewSection";
 import { useState } from "react";
-import { Episode } from "@/types/contents";
+import { Episode } from "@/domains/video-contents/types/contents";
 
 interface EpisodeSideSectionProps {
   seriesId: number;

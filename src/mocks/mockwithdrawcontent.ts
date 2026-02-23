@@ -1,4 +1,4 @@
-import { WithdrawContent } from "@/types/withdrawcontent";
+import { WithdrawContent } from "@/domains/mypage/types/withdrawcontent";
 
 export const mockWithdrawContentData: WithdrawContent[] = [
   {
