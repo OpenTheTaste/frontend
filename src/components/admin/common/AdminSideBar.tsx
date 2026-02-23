@@ -28,8 +28,8 @@ const menus = [
     icon: SquarePlay,
   },
   {
-    name: "사용자",
-    href: "/admin/users",
+    name: "사용자 관리",
+    href: "/admin/user",
     icon: Users,
   },
   {
