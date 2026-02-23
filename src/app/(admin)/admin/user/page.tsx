@@ -1,5 +1,11 @@
-// /admin/user
+import { AdminSearch } from "@admin";
 
 export default function UserPage() {
-  return <div>admin 사용자 관리 페이지</div>;
+  return (
+    <>
+      <AdminSearch
+        placeholder="이름 또는 이메일을 검색하세요."
+      />
+    </>
+  );
 }
