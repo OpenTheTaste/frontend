@@ -1,12 +1,11 @@
-import HeaderWithNoButton from "@/domains/onboard/components/Header/HeaderNoButton";
-import InterestContent from "@/domains/onboard/components/Interest/ContentInterest";
+import { HeaderNoButton, ContentInterest } from "@onboard";
 import { Footer } from "@basecomponent"
 
 export default function InterestPage() {
   return (
     <div className="bg-ot-background min-h-screen flex flex-col">
-      <HeaderWithNoButton />
-      <InterestContent />
+      <HeaderNoButton />
+      <ContentInterest />
       <Footer />
     </div>
   );
