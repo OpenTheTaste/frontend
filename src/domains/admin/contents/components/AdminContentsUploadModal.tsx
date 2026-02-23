@@ -31,7 +31,7 @@ const SERIES_LIST = [
   "대탈출 1",
 ];
 
-export default function AdminUploadModal({
+export default function AdminContentsUploadModal({
   open,
   onClose,
 }: AdminUploadModalProps) {
