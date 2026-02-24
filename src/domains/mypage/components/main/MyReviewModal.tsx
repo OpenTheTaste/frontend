@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { mockReviews } from "@/mocks/mockReviews";
 import ConfirmModal from "@/domains/mypage/components/ConfirmModal";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface MyReviewModalProps {
   isOpen: boolean;
@@ -16,10 +17,26 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   // Mock 데이터 아직 리뷰 숫자만 있으니까 number, 아니면 string으로 나중에 바꾸기
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
+      const handleEsc = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
+      window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
+      return () => {
+        document.body.style.overflow = "unset";
+        window.removeEventListener("keydown", handleEsc);
+      };
+    }
+  }, [isOpen, onClose]);
 
   if (!isOpen || !isMounted) {
     return null;
@@ -37,8 +54,9 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
       <div
+        ref={modalRef}
         className="flex flex-col relative w-200 max-h-[85vh] rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden shadow-black/50"
         onClick={(e) => e.stopPropagation()}
       >

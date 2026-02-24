@@ -71,7 +71,7 @@ export default function DashboardContentList({ data }: DashboardContentListProps
         top: 60,
         bottom: 60,
         left: 300,
-        right: 200, // 오른쪽 패딩을 제거하여 범례를 차트 쪽으로 당깁니다.
+        right: 200,
       },
     },
     plugins: {

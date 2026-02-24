@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { RecommendedContent } from "@/domains/mypage/types/dashboard";
 import TagStatsModalList from "@/domains/mypage/components/dashboard/TagStatsModalList";
 import TagStatsModalGraph from "@/domains/mypage/components/dashboard/TagStatsModalGraph";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface TagStatsModalProps {
   isOpen: boolean;
@@ -26,10 +27,26 @@ export default function TagStatsModal({
   recommendations,
 }: TagStatsModalProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
+      const handleEsc = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
+      window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
+      return () => {
+        document.body.style.overflow = "unset";
+        window.removeEventListener("keydown", handleEsc);
+      };
+    }
+  }, [isOpen, onClose]);
 
   if (!isMounted) {
     return null; // 서버 사이드에서는 렌더링하지 않음 -> 에러 방지
@@ -39,8 +56,11 @@ export default function TagStatsModal({
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative pt-14 pb-8 rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden w-[60%]">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
+      <div
+        ref={modalRef}
+        className="relative pt-14 pb-8 rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden w-[60%]"
+      >
         {/* 닫기 버튼 */}
         <button className="absolute right-7 top-7 text-white" onClick={onClose}>
           <X size={24} strokeWidth={3} />
@@ -62,8 +82,8 @@ export default function TagStatsModal({
         </div>
 
         {/* 태그별 추천 콘텐츠 영역 */}
-        <div className="px-15 mt-">
-          <h3 className="text-[24px] font-bold text-white">태그별 추천 콘텐츠</h3>
+        <div className="px-15 mt-4">
+          <h3 className="text-[24px] font-bold text-ot-text">태그별 추천 콘텐츠</h3>
           <TagStatsModalList items={recommendations} />
         </div>
       </div>

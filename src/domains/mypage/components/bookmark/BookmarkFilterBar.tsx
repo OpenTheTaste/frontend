@@ -16,7 +16,7 @@ export default function BookmarkFilterBar({
         type="button"
         aria-pressed={activeFilter === "contents"}
         onClick={() => onFilterChange("contents")}
-        className={`flex items-center justify-center rounded-lg text-[16px] border-[3px] font-semibold cursor-pointer transition-all
+        className={`flex items-center justify-center rounded-lg text-[16px] border-2 font-semibold cursor-pointer transition-all
           py-2 px-5
           ${
             activeFilter === "contents"
@@ -34,7 +34,7 @@ export default function BookmarkFilterBar({
         type="button"
         aria-pressed={activeFilter === "shorts"}
         onClick={() => onFilterChange("shorts")}
-        className={`flex items-center justify-center rounded-lg text-[16px] border-[3px] font-semibold cursor-pointer transition-all
+        className={`flex items-center justify-center rounded-lg text-[16px] border-2 font-semibold cursor-pointer transition-all
           py-2 px-7
           ${
             activeFilter === "shorts"

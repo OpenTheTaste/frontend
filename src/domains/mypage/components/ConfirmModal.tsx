@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { CommonButton } from "@basecomponent";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface ConfirmModalProps {
   isOpen: boolean; // 모달 열림 여부
@@ -23,10 +24,26 @@ export default function ConfirmModal({
   cancelText = "아니요",
 }: ConfirmModalProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
+      const handleEsc = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      };
+      window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
+      return () => {
+        document.body.style.overflow = "unset";
+        window.removeEventListener("keydown", handleEsc);
+      };
+    }
+  }, [isOpen, onClose]);
 
   if (!isMounted) {
     return null; // 서버 사이드에서는 렌더링하지 않음 -> 에러 방지
@@ -36,8 +53,11 @@ export default function ConfirmModal({
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative pt-18 px-20 pb-14 rounded-xl bg-ot-gray-800 shadow-2xl">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
+      <div
+        ref={modalRef}
+        className="relative pt-18 px-20 pb-14 rounded-xl bg-ot-gray-800 shadow-2xl"
+      >
         {/* 모달창 닫기 X 버튼 */}
         <button
           className="absolute right-7 top-7 transition-opacity hover:opacity-70"
