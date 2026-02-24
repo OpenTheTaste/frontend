@@ -5,8 +5,6 @@ import { cn } from "@/utils/cn";
 import { ChevronDown, Search } from "lucide-react";
 import { useRef, useState } from "react";
 
-const ROLE_OPTIONS = ["사용자", "관리자", "에디터"];
-
 interface AdminSearchProps {
   placeholder?: string;
   options?: string[];
@@ -16,12 +14,12 @@ interface AdminSearchProps {
 
 export default function AdminSearch({
   placeholder = "검색어를 입력하세요",
-  options = ROLE_OPTIONS,
+  options,
   onSearch,
   onSelect,
 }: AdminSearchProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>(options[0]);
+  const [selected, setSelected] = useState<string>(options?.[0] ?? "");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(dropdownRef, () => setIsOpen(false), isOpen);
@@ -44,39 +42,41 @@ export default function AdminSearch({
         <Search size={18} className="stroke-ot-placeholder shrink-0" />
       </div>
 
-      <div ref={dropdownRef} className="relative w-36">
-        <button
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full flex items-center justify-between bg-ot-gray-800 px-3 py-3 border border-ot-gray-700 rounded-lg text-ot-text"
-        >
-          <span className="text-sm">{selected}</span>
-          <ChevronDown
-            size={16}
-            className={cn(
-              "stroke-ot-placeholder transition-transform duration-200",
-              isOpen && "rotate-180",
-            )}
-          />
-        </button>
+      {options && (
+        <div ref={dropdownRef} className="relative w-36">
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="w-full flex items-center justify-between bg-ot-gray-800 px-3 py-3 border border-ot-gray-700 rounded-lg text-ot-text"
+          >
+            <span className="text-sm">{selected}</span>
+            <ChevronDown
+              size={16}
+              className={cn(
+                "stroke-ot-placeholder transition-transform duration-200",
+                isOpen && "rotate-180",
+              )}
+            />
+          </button>
 
-        {isOpen && (
-          <ul className="absolute top-full mt-1 w-full bg-ot-gray-800 border border-ot-gray-700 rounded-lg overflow-hidden z-10 shadow-2xl">
-            {options.map((option) => (
-              <li key={option}>
-                <button
-                  onClick={() => handleSelect(option)}
-                  className={cn(
-                    "w-full text-left px-3 py-2 text-sm text-ot-text hover:bg-ot-gray-700 transition-colors",
-                    selected === option && "bg-ot-primary-gradient text-ot-white",
-                  )}
-                >
-                  {option}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+          {isOpen && (
+            <ul className="absolute top-full mt-1 w-full bg-ot-gray-800 border border-ot-gray-700 rounded-lg overflow-hidden z-10 shadow-2xl">
+              {options.map((option) => (
+                <li key={option}>
+                  <button
+                    onClick={() => handleSelect(option)}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm text-ot-text hover:bg-ot-gray-700 transition-colors",
+                      selected === option && "bg-ot-primary-gradient text-ot-white",
+                    )}
+                  >
+                    {option}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 }

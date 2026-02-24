@@ -1,4 +1,4 @@
-import { AdminSearch } from "@/components/admin/common";
+import { AdminSearch } from "@admin-basecomponent";
 import { AdminSeriesContents } from "@adminseries";
 
 export default function UserPage() {
