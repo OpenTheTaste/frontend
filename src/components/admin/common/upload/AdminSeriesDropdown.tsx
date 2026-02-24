@@ -8,12 +8,14 @@ export interface AdminSeriesDropdownProps {
   seriesList: string[];
   value: string | null;
   onChange: (series: string | null) => void;
+  disabled?: boolean;
 }
 
 export default function AdminSeriesDropdown({
   seriesList,
   value,
   onChange,
+  disabled = false,
 }: AdminSeriesDropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
@@ -37,11 +39,17 @@ export default function AdminSeriesDropdown({
       <div ref={dropdownRef} className="relative">
         <button
           type="button"
+          disabled={disabled}
           onClick={() => {
             setIsOpen((prev) => !prev);
             setSearch("");
           }}
-          className="w-full flex items-center justify-between border border-ot-gray-600 rounded-lg py-3 px-4 text-sm text-left bg-ot-text hover:bg-ot-gray-200 transition-colors cursor-pointer"
+          className={`w-full flex items-center justify-between border rounded-lg py-3 px-4 text-sm text-left transition-colors
+            ${
+              disabled
+                ? "bg-ot-gray-200 border-ot-gray-400 text-ot-gray-600 cursor-not-allowed"
+                : "border-ot-gray-600 bg-ot-text hover:bg-ot-gray-200 cursor-pointer"
+            }`}
         >
           <span className={value ? "text-ot-background" : "text-ot-gray-600"}>
             {value ?? "시리즈 선택"}

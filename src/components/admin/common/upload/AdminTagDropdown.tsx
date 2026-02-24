@@ -37,7 +37,10 @@ export default function AdminTagDropdown({
           type="button"
           disabled={!category}
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full flex items-center justify-between border border-ot-gray-600 rounded-lg py-3 px-4 text-sm text-left bg-ot-text hover:bg-ot-gray-200 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          className={`w-full flex items-center justify-between border rounded-lg py-3 px-4 text-sm text-left transition-colors
+            ${!category ? "bg-ot-gray-200 border-ot-gray-400 text-ot-gray-600 cursor-not-allowed" : "border-ot-gray-600 bg-ot-text hover:bg-ot-gray-200 cursor-pointer"}
+            
+            `}
         >
           <span
             className={
@@ -68,7 +71,7 @@ export default function AdminTagDropdown({
         )}
 
         {isOpen && category && (
-          <div className="absolute top-full left-0 right-0 z-20 mt-1 bg-ot-text rounded-lg shadow-lg overflow-hidden border border-ot-gray-600">
+          <div className="absolute top-full left-0 right-0 z-20 mt-2 bg-ot-text rounded-lg shadow-lg overflow-hidden border border-ot-gray-600">
             <div className="max-h-48 overflow-y-auto">
               {TAGS[category].map((tag) => (
                 <button

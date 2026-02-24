@@ -15,7 +15,9 @@ import {
   AdminTagDropdown,
   AdminTextInput,
   PosterState,
+  AdminContentTypeSelector,
 } from "@admin-upload";
+import { ContentType } from "@/types/contentType";
 
 interface AdminUploadModalProps {
   open: boolean;
@@ -53,6 +55,7 @@ export default function AdminContentsUploadModal({
     vertical: null,
     horizontal: null,
   });
+  const [contentType, setContentType] = useState<ContentType>("단편");
 
   useEffect(() => {
     setMounted(true);
@@ -110,6 +113,10 @@ export default function AdminContentsUploadModal({
           className="grid gap-y-6 text-ot-background"
           onSubmit={handleSubmit}
         >
+          <AdminContentTypeSelector
+            value={contentType}
+            onChange={setContentType}
+          />
           <AdminFileUpload value={videoFile} onChange={setVideoFile} />
 
           <AdminTextInput
@@ -136,11 +143,20 @@ export default function AdminContentsUploadModal({
 
           {/* 시리즈 + 공개 여부 */}
           <div className="grid grid-cols-2 gap-6">
-            <AdminSeriesDropdown
-              seriesList={SERIES_LIST}
-              value={selectedSeries}
-              onChange={setSelectedSeries}
-            />
+            {contentType === "시리즈" ? (
+              <AdminSeriesDropdown
+                seriesList={SERIES_LIST}
+                value={selectedSeries}
+                onChange={setSelectedSeries}
+              />
+            ) : (
+              <AdminSeriesDropdown
+                seriesList={SERIES_LIST}
+                value={selectedSeries}
+                onChange={setSelectedSeries}
+                disabled
+              />
+            )}
             <AdminPublicStatus isPublic={isPublic} onChange={setIsPublic} />
           </div>
 

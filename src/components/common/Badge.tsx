@@ -17,7 +17,11 @@ export const Badge = ({ text, onRemove, variant = "service" }: BadgeProps) => {
     >
       {text}
       {onRemove && (
-        <button type="button" onClick={onRemove} className="cursor-pointer">
+        <button
+          type="button"
+          onClick={onRemove}
+          className="cursor-pointer hover:text-ot-gray-800"
+        >
           <X size={11} />
         </button>
       )}
