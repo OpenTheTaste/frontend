@@ -19,7 +19,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
+  useOutsideClick(modalRef, onClose, isOpen && deleteTargetId === null); // 관련 hook 추가하여 사용
 
   useEffect(() => {
     setIsMounted(true);

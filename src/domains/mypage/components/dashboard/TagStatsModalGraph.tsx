@@ -13,7 +13,7 @@ interface TagStatsModalGraphProps {
 
 export default function TagStatsModalGraph({ tagName, monthlyStats }: TagStatsModalGraphProps) {
   return (
-    <div className="relative w-full h-full flex items-center justify-center p-4">
+    <div className="relative w-full flex-1 min-h-0 flex items-center justify-center p-4">
       <div className="relative w-full h-45">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}

@@ -8,7 +8,7 @@ export default function ProfileEditor() {
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       if (inputValue.trim() !== "") {
         console.log("저장된 내용:", inputValue);
         setInputValue("");
