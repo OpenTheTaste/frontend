@@ -28,8 +28,8 @@ const menus = [
     icon: SquarePlay,
   },
   {
-    name: "사용자",
-    href: "/admin/users",
+    name: "사용자 관리",
+    href: "/admin/user",
     icon: Users,
   },
   {
@@ -45,7 +45,7 @@ const user = {
   email: "ott@gmail.com",
 };
 
-const AdminSideBar = () => {
+export const AdminSideBar = () => {
   const pathname = usePathname();
 
   return (
@@ -81,4 +81,3 @@ const AdminSideBar = () => {
     </aside>
   );
 };
-export default AdminSideBar;

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-interface AdminTitleProps {
+export interface AdminTitleProps {
   title: string;
   description?: string;
   action?: ReactNode; // 버튼 영역
