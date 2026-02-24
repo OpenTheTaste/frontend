@@ -5,7 +5,11 @@ import { Upload } from "lucide-react";
 import { CommonButton } from "@basecomponent";
 import AdminUploadModal from "@/domains/admin/contents/components/AdminContentsUploadModal";
 
-export default function UploadButton() {
+interface UploadButtonProps {
+  label?: string;
+}
+
+export default function UploadButton({ label = "콘텐츠 업로드" }: UploadButtonProps) {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -15,7 +19,7 @@ export default function UploadButton() {
         className="text-ot-text py-3 px-8 font-semibold flex items-center gap-2"
       >
         <Upload size={22} />
-        콘텐츠 업로드
+        {label}
       </CommonButton>
 
       <AdminUploadModal open={open} onClose={() => setOpen(false)} />
