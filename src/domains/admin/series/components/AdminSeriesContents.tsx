@@ -7,7 +7,7 @@ import { AdminSeries, mockAdminSeries } from "@/mocks/mockAdminSeries";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
 import { CATEGORY_STYLE_MAP, TAG_STYLE_MAP, badgeBase } from "../constants/seriesStyles";
-import { AdminSeriesDetailModal } from "./AdminSeriesDetailModal";
+import { AdminSeriesDetailModal } from "@adminseries";
 
 export function AdminSeriesContents() {
   const data = mockAdminSeries;

@@ -30,7 +30,8 @@
       "@admin-basecomponent": ["./src/components/admin/common"],
       "@admin-upload": ["./src/components/admin/common/upload"],
       "@adminuser": ["./src/domains/admin/user/components"],
-      "@adminseries": ["./src/domains/admin/series/components"]
+      "@adminseries": ["./src/domains/admin/series/components"],
+      "@admincontents": ["./src/domains/admin/contents/components"]
 
     }
   },
