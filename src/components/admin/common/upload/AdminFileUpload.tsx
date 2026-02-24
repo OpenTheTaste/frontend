@@ -64,9 +64,7 @@ export default function AdminFileUpload({
               <Film size={16} className="text-ot-primary-400" />
             </div>
             <div>
-              <p className="text-sm font-medium text-ot-background">
-                {value.name}
-              </p>
+              <p className="text-sm text-ot-background">{value.name}</p>
               <p className="text-xs text-ot-gray-600 mt-0.5">
                 {value.size} | {value.duration}
               </p>
