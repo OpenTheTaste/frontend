@@ -84,6 +84,7 @@ export default function AdminContentsUploadModal({
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     // 폼 제출 처리 로직 추가
+    e.preventDefault();
     console.log("폼 제출 처리 로직");
   };
 
