@@ -28,7 +28,9 @@
       "@shorts": ["./src/domains/player/shorts/components"],
       "@video-contents": ["./src/domains/video-contents/components"],
       "@admin-basecomponent": ["./src/components/admin/common"],
-      "@admin-upload": ["./src/components/admin/common/upload"]
+      "@admin-upload": ["./src/components/admin/common/upload"],
+      "@adminuser": ["./src/domains/admin/user/components"]
+
     }
   },
   "include": [
