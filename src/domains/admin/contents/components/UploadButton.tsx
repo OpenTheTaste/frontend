@@ -7,9 +7,13 @@ import AdminUploadModal from "@/domains/admin/contents/components/AdminContentsU
 
 interface UploadButtonProps {
   label?: string;
+  renderModal?: (props: { open: boolean; onClose: () => void }) => React.ReactNode;
 }
 
-export default function UploadButton({ label = "콘텐츠 업로드" }: UploadButtonProps) {
+export default function UploadButton({
+  label = "콘텐츠 업로드",
+  renderModal,
+}: UploadButtonProps) {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -22,7 +26,10 @@ export default function UploadButton({ label = "콘텐츠 업로드" }: UploadBu
         {label}
       </CommonButton>
 
-      <AdminUploadModal open={open} onClose={() => setOpen(false)} />
+      {renderModal
+        ? renderModal({ open, onClose: () => setOpen(false) })
+        : <AdminUploadModal open={open} onClose={() => setOpen(false)} />
+      }
     </>
   );
 }
