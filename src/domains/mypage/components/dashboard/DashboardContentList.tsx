@@ -67,11 +67,28 @@ export default function DashboardContentList({ data }: DashboardContentListProps
       },
     },
     layout: {
-      padding: 60,
+      padding: {
+        top: 60,
+        bottom: 60,
+        left: 300,
+        right: 200,
+      },
     },
     plugins: {
       legend: {
-        display: false, // 기본 범례 숨김 (커스텀)
+        display: true, // false = 기본 범례 숨김 (커스텀)
+        position: "right",
+        align: "center",
+        labels: {
+          color: "#fafaf8",
+          font: {
+            size: 16,
+            family: "Pretendard",
+          },
+          usePointStyle: true,
+          pointStyle: "circle",
+          padding: 20,
+        },
       },
       tooltip: {
         enabled: true, // 호버 시 툴팁 활성화

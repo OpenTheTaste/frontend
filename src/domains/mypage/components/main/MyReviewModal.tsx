@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { mockReviews } from "@/mocks/mockReviews";
 import ConfirmModal from "@/domains/mypage/components/ConfirmModal";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface MyReviewModalProps {
   isOpen: boolean;
@@ -16,10 +17,32 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   // Mock 데이터 아직 리뷰 숫자만 있으니까 number, 아니면 string으로 나중에 바꾸기
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const deleteTargetIdRef = useRef<number | null>(null);
+  deleteTargetIdRef.current = deleteTargetId; // 항상 최신 값 동기화
+
+  useOutsideClick(modalRef, onClose, isOpen && deleteTargetId === null); // 관련 hook 추가하여 사용
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
+      const handleEsc = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          if (deleteTargetIdRef.current !== null) {
+            setDeleteTargetId(null); // ConfirmModal만 닫기
+          } else {
+            onClose(); // MyReviewModal 닫기
+          }
+        }
+      };
+      window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
+      return () => {
+        document.body.style.overflow = "unset";
+        window.removeEventListener("keydown", handleEsc);
+      };
+    }
+  }, [isOpen, onClose]);
 
   if (!isOpen || !isMounted) {
     return null;
@@ -37,20 +60,21 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
       <div
-        className="flex flex-col relative w-220 h-270 rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden"
+        ref={modalRef}
+        className="flex flex-col relative w-200 max-h-[85vh] rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden shadow-black/50"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           className="absolute right-7 top-7 transition-opacity hover:opacity-70"
           onClick={handleClose}
         >
-          <X size={32} strokeWidth={2} />
+          <X size={24} strokeWidth={2} />
         </button>
 
-        <div className="flex-1 mt-30 mx-15 mb-4 overflow-y-auto no-scrollbar">
-          <div className="flex flex-col gap-7">
+        <div className="flex-1 mt-25 mx-15 mb-15 overflow-y-auto no-scrollbar">
+          <div className="flex flex-col gap-5">
             {mockReviews.map((review) => (
               <div key={review.id} className="relative flex items-start w-full gap-5 shrink-0">
                 {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
