@@ -1,4 +1,4 @@
-import { AdminBadge} from "@admin";
+import { AdminBadge} from "@admin-basecomponent";
 import { mockAdminUsers, type UserType } from "@/mocks/mockAdminUsers";
 
 const TYPE_STYLE_MAP: Record<UserType, string> = {

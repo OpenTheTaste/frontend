@@ -1,4 +1,4 @@
-import { AdminTitle } from "@admin";
+import { AdminTitle } from "@admin-basecomponent";
 
 export default function UserLayout({
   children,

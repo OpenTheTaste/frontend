@@ -1,7 +1,7 @@
 // src/components/Interest/SelectedTagsDisplay.tsx
-'use client';
+"use client";
 
-import { Category } from "@/domains/onboard/types/category";
+import { Category } from "@/types/category";
 
 interface SelectedTagsDisplayProps {
   selectedTagsByCategory: Record<Category, string[]>;
@@ -10,12 +10,12 @@ interface SelectedTagsDisplayProps {
 
 export default function SelectedTag({
   selectedTagsByCategory,
-  onClearAll
+  onClearAll,
 }: SelectedTagsDisplayProps) {
-  const allSelectedTags = Object.entries(selectedTagsByCategory)
-    .flatMap(([category, tags]) => 
-      tags.map(tag => ({ category: category as Category, tag }))
-    );
+  const allSelectedTags = Object.entries(selectedTagsByCategory).flatMap(
+    ([category, tags]) =>
+      tags.map((tag) => ({ category: category as Category, tag })),
+  );
 
   return (
     <div className="border border-ot-white rounded-lg bg-ot-background p-6 mb-3">
@@ -45,7 +45,9 @@ export default function SelectedTag({
           ))}
         </div>
       ) : (
-        <p className="text-[0.75rem] text-ot-gray-500">선택된 관심사가 없습니다.</p>
+        <p className="text-[0.75rem] text-ot-gray-500">
+          선택된 관심사가 없습니다.
+        </p>
       )}
     </div>
   );

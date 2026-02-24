@@ -1,4 +1,4 @@
-import AdminTitle from "@/components/admin/common/AdminTitle";
+import { AdminTitle } from "@admin-basecomponent";
 import UploadButton from "@/domains/admin/contents/components/UploadButton";
 
 export default function ContentsLayout({

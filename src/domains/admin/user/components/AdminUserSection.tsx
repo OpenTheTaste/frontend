@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminSearch } from "@admin";
+import { AdminSearch } from "@admin-basecomponent";
 import { type UserType } from "@/mocks/mockAdminUsers";
 import { useState } from "react";
 import { AdminUserContents } from "@adminuser";
