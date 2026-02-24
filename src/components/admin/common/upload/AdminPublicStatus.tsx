@@ -1,18 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import AdminBadge from "@/components/admin/common/AdminBadge";
-import { AdminPublicToggle } from "@/components/admin/common/AdminPublicToggle";
+import { AdminBadge, AdminPublicToggle } from "@admin-basecomponent";
 
-export default function AdminPublicStatus() {
-  const [isPublic, setIsPublic] = useState<boolean>(false);
+export interface AdminPublicStatusProps {
+  isPublic: boolean;
+  onChange: (value: boolean) => void;
+}
+
+export default function AdminPublicStatus({
+  isPublic,
+  onChange,
+}: AdminPublicStatusProps) {
   return (
     <div>
       <p className="font-semibold text-lg mb-2">공개 여부</p>
       <div className="flex items-center text-ot-gray-600 text-xs">
         <AdminPublicToggle
           isOn={isPublic}
-          onToggle={() => setIsPublic((prev) => !prev)}
+          onToggle={(next) => onChange(next)}
         />
         {isPublic ? (
           <>

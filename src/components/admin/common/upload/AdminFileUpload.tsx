@@ -74,7 +74,10 @@ export default function AdminFileUpload({
           </div>
           <button
             type="button"
-            onClick={() => onChange(null)}
+            onClick={() => {
+              onChange(null);
+              if (inputRef.current) inputRef.current.value = "";
+            }}
             className="text-ot-gray-600 hover:text-ot-background transition-colors cursor-pointer"
           >
             <X size={16} />

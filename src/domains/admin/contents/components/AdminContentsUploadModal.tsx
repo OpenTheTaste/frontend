@@ -37,6 +37,12 @@ export default function AdminContentsUploadModal({
 }: AdminUploadModalProps) {
   const [mounted, setMounted] = useState<boolean>(false);
 
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [cast, setCast] = useState<string>("");
+
+  const [isPublic, setIsPublic] = useState<boolean>(false);
+
   const [videoFile, setVideoFile] = useState<VideoFileMeta | null>(null);
   const [selectedSeries, setSelectedSeries] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
@@ -73,6 +79,11 @@ export default function AdminContentsUploadModal({
     setSelectedTags([]);
   };
 
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    // 폼 제출 처리 로직 추가
+    console.log("폼 제출 처리 로직");
+  };
+
   if (!mounted || !open) return null;
 
   return createPortal(
@@ -95,21 +106,32 @@ export default function AdminContentsUploadModal({
           </button>
         </div>
 
-        <form className="grid gap-y-6 text-ot-background">
+        <form
+          className="grid gap-y-6 text-ot-background"
+          onSubmit={handleSubmit}
+        >
           <AdminFileUpload value={videoFile} onChange={setVideoFile} />
 
           <AdminTextInput
             label="제목"
             placeholder='콘텐츠 제목을 입력하세요 (예: "시리즈명: 1화")'
+            value={title}
+            onChange={setTitle}
           />
+
           <AdminTextInput
             label="설명"
             placeholder="콘텐츠 설명을 입력하세요"
             multiline
+            value={description}
+            onChange={setDescription}
           />
+
           <AdminTextInput
             label="출연"
             placeholder="출연진은 쉼표(,)로 구분해 입력해 주세요 (예: 임지연, 송혜교, 이도현 · 최대 4인)"
+            value={cast}
+            onChange={setCast}
           />
 
           {/* 시리즈 + 공개 여부 */}
@@ -119,7 +141,7 @@ export default function AdminContentsUploadModal({
               value={selectedSeries}
               onChange={setSelectedSeries}
             />
-            <AdminPublicStatus />
+            <AdminPublicStatus isPublic={isPublic} onChange={setIsPublic} />
           </div>
 
           {/* 카테고리 + 태그 */}

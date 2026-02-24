@@ -12,26 +12,17 @@ export const CommonButton = ({
   const baseStyle =
     "flex items-center justify-center gap-4 rounded-lg cursor-pointer";
 
-  let variantStyle = "";
+  const variantStyles: Record<
+    NonNullable<CommonButtonProps["variant"]>,
+    string
+  > = {
+    primary: "bg-ot-primary-gradient-btn text-ot-text",
+    secondary: "bg-ot-secondary-700 text-ot-text hover:bg-ot-secondary-800",
+    outline:
+      "border border-ot-primary-400 bg-none text-ot-primary-400 hover:bg-ot-primary-100",
+  };
 
-  switch (variant) {
-    case "primary":
-      variantStyle = "bg-ot-primary-gradient-btn text-ot-text";
-      break;
-
-    case "secondary":
-      variantStyle =
-        "bg-ot-secondary-700 text-ot-text hover:bg-ot-secondary-800";
-      break;
-
-    case "outline":
-      variantStyle =
-        "border border-ot-primary-400 bg-none text-ot-primary-400 hover:bg-ot-primary-100";
-      break;
-
-    default:
-      return;
-  }
+  const variantStyle = variantStyles[variant];
 
   return (
     <button className={`${baseStyle} ${variantStyle} ${className}`} {...props}>
