@@ -1,9 +1,8 @@
-// src/components/Interest/InterestContent.tsx
 "use client";
 
 import { useState } from "react";
-import { Category } from "@/domains/onboard/types/category";
-import { TAGS } from "@/domains/onboard/types/tags";
+import { Category } from "@/types/category";
+import { TAGS } from "@/types/tags";
 import ListCategory from "@/domains/onboard/components/Interest/ListCategory";
 import SelectedTag from "@/domains/onboard/components/Interest/SelectedTag";
 import SelectTag from "@/domains/onboard/components/Interest/SelectTag";
@@ -93,7 +92,6 @@ export default function ContentInterest() {
           selectedTagCount={totalSelectedTags}
           disabled={totalSelectedTags === 0}
         />
-        
       </div>
     </section>
   );

@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { Category } from "@/domains/onboard/types/category";
-import { ChevronRight } from 'lucide-react';
-
+import { Category } from "@/types/category";
+import { ChevronRight } from "lucide-react";
 
 interface CategoryListProps {
   categories: Category[];
@@ -13,15 +12,21 @@ interface CategoryListProps {
 export default function ListCategory({
   categories,
   selectedCategory,
-  onSelectCategory
+  onSelectCategory,
 }: CategoryListProps) {
   return (
     <div className="w-[180px] bg-ot-background">
       {categories.map((category) => {
         const isSelected = selectedCategory === category;
-        const buttonClassName = isSelected ? 'bg-ot-primary-50' : 'hover:bg-ot-gray-750';
-        const textClassName = isSelected ? 'text-ot-primary-500' : 'text-ot-gray-300';
-        const iconClassName = isSelected ? 'text-ot-primary-500' : 'text-ot-gray-500';
+        const buttonClassName = isSelected
+          ? "bg-ot-primary-50"
+          : "hover:bg-ot-gray-750";
+        const textClassName = isSelected
+          ? "text-ot-primary-500"
+          : "text-ot-gray-300";
+        const iconClassName = isSelected
+          ? "text-ot-primary-500"
+          : "text-ot-gray-500";
 
         return (
           <button

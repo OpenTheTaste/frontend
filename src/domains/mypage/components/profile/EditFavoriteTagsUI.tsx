@@ -5,10 +5,17 @@ import ListCategory from "@/domains/onboard/components/Interest/ListCategory";
 import SelectTag from "@/domains/onboard/components/Interest/SelectTag";
 import SelectedTag from "@/domains/onboard/components/Interest/SelectedTag";
 import FinishEditButton from "@/domains/mypage/components/profile/FinishEditButton";
-import { Category } from "@/domains/onboard/types/category";
-import { TAGS } from "@/domains/onboard/types/tags";
+import { Category } from "@/types/category";
+import { TAGS } from "@/types/tags";
 
-const CATEGORIES: Category[] = ["영화", "드라마", "예능", "다큐", "뉴스", "스포츠"];
+const CATEGORIES: Category[] = [
+  "영화",
+  "드라마",
+  "예능",
+  "다큐",
+  "뉴스",
+  "스포츠",
+];
 
 const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
   영화: [],
@@ -21,8 +28,9 @@ const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
 
 export default function EditFavoriteTagsUI() {
   const [selectedCategory, setSelectedCategory] = useState<Category>("영화");
-  const [selectedTagsByCategory, setSelectedTagsByCategory] =
-    useState<Record<Category, string[]>>(INITIAL_TAGS_BY_CATEGORY);
+  const [selectedTagsByCategory, setSelectedTagsByCategory] = useState<
+    Record<Category, string[]>
+  >(INITIAL_TAGS_BY_CATEGORY);
 
   const currentTags = TAGS[selectedCategory];
   const selectedTags = selectedTagsByCategory[selectedCategory];
@@ -59,7 +67,11 @@ export default function EditFavoriteTagsUI() {
               onSelectCategory={handleSelectCategory}
             />
           </div>
-          <SelectTag tags={currentTags} selectedTags={selectedTags} onToggleTag={handleToggleTag} />
+          <SelectTag
+            tags={currentTags}
+            selectedTags={selectedTags}
+            onToggleTag={handleToggleTag}
+          />
         </div>
 
         {/* 선택된 관심사 표시 */}
