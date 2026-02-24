@@ -3,7 +3,7 @@
 import { AdminSearch } from "@admin";
 import { type UserType } from "@/mocks/mockAdminUsers";
 import { useState } from "react";
-import AdminUserContents from "./AdminUserContents";
+import { AdminUserContents } from "@adminuser";
 
 const ROLE_OPTIONS = ["전체사용자", "사용자", "관리자", "에디터"];
 

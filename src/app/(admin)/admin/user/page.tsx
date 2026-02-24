@@ -1,4 +1,4 @@
-import AdminUserSection from "@/domains/admin/user/components/AdminUserSection";
+import { AdminUserSection } from "@adminuser";
 
 export default function UserPage() {
   return <AdminUserSection />;
