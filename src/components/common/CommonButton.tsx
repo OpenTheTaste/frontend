@@ -2,11 +2,7 @@ export interface CommonButtonProps extends React.ButtonHTMLAttributes<HTMLButton
   children: React.ReactNode;
 }
 
-export const CommonButton = ({
-  children,
-  className = "",
-  ...props
-}: CommonButtonProps) => {
+export const CommonButton = ({ children, className = "", ...props }: CommonButtonProps) => {
   return (
     <button
       className={`flex items-center justify-center gap-4 rounded-lg bg-ot-primary-gradient-btn cursor-pointer ${className}`}

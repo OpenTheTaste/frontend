@@ -39,18 +39,18 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   return createPortal(
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div
-        className="flex flex-col relative w-220 h-270 rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden"
+        className="flex flex-col relative w-200 max-h-[85vh] rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden shadow-black/50"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           className="absolute right-7 top-7 transition-opacity hover:opacity-70"
           onClick={handleClose}
         >
-          <X size={32} strokeWidth={2} />
+          <X size={24} strokeWidth={2} />
         </button>
 
-        <div className="flex-1 mt-30 mx-15 mb-4 overflow-y-auto no-scrollbar">
-          <div className="flex flex-col gap-7">
+        <div className="flex-1 mt-25 mx-15 mb-15 overflow-y-auto no-scrollbar">
+          <div className="flex flex-col gap-5">
             {mockReviews.map((review) => (
               <div key={review.id} className="relative flex items-start w-full gap-5 shrink-0">
                 {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}

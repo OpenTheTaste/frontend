@@ -9,10 +9,10 @@ export default function UserMenuButtons() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-5 mb-2">
       {/* "대시보드" 버튼 : 공통 컴포넌트 버튼 디자인 사용 */}
       <Link href="/mypage/dashboard">
-        <CommonButton className="py-3 px-[2.531rem] text-foreground text-[1.125rem] font-semibold">
+        <CommonButton className="py-2 px-6 text-foreground text-[16px] font-semibold">
           대시보드
         </CommonButton>
       </Link>
@@ -20,7 +20,7 @@ export default function UserMenuButtons() {
       {/* "내 댓글 목록" 버튼 : 공통 컴포넌트 버튼 디자인 사용 */}
       <CommonButton
         onClick={() => setIsModalOpen(true)}
-        className="py-3 px-6 text-foreground text-[1.125rem] font-semibold"
+        className="py-2 px-4 text-foreground text-[16px] font-semibold"
       >
         내 댓글 목록
       </CommonButton>
