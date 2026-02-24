@@ -8,8 +8,14 @@ const TYPE_STYLE_MAP: Record<UserType, string> = {
   중지됨: "bg-ot-gray-900 text-ot-text",
 };
 
-export default function AdminUserContents() {
-  const data = mockAdminUsers;
+interface AdminUserContentsProps {
+  filterRole?: UserType | null;
+}
+
+export default function AdminUserContents({ filterRole }: AdminUserContentsProps) {
+  const data = filterRole
+    ? mockAdminUsers.filter((user) => user.type === filterRole)
+    : mockAdminUsers;
 
   return (
     <div className="mt-4 rounded-lg overflow-hidden">
@@ -42,10 +48,8 @@ export default function AdminUserContents() {
                 </div>
               </td>
 
-              {/* ✅ 이메일 컬럼 */}
               <td className="py-5 text-center">{content.email}</td>
 
-              {/* ✅ 역할 컬럼 */}
               <td className="py-5 text-center">
                 <AdminBadge
                   variant={content.type}
@@ -53,7 +57,6 @@ export default function AdminUserContents() {
                 />
               </td>
 
-              {/* ✅ 가입일 컬럼 */}
               <td className="py-5 text-center font-semibold text-sm">
                 {content.signupDate}
               </td>
