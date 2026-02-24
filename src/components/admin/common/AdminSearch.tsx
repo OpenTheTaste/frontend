@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 import { ChevronDown, Search } from "lucide-react";
 import { useRef, useState } from "react";
 
-const ROLE_OPTIONS = ["전체사용자", "관리자", "에디터"];
+const ROLE_OPTIONS = ["사용자", "관리자", "에디터"];
 
 interface AdminSearchProps {
   placeholder?: string;
@@ -60,7 +60,7 @@ export default function AdminSearch({
         </button>
 
         {isOpen && (
-          <ul className="absolute top-full mt-1 w-full bg-ot-gray-800 border border-ot-gray-700 rounded-lg overflow-hidden z-10">
+          <ul className="absolute top-full mt-1 w-full bg-ot-gray-800 border border-ot-gray-700 rounded-lg overflow-hidden z-10 shadow-2xl">
             {options.map((option) => (
               <li key={option}>
                 <button
