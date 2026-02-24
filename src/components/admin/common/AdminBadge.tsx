@@ -1,6 +1,7 @@
 import { cn } from "@/utils/cn";
+import { UserType } from "@/mocks/mockAdminUsers";
 
-type AdminBadgeVariant = "공개" | "비공개" | "관리자" | "사용자" | "활성";
+type AdminBadgeVariant = "공개" | "비공개" | UserType | "활성";
 
 interface AdminBadgeProps {
   variant: AdminBadgeVariant;
