@@ -18,6 +18,8 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
+  const deleteTargetIdRef = useRef<number | null>(null);
+  deleteTargetIdRef.current = deleteTargetId; // 항상 최신 값 동기화
 
   useOutsideClick(modalRef, onClose, isOpen && deleteTargetId === null); // 관련 hook 추가하여 사용
 
@@ -27,7 +29,11 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
       document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
       const handleEsc = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
-          onClose();
+          if (deleteTargetIdRef.current !== null) {
+            setDeleteTargetId(null); // ConfirmModal만 닫기
+          } else {
+            onClose(); // MyReviewModal 닫기
+          }
         }
       };
       window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
