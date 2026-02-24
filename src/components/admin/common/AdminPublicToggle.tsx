@@ -1,6 +1,6 @@
 "use client";
 
-interface ToggleProps {
+export interface ToggleProps {
   isOn: boolean;
   onToggle: (next: boolean) => void;
 }

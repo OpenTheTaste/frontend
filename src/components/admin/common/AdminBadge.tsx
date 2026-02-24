@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn";
 type AdminBadgeVariant = "공개" | "비공개";
 
 // 뱃지 또 추가할 것 있으면 추가하기
-interface AdminBadgeProps {
+export interface AdminBadgeProps {
   variant: AdminBadgeVariant;
   className?: string;
 }

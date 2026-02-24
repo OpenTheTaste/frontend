@@ -2,7 +2,7 @@
 
 import { LogOut } from "lucide-react";
 
-const AdminHeader = () => {
+export const AdminHeader = () => {
   const handleLogout = () => {
     console.log("로그아웃 성공");
   };
@@ -17,5 +17,3 @@ const AdminHeader = () => {
     </header>
   );
 };
-
-export default AdminHeader;

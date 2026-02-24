@@ -1,4 +1,4 @@
-import AdminBadge from "@/components/admin/common/AdminBadge";
+import { AdminBadge } from "@admin-basecomponent";
 import { mockAdminContents } from "@/mocks/mockAdminContents";
 import { Edit } from "lucide-react";
 import Image from "next/image";
