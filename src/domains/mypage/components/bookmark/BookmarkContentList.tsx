@@ -1,10 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
+import ConfirmModal from "@/domains/mypage/components/ConfirmModal";
 import { BookmarkContentsMockData } from "@/mocks/mockbookmarkcontent";
 
 export default function BookmarkContentList() {
+  const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] = useState<boolean>(false);
+
+  const handleDelete = () => {
+    // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
+    console.log("북마크 콘텐츠 삭제 완료");
+    setIsDeleteContentModalOpen(false);
+  };
+
   return (
     <div className="w-full h-100 overflow-y-auto no-scrollbar grid grid-cols-2 gap-6">
       {BookmarkContentsMockData.map((item) => (
@@ -45,12 +55,21 @@ export default function BookmarkContentList() {
           <button
             type="button"
             aria-label="북마크 삭제"
+            onClick={() => setIsDeleteContentModalOpen(true)}
             className="absolute top-4 right-4 text-ot-gray-500 hover:text-ot-gray-600"
           >
             <X size={24} strokeWidth={2} />
           </button>
         </div>
       ))}
+      <ConfirmModal
+        isOpen={isDeleteContentModalOpen}
+        message="북마크를 삭제하시겠습니까?"
+        onConfirm={handleDelete}
+        onClose={() => setIsDeleteContentModalOpen(false)}
+        confirmText="네, 삭제합니다"
+        cancelText="남겨두기"
+      />
     </div>
   );
 }

@@ -63,6 +63,7 @@ export default function ConfirmModal({
               {confirmText}
             </CommonButton>
             <CommonButton
+              variant="secondary"
               className="w-32 h-10 text-foreground transition-opacity hover:opacity-70"
               onClick={onClose}
             >
