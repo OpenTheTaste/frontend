@@ -66,7 +66,8 @@ export default function AdminSearch({
                     onClick={() => handleSelect(option)}
                     className={cn(
                       "w-full text-left px-3 py-2 text-sm text-ot-text hover:bg-ot-gray-700 transition-colors",
-                      selected === option && "bg-ot-primary-gradient text-ot-white",
+                      selected === option &&
+                        "bg-ot-primary-gradient text-ot-text",
                     )}
                   >
                     {option}
