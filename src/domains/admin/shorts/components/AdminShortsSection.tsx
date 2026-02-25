@@ -3,7 +3,7 @@
 import { AdminSearch } from "@admin-basecomponent";
 import { useState } from "react";
 import { PublicType } from "@/types/admin/adminPublic";
-import AdminShortsList from "./AdminShortsList";
+import { AdminShortsList } from "@admin-shorts";
 
 const PUBLIC_FILTER_OPTIONS = ["전체", "공개", "비공개"] as const;
 

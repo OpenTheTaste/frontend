@@ -1,9 +1,9 @@
 "use client";
 
 import { UploadButton } from "@admin-contents";
-import AdminShortsUploadModal from "./AdminShortsUploadModal";
+import { AdminShortsUploadModal } from "@admin-shorts";
 
-export function AdminShortsUploadButton() {
+export default function AdminShortsUploadButton() {
   return (
     <UploadButton
       label="숏폼 업로드"

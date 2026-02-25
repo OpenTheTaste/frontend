@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { CommonButton } from "@/components/common";
 import { X } from "lucide-react";
-import AdminOriginalContentsDropdown from "./AdminOriginalContentsDropdown";
+import { AdminOriginalContentsDropdown } from "@admin-shorts";
 
 interface AdminShortsUploadModalProps {
   open: boolean;

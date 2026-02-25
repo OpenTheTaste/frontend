@@ -6,7 +6,7 @@ import { Edit } from "lucide-react";
 import Image from "next/image";
 
 import { useRouter, useSearchParams } from "next/navigation";
-// import { AdminShortsDetailModal } from "@/domains/admin/shorts/components/";
+import { AdminShortsDetailModal } from "@admin-shorts";
 
 interface AdminShortsListProps {
   filterPublic?: PublicType | null;
@@ -116,7 +116,7 @@ export default function AdminShortsList({
           </tbody>
         </table>
       </div>
-      {/* <AdminShortsDetailModal shorts={selectedshorts} onClose={handleClose} /> */}
+      <AdminShortsDetailModal shorts={selectedshorts} onClose={handleClose} />
     </>
   );
 }
