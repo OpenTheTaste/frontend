@@ -8,7 +8,7 @@ import { cn } from "@/utils/cn";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CATEGORY_STYLE_MAP, TAG_STYLE_MAP, badgeBase } from "../constants/seriesStyles";
-import { AdminSeriesDetailModal, AdminSeriesFixModal } from "@admin-series";
+import { AdminSeriesDetailModal, AdminSeriesEditModal } from "@admin-series";
 
 export function AdminSeriesContents() {
   const [data, setData] = useState<AdminSeries[]>(mockAdminSeries);
@@ -125,7 +125,7 @@ export function AdminSeriesContents() {
       </div>
 
       {action === "edit" && selectedSeries ? (
-        <AdminSeriesFixModal series={selectedSeries} onClose={handleClose} onUpdate={handleUpdate} />
+        <AdminSeriesEditModal series={selectedSeries} onClose={handleClose} onUpdate={handleUpdate} />
       ) : (
         selectedSeries && (
           <AdminSeriesDetailModal series={selectedSeries} onClose={handleClose} />

@@ -21,7 +21,7 @@ interface AdminSeriesFixModalProps {
   onUpdate: (updated: AdminSeries) => void;
 }
 
-export default function AdminSeriesFixModal({
+export default function AdminSeriesEditModal({
   series,
   onClose,
   onUpdate,
@@ -71,6 +71,8 @@ export default function AdminSeriesFixModal({
       thumbnailHorizontal: poster.horizontal ?? series.thumbnailHorizontal,
     });
   };
+
+  if (typeof document === "undefined") return null;
 
   return createPortal(
     <div
