@@ -1,7 +1,7 @@
 "use client";
 
-import { UploadButton } from "@admincontents";
-import { AdminSeriesUploadModal } from "@adminseries"
+import { UploadButton } from "@admin-contents";
+import { AdminSeriesUploadModal } from "@admin-series"
 
 export function AdminSeriesUploadButton() {
   return (

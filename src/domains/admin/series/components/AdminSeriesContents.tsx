@@ -7,7 +7,7 @@ import { mockAdminSeries } from "@/mocks/mockAdminSeries";
 import { cn } from "@/utils/cn";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CATEGORY_STYLE_MAP, TAG_STYLE_MAP, badgeBase } from "../constants/seriesStyles";
-import { AdminSeriesDetailModal } from "@adminseries";
+import { AdminSeriesDetailModal } from "@admin-series";
 
 export function AdminSeriesContents() {
   const data = mockAdminSeries;
