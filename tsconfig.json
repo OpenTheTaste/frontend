@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      // componets
       "@basecomponent": ["./src/components/common"],
       "@home": ["./src/domains/home/components"],
       "@mypage": ["./src/domains/mypage/components"],
@@ -31,8 +32,10 @@
       "@admin-upload": ["./src/components/admin/common/upload"],
       "@admin-user": ["./src/domains/admin/user/components"],
       "@admin-series": ["./src/domains/admin/series/components"],
-      "@admin-contents": ["./src/domains/admin/contents/components"]
-
+      "@admin-contents": ["./src/domains/admin/contents/components"],
+      // types
+      "@base-type": ["./src/types"],
+      "@admin-type": ["./src/types/admin"]
     }
   },
   "include": [
