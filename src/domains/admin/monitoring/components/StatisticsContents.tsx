@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import MonitoringCategoryTabs from "./MonitoringCategoryTabs";
-import CategoryCharts from "./CategoryCharts";
+import { MonitoringCategoryTabs } from "@admin-monitoring";
+import { CategoryCharts } from "@admin-monitoring";
 import { mockAdminCategoryStatistics, CategoryType } from "@/mocks/mockAdminCategoryStatistics";
 
 export default function StatisticsContents() {

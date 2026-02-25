@@ -1,6 +1,6 @@
 // /monitoring
-import { MonitoringContents } from "@/domains/admin/monitoring/components";
-import { StatisticsContents } from "@/domains/admin/monitoring/components";
+import { MonitoringContents } from "@admin-monitoring";
+import { StatisticsContents } from "@admin-monitoring";
 
 export default function MonitoringPage() {
   return (

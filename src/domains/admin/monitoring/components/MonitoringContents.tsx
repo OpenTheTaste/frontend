@@ -1,7 +1,6 @@
 import { Input } from "@/components/common";
+import { UploadStatusBadge, UploadProgressBar } from "@admin-monitoring";
 import { mockAdminUploadStatus } from "@/mocks/mockAdminUploadStatus";
-import UploadStatusBadge from "./UploadStatusBadge";
-import UploadProgressBar from "./UploadProgressBar";
 
 export default function MonitoringContents() {
   const uploadstatusdata = mockAdminUploadStatus;
