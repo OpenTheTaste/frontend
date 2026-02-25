@@ -24,15 +24,15 @@ export function AdminSeriesDetailModal({ series, onClose }: AdminSeriesDetailMod
         className="relative bg-ot-text rounded-xl w-full max-w-4xl mx-4 p-8 flex flex-col gap-6 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 닫기 버튼 */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-ot-placeholder hover:text-ot-text transition-colors"
-        >
-          <X size={20} />
-        </button>
-
-        <h2 className="text-2xl font-bold text-ot-background">시리즈 상세 정보</h2>
+        <div className="relative mb-8 text-ot-background">
+          <p className="text-2xl font-bold">시리즈 상세정보</p>
+          <button
+            onClick={onClose}
+            className="absolute top-0 right-0 text-ot-background hover:text-ot-gray-600 transition-colors cursor-pointer"
+          >
+            <X size={22} />
+          </button>
+        </div>
 
         {/* 썸네일 */}
         <section className="flex flex-col gap-2">
