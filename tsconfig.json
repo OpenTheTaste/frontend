@@ -29,9 +29,9 @@
       "@video-contents": ["./src/domains/video-contents/components"],
       "@admin-basecomponent": ["./src/components/admin/common"],
       "@admin-upload": ["./src/components/admin/common/upload"],
-      "@adminuser": ["./src/domains/admin/user/components"],
-      "@adminseries": ["./src/domains/admin/series/components"],
-      "@admincontents": ["./src/domains/admin/contents/components"]
+      "@admin-user": ["./src/domains/admin/user/components"],
+      "@admin-series": ["./src/domains/admin/series/components"],
+      "@admin-contents": ["./src/domains/admin/contents/components"]
 
     }
   },
