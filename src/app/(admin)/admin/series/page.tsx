@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { AdminSearch } from "@admin-basecomponent";
 import { AdminSeriesContents } from "@admin-series";
 
-export default function UserPage() {
+export default function SeiresPage() {
     return (
         <>
             <AdminSearch
