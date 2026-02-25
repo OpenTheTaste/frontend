@@ -1,13 +1,13 @@
 "use client";
 
 import { AdminSearch } from "@admin-basecomponent";
-import { AdminContentsList } from "@admin-contents"; // index 에서 변경 예정
 import { useState } from "react";
 import { PublicType } from "@/types/admin/adminPublic";
+import { AdminShortsList } from "@admin-shorts";
 
 const PUBLIC_FILTER_OPTIONS = ["전체", "공개", "비공개"] as const;
 
-export default function AdminContentsSection() {
+export default function AdminShrotsSection() {
   const [filterPublic, setFilterPublic] = useState<PublicType | null>(null);
 
   const handleSelect = (option: string) => {
@@ -17,12 +17,12 @@ export default function AdminContentsSection() {
   return (
     <>
       <AdminSearch
-        placeholder="콘텐츠 제목을 입력하세요."
+        placeholder="숏폼 제목을 입력하세요."
         options={[...PUBLIC_FILTER_OPTIONS]}
         onSelect={handleSelect}
       />
 
-      <AdminContentsList filterPublic={filterPublic} />
+      <AdminShortsList filterPublic={filterPublic} />
     </>
   );
 }
