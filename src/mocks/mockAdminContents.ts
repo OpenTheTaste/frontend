@@ -8,7 +8,7 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     title: "더 글로리 시즌1: 1화",
     duration: "00:50:00",
     description:
-      "고등학교 동급생들의 지독한 괴롭힘, 하지만 도움을 청할 곳은 그 어디에도 없다. 그렇게 절망의 늪에 빠진 문동은이 어느 날 새로운 삶의 목표를 발견한다.",
+      "고등학교 동급생들의 지독한 괴롭힘, 하지만 도움을 청할 곳은 그 어디에도 없다.그렇게 절망의 늪에 빠진 문동은이 어느 날 새로운 삶의 목표를 발견한다.",
     category: "드라마",
     tags: ["스릴러"],
     isPublic: true,
@@ -16,8 +16,13 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     bookmarkCount: 8543,
     cast: ["이정재", "황정민", "박정민"],
     uploadDate: "2024-02-10",
+
     type: "시리즈",
+    seriesTitle: "더 글로리 시즌1",
+
     format: "콘텐츠",
+    name: "더글로리_시즌1_1화.mp4",
+    size: 1_850_000_000,
   },
   {
     id: 2,
@@ -26,16 +31,21 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     title: "더 글로리 시즌1: 2화",
     duration: "00:50:00",
     description:
-      "박연진의 결혼식이 다가오는 가운데, 동은의 복수는 계획대로 진행되어 간다. 그즈음, 한 병원에서 운명적인 만남이 이루어진다.",
+      "고등학교 동급생들의 지독한 괴롭힘, 하지만 도움을 청할 곳은 그 어디에도 없다.그렇게 절망의 늪에 빠진 문동은이 어느 날 새로운 삶의 목표를 발견한다.",
     category: "드라마",
     tags: ["스릴러"],
     isPublic: true,
     uploader: "에디터_김철수",
-    bookmarkCount: 8543,
+    bookmarkCount: 8123,
     cast: ["이정재", "황정민", "박정민"],
-    uploadDate: "2024-02-10",
+    uploadDate: "2024-02-11",
+
     type: "시리즈",
+    seriesTitle: "더 글로리 시즌1",
+
     format: "콘텐츠",
+    name: "더글로리_시즌1_2화.mp4",
+    size: 1_920_000_000,
   },
   {
     id: 3,
@@ -43,8 +53,7 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     thumbnailHorizontal: "/images/recommendcontent_img.png",
     title: "범죄도시",
     duration: "01:46:00",
-    description:
-      "전설적인 괴물 형사 마석도와 서울 광역수사대가 신종 범죄 조직을 일망타진하는 이야기.",
+    description: "전설적인 괴물 형사 마석도...",
     category: "영화",
     tags: ["액션"],
     isPublic: true,
@@ -52,17 +61,21 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     bookmarkCount: 5210,
     cast: ["마동석", "손석구"],
     uploadDate: "2024-01-21",
+
     type: "단편",
+    seriesTitle: null, // ✅ 단편은 null
+
     format: "콘텐츠",
+    name: "범죄도시.mp4",
+    size: 3_400_000_000,
   },
   {
     id: 4,
     thumbnailVertical: "/images/recent_img.png",
     thumbnailHorizontal: "/images/recommendcontent_img.png",
-    title: "오징어 게임",
+    title: "오징어 게임 1화",
     duration: "00:55:00",
-    description:
-      "456억 원의 상금을 위해 목숨을 건 생존 게임에 참가한 사람들의 이야기.",
+    description: "456억 원의 상금을 위해...",
     category: "드라마",
     tags: ["스릴러"],
     isPublic: true,
@@ -70,16 +83,21 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     bookmarkCount: 12034,
     cast: ["이정재", "박해수", "오영수"],
     uploadDate: "2023-12-02",
+
     type: "시리즈",
+    seriesTitle: "오징어 게임 시즌1",
+
     format: "콘텐츠",
+    name: "오징어게임_시즌1_1화.mp4",
+    size: 2_100_000_000,
   },
   {
     id: 5,
     thumbnailVertical: "/images/recent_img.png",
     thumbnailHorizontal: "/images/recommendcontent_img.png",
-    title: "이상한 변호사 우영우",
+    title: "이상한 변호사 우영우 1화",
     duration: "01:00:00",
-    description: "자폐 스펙트럼 장애를 가진 천재 변호사 우영우의 성장 드라마.",
+    description: "자폐 스펙트럼 장애를 가진 천재 변호사...",
     category: "드라마",
     tags: ["법정"],
     isPublic: false,
@@ -87,8 +105,13 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     bookmarkCount: 7821,
     cast: ["박은빈", "강태오"],
     uploadDate: "2024-03-03",
+
     type: "시리즈",
+    seriesTitle: "이상한 변호사 우영우 시즌1",
+
     format: "콘텐츠",
+    name: "이상한_변호사_우영우_1화.mp4",
+    size: 2_100_000_000,
   },
   {
     id: 6,
@@ -96,8 +119,7 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     thumbnailHorizontal: "/images/recommendcontent_img.png",
     title: "기생충",
     duration: "02:12:00",
-    description:
-      "전원 백수인 기택 가족이 부유한 박 사장 가족에게 스며들면서 벌어지는 이야기.",
+    description: "전원 백수인 기택 가족이...",
     category: "영화",
     tags: ["스릴러"],
     isPublic: false,
@@ -105,7 +127,12 @@ export const mockAdminContents: AdminContentsDetailType[] = [
     bookmarkCount: 6732,
     cast: ["송강호", "이선균", "조여정"],
     uploadDate: "2024-01-15",
+
     type: "단편",
+    seriesTitle: null,
+
     format: "콘텐츠",
+    name: "기생충.mp4",
+    size: 2_100_000_000,
   },
 ];

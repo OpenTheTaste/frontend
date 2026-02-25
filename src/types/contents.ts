@@ -9,5 +9,5 @@ export interface BaseContentType {
   thumbnailVertical: string | null;
   thumbnailHorizontal: string | null;
   title: string;
-  duration: string;
+  seriesTitle: string | null;
 }

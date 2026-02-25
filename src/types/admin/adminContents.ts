@@ -1,4 +1,9 @@
-import { BaseContentType, Category, ContentType } from "@base-type";
+import {
+  BaseContentType,
+  Category,
+  ContentType,
+  VideoFileMeta,
+} from "@base-type";
 
 export type ContentFormat = "콘텐츠" | "숏폼";
 
@@ -10,7 +15,8 @@ export interface AdminContentsType extends BaseContentType {
   type: ContentType;
 }
 
-export interface AdminContentsDetailType extends AdminContentsType {
+export interface AdminContentsDetailType
+  extends AdminContentsType, VideoFileMeta {
   description: string;
   cast: string[];
   category: Category;

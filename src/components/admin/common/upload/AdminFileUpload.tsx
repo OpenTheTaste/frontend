@@ -39,7 +39,7 @@ export default function AdminFileUpload({
     video.onloadedmetadata = () => {
       onChange({
         name: file.name,
-        size: formatSize(file.size),
+        size: file.size,
         duration: formatDuration(video.duration),
       });
       URL.revokeObjectURL(video.src);
@@ -66,7 +66,7 @@ export default function AdminFileUpload({
             <div>
               <p className="text-sm text-ot-background">{value.name}</p>
               <p className="text-xs text-ot-gray-600 mt-0.5">
-                {value.size} | {value.duration}
+                {formatSize(value.size)} | {value.duration}
               </p>
             </div>
           </div>
