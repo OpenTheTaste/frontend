@@ -32,7 +32,7 @@ export function AdminSeriesDetailModal({ series, onClose }: AdminSeriesDetailMod
           <X size={20} />
         </button>
 
-        <h2 className="text-lg font-bold text-ot-background">시리즈 상세 정보</h2>
+        <h2 className="text-2xl font-bold text-ot-background">시리즈 상세 정보</h2>
 
         {/* 썸네일 */}
         <section className="flex flex-col gap-2">
