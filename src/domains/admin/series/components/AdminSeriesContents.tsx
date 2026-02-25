@@ -115,7 +115,7 @@ export function AdminSeriesContents() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <button onClick={() => handleEditClick(content.id)}>
-                    <Edit size={20} className="hover:stroke-ot-gray-600" />
+                    <Edit size={20} className="hover:stroke-ot-gray-600 cursor-pointer" />
                   </button>
                 </td>
               </tr>
