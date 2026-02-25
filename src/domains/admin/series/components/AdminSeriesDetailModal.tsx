@@ -40,7 +40,7 @@ export function AdminSeriesDetailModal({ series, onClose }: AdminSeriesDetailMod
           <div className="flex gap-3">
             <div className="flex flex-col gap-1 ">
               <p className="text-sm text-ot-background">세로 (5:7)</p>
-              <div className="relative w-60 aspect-5/7 rounded-md overflow-hidden">
+              <div className="relative w-60 aspect-5/7 rounded-lg overflow-hidden">
                 <Image
                   src={series.thumbnailVertical}
                   alt={`${series.title} 세로 썸네일`}
@@ -51,7 +51,7 @@ export function AdminSeriesDetailModal({ series, onClose }: AdminSeriesDetailMod
             </div>
             <div className="flex flex-col gap-1">
               <p className="text-sm text-ot-background">가로 (4:3)</p>
-              <div className="relative w-113 aspect-4/3 rounded-md overflow-hidden">
+              <div className="relative w-113 aspect-4/3 rounded-lg overflow-hidden">
                 <Image
                   src={series.thumbnailHorizontal}
                   alt={`${series.title} 가로 썸네일`}
