@@ -65,7 +65,7 @@ export default function AdminOriginalContentsDropdown({
                     setSearch(searchInputRef.current?.value ?? "");
                   }
                 }}
-                placeholder="시리즈 검색"
+                placeholder="원본 콘텐츠 검색"
                 className="flex-1 text-sm placeholder:text-ot-gray-600 outline-none text-ot-background"
               />
               <Search size={15} className="text-ot-gray-600 shrink-0" />

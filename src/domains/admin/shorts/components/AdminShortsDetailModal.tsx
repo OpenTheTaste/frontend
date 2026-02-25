@@ -55,12 +55,19 @@ export default function AdminShortsDetailModal({
           <div className="flex flex-col gap-2">
             <p className="text-base font-semibold">썸네일 (5:7)</p>
             <div className="relative max-w-60 aspect-5/7 rounded-lg overflow-hidden">
-              <Image
-                src={shorts.thumbnailShorts || ""}
-                alt={`${shorts.title} 세로 썸네일`}
-                fill
-                className="object-cover"
-              />
+              {shorts.thumbnailShorts ? (
+                <Image
+                  src={shorts.thumbnailShorts}
+                  alt={`${shorts.title} 세로 썸네일`}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div
+                  className="w-full h-full bg-ot-gray-200"
+                  aria-label="썸네일 없음"
+                />
+              )}
             </div>
           </div>
 
