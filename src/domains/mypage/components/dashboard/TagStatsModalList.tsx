@@ -43,7 +43,7 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
       e.preventDefault(); // 세로 스크롤 방지 (지금은 가로 방향)
       // 가로 방향으로 스크롤 움직임
       el.scrollTo({
-        left: el.scrollLeft - e.deltaY * 2,
+        left: el.scrollLeft - e.deltaY * 1,
         behavior: "auto",
       });
       checkScrollPosition();
@@ -51,6 +51,9 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
 
     el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("scroll", checkScrollPosition);
+
+    // 초기 상태 확인
+    checkScrollPosition();
 
     return () => {
       el.removeEventListener("wheel", onWheel);
@@ -83,11 +86,11 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
   return (
     <div className="w-full max-w-250 mx-auto relative group">
       {/* 가로 스크롤 */}
-      <div ref={scrollRef} className="flex gap-5 py-3 px-2 overflow-x-auto no-scrollbar">
+      <div ref={scrollRef} className="flex gap-6 py-4 overflow-x-auto no-scrollbar">
         {items.map((item) => (
           <div key={item.id} className="shrink-0">
             {/* 포스터 이미지 영역 (그림 320 * 240 크기) */}
-            <div className="w-50 h-37.5 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
+            <div className="w-45 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
               {item.image ? (
                 <Image src={item.image} alt={`content-${item.id}`} fill className="object-cover" />
               ) : (

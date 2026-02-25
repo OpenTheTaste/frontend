@@ -35,7 +35,7 @@ export default function MyPageContent() {
   return (
     <div className="flex flex-col w-full">
       {/* [3개월 내 시청내역 | 북마크] 선택 탭 바 & 구분선 묶음 */}
-      <div className="mt-20 flex justify-start relative z-10">
+      <div className="mt-8 flex justify-start relative z-10">
         {/* 탭 바 */}
         <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
         {/* 구분선 */}

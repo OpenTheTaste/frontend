@@ -7,7 +7,7 @@ export default function MyPage() {
     <div className="min-h-screen bg-ot-background flex flex-col items-center">
       <Header />
 
-      <main className="w-full max-w-480 flex-1 px-25 py-15.5">
+      <main className="w-full max-w-480 flex-1 px-12 py-6">
         <div className="flex justify-between items-end w-full">
           {/* 왼쪽 : 사용자 프로필 정보 */}
           <ProfileInfo />

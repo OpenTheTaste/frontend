@@ -14,7 +14,7 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
       <button
         onClick={() => onTabChange("recenthistory")}
         className={`flex items-center justify-center rounded-t-lg rounded-b-none text-[20px] font-semibold
-          px-8.25 py-4
+          px-5 py-3
           ${
             activeTab === "recenthistory"
               ? "bg-ot-primary-gradient text-ot-text rounded-t-xl border-b-2 border-ot-primary-500"
@@ -28,7 +28,7 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
       <button
         onClick={() => onTabChange("bookmark")}
         className={`flex items-center justify-center rounded-t-lg rounded-b-none text-[20px] font-semibold
-          px-21.25 py-4
+          px-16 py-3
           ${
             activeTab === "bookmark"
               ? "bg-ot-primary-gradient text-ot-text rounded-t-xl border-b-2 border-ot-primary-500"
