@@ -21,7 +21,7 @@ export function AdminSeriesDetailModal({ series, onClose }: AdminSeriesDetailMod
       onClick={onClose}
     >
       <div
-        className="relative bg-ot-text rounded-xl w-full max-w-4xl mx-4 p-8 flex flex-col gap-6 max-h-[90vh] overflow-y-auto"
+        className="relative bg-ot-text rounded-lg w-full max-w-4xl mx-4 p-8 flex flex-col gap-6 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative mb-8 text-ot-background">
