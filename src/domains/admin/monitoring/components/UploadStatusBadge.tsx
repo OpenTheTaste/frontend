@@ -12,10 +12,10 @@ export default function UploadStatusBadge({
   className,
 }: UploadStatusBadgeProps) {
   const statusStyles = {
-    ORIGIN_UPLOADED: "bg-ot-secondary-200 text-ot-secondary-600 ",
-    TRANSCODING: "bg-ot-primary-200 text-ot-primary-500 ",
-    UPLOADING: "bg-ot-secondary-400 text-ot-secondary-900 ",
-    COMPLETED: "bg-ot-gray-600 text-ot-gray-900 ",
+    ORIGIN_UPLOADED: "bg-[#A885F6] text-ot-secondary-800",
+    TRANSCODING: "bg-[#F59E0B] text-ot-text",
+    UPLOADING: "bg-[#6EA3F8] text-ot-secondary-900",
+    COMPLETED: "bg-ot-primary-200 text-ot-primary-700",
   };
 
   return (

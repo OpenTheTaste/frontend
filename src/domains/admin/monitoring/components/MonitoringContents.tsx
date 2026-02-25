@@ -2,6 +2,12 @@ import { Input } from "@/components/common";
 import { UploadStatusBadge, UploadProgressBar } from "@admin-monitoring";
 import { mockAdminUploadStatus } from "@/mocks/mockAdminUploadStatus";
 
+const formatSize = (bytes: number) => {
+  if (bytes >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(1)}GB`;
+  if (bytes >= 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)}MB`;
+  return `${(bytes / 1024).toFixed(1)}KB`;
+};
+
 export default function MonitoringContents() {
   const uploadstatusdata = mockAdminUploadStatus;
 
@@ -25,34 +31,32 @@ export default function MonitoringContents() {
 
         {/* 구분선 */}
         <div className="h-0.5 bg-ot-gray-600 w-full" />
-
-        <table className="w-full text-left border-collapse table-auto">
-          <thead>
-            <tr className="border-b border-ot-gray-600">
-              <th className="w-[35%] pl-8 py-4 font-semibold text-ot-text text-left">파일명</th>
-              <th className="w-[12%] px-3 py-4 font-semibold text-ot-text text-left">크기</th>
-              <th className="w-[12%] px-3 py-4 font-semibold text-ot-text text-left">업로더</th>
-              <th className="w-[12%] px-3 py-4 font-semibold text-ot-text text-left">상태</th>
-              <th className="w-[15%] pr-8 py-4 font-semibold text-ot-text text-left">진행률</th>
-            </tr>
-          </thead>
-        </table>
       </div>
 
-      {/* 테이블 영역 */}
+      {/* 테이블 전체 */}
       <div className="w-full">
-        {/* overflow-y-auto no-scrollbar 스크롤바 없앨 때 옵션 붙이기 */}
-        <div className="max-h-85 overflow-y-auto scrollbar-hide">
+        <div className="max-h-100 overflow-y-auto scrollbar-hide">
           <table className="w-full text-left border-collapse table-auto">
+            <thead className="sticky top-0 bg-ot-gray-700 z-10">
+              <tr className="border-b border-ot-gray-600">
+                <th className="pl-8 py-4 font-semibold text-ot-text w-[35%] text-center">파일명</th>
+                <th className="px-3 py-4 font-semibold text-ot-text w-[15%] text-center">크기</th>
+                <th className="px-3 py-4 font-semibold text-ot-text w-[15%] text-center">업로더</th>
+                <th className="px-3 py-4 font-semibold text-ot-text w-[15%] text-center">상태</th>
+                <th className="pr-8 py-4 font-semibold text-ot-text w-[20%] text-center">진행률</th>
+              </tr>
+            </thead>
+
+            {/* 리스트 목록 */}
             <tbody className="divide-y divide-ot-gray-800">
               {uploadstatusdata.map((item, index) => (
-                <tr key={index}>
-                  <td className="w-[35%] pl-8 py-4 text-ot-text truncate text-left">
-                    {item.fileName}
+                <tr key={index} className="hover:bg-ot-gray-700/50 transition-colors">
+                  <td className="pl-8 py-4 text-ot-text truncate text-center">{item.fileName}</td>
+                  <td className="px-3 py-4 text-ot-text text-center">
+                    {formatSize(item.fileSize)}
                   </td>
-                  <td className="w-[12%] px-3 py-4 text-ot-text text-left">{item.fileSize}</td>
-                  <td className="w-[12%] px-3 py-4 text-ot-text text-left">{item.uploader}</td>
-                  <td className="w-[12%] pr-4 py-4 text-left">
+                  <td className="px-3 py-4 text-ot-text text-center">{item.uploader}</td>
+                  <td className="px-3 py-4 text-center">
                     <UploadStatusBadge
                       status={item.status}
                       text={
@@ -66,12 +70,11 @@ export default function MonitoringContents() {
                       }
                     />
                   </td>
-                  <td className="w-[15%] pr-8 py-4 text-left">
+                  <td className="pr-8 py-4 text-center">
                     <UploadProgressBar progress={item.progress} />
                   </td>
                 </tr>
               ))}
-              <tr className="hover:bg-ot-gray-700 transition-colors"></tr>
             </tbody>
           </table>
         </div>
