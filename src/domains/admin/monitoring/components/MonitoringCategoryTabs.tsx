@@ -17,7 +17,7 @@ export default function MonitoringCategoryTabs({
           key={category}
           onClick={() => onCategoryChange(category)}
           className={cn(
-            "px-4 py-1 rounded-md text-[14x] transition-all duration-200",
+            "px-4 py-1 rounded-md text-[14px] transition-all duration-200",
             activeCategory === category
               ? "bg-ot-primary-400 text-ot-text"
               : "bg-ot-primary-200 text-ot-text hover:bg-ot-primary-400",

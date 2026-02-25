@@ -23,6 +23,7 @@ export default function MonitoringContents() {
           {/* Input 입력칸 */}
           <div className="flex-1">
             <Input
+              aria-label="콘텐츠 제목 검색"
               placeholder="콘텐츠 제목을 입력하세요"
               className="bg-ot-gray-800 border-none text-ot-text focus:placeholder-transparent"
             />
@@ -49,8 +50,8 @@ export default function MonitoringContents() {
 
             {/* 리스트 목록 */}
             <tbody className="divide-y divide-ot-gray-800">
-              {uploadstatusdata.map((item, index) => (
-                <tr key={index} className="hover:bg-ot-gray-700/50 transition-colors">
+              {uploadstatusdata.map((item) => (
+                <tr key={item.id} className="hover:bg-ot-gray-700/50 transition-colors">
                   <td className="pl-8 py-4 text-ot-text truncate text-center">{item.fileName}</td>
                   <td className="px-3 py-4 text-ot-text text-center">
                     {formatSize(item.fileSize)}
