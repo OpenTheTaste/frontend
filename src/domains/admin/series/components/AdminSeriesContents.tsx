@@ -3,18 +3,21 @@
 import Image from "next/image";
 import { Edit } from "lucide-react";
 import { AdminBadge } from "@admin-basecomponent";
-import { mockAdminSeries } from "@/mocks/mockAdminSeries";
+import { AdminSeries, mockAdminSeries } from "@/mocks/mockAdminSeries";
 import { cn } from "@/utils/cn";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CATEGORY_STYLE_MAP, TAG_STYLE_MAP, badgeBase } from "../constants/seriesStyles";
-import { AdminSeriesDetailModal } from "@admin-series";
+import { AdminSeriesDetailModal, AdminSeriesFixModal } from "@admin-series";
 
 export function AdminSeriesContents() {
-  const data = mockAdminSeries;
+  const [data, setData] = useState<AdminSeries[]>(mockAdminSeries);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const selectedId = searchParams.get("id");
+    const selectedId = searchParams.get("id");
+    const action = searchParams.get("action");
+  
   const selectedSeries = selectedId
     ? (data.find((s) => s.id === Number(selectedId)) ?? null)
     : null;
@@ -25,6 +28,15 @@ export function AdminSeriesContents() {
 
   const handleClose = () => {
     router.push("?", { scroll: false });
+  };
+    
+    const handleEditClick = (id: number) => {
+    router.push(`?id=${id}&action=edit`, { scroll: false });
+  };
+
+  const handleUpdate = (updated: AdminSeries) => {
+    setData((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+    handleClose();
   };
 
   return (
@@ -102,7 +114,7 @@ export function AdminSeriesContents() {
                   className="py-3 text-center"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <button>
+                  <button onClick={() => handleEditClick(content.id)}>
                     <Edit size={20} className="hover:stroke-ot-gray-600" />
                   </button>
                 </td>
@@ -112,10 +124,13 @@ export function AdminSeriesContents() {
         </table>
       </div>
 
-      <AdminSeriesDetailModal
-        series={selectedSeries}
-        onClose={handleClose}
-      />
+      {action === "edit" && selectedSeries ? (
+        <AdminSeriesFixModal series={selectedSeries} onClose={handleClose} onUpdate={handleUpdate} />
+      ) : (
+        selectedSeries && (
+          <AdminSeriesDetailModal series={selectedSeries} onClose={handleClose} />
+        )
+      )}
     </>
   );
 }
