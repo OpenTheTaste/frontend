@@ -9,13 +9,6 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
       />
 
       <div className="px-12 pb-12">{children}</div>
-
-      <AdminTitle
-        title="대시보드"
-        description="카테고리별 시청 통계 및 콘텐츠 전환율 지표를 분석합니다."
-      />
-
-      <div className="px-12 pb-12">{children}</div>
     </>
   );
 }

@@ -36,7 +36,8 @@
       "@video-contents": ["./src/domains/video-contents/components"],
       "@admin-basecomponent": ["./src/components/admin/common"],
       "@admin-upload": ["./src/components/admin/common/upload"],
-      "@adminuser": ["./src/domains/admin/user/components"]
+      "@adminuser": ["./src/domains/admin/user/components"],
+      "@admin-monitoring": ["./src/domains/admin/monitoring/components"]
     }
   },
   "include": [
