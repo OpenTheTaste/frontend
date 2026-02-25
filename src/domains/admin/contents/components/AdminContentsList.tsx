@@ -6,7 +6,7 @@ import { Edit } from "lucide-react";
 import Image from "next/image";
 import { PublicType } from "@/types/admin/adminPublic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AdminContentsDetailModal } from "./AdminContentsDetailModal";
+import { AdminContentsDetailModal } from "@admin-contents";
 
 interface AdminContentsListProps {
   filterPublic?: PublicType | null;
@@ -68,12 +68,19 @@ export default function AdminContentsList({
               >
                 <td className="py-3">
                   <div className="relative aspect-5/7 max-w-12 w-full mx-auto">
-                    <Image
-                      src={content.thumbnailVertical || ""}
-                      alt={content.title}
-                      fill
-                      className="object-cover rounded-md"
-                    />
+                    {content.thumbnailVertical ? (
+                      <Image
+                        src={content.thumbnailVertical}
+                        alt={content.title}
+                        fill
+                        className="object-cover rounded-md"
+                      />
+                    ) : (
+                      <div
+                        className="w-full h-full rounded-md bg-ot-gray-800"
+                        aria-label="썸네일 없음"
+                      />
+                    )}
                   </div>
                 </td>
                 <td className="py-3">
@@ -100,7 +107,7 @@ export default function AdminContentsList({
                 </td>
 
                 <td className="py-3 text-center ">
-                  <button>
+                  <button onClick={(e) => e.stopPropagation()}>
                     <Edit size={20} className="hover:stroke-ot-gray-600" />
                   </button>
                 </td>

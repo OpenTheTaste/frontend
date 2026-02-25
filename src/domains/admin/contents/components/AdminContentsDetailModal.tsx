@@ -16,7 +16,7 @@ interface AdminContentsDetailModalProps {
   onClose: () => void;
 }
 
-export function AdminContentsDetailModal({
+export default function AdminContentsDetailModal({
   contents,
   onClose,
 }: AdminContentsDetailModalProps) {
@@ -38,7 +38,7 @@ export function AdminContentsDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative mb-8 text-ot-background">
-          <p className="text-2xl font-bold">시리즈 상세정보</p>
+          <p className="text-2xl font-bold">콘텐츠 상세정보</p>
           <button
             onClick={onClose}
             className="absolute top-0 right-0 text-ot-background hover:text-ot-gray-600 transition-colors cursor-pointer"
