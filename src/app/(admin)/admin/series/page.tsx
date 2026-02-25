@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { AdminSearch } from "@admin-basecomponent";
-import { AdminSeriesContents } from "@adminseries";
+import { AdminSeriesContents } from "@admin-series";
 
 export default function UserPage() {
     return (
