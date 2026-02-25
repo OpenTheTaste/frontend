@@ -6,8 +6,8 @@ export interface ShortsType extends VideoFileMeta {
   description: string;
   cast: string[];
   originalContents: {
-    orinalId: number;
-    orinalTitle: string;
+    originalId: number;
+    originalTitle: string;
     category: Category;
     tags: string[];
   };
@@ -24,8 +24,8 @@ export const mockAdminShorts: ShortsType[] = [
     description: "더글로리 시즌1에서 동은이 복수를 결심하는 결정적인 장면.",
     cast: ["송혜교", "이도현"],
     originalContents: {
-      orinalId: 1,
-      orinalTitle: "더 글로리 시즌1",
+      originalId: 1,
+      originalTitle: "더 글로리 시즌1",
       category: "드라마",
       tags: ["스릴러"],
     },
@@ -45,8 +45,8 @@ export const mockAdminShorts: ShortsType[] = [
     description: "범죄도시에서 마석도의 통쾌한 액션 장면을 담은 숏폼.",
     cast: ["마동석"],
     originalContents: {
-      orinalId: 3,
-      orinalTitle: "범죄도시",
+      originalId: 3,
+      originalTitle: "범죄도시",
       category: "영화",
       tags: ["액션"],
     },
@@ -66,8 +66,8 @@ export const mockAdminShorts: ShortsType[] = [
     description: "이상한 변호사 우영우에서 인상 깊었던 변론 장면.",
     cast: ["박은빈"],
     originalContents: {
-      orinalId: 5,
-      orinalTitle: "이상한 변호사 우영우 시즌1",
+      originalId: 5,
+      originalTitle: "이상한 변호사 우영우 시즌1",
       category: "드라마",
       tags: ["법정"],
     },
@@ -87,8 +87,8 @@ export const mockAdminShorts: ShortsType[] = [
     description: "오징어게임에서 참가자들이 첫 번째 게임에 참여하는 장면.",
     cast: ["이정재", "박해수"],
     originalContents: {
-      orinalId: 4,
-      orinalTitle: "오징어 게임 시즌1",
+      originalId: 4,
+      originalTitle: "오징어 게임 시즌1",
       category: "드라마",
       tags: ["스릴러"],
     },

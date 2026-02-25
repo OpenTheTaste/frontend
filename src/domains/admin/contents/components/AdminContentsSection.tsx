@@ -1,7 +1,7 @@
 "use client";
 
 import { AdminSearch } from "@admin-basecomponent";
-import AdminContentsList from "./AdminContentsList"; // index 에서 변경 예정
+import { AdminContentsList } from "@admin-contents"; // index 에서 변경 예정
 import { useState } from "react";
 import { PublicType } from "@/types/admin/adminPublic";
 
