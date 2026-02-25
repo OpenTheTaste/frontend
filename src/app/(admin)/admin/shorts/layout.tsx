@@ -1,5 +1,5 @@
 import { AdminTitle } from "@admin-basecomponent";
-import { AdminShortsUploadButton } from "@/domains/admin/shorts/components/AdminShortsUploadButton";
+import { AdminShortsUploadButton } from "@admin-shorts";
 
 export default function ShortsLayout({
   children,
