@@ -3,15 +3,29 @@
 import Image from "next/image";
 import { Edit } from "lucide-react";
 import { AdminBadge } from "@admin-basecomponent";
-import { AdminSeries, mockAdminSeries } from "@/mocks/mockAdminSeries";
+import { mockAdminSeries } from "@/mocks/mockAdminSeries";
 import { cn } from "@/utils/cn";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CATEGORY_STYLE_MAP, TAG_STYLE_MAP, badgeBase } from "../constants/seriesStyles";
 import { AdminSeriesDetailModal } from "@adminseries";
 
 export function AdminSeriesContents() {
   const data = mockAdminSeries;
-  const [selectedSeries, setSelectedSeries] = useState<AdminSeries | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const selectedId = searchParams.get("id");
+  const selectedSeries = selectedId
+    ? (data.find((s) => s.id === Number(selectedId)) ?? null)
+    : null;
+
+  const handleRowClick = (id: number) => {
+    router.push(`?id=${id}`, { scroll: false });
+  };
+
+  const handleClose = () => {
+    router.push("?", { scroll: false });
+  };
 
   return (
     <>
@@ -41,7 +55,7 @@ export function AdminSeriesContents() {
             {data.map((content) => (
               <tr
                 key={content.id}
-                onClick={() => setSelectedSeries(content)}
+                onClick={() => handleRowClick(content.id)}
                 className="hover:bg-ot-gray-800/30 transition-colors cursor-pointer"
               >
                 <td className="py-3">
@@ -100,7 +114,7 @@ export function AdminSeriesContents() {
 
       <AdminSeriesDetailModal
         series={selectedSeries}
-        onClose={() => setSelectedSeries(null)}
+        onClose={handleClose}
       />
     </>
   );
