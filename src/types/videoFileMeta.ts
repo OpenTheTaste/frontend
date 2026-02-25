@@ -1,5 +1,5 @@
 export interface VideoFileMeta {
   name: string;
-  size: string;
+  size: number;
   duration: string;
 }

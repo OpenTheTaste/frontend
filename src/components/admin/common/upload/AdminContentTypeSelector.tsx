@@ -1,6 +1,6 @@
 "use client";
 
-import { CONTENT_TYPES, ContentType } from "@/types/contentType";
+import { CONTENT_TYPES, ContentType } from "@/types/contents";
 
 export interface AdminContentTypeSelectorProps {
   value: ContentType;

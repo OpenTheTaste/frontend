@@ -17,7 +17,7 @@ import {
   PosterState,
   AdminContentTypeSelector,
 } from "@admin-upload";
-import { ContentType } from "@/types/contentType";
+import { ContentType } from "@/types/contents";
 
 interface AdminUploadModalProps {
   open: boolean;
