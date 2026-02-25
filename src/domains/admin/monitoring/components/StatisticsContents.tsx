@@ -1,4 +1,13 @@
+"use client";
+import { useState } from "react";
+import MonitoringCategoryTabs from "./MonitoringCategoryTabs";
+import CategoryCharts from "./CategoryCharts";
+import { mockAdminCategoryStatistics, CategoryType } from "@/mocks/mockAdminCategoryStatistics";
+
 export default function StatisticsContents() {
+  const [activeCategory, setActiveCategory] = useState<CategoryType>("영화");
+  const currentStatData = mockAdminCategoryStatistics[activeCategory];
+
   return (
     <div className="w-full flex flex-col">
       {/* 제목 & 설명글 영역 */}
@@ -15,13 +24,19 @@ export default function StatisticsContents() {
 
       <section className="grid grid-cols-12 gap-6 items-start">
         {/* [왼쪽] 카테고리별 #태그 시청 통계 그래프 모음 */}
-        <div className="col-span-8 bg-ot-gray-700 rounded-xl p-6 h-90">
-          <h3 className="text-ot-text font-bold text-[18px] mb-4">
+        <div className="col-span-8 bg-ot-gray-700 rounded-xl p-8 h-90 flex flex-col">
+          <h3 className="text-ot-text font-bold text-[18px] mb-3">
             카테고리별 #태그 시청 통계 (월별)
           </h3>
-          {/* 차트 컴포넌트가 들어갈 자리 */}
-          <div className="w-full h-62 bg-ot-gray-900 rounded-lg flex items-center justify-center">
-            <span className="text-ot-gray-600">Chart Placeholder</span>
+
+          {/* 탭 메뉴 */}
+          <MonitoringCategoryTabs
+            activeCategory={activeCategory}
+            onCategoryChange={setActiveCategory}
+          />
+          {/* 그래프 차트 영역 */}
+          <div className="flex-1 min-h-0">
+            <CategoryCharts data={currentStatData} />
           </div>
         </div>
 
