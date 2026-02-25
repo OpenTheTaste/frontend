@@ -1,6 +1,6 @@
 "use client";
 
-import RecentContentList from "@/domains/mypage/components/recenthistory/RecentContentList";
+import { RecentContentList } from "@mypage-recenthistory";
 import { mockRecentData } from "@/mocks/mockRecent";
 
 export default function RecentContentBox() {

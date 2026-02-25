@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import TabBar from "@/domains/mypage/components/main/TabBar";
-import RecentContentBox from "@/domains/mypage/components/recenthistory/RecentContentBox";
-import BookmarkBox from "@/domains/mypage/components/bookmark/BookmarkBox";
+import { TabBar } from "@mypage-main";
+import { RecentContentBox } from "@mypage-recenthistory";
+import { BookmarkBox } from "@mypage-bookmark";
 
 type TabType = "recenthistory" | "bookmark";
 

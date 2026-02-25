@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import MyReviewModal from "@/domains/mypage/components/main/MyReviewModal";
+import { MyReviewModal } from "@mypage-main";
 import { CommonButton } from "@basecomponent";
 
 export default function UserMenuButtons() {

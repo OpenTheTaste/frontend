@@ -23,14 +23,20 @@
       "@basecomponent": ["./src/components/common"],
       "@home": ["./src/domains/home/components"],
       "@mypage": ["./src/domains/mypage/components"],
+      "@mypage-bookmark": ["./src/domains/mypage/components/bookmark"],
+      "@mypage-dashboard": ["./src/domains/mypage/components/dashboard"],
+      "@mypage-profile": ["./src/domains/mypage/components/profile"],
+      "@mypage-recenthistory": ["./src/domains/mypage/components/recenthistory"],
+      "@mypage-withdraw": ["./src/domains/mypage/components/withdraw"],
+      "@mypage-main": ["./src/domains/mypage/components/main"],
       "@onboard": ["./src/domains/onboard/components"],
+      "@onboard-interest": ["./src/domains/onboard/components/Interest"],
       "@video": ["./src/domains/player/video/components"],
       "@shorts": ["./src/domains/player/shorts/components"],
       "@video-contents": ["./src/domains/video-contents/components"],
       "@admin-basecomponent": ["./src/components/admin/common"],
       "@admin-upload": ["./src/components/admin/common/upload"],
       "@adminuser": ["./src/domains/admin/user/components"]
-
     }
   },
   "include": [

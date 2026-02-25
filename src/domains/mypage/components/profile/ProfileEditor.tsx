@@ -2,7 +2,7 @@
 
 import { useState, KeyboardEvent } from "react";
 import Image from "next/image";
-import { Input } from "@/components/common/Input";
+import { Input } from "@basecomponent";
 
 export default function ProfileEditor() {
   const [inputValue, setInputValue] = useState("");

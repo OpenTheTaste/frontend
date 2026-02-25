@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { RightListScroll, LeftListScroll} from "@mypage"
+import { RightListScroll, LeftListScroll } from "@mypage";
 import { WithdrawContent } from "@/domains/mypage/types/withdrawcontent";
 
 interface WithdrawContentListProps {

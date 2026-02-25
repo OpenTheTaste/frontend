@@ -1,7 +1,7 @@
 "use client";
 
 import { DashboardContentsMockData } from "@/mocks/mockDashboardcontent";
-import DashboardContentList from "@/domains/mypage/components/dashboard/DashboardContentList";
+import { DashboardContentList } from "@mypage-dashboard";
 
 export default function DashboardContentBox() {
   return (
