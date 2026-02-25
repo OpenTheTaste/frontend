@@ -1,7 +1,7 @@
 import { AdminSeriesUploadButton } from "@admin-series";
 import { AdminTitle } from "@admin-basecomponent";
 
-export default function UserLayout({
+export default function SeriesLayout({
   children,
 }: {
   children: React.ReactNode;
