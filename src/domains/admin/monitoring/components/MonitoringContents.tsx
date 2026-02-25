@@ -37,7 +37,7 @@ export default function MonitoringContents() {
       {/* 테이블 전체 */}
       <div className="w-full">
         <div className="max-h-100 overflow-y-auto scrollbar-hide">
-          <table className="w-full text-left border-collapse table-auto">
+          <table className="w-full text-left border-collapse table-fixed">
             <thead className="sticky top-0 bg-ot-gray-700 z-10">
               <tr className="border-b border-ot-gray-600">
                 <th className="pl-8 py-4 font-semibold text-ot-text w-[35%] text-center">파일명</th>
@@ -52,7 +52,9 @@ export default function MonitoringContents() {
             <tbody className="divide-y divide-ot-gray-800">
               {uploadstatusdata.map((item) => (
                 <tr key={item.id} className="hover:bg-ot-gray-700/50 transition-colors">
-                  <td className="pl-8 py-4 text-ot-text truncate text-center">{item.fileName}</td>
+                  <td className="pl-8 py-4 text-ot-text truncate text-center max-w-0 overflow-hidden">
+                    {item.fileName}
+                  </td>
                   <td className="px-3 py-4 text-ot-text text-center">
                     {formatSize(item.fileSize)}
                   </td>
