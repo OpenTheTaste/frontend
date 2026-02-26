@@ -55,6 +55,13 @@
   --color-ot-text: #fafaf8;
   --color-ot-background: #242424;
   --color-ot-placeholder: #aeaeae;
+  
+  --color-ot-movie: #FD6986;
+  --color-ot-drama: #FF5CCF;
+  --color-ot-comedy: #FF8A00;
+  --color-ot-news: #89CE3A;
+  --color-ot-sports: #529CFF;
+  --color-ot-docu: #00C2C0;
 
   --gradient-ot-primary-diagonal: linear-gradient(180deg, #ff6a87 0%, #d7526c 100%);
 }
