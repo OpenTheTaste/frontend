@@ -1,5 +1,5 @@
 "use client";
-import { mockAdminShorts } from "@/mocks/mockAdminShorts";
+import { mockAdminShorts, ShortsType } from "@/mocks/mockAdminShorts";
 import { PublicType } from "@/types/admin";
 import { AdminBadge } from "@admin-basecomponent";
 import { Edit } from "lucide-react";
@@ -7,6 +7,8 @@ import Image from "next/image";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { AdminShortsDetailModal } from "@admin-shorts";
+import { useState } from "react";
+import AdminShortsEditModal from "./AdminShortsEditModal";
 
 interface AdminShortsListProps {
   filterPublic?: PublicType | null;
@@ -15,16 +17,20 @@ interface AdminShortsListProps {
 export default function AdminShortsList({
   filterPublic,
 }: AdminShortsListProps) {
-  const data = filterPublic
-    ? mockAdminShorts.filter((short) =>
+  const [data, setData] = useState<ShortsType[]>(mockAdminShorts);
+
+  const filteredData = filterPublic
+    ? data.filter((short) =>
         filterPublic === "공개" ? short.isPublic : !short.isPublic,
       )
-    : mockAdminShorts;
+    : data;
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const selectedId = searchParams.get("id");
+  const action = searchParams.get("action");
+
   const selectedshorts = selectedId
     ? (data.find((s) => s.id === Number(selectedId)) ?? null)
     : null;
@@ -35,6 +41,15 @@ export default function AdminShortsList({
 
   const handleClose = () => {
     router.push("?", { scroll: false });
+  };
+
+  const handleEditClick = (id: number) => {
+    router.push(`?id=${id}&action=edit`, { scroll: false });
+  };
+
+  const handleUpdate = (updated: ShortsType) => {
+    setData((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+    handleClose();
   };
 
   return (
@@ -60,7 +75,7 @@ export default function AdminShortsList({
           </thead>
 
           <tbody className="bg-ot-gray-700 divide-y divide-ot-gray-800">
-            {data.map((short) => (
+            {filteredData.map((short) => (
               <tr
                 key={short.id}
                 onClick={() => handleRowClick(short.id)}
@@ -106,9 +121,15 @@ export default function AdminShortsList({
                   {short.uploadDate}
                 </td>
 
-                <td className="py-3 text-center ">
-                  <button onClick={(e) => e.stopPropagation()}>
-                    <Edit size={20} className="hover:stroke-ot-gray-600" />
+                <td
+                  className="py-3 text-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button onClick={() => handleEditClick(short.id)}>
+                    <Edit
+                      size={20}
+                      className="hover:stroke-ot-gray-600 cursor-pointer"
+                    />
                   </button>
                 </td>
               </tr>
@@ -116,7 +137,20 @@ export default function AdminShortsList({
           </tbody>
         </table>
       </div>
-      <AdminShortsDetailModal shorts={selectedshorts} onClose={handleClose} />
+      {action === "edit" && selectedshorts ? (
+        <AdminShortsEditModal
+          shorts={selectedshorts}
+          onClose={handleClose}
+          onUpdate={handleUpdate}
+        />
+      ) : (
+        selectedshorts && (
+          <AdminShortsDetailModal
+            shorts={selectedshorts}
+            onClose={handleClose}
+          />
+        )
+      )}
     </>
   );
 }
