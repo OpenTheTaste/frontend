@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CommonButton } from "@basecomponent";
-import ConfirmModal from "../ConfirmModal";
+import { ConfirmModal } from "@mypage";
 
 export default function AccountActionButtons() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { mockReviews } from "@/mocks/mockReviews";
-import ConfirmModal from "@/domains/mypage/components/ConfirmModal";
+import { ConfirmModal } from "@mypage";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface MyReviewModalProps {

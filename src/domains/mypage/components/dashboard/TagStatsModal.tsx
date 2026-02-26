@@ -4,8 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { RecommendedContent } from "@/domains/mypage/types/dashboard";
-import TagStatsModalList from "@/domains/mypage/components/dashboard/TagStatsModalList";
-import TagStatsModalGraph from "@/domains/mypage/components/dashboard/TagStatsModalGraph";
+import { TagStatsModalList, TagStatsModalGraph } from "@mypage-dashboard";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface TagStatsModalProps {

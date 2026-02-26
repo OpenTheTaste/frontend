@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { RecommendedContent } from "@/domains/mypage/types/dashboard";
-import LeftListScroll from "@/domains/mypage/components/LeftListScroll";
-import RightListScroll from "@/domains/mypage/components/RightListScroll";
+import { LeftListScroll, RightListScroll } from "@mypage";
 
 interface TagStatsModalListProps {
   items: RecommendedContent[];
