@@ -6,7 +6,7 @@ import { useRef } from "react";
 
 export interface PosterState {
   vertical: string | null;
-  horizontal: string | null;
+  horizontal?: string | null;
 }
 
 export interface AdminPosterUploadProps {

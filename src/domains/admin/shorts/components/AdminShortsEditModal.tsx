@@ -1,23 +1,17 @@
 "use client";
 
+import { CommonButton } from "@basecomponent";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
-  AdminFileUpload,
   AdminPosterUpload,
   AdminPublicStatus,
   AdminTextInput,
   PosterState,
 } from "@admin-upload";
-import { VideoFileMeta } from "@/types";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { CommonButton } from "@/components/common";
-import { X } from "lucide-react";
 import { AdminOriginalContentsDropdown } from "@admin-shorts";
-
-interface AdminShortsUploadModalProps {
-  open: boolean;
-  onClose: () => void;
-}
+import { ShortsType } from "@/mocks/mockAdminShorts";
 
 const ORIGINAL_LIST = [
   "더글로리",
@@ -30,50 +24,60 @@ const ORIGINAL_LIST = [
   "대탈출 4",
   "대탈출 5",
 ];
-export default function AdminShortsUploadModal({
-  open,
+
+interface AdminShortsEditModalProps {
+  shorts: ShortsType;
+  onClose: () => void;
+  onUpdate: (updated: ShortsType) => void;
+}
+
+export default function AdminShortsEditModal({
+  shorts,
   onClose,
-}: AdminShortsUploadModalProps) {
-  const [mounted, setMounted] = useState<boolean>(false);
-
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [isPublic, setIsPublic] = useState<boolean>(false);
-  const [videoFile, setVideoFile] = useState<VideoFileMeta | null>(null);
-  const [selectedOriginal, setSelectedOriginal] = useState<string | null>(null);
+  onUpdate,
+}: AdminShortsEditModalProps) {
+  const [title, setTitle] = useState<string>(shorts.title);
+  const [description, setDescription] = useState<string>(shorts.description);
+  const [selectedOriginal, setSelectedOriginal] = useState<string | null>(
+    shorts.originalContents.originalTitle,
+  );
+  const [isPublic, setIsPublic] = useState<boolean>(shorts.isPublic);
   const [poster, setPoster] = useState<PosterState>({
-    vertical: null,
-    horizontal: null,
+    vertical: shorts.thumbnailShorts,
   });
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
-    if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, onClose]);
+  }, [onClose]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
-
-  if (!mounted || !open) return null;
+  }, []);
 
   const handleOriginalContentsChange = (original: string | null) => {
     setSelectedOriginal(original);
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("숏폼 업로드 처리 로직");
+    onUpdate({
+      ...shorts,
+      title,
+      description,
+      originalContents: shorts.originalContents,
+      isPublic,
+      thumbnailShorts: poster.vertical ?? shorts.thumbnailShorts,
+    });
   };
+
+  if (typeof document === "undefined") return null;
 
   return createPortal(
     <div
@@ -86,7 +90,7 @@ export default function AdminShortsUploadModal({
       >
         {/* 헤더 */}
         <div className="relative mb-8 text-ot-background">
-          <p className="text-2xl font-bold">숏폼 정보 수정</p>
+          <p className="text-2xl font-bold">숏폼 업로드</p>
           <button
             onClick={onClose}
             className="absolute top-0 right-0 text-ot-background hover:text-ot-gray-600 transition-colors cursor-pointer"
@@ -99,8 +103,6 @@ export default function AdminShortsUploadModal({
           className="flex flex-col gap-6 text-ot-background"
           onSubmit={handleSubmit}
         >
-          <AdminFileUpload value={videoFile} onChange={setVideoFile} />
-
           <AdminTextInput
             label="제목"
             placeholder="숏폼 제목을 입력하세요"
@@ -143,7 +145,7 @@ export default function AdminShortsUploadModal({
               취소
             </CommonButton>
             <CommonButton type="submit" className="py-3 font-semibold">
-              수정 완료
+              업로드 시작
             </CommonButton>
           </div>
         </form>
