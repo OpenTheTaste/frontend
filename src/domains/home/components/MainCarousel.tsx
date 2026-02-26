@@ -64,9 +64,9 @@ export default function MainCarousel({
         {!isAtStart && (
           <button
             onClick={() => handleScroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors"
           >
-            <ChevronLeft size={28} className="text-ot-text" />
+            <ChevronLeft size={28} className="text-ot-gray-600 hover:text-ot-text hover:scale-130 hover:drop-shadow-lg transition-all" />
           </button>
         )}
 
@@ -93,9 +93,9 @@ export default function MainCarousel({
         {!isAtEnd && (
           <button
             onClick={() => handleScroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors"
           >
-            <ChevronRight size={28} className="text-ot-text" />
+            <ChevronRight size={28} className="text-ot-gray-600 hover:text-ot-text hover:scale-130 hover:drop-shadow-lg transition-all" />
           </button>
         )}
 
