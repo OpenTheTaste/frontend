@@ -12,11 +12,13 @@ export interface PosterState {
 export interface AdminPosterUploadProps {
   value: PosterState;
   onChange: (value: PosterState) => void;
+  isShorts?: boolean;
 }
 
 export default function AdminPosterUpload({
   value,
   onChange,
+  isShorts = false,
 }: AdminPosterUploadProps) {
   const verticalInputRef = useRef<HTMLInputElement>(null);
   const horizontalInputRef = useRef<HTMLInputElement>(null);
@@ -89,43 +91,45 @@ export default function AdminPosterUpload({
         </div>
 
         {/* 가로 포스터 (4:3) */}
-        <div>
-          <p className="text-sm mb-2 text-ot-gray-700">가로 포스터 (4:3)</p>
-          <input
-            ref={horizontalInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleHorizontal}
-          />
-          <div
-            className="h-85 relative border border-dashed border-ot-gray-600 rounded-lg overflow-hidden cursor-pointer hover:bg-ot-gray-200 transition-colors aspect-4/3"
-            onClick={() => horizontalInputRef.current?.click()}
-          >
-            {value.horizontal ? (
-              <>
-                <Image
-                  src={value.horizontal}
-                  fill
-                  alt="가로 포스터 미리보기"
-                  className="object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={removeHorizontal}
-                  className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 transition-colors rounded-full p-1 text-ot-text cursor-pointer"
-                >
-                  <X size={14} />
-                </button>
-              </>
-            ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-ot-gray-600">
-                <ImageIcon size={28} strokeWidth={1} />
-                <span className="text-xs">클릭하여 업로드</span>
-              </div>
-            )}
+        {!isShorts && (
+          <div>
+            <p className="text-sm mb-2 text-ot-gray-700">가로 포스터 (4:3)</p>
+            <input
+              ref={horizontalInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleHorizontal}
+            />
+            <div
+              className="h-85 relative border border-dashed border-ot-gray-600 rounded-lg overflow-hidden cursor-pointer hover:bg-ot-gray-200 transition-colors aspect-4/3"
+              onClick={() => horizontalInputRef.current?.click()}
+            >
+              {value.horizontal ? (
+                <>
+                  <Image
+                    src={value.horizontal}
+                    fill
+                    alt="가로 포스터 미리보기"
+                    className="object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeHorizontal}
+                    className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 transition-colors rounded-full p-1 text-ot-text cursor-pointer"
+                  >
+                    <X size={14} />
+                  </button>
+                </>
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-ot-gray-600">
+                  <ImageIcon size={28} strokeWidth={1} />
+                  <span className="text-xs">클릭하여 업로드</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

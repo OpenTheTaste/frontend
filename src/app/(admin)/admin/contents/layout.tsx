@@ -10,7 +10,7 @@ export default function ContentsLayout({
     <>
       <AdminTitle
         title="콘텐츠 관리"
-        description="숏폼 및 콘텐츠를 관리합니다"
+        description="콘텐츠를 관리합니다"
         action={<UploadButton />}
       />
 

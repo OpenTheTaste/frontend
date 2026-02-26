@@ -41,6 +41,8 @@
       "@admin-user": ["./src/domains/admin/user/components"],
       "@admin-series": ["./src/domains/admin/series/components"],
       "@admin-contents": ["./src/domains/admin/contents/components"],
+      "@admin-shorts": ["./src/domains/admin/shorts/components"],
+      // types
       "@base-type": ["./src/types"],
       "@admin-type": ["./src/types/admin"]
     }
