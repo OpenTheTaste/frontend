@@ -20,7 +20,7 @@ import { ContentType } from "@/types/contents";
 
 const SERIES_LIST = [
   "시리즈 없음",
-  "더글로리",
+  "더글로리 시즌1",
   "선재 업고 튀어",
   "흑백 요리사 시즌1",
   "흑백 요리사 시즌2",
@@ -42,7 +42,9 @@ export default function AdminContentsEditModal({
   const [description, setDescription] = useState<string>(contents.description);
   const [cast, setCast] = useState<string>(contents.cast.join(", "));
   const [isPublic, setIsPublic] = useState<boolean>(contents.isPublic);
-  const [selectedSeries, setSelectedSeries] = useState<string | null>(null);
+  const [selectedSeries, setSelectedSeries] = useState<string | null>(
+    contents.seriesTitle,
+  );
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     contents.category,
   );
