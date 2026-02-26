@@ -71,7 +71,11 @@ export default function AdminShortsEditModal({
       ...shorts,
       title,
       description,
-      originalContents: shorts.originalContents,
+      originalContents: {
+        ...shorts.originalContents,
+        originalTitle:
+          selectedOriginal ?? shorts.originalContents.originalTitle,
+      },
       isPublic,
       thumbnailShorts: poster.vertical ?? shorts.thumbnailShorts,
     });
@@ -90,7 +94,7 @@ export default function AdminShortsEditModal({
       >
         {/* 헤더 */}
         <div className="relative mb-8 text-ot-background">
-          <p className="text-2xl font-bold">숏폼 업로드</p>
+          <p className="text-2xl font-bold">숏폼 정보 수정</p>
           <button
             onClick={onClose}
             className="absolute top-0 right-0 text-ot-background hover:text-ot-gray-600 transition-colors cursor-pointer"
@@ -145,7 +149,7 @@ export default function AdminShortsEditModal({
               취소
             </CommonButton>
             <CommonButton type="submit" className="py-3 font-semibold">
-              업로드 시작
+              수정 완료
             </CommonButton>
           </div>
         </form>

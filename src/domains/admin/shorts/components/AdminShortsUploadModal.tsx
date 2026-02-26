@@ -86,7 +86,7 @@ export default function AdminShortsUploadModal({
       >
         {/* 헤더 */}
         <div className="relative mb-8 text-ot-background">
-          <p className="text-2xl font-bold">숏폼 정보 수정</p>
+          <p className="text-2xl font-bold">숏폼 업로드</p>
           <button
             onClick={onClose}
             className="absolute top-0 right-0 text-ot-background hover:text-ot-gray-600 transition-colors cursor-pointer"
@@ -143,7 +143,7 @@ export default function AdminShortsUploadModal({
               취소
             </CommonButton>
             <CommonButton type="submit" className="py-3 font-semibold">
-              수정 완료
+              업로드 시작
             </CommonButton>
           </div>
         </form>
