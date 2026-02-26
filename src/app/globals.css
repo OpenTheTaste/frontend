@@ -55,6 +55,13 @@
   --color-ot-text: #fafaf8;
   --color-ot-background: #242424;
   --color-ot-placeholder: #aeaeae;
+  
+  --color-ot-red: #FD6986;
+  --color-ot-pink: #FF5CCF;
+  --color-ot-orange: #FF8A00;
+  --color-ot-green: #89CE3A;
+  --color-ot-blue: #529CFF;
+  --color-ot-mint: #00C2C0;
 
   --gradient-ot-primary-diagonal: linear-gradient(180deg, #ff6a87 0%, #d7526c 100%);
 }
