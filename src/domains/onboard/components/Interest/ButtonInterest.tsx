@@ -18,7 +18,7 @@ export default function ButtonInterest({
     <CommonButton
       onClick={() => router.push('/')}
       disabled={disabled}
-      className="w-full py-4 text-[1rem] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-1/2 py-4 text-[1rem] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {selectedTagCount}개 관심사로 시작하기
     </CommonButton>
