@@ -16,7 +16,7 @@ export default function ButtonInterest({
 
   return (
     <CommonButton
-      onClick={() => router.push('/home')}
+      onClick={() => router.push('/')}
       disabled={disabled}
       className="w-full py-4 text-[1rem] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
     >
