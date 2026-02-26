@@ -24,7 +24,7 @@ export default function AdminContentsList({
     useState<AdminContentsDetailType[]>(mockAdminContents);
 
   const filteredData = filterPublic
-    ? mockAdminContents.filter((content) =>
+    ? data.filter((content) =>
         filterPublic === "공개" ? content.isPublic : !content.isPublic,
       )
     : data;
