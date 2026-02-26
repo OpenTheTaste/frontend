@@ -80,6 +80,8 @@ export default function AdminContentsEditModal({
     e.preventDefault();
     onUpdate({
       ...contents,
+      type: contentType,
+      seriesTitle: contentType === "시리즈" ? selectedSeries : null,
       title,
       description,
       category: selectedCategory ?? contents.category,
@@ -107,7 +109,7 @@ export default function AdminContentsEditModal({
       >
         {/* 헤더 */}
         <div className="relative mb-8 text-ot-background">
-          <p className="text-2xl font-bold">콘텐츠 업로드</p>
+          <p className="text-2xl font-bold">콘텐츠 정보 수정</p>
           <button
             onClick={onClose}
             className="absolute top-0 right-0 text-ot-background hover:text-ot-gray-600 transition-colors cursor-pointer"
