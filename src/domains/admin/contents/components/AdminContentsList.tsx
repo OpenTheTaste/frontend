@@ -6,7 +6,12 @@ import { Edit } from "lucide-react";
 import Image from "next/image";
 import { PublicType } from "@/types/admin/adminPublic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AdminContentsDetailModal } from "@admin-contents";
+import {
+  AdminContentsDetailModal,
+  AdminContentsEditModal,
+} from "@admin-contents";
+import { AdminContentsDetailType } from "@/types/admin";
+import { useState } from "react";
 
 interface AdminContentsListProps {
   filterPublic?: PublicType | null;
@@ -15,16 +20,21 @@ interface AdminContentsListProps {
 export default function AdminContentsList({
   filterPublic,
 }: AdminContentsListProps) {
-  const data = filterPublic
+  const [data, setData] =
+    useState<AdminContentsDetailType[]>(mockAdminContents);
+
+  const filteredData = filterPublic
     ? mockAdminContents.filter((content) =>
         filterPublic === "공개" ? content.isPublic : !content.isPublic,
       )
-    : mockAdminContents;
+    : data;
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const selectedId = searchParams.get("id");
+  const action = searchParams.get("action");
+
   const selectedContents = selectedId
     ? (data.find((s) => s.id === Number(selectedId)) ?? null)
     : null;
@@ -35,6 +45,15 @@ export default function AdminContentsList({
 
   const handleClose = () => {
     router.push("?", { scroll: false });
+  };
+
+  const handleEditClick = (id: number) => {
+    router.push(`?id=${id}&action=edit`, { scroll: false });
+  };
+
+  const handleUpdate = (updated: AdminContentsDetailType) => {
+    setData((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+    handleClose();
   };
 
   return (
@@ -60,7 +79,7 @@ export default function AdminContentsList({
           </thead>
 
           <tbody className="bg-ot-gray-700 divide-y divide-ot-gray-800">
-            {data.map((content) => (
+            {filteredData.map((content) => (
               <tr
                 key={content.id}
                 onClick={() => handleRowClick(content.id)}
@@ -106,9 +125,15 @@ export default function AdminContentsList({
                   {content.uploadDate}
                 </td>
 
-                <td className="py-3 text-center ">
-                  <button onClick={(e) => e.stopPropagation()}>
-                    <Edit size={20} className="hover:stroke-ot-gray-600" />
+                <td
+                  className="py-3 text-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button onClick={() => handleEditClick(content.id)}>
+                    <Edit
+                      size={20}
+                      className="hover:stroke-ot-gray-600 cursor-pointer"
+                    />
                   </button>
                 </td>
               </tr>
@@ -116,10 +141,21 @@ export default function AdminContentsList({
           </tbody>
         </table>
       </div>
-      <AdminContentsDetailModal
-        contents={selectedContents}
-        onClose={handleClose}
-      />
+
+      {action === "edit" && selectedContents ? (
+        <AdminContentsEditModal
+          contents={selectedContents}
+          onClose={handleClose}
+          onUpdate={handleUpdate}
+        />
+      ) : (
+        selectedContents && (
+          <AdminContentsDetailModal
+            contents={selectedContents}
+            onClose={handleClose}
+          />
+        )
+      )}
     </>
   );
 }
