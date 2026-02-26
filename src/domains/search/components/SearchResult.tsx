@@ -94,6 +94,7 @@ export default function SearchResult({ keyword }: SearchResultProps) {
                   src={item.thumbnailVertical}
                   alt={item.title}
                   fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                   className="object-cover rounded-lg"
                 />
               </Link>
