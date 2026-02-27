@@ -98,9 +98,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
                   {/* 텍스트 영역 */}
                   <div className="flex flex-col flex-1 pt-4 pr-8 gap-1">
                     {/* 작성한 댓글 내용 */}
-                    <p className="text-ot-textround text-[16px]">
-                      {review.content}
-                    </p>
+                    <p className="text-ot-text text-[16px]">{review.content}</p>
 
                     {/* 작성자 & 작성 날짜 */}
                     <div className="flex items-center gap-1 text-[14px] text-ot-gray-400">

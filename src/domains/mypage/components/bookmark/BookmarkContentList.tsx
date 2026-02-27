@@ -29,7 +29,7 @@ export default function BookmarkContentList() {
       {BookmarkContentsMockData.map((item) => (
         <div
           key={item.id}
-          className="relative group flex items-start p-6 border border-ot-textround rounded-xl bg-transparent w-full h-fit cursor-pointer hover:border-ot-gray-600 transition-colors"
+          className="relative group flex items-start p-6 border border-ot-text rounded-xl bg-transparent w-full h-fit cursor-pointer hover:border-ot-gray-600 transition-colors"
         >
           {/* 포스터 이미지 (4 : 3) */}
           <div className="relative shrink-0 w-40 aspect-4/3 bg-ot-gray-800 rounded-lg overflow-hidden">
@@ -50,7 +50,7 @@ export default function BookmarkContentList() {
           {/* 텍스트 설명 (이미지 오른쪽) */}
           <div className="flex flex-col flex-1 min-w-0 pl-6 pr-6">
             {/* 제목 */}
-            <h3 className="text-[24px] font-bold text-ot-textround mb-3 line-clamp-2 break-all group-hover:text-ot-gray-600 transition-colors">
+            <h3 className="text-[24px] font-bold text-ot-text mb-3 line-clamp-2 break-all group-hover:text-ot-gray-600 transition-colors">
               {item.title}
             </h3>
 
