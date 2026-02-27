@@ -1,5 +1,5 @@
 import { OnboardHeader, MainSection, FAQSection } from "@onboard";
-import { Footer } from "@basecomponent"
+import { Footer } from "@basecomponent";
 
 export default function OTPage() {
   return (

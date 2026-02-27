@@ -21,7 +21,9 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         {/* 최대 넓이 570 -> 2280px 지정 */}
-        <div className="min-h-screen max-w-570 mx-auto">{children}</div>
+        <div className="min-h-screen max-w-570 mx-auto bg-ot-background flex flex-col">
+          {children}
+        </div>
       </body>
     </html>
   );
