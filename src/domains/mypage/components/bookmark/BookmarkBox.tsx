@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { BookmarkFilterBar, BookmarkContentList, BookmarkShortsList } from "@mypage-bookmark";
+import { useRouter } from "next/navigation";
+import {
+  BookmarkFilterBar,
+  BookmarkContentList,
+  BookmarkShortsList,
+} from "@mypage-bookmark";
 
 interface BookmarkBoxProps {
   filter: "contents" | "shorts";
@@ -26,12 +30,19 @@ export default function BookmarkBox({ filter }: BookmarkBoxProps) {
   return (
     <div className="flex flex-col w-full">
       {/* 북마크 내 필터바 영역 */}
-      <div className="pt-6 pb-6">
-        <BookmarkFilterBar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+      <div className="py-3">
+        <BookmarkFilterBar
+          activeFilter={activeFilter}
+          onFilterChange={handleFilterChange}
+        />
       </div>
 
       {/* 필터 버튼 누른거에 따라 다른거 나타남 */}
-      {activeFilter === "contents" ? <BookmarkContentList /> : <BookmarkShortsList />}
+      {activeFilter === "contents" ? (
+        <BookmarkContentList />
+      ) : (
+        <BookmarkShortsList />
+      )}
     </div>
   );
 }
