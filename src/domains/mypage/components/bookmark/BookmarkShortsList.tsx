@@ -3,11 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { ConfirmModal } from "@mypage";
+import { ConfirmModal } from "@basecomponent";
 import { BookmarkShortsMockData } from "@/mocks/mockbookmarkshorts";
 
 export default function BookmarkShortsList() {
-  const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] = useState<boolean>(false);
+  const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
+    useState<boolean>(false);
 
   const handleDelete = () => {
     // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
@@ -15,12 +16,20 @@ export default function BookmarkShortsList() {
     setIsDeleteShortsModalOpen(false);
   };
 
+  if (BookmarkShortsMockData.length === 0) {
+    return (
+      <div className="flex items-center justify-center">
+        <p className="text-ot-gray-600">북마크한 숏폼이 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-100 overflow-y-auto no-scrollbar grid grid-cols-2 gap-6">
       {BookmarkShortsMockData.map((item) => (
         <div
           key={item.id}
-          className="relative group flex items-start p-6 border border-foreground rounded-xl bg-transparent w-full h-fit cursor-pointer hover:border-ot-gray-600 transition-colors"
+          className="relative group flex items-start p-6 border border-ot-text rounded-xl bg-transparent w-full h-fit cursor-pointer hover:border-ot-gray-600 transition-colors"
         >
           {/* 숏폼 이미지 (9:16) */}
           <div className="relative shrink-0 w-18 aspect-9/16 bg-ot-gray-800 rounded-lg overflow-hidden">
@@ -41,7 +50,7 @@ export default function BookmarkShortsList() {
           {/* 텍스트 설명 (이미지 오른쪽) */}
           <div className="flex flex-col flex-1 min-w-0 pl-6 pr-6">
             {/* 제목 */}
-            <h3 className="text-[24px] font-bold text-foreground mb-6 line-clamp-2 break-all group-hover:text-ot-gray-600 transition-colors">
+            <h3 className="text-[24px] font-bold text-ot-text mb-6 line-clamp-2 break-all group-hover:text-ot-gray-600 transition-colors">
               {item.title}
             </h3>
 

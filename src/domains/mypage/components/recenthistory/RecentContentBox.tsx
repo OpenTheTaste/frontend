@@ -1,5 +1,3 @@
-"use client";
-
 import { RecentContentList } from "@mypage-recenthistory";
 import { mockRecentData } from "@/mocks/mockRecent";
 
