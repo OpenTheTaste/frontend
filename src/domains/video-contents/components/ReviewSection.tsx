@@ -77,6 +77,7 @@ export default function ReviewSection({
   const handleCancelEdit = () => {
     setEditingReviewId(null);
     setEditingReview("");
+    setEditingSpoiler(false);
   };
 
   // 수정 저장
@@ -127,7 +128,10 @@ export default function ReviewSection({
       <>
         <div className="relative p-6 rounded-lg flex flex-col h-full">
           <button
-            onClick={() => setIsExpandAllReviews(false)}
+            onClick={() => {
+              handleCancelEdit();
+              setIsExpandAllReviews(false);
+            }}
             className="absolute top-4 right-4 cursor-pointer"
           >
             <X className="w-5 h-5 stroke-ot-text hover:stroke-ot-gray-600" />
@@ -287,7 +291,10 @@ export default function ReviewSection({
         <div className="flex flex-row justify-between">
           <p className="text-2xl font-bold text-ot-text mb-3">댓글</p>
           <button
-            onClick={() => setIsExpandAllReviews(true)}
+            onClick={() => {
+              handleCancelEdit();
+              setIsExpandAllReviews(true);
+            }}
             className="flex gap-1 items-center group cursor-pointer"
           >
             <ArrowRight className="w-5 h-5 stroke-1 stroke-ot-text group-hover:stroke-ot-gray-600" />
