@@ -1,5 +1,3 @@
-export { default as ConfirmModal } from "./ConfirmModal";
-
 export * from "./bookmark";
 export * from "./dashboard";
 export * from "./main";

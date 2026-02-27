@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { ConfirmModal } from "@mypage";
+import { ConfirmModal } from "@basecomponent";
 import { BookmarkContentsMockData } from "@/mocks/mockbookmarkcontent";
 
 export default function BookmarkContentList() {

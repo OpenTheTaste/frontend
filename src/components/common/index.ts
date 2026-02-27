@@ -7,6 +7,7 @@ export { BackButton } from "./BackButton";
 export { Input } from "./Input";
 export { InteractionButton } from "./InteractionButton";
 export { ScrollEdgeButton } from "./ScrollEdgeButton";
+export { default as ConfirmModal } from "./ConfirmModal";
 
 export type { CommonButtonProps } from "./CommonButton";
 export type { ToggleProps } from "./Toggle";
