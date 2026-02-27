@@ -30,7 +30,10 @@ export default function UserMenuButtons() {
       </CommonButton>
 
       {/* 내 댓글 목록 모달창 */}
-      <MyReviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <MyReviewModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

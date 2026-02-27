@@ -60,16 +60,16 @@ export default function ConfirmModal({
       >
         {/* 모달창 닫기 X 버튼 */}
         <button
-          className="absolute right-7 top-7 transition-opacity hover:opacity-70"
+          className="absolute right-7 top-7 transition-opacity hover:opacity-70 cursor-pointer"
           onClick={onClose}
         >
-          <X size={24} className="text-foreground" strokeWidth={3} />
+          <X size={24} className="text-ot-textround" strokeWidth={3} />
         </button>
 
         <div className="flex flex-col items-center">
           {/* 안내 문구 */}
           <div className="pb-10">
-            <p className="w-72 text-center text-[24px] font-bold text-foreground leading-tight">
+            <p className="w-72 text-center text-[24px] font-bold text-ot-textround leading-tight">
               {message}
             </p>
           </div>
@@ -77,14 +77,14 @@ export default function ConfirmModal({
           {/* 버튼 두 개 묶음 */}
           <div className="flex gap-8">
             <CommonButton
-              className="w-32 h-10 text-foreground transition-opacity hover:opacity-70"
+              className="w-32 h-10 text-ot-textround transition-opacity hover:opacity-70"
               onClick={onConfirm}
             >
               {confirmText}
             </CommonButton>
             <CommonButton
               variant="secondary"
-              className="w-32 h-10 text-foreground transition-opacity hover:opacity-70"
+              className="w-32 h-10 text-ot-textround"
               onClick={onClose}
             >
               {cancelText}

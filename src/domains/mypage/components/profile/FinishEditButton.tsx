@@ -22,7 +22,7 @@ export default function FinishEditButton({
     <div>
       <CommonButton
         onClick={handleFinishEdit}
-        className="mt-4 mb-4 py-3 px-25 text-foreground text-[18px] font-bold"
+        className="mt-4 mb-4 py-3 px-25 text-ot-textround text-[18px] font-bold"
       >
         수정하기
       </CommonButton>

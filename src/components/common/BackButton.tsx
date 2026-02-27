@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { ChevronLeft } from "lucide-react";
 
 export const BackButton = () => {
   const router = useRouter();
@@ -11,9 +11,9 @@ export const BackButton = () => {
       type="button"
       aria-label="뒤로 가기"
       onClick={() => router.back()}
-      className="flex items-center justify-center top-37 left-12 z-50 cursor-pointer hover:opacity-70 transition-opacity"
+      className="flex items-center justify-center cursor-pointer"
     >
-      <Image src="/icons/BackButton.svg" alt="뒤로 가기" width={20} height={40} />
+      <ChevronLeft size={36} className="text-ot-text hover:text-ot-gray-600" />
     </button>
   );
 };

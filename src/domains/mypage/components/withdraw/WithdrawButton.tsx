@@ -5,7 +5,8 @@ import { CommonButton } from "@basecomponent";
 import { ConfirmModal } from "@mypage";
 
 export default function WithdrawButton() {
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
+    useState<boolean>(false);
 
   const handleWithdraw = () => {
     // 실제 회원탈퇴 처리 로직 작성 부분 (API 호출 등)
@@ -17,7 +18,7 @@ export default function WithdrawButton() {
     <div>
       <CommonButton
         onClick={() => setIsWithdrawModalOpen(true)}
-        className="mt-6 mb-4 py-3 px-25 text-foreground text-[18px] font-bold"
+        className="mt-6 mb-4 py-3 px-25 text-ot-textround text-[18px] font-bold"
       >
         탈퇴하기
       </CommonButton>
