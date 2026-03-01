@@ -7,6 +7,7 @@ import ListCategory from "@/domains/onboard/components/Interest/ListCategory";
 import SelectedTag from "@/domains/onboard/components/Interest/SelectedTag";
 import SelectTag from "@/domains/onboard/components/Interest/SelectTag";
 import ButtonInterest from "@/domains/onboard/components/Interest/ButtonInterest";
+import { ButtonSkip } from "./ButtonSkip";
 
 const CATEGORIES: Category[] = [
   "영화",
@@ -87,11 +88,13 @@ export default function ContentInterest() {
           onClearAll={handleClearAll}
         />
 
-        {/* 하단 버튼 */}
-        <ButtonInterest
-          selectedTagCount={totalSelectedTags}
-          disabled={totalSelectedTags === 0}
-        />
+        <div className="flex gap-3">
+          <ButtonSkip />
+          <ButtonInterest
+            selectedTagCount={totalSelectedTags}
+            disabled={totalSelectedTags === 0}
+          />
+        </div>
       </div>
     </section>
   );

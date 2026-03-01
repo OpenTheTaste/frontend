@@ -1,7 +1,10 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+const GAP = 16;
+const PEEK = 48;
 
 interface ContentCarouselProps {
   title: string;
@@ -14,112 +17,87 @@ export default function MainCarousel({
   title,
   itemCount = 10,
   itemWidth = 160,
-  itemHeight = 220
+  itemHeight = 220,
 }: ContentCarouselProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const itemsPerScroll = 1;
-  const itemWidthWithGap = itemWidth + 16;
-  const maxIndex = Math.max(0, itemCount - itemsPerScroll);
-
-  const handleScroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-
-    let newIndex = currentIndex;
-
-    if (direction === 'right') {
-      newIndex = Math.min(currentIndex + itemsPerScroll, maxIndex);
-    } else {
-      newIndex = Math.max(currentIndex - itemsPerScroll, 0);
-    }
-
-    setCurrentIndex(newIndex);
-
-    scrollRef.current.scrollTo({
-      left: newIndex * itemWidthWithGap,
-      behavior: 'smooth'
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+      setCurrentPage(0);
     });
-  };
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-  const handleScrollPosition = () => {
-    if (!scrollRef.current) return;
+  const itemsPerPage = Math.max(
+    1,
+    Math.floor((containerWidth - 2 * PEEK + GAP) / (itemWidth + GAP))
+  );
+  const pageWidth = itemsPerPage * (itemWidth + GAP);
+  const totalPages = Math.ceil(itemCount / itemsPerPage);
+  const isFirst = currentPage === 0;
+  const isLast = currentPage >= totalPages - 1;
 
-    const scrollLeft = scrollRef.current.scrollLeft;
-    const newIndex = Math.min(
-      Math.round(scrollLeft / itemWidthWithGap),
-      maxIndex
-    );
-    setCurrentIndex(newIndex);
-  };
-
-  const isAtStart = currentIndex === 0;
-  const isAtEnd = currentIndex >= maxIndex;
+  const translateX = isFirst ? 0 : currentPage * pageWidth - PEEK;
 
   return (
     <div className="w-full bg-ot-background pl-[3rem] pr-[3rem] pt-[1.33rem] pb-[1.33rem]">
       <h2 className="text-[1.5rem] font-bold text-ot-text mb-5">{title}</h2>
 
-      <div className="relative">
-        {!isAtStart && (
+      <div className="relative" ref={containerRef}>
+        {!isFirst && (
           <button
-            onClick={() => handleScroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
+            onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+            className="absolute left-0 z-10 p-2 bg-transparent"
+            style={{ top: `${itemHeight / 2}px`, transform: 'translateY(-50%)' }}
           >
-            <ChevronLeft size={28} className="text-ot-text" />
+            <ChevronLeft
+              size={28}
+              className="text-ot-gray-600 hover:text-ot-text hover:scale-130 hover:drop-shadow-lg transition-all"
+            />
           </button>
         )}
 
-        <div
-          ref={scrollRef}
-          className="overflow-x-auto overflow-y-hidden no-scrollbar"
-          onScroll={handleScrollPosition}
-          style={{ scrollBehavior: 'smooth' }}
-        >
-          <div className="flex gap-4">
+        <div className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-300 ease-in-out"
+            style={{ gap: `${GAP}px`, transform: `translateX(-${translateX}px)` }}
+          >
             {Array.from({ length: itemCount }).map((_, idx) => (
               <div
                 key={idx}
                 className="flex-shrink-0 rounded-xl bg-ot-gray-800 border border-ot-gray-700"
-                style={{ 
-                  width: `${itemWidth}px`, 
-                  height: `${itemHeight}px` 
-                }}
+                style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
               />
             ))}
           </div>
         </div>
 
-        {!isAtEnd && (
+        {!isLast && (
           <button
-            onClick={() => handleScroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors hover:text-white"
+            onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
+            className="absolute right-0 z-10 p-2 bg-transparent"
+            style={{ top: `${itemHeight / 2}px`, transform: 'translateY(-50%)' }}
           >
-            <ChevronRight size={28} className="text-ot-text" />
+            <ChevronRight
+              size={28}
+              className="text-ot-gray-600 hover:text-ot-text hover:scale-130 hover:drop-shadow-lg transition-all"
+            />
           </button>
         )}
 
-        <div className="flex justify-end gap-2 -mt-8 relative z-20 pr-12">
-          {Array.from({
-            length: Math.ceil(itemCount / itemsPerScroll)
-          }).map((_, idx) => (
+        <div className="flex justify-end gap-2 mt-3 pr-12">
+          {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
-              onClick={() => {
-                const newIndex = Math.min(
-                  idx * itemsPerScroll,
-                  maxIndex
-                );
-                setCurrentIndex(newIndex);
-                if (scrollRef.current) {
-                  scrollRef.current.scrollTo({
-                    left: newIndex * itemWidthWithGap,
-                    behavior: 'smooth'
-                  });
-                }
-              }}
+              onClick={() => setCurrentPage(idx)}
               className={`transition-all ${
-                idx === Math.floor(currentIndex / itemsPerScroll)
+                idx === currentPage
                   ? 'w-6 h-2 bg-ot-primary-500 rounded-full'
                   : 'w-2 h-2 bg-ot-gray-600 rounded-full hover:bg-ot-gray-500'
               }`}
