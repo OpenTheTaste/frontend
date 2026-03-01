@@ -20,26 +20,30 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      // componets
-      "@basecomponent": ["./src/components/common"],
-      "@home": ["./src/domains/home/components"],
-      "@mypage": ["./src/domains/mypage/components"],
-      "@mypage-bookmark": ["./src/domains/mypage/components/bookmark"],
-      "@mypage-dashboard": ["./src/domains/mypage/components/dashboard"],
-      "@mypage-profile": ["./src/domains/mypage/components/profile"],
-      "@mypage-recenthistory": [
-        "./src/domains/mypage/components/recenthistory"
-      ],
-      "@mypage-withdraw": ["./src/domains/mypage/components/withdraw"],
-      "@mypage-main": ["./src/domains/mypage/components/main"],
-      "@onboard": ["./src/domains/onboard/components"],
-      "@onboard-interest": ["./src/domains/onboard/components/Interest"],
-      "@video": ["./src/domains/player/video/components"],
-      "@shorts": ["./src/domains/player/shorts/components"],
-      "@video-contents": ["./src/domains/video-contents/components"],
-      "@search": ["./src/domains/search/components"],
-      // types
-      "@base-type": ["./src/types"],
+      // layouts
+      "@layouts": ["./src/layouts"],
+      // shared
+      "@shared-ui": ["./src/shared/ui"],
+      "@shared-api": ["./src/shared/api"],
+      "@shared-hooks": ["./src/shared/hooks"],
+      "@shared-lib": ["./src/shared/lib"],
+      "@shared-types": ["./src/shared/types"],
+      "@shared-mocks": ["./src/shared/mocks"],
+      // entities
+      "@entities-home": ["./src/entities/home/components"],
+      "@entities-search": ["./src/entities/search/components"],
+      "@entities-video-contents": ["./src/entities/video-contents/components"],
+      "@entities-shorts": ["./src/entities/shorts/components"],
+      // features
+      "@features-auth": ["./src/features/auth/components"],
+      "@features-auth-interest": ["./src/features/auth/components/Interest"],
+      "@features-mypage": ["./src/features/mypage/components"],
+      "@features-bookmark": ["./src/features/bookmark/components"],
+      "@features-dashboard": ["./src/features/dashboard/components"],
+      "@features-profile": ["./src/features/profile/components"],
+      "@features-recent-history": ["./src/features/recent-history/components"],
+      "@features-withdraw": ["./src/features/withdraw/components"],
+      "@features-player": ["./src/features/player/components"],
     }
   },
   "include": [
