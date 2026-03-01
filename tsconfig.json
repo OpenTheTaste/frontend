@@ -38,16 +38,8 @@
       "@shorts": ["./src/domains/player/shorts/components"],
       "@video-contents": ["./src/domains/video-contents/components"],
       "@search": ["./src/domains/search/components"],
-      "@admin-basecomponent": ["./src/components/admin/common"],
-      "@admin-upload": ["./src/components/admin/common/upload"],
-      "@admin-monitoring": ["./src/domains/admin/monitoring/components"],
-      "@admin-user": ["./src/domains/admin/user/components"],
-      "@admin-series": ["./src/domains/admin/series/components"],
-      "@admin-contents": ["./src/domains/admin/contents/components"],
-      "@admin-shorts": ["./src/domains/admin/shorts/components"],
       // types
       "@base-type": ["./src/types"],
-      "@admin-type": ["./src/types/admin"]
     }
   },
   "include": [
