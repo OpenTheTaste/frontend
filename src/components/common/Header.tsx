@@ -39,13 +39,15 @@ export const Header = () => {
       <div
         className={`flex items-center ${isSearchPage ? "justify-end" : "justify-between"} w-25 h-9`}
       >
-
         {!isSearchPage && (
           <Link
             href="/search"
             className="flex items-center justify-center w-9 h-9 cursor-pointer"
           >
-            <Search className="w-full h-full stroke-2 stroke-ot-text" />
+            <Search
+              className="w-full h-full stroke-ot-text hover:stroke-ot-gray-600"
+              strokeWidth={2}
+            />
           </Link>
         )}
 

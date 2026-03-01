@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { RightListScroll, LeftListScroll } from "@mypage";
 import { RecentItem } from "@/domains/mypage/types/recenthistory";
+import { ScrollEdgeButton } from "@basecomponent";
 
 interface RecentContentListProps {
   items: RecentItem[];
@@ -79,18 +79,36 @@ export default function RecentContentList({ items }: RecentContentListProps) {
     }
   };
 
+  if (items.length === 0) {
+    return (
+      <div className="flex items-center justify-center w-full py-16">
+        <p className="text-ot-gray-600">최근 시청한 콘텐츠가 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full relative group">
+    <div className="w-full relative">
       {/* 가로 스크롤 */}
-      <div ref={scrollRef} className="flex gap-10 py-8 overflow-x-auto no-scrollbar">
+      <div
+        ref={scrollRef}
+        className="flex gap-10 py-8 overflow-x-auto no-scrollbar"
+      >
         {items.map((item) => (
           <div key={item.id} className="shrink-0">
             {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
             <div className="w-45 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
               {item.image ? (
-                <Image src={item.image} alt={item.title} fill className="object-cover" />
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover"
+                />
               ) : (
-                <span className="text-ot-gray-400 text-sm px-2 text-center">{item.title}</span>
+                <span className="text-ot-gray-400 text-sm px-2 text-center">
+                  {item.title}
+                </span>
               )}
             </div>
           </div>
@@ -99,20 +117,12 @@ export default function RecentContentList({ items }: RecentContentListProps) {
 
       {/* 왼쪽 끝에 스크롤 버튼 */}
       {showLeftButton && (
-        <div className="absolute inset-y-0 left-0 pointer-events-none flex items-center pl-2 duration-300">
-          <div className="pointer-events-auto">
-            <LeftListScroll onClick={scrollToLeft} />
-          </div>
-        </div>
+        <ScrollEdgeButton direction="left" onClick={scrollToLeft} />
       )}
 
       {/* 오른쪽 끝에 스크롤 버튼 */}
       {showRightButton && (
-        <div className="absolute inset-y-0 right-0 pointer-events-none flex items-center pr-2 duration-300">
-          <div className="pointer-events-auto">
-            <RightListScroll onClick={scrollToRight} />
-          </div>
-        </div>
+        <ScrollEdgeButton direction="right" onClick={scrollToRight} />
       )}
     </div>
   );

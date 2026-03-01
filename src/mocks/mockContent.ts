@@ -1,4 +1,7 @@
-import { Content, Recommendation } from "@/domains/video-contents/types/contents";
+import {
+  Content,
+  Recommendation,
+} from "@/domains/video-contents/types/contents";
 
 // Mock 콘텐츠 데이터
 export const mockContents: Record<number, Content> = {

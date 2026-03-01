@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { mockReviews } from "@/mocks/mockReviews";
-import { ConfirmModal } from "@mypage";
+import { ConfirmModal } from "@basecomponent";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface MyReviewModalProps {
@@ -67,44 +67,58 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute right-7 top-7 transition-opacity hover:opacity-70"
+          className="absolute right-7 top-7 transition-opacity hover:opacity-70 cursor-pointer"
           onClick={handleClose}
         >
           <X size={24} strokeWidth={2} />
         </button>
 
         <div className="flex-1 mt-25 mx-15 mb-15 overflow-y-auto no-scrollbar">
-          <div className="flex flex-col gap-5">
-            {mockReviews.map((review) => (
-              <div key={review.id} className="relative flex items-start w-full gap-5 shrink-0">
-                {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
-                <div className="relative shrink-0 w-45 aspect-video bg-black rounded overflow-hidden">
-                  <Image src={review.image} alt="Review" fill className="object-cover" />
-                </div>
-
-                {/* 텍스트 영역 */}
-                <div className="flex flex-col flex-1 pt-4 pr-8 gap-1">
-                  {/* 작성한 댓글 내용 */}
-                  <p className="text-foreground text-[16px]">{review.content}</p>
-
-                  {/* 작성자 & 작성 날짜 */}
-                  <div className="flex items-center gap-1 text-[14px] text-ot-gray-400">
-                    <span>{review.userId}</span>
-                    <span>·</span>
-                    <span>{review.date}</span>
-                  </div>
-                </div>
-
-                {/* 댓글별 삭제 버튼 */}
-                <button
-                  className="absolute top-0 right-0 text-ot-gray-400 hover:text-ot-gray-600"
-                  onClick={() => handleDeleteClick(review.id)}
+          {mockReviews.length === 0 ? (
+            <div className="flex items-center justify-center">
+              <p className="text-ot-gray-600">작성한 댓글이 없습니다.</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-5">
+              {mockReviews.map((review) => (
+                <div
+                  key={review.id}
+                  className="relative flex items-start w-full gap-5 shrink-0"
                 >
-                  <X size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
+                  {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
+                  <div className="relative shrink-0 w-45 aspect-video bg-black rounded overflow-hidden">
+                    <Image
+                      src={review.image}
+                      alt="Review"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  {/* 텍스트 영역 */}
+                  <div className="flex flex-col flex-1 pt-4 pr-8 gap-1">
+                    {/* 작성한 댓글 내용 */}
+                    <p className="text-ot-text text-[16px]">{review.content}</p>
+
+                    {/* 작성자 & 작성 날짜 */}
+                    <div className="flex items-center gap-1 text-[14px] text-ot-gray-400">
+                      <span>{review.userId}</span>
+                      <span>·</span>
+                      <span>{review.date}</span>
+                    </div>
+                  </div>
+
+                  {/* 댓글별 삭제 버튼 */}
+                  <button
+                    className="absolute top-0 right-0 text-ot-gray-400 hover:text-ot-gray-600 cursor-pointer"
+                    onClick={() => handleDeleteClick(review.id)}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <ConfirmModal

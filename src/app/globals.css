@@ -11,8 +11,8 @@
 
   /* Pretendard */
   --font-pretendard:
-    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 
   --font-sans: var(--font-pretendard);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -55,15 +55,19 @@
   --color-ot-text: #fafaf8;
   --color-ot-background: #242424;
   --color-ot-placeholder: #aeaeae;
-  
-  --color-ot-red: #FD6986;
-  --color-ot-pink: #FF5CCF;
-  --color-ot-orange: #FF8A00;
-  --color-ot-green: #89CE3A;
-  --color-ot-blue: #529CFF;
-  --color-ot-mint: #00C2C0;
 
-  --gradient-ot-primary-diagonal: linear-gradient(180deg, #ff6a87 0%, #d7526c 100%);
+  --color-ot-red: #fd6986;
+  --color-ot-pink: #ff5ccf;
+  --color-ot-orange: #ff8a00;
+  --color-ot-green: #89ce3a;
+  --color-ot-blue: #529cff;
+  --color-ot-mint: #00c2c0;
+
+  --gradient-ot-primary-diagonal: linear-gradient(
+    180deg,
+    #ff6a87 0%,
+    #d7526c 100%
+  );
 }
 
 /* 스크롤바 숨김 유틸리티 추가 */
@@ -80,6 +84,34 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
