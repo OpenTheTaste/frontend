@@ -1,8 +1,9 @@
-import { Header, Footer } from "@layouts";
-import ContentMainSection from "@/entities/video-contents/components/ContentsMainSection";
-import SeriesSideSection from "@/entities/video-contents/components/SeriesSideSection";
-import SingleSideSection from "@/entities/video-contents/components/SingleSideSection";
-import EpisodeSideSection from "@/entities/video-contents/components/EpisodeSideSection";
+import {
+  EpisodeSideSection,
+  SingleSideSection,
+  SeriesSideSection,
+  ContentsMainSection,
+} from "@/entities/video-contents/components";
 import {
   Episode,
   Recommendation,
@@ -56,11 +57,9 @@ export default function ContentsContainer({
 
   return (
     <>
-      <Header />
-
       <div className="mx-24 my-7">
         <div className="flex gap-14">
-          <ContentMainSection
+          <ContentsMainSection
             content={displayContent}
             isEpisodeView={isEpisodeView}
             seriesId={seriesId}
@@ -87,8 +86,6 @@ export default function ContentsContainer({
           )}
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

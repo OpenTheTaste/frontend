@@ -11,7 +11,7 @@ interface SearchInputProps {
 
 export default function SearchInput({ keyword }: SearchInputProps) {
   const router = useRouter();
-  const [inputValue, setInputValue] = useState<string>(keyword ?? "-ui");
+  const [inputValue, setInputValue] = useState<string>(keyword ?? "");
 
   const submitSearch = (value: string) => {
     if (value) {
