@@ -8,7 +8,7 @@ import {
   Recommendation,
   SeriesContent,
   SingleContent,
-} from "@/shared/types/video-contents/contents";
+} from "@shared/types/video-contents/contents";
 
 interface ContentsContainerProps {
   content: SingleContent | SeriesContent;

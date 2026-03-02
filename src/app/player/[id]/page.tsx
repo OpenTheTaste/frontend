@@ -1,6 +1,6 @@
 // /player 도메인
 
-import { VideoPlayer } from "@features-player";
+import { VideoPlayer } from "@features/player/components";
 
 export default function PlayerPage() {
   return (

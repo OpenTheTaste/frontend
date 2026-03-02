@@ -3,7 +3,7 @@ import {
   Category,
   ContentType,
   VideoFileMeta,
-} from "@shared-types";
+} from "@shared/types";
 
 export type ContentFormat = "콘텐츠" | "숏폼";
 

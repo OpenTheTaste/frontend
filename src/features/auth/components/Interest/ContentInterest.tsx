@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Category } from "@/shared/types/category";
-import { TAGS } from "@/shared/types/tags";
+import { Category } from "@shared/types/category";
+import { TAGS } from "@shared/types/tags";
 import ListCategory from "@/features/auth/components/Interest/ListCategory";
 import SelectedTag from "@/features/auth/components/Interest/SelectedTag";
 import SelectTag from "@/features/auth/components/Interest/SelectTag";

@@ -1,6 +1,6 @@
 import { Header } from "@layouts";
-import { BackButton } from "@shared-ui";
-import { DashboardContentBox } from "@features-dashboard";
+import { BackButton } from "@base-components";
+import { DashboardContentBox } from "@features/dashboard/components";
 
 export default function MyPageDashboard() {
   return (

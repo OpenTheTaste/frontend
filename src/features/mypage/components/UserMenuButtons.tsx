@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { MyReviewModal } from "@features-mypage";
-import { CommonButton } from "@shared-ui";
+import { MyReviewModal } from "@features/mypage/components";
+import { CommonButton } from "@base-components";
 
 export default function UserMenuButtons() {
   const router = useRouter();

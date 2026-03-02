@@ -1,6 +1,6 @@
 "use client";
 
-import { Category } from "@/shared/types/category";
+import { Category } from "@shared/types/category";
 import { ChevronRight } from "lucide-react";
 
 interface CategoryListProps {

@@ -1,5 +1,5 @@
 import { Header, Footer } from "@layouts";
-import { SearchInput, SearchResult } from "@entities-search";
+import { SearchInput, SearchResult } from "@entities/search/components";
 
 interface SearchPageProps {
   searchParams: Promise<{ keyword?: string }>;

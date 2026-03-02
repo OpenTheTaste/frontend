@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@shared-ui";
+import { Input } from "@base-components";
 import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

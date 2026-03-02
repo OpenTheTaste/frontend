@@ -1,4 +1,4 @@
-import { HeaderNoButton, ContentInterest } from "@features-auth";
+import { HeaderNoButton, ContentInterest } from "@features/auth/components";
 import { Footer } from "@layouts";
 
 export default function InterestPage() {

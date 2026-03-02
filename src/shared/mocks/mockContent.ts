@@ -1,7 +1,7 @@
 import {
   Content,
   Recommendation,
-} from "@/shared/types/video-contents/contents";
+} from "@shared/types/video-contents/contents";
 
 // Mock 콘텐츠 데이터
 export const mockContents: Record<number, Content> = {

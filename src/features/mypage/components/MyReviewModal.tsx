@@ -4,9 +4,9 @@ import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { mockReviews } from "@/shared/mocks/mockReviews";
-import { ConfirmModal } from "@shared-ui";
-import { useOutsideClick } from "@/shared/hooks/useOutsideClick";
+import { mockReviews } from "@shared/mocks/mockReviews";
+import { ConfirmModal } from "@base-components";
+import { useOutsideClick } from "@shared/hooks/useOutsideClick";
 
 interface MyReviewModalProps {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 // /mypage/withdraw 도메인
 import { Header } from "@layouts";
-import { GoMypageButton, WithdrawNotice, WithdrawContentBox, WithdrawButton } from "@features-withdraw";
+import { GoMypageButton, WithdrawNotice, WithdrawContentBox, WithdrawButton } from "@features/withdraw/components";
 
 export default function MyPageWithdraw() {
   return (

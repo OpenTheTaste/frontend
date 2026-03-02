@@ -1,4 +1,4 @@
-import { RecentItem } from "@/shared/types/mypage/recenthistory";
+import { RecentItem } from "@shared/types/mypage/recenthistory";
 
 export const mockRecentData: RecentItem[] = [
   {

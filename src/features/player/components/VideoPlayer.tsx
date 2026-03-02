@@ -3,7 +3,7 @@
 import { useHls } from "@/features/player/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
 import type { Level } from "hls.js";
-import { SettingModal } from "@features-player";
+import { SettingModal } from "@features/player/components";
 
 import {
   ArrowLeft,
@@ -18,7 +18,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useOutsideClick } from "@/shared/hooks/useOutsideClick";
+import { useOutsideClick } from "@shared/hooks/useOutsideClick";
 import { useRouter } from "next/navigation";
 
 interface VideoPlayerProps {

@@ -1,4 +1,4 @@
-import { BookmarkItem } from "@/shared/types/mypage/bookmark";
+import { BookmarkItem } from "@shared/types/mypage/bookmark";
 
 export const BookmarkShortsMockData: BookmarkItem[] = [
   {

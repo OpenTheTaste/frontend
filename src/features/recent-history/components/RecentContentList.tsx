@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { RecentItem } from "@/shared/types/mypage/recenthistory";
-import { ScrollEdgeButton } from "@shared-ui";
+import { RecentItem } from "@shared/types/mypage/recenthistory";
+import { ScrollEdgeButton } from "@base-components";
 
 interface RecentContentListProps {
   items: RecentItem[];

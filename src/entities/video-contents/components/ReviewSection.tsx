@@ -1,10 +1,10 @@
 "use client";
 
 import { ArrowRight, X } from "lucide-react";
-import { CommonButton, ConfirmModal, Toggle } from "@shared-ui";
+import { CommonButton, ConfirmModal, Toggle } from "@base-components";
 import { useState } from "react";
-import { mockReview } from "@/shared/mocks/mockReview";
-import { Review } from "@/shared/types/video-contents/review";
+import { mockReview } from "@shared/mocks/mockReview";
+import { Review } from "@shared/types/video-contents/review";
 
 interface ReviewSectionProps {
   isExpandAllReviews: boolean;

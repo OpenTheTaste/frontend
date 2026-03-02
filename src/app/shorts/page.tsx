@@ -1,6 +1,6 @@
 import { Header } from "@layouts";
-import { ShortsContainer } from '@entities-shorts';
-import { ShortsData } from '@/shared/types/player/shorts';
+import { ShortsContainer } from '@entities/shorts/components';
+import { ShortsData } from '@shared/types/player/shorts';
 
 // 임시 데이터 - 나중에 API로 교체
 const shortsList: ShortsData[] = [

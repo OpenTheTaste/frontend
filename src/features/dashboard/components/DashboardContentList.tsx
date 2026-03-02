@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { DashboardData, TagDetail } from "@/shared/types/mypage/dashboard";
-import { TagStatsModal } from "@features-dashboard";
+import { DashboardData, TagDetail } from "@shared/types/mypage/dashboard";
+import { TagStatsModal } from "@features/dashboard/components";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 

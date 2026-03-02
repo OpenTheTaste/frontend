@@ -3,9 +3,9 @@
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { RecommendedContent } from "@/shared/types/mypage/dashboard";
-import { TagStatsModalList, TagStatsModalGraph } from "@features-dashboard";
-import { useOutsideClick } from "@/shared/hooks/useOutsideClick";
+import { RecommendedContent } from "@shared/types/mypage/dashboard";
+import { TagStatsModalList, TagStatsModalGraph } from "@features/dashboard/components";
+import { useOutsideClick } from "@shared/hooks/useOutsideClick";
 
 interface TagStatsModalProps {
   isOpen: boolean;

@@ -1,11 +1,11 @@
 "use client";
 
-import { CommonButton, Badge, InteractionButton } from "@shared-ui";
+import { CommonButton, Badge, InteractionButton } from "@base-components";
 import { Play, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { DESCRIPTION_MAX_LENGTH } from "@/entities/video-contents/constants/contentDescription";
-import { SingleContent, SeriesContent } from "@/shared/types/video-contents/contents";
+import { SingleContent, SeriesContent } from "@shared/types/video-contents/contents";
 import { useRouter } from "next/navigation";
 
 interface ContentsMainSectionProps {

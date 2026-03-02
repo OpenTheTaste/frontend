@@ -1,6 +1,6 @@
 import { Header } from "@layouts";
-import { BackButton } from "@shared-ui";
-import { ProfileEditor, EditFavoriteTagsUI, AccountActionButtons } from "@features-profile";
+import { BackButton } from "@base-components";
+import { ProfileEditor, EditFavoriteTagsUI, AccountActionButtons } from "@features/profile/components";
 
 export default function MyPageProfile() {
   return (

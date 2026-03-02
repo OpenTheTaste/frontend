@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchTip } from "@entities-search";
+import { SearchTip } from "@entities/search/components";
 import Image from "next/image";
 import Link from "next/link";
 

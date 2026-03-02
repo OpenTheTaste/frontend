@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ReviewContainer from "@/entities/video-contents/components/ReviewSection";
 import { useState } from "react";
-import { Recommendation } from "@/shared/types/video-contents/contents";
+import { Recommendation } from "@shared/types/video-contents/contents";
 
 interface SingleSideSectionProps {
   recommendations: Recommendation[];

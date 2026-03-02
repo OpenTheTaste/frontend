@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { TabBar } from "@features-mypage";
-import { RecentContentBox } from "@features-recent-history";
-import { BookmarkBox } from "@features-bookmark";
+import { TabBar } from "@features/mypage/components";
+import { RecentContentBox } from "@features/recent-history/components";
+import { BookmarkBox } from "@features/bookmark/components";
 
 type TabType = "recenthistory" | "bookmark";
 

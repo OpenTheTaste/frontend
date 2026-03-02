@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ShortsPlayer } from '@/entities/shorts/components/ShortsPlayer';
 import { ShortsInformation } from '@/entities/shorts/components/ShortsInformation';
 import { ShortsActionButtons } from '@/entities/shorts/components/ShortsActionButtons';
-import { ShortsContainerProps } from '@/shared/types/player/shorts';
+import { ShortsContainerProps } from '@shared/types/player/shorts';
 
 export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);

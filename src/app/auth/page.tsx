@@ -1,4 +1,4 @@
-import { OnboardHeader, MainSection, FAQSection } from "@features-auth";
+import { OnboardHeader, MainSection, FAQSection } from "@features/auth/components";
 import { Footer } from "@layouts";
 
 export default function OTPage() {

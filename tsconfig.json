@@ -20,30 +20,12 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      // layouts
+      "@base-components": ["./src/shared/components"],
       "@layouts": ["./src/layouts"],
-      // shared
-      "@shared-ui": ["./src/shared/ui"],
-      "@shared-api": ["./src/shared/api"],
-      "@shared-hooks": ["./src/shared/hooks"],
-      "@shared-lib": ["./src/shared/lib"],
-      "@shared-types": ["./src/shared/types"],
-      "@shared-mocks": ["./src/shared/mocks"],
-      // entities
-      "@entities-home": ["./src/entities/home/components"],
-      "@entities-search": ["./src/entities/search/components"],
-      "@entities-video-contents": ["./src/entities/video-contents/components"],
-      "@entities-shorts": ["./src/entities/shorts/components"],
-      // features
-      "@features-auth": ["./src/features/auth/components"],
-      "@features-auth-interest": ["./src/features/auth/components/Interest"],
-      "@features-mypage": ["./src/features/mypage/components"],
-      "@features-bookmark": ["./src/features/bookmark/components"],
-      "@features-dashboard": ["./src/features/dashboard/components"],
-      "@features-profile": ["./src/features/profile/components"],
-      "@features-recent-history": ["./src/features/recent-history/components"],
-      "@features-withdraw": ["./src/features/withdraw/components"],
-      "@features-player": ["./src/features/player/components"],
+      "@entities/*": ["./src/entities/*"],
+      "@features/*": ["./src/features/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@layouts/*": ["./src/layouts/*"]
     }
   },
   "include": [

@@ -2,8 +2,8 @@
 
 import { useState, KeyboardEvent, useRef } from "react";
 import Image from "next/image";
-import { Input } from "@shared-ui";
-import { MOCK_USER } from "@/shared/mocks/mockUser";
+import { Input } from "@base-components";
+import { MOCK_USER } from "@shared/mocks/mockUser";
 
 export default function ProfileEditor() {
   const [name, setName] = useState<string>(MOCK_USER.name);

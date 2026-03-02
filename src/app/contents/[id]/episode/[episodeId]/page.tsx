@@ -1,5 +1,5 @@
-import { ContentsContainer } from "@entities-video-contents";
-import { getContentById } from "@/shared/mocks/mockContent";
+import { ContentsContainer } from "@entities/video-contents/components";
+import { getContentById } from "@shared/mocks/mockContent";
 
 export default async function EpisodeDetailPage({
   params,

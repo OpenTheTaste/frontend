@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { RecommendedContent } from "@/shared/types/mypage/dashboard";
-import { ScrollEdgeButton } from "@shared-ui";
+import { RecommendedContent } from "@shared/types/mypage/dashboard";
+import { ScrollEdgeButton } from "@base-components";
 
 interface TagStatsModalListProps {
   items: RecommendedContent[];

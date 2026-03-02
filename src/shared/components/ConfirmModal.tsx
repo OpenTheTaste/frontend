@@ -3,8 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { CommonButton } from "@shared-ui";
-import { useOutsideClick } from "@/shared/hooks/useOutsideClick";
+import { CommonButton } from "@base-components";
+import { useOutsideClick } from "@shared/hooks/useOutsideClick";
 
 interface ConfirmModalProps {
   isOpen: boolean; // 모달 열림 여부

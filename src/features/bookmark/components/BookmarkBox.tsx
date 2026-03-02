@@ -6,7 +6,7 @@ import {
   BookmarkFilterBar,
   BookmarkContentList,
   BookmarkShortsList,
-} from "@features-bookmark";
+} from "@features/bookmark/components";
 
 interface BookmarkBoxProps {
   filter: "contents" | "shorts";

@@ -1,4 +1,4 @@
-import { WithdrawContent } from "@/shared/types/mypage/withdrawcontent";
+import { WithdrawContent } from "@shared/types/mypage/withdrawcontent";
 
 export const mockWithdrawContentData: WithdrawContent[] = [
   {

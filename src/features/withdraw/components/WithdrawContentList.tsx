@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { WithdrawContent } from "@/shared/types/mypage/withdrawcontent";
-import { ScrollEdgeButton } from "@shared-ui";
+import { WithdrawContent } from "@shared/types/mypage/withdrawcontent";
+import { ScrollEdgeButton } from "@base-components";
 
 interface WithdrawContentListProps {
   items: WithdrawContent[];

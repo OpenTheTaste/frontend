@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
-import { MOCK_USER } from "@/shared/mocks/mockUser";
+import { MOCK_USER } from "@shared/mocks/mockUser";
 
 export default function ProfileInfo() {
   return (

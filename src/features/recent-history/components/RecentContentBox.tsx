@@ -1,5 +1,5 @@
-import { RecentContentList } from "@features-recent-history";
-import { mockRecentData } from "@/shared/mocks/mockRecent";
+import { RecentContentList } from "@features/recent-history/components";
+import { mockRecentData } from "@shared/mocks/mockRecent";
 
 export default function RecentContentBox() {
   return (

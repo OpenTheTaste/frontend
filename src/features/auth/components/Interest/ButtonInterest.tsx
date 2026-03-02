@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CommonButton } from "@shared-ui";
+import { CommonButton } from "@base-components";
 
 interface InterestButtonProps {
   selectedTagCount: number;

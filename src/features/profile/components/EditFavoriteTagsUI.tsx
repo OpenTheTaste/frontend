@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ListCategory, SelectTag, SelectedTag } from "@features-auth-interest";
-import { FinishEditButton } from "@features-profile";
-import { Category } from "@/shared/types/category";
-import { TAGS } from "@/shared/types/tags";
-import { MOCK_USER } from "@/shared/mocks/mockUser";
+import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
+import { FinishEditButton } from "@features/profile/components";
+import { Category } from "@shared/types/category";
+import { TAGS } from "@shared/types/tags";
+import { MOCK_USER } from "@shared/mocks/mockUser";
 
 const CATEGORIES: Category[] = [
   "영화",

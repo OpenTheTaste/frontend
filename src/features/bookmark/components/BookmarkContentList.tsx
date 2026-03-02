@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { ConfirmModal } from "@shared-ui";
-import { BookmarkContentsMockData } from "@/shared/mocks/mockbookmarkcontent";
+import { ConfirmModal } from "@base-components";
+import { BookmarkContentsMockData } from "@shared/mocks/mockbookmarkcontent";
 
 export default function BookmarkContentList() {
   const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] =

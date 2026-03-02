@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CommonButton } from "@shared-ui";
+import { CommonButton } from "@base-components";
 
 export default function MainSection() {
   return (

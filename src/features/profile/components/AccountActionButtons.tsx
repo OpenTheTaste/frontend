@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CommonButton, ConfirmModal } from "@shared-ui";
+import { CommonButton, ConfirmModal } from "@base-components";
 
 export default function AccountActionButtons() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);

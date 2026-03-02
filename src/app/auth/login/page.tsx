@@ -1,4 +1,4 @@
-import { HeaderNoButton, LoginContent } from "@features-auth";
+import { HeaderNoButton, LoginContent } from "@features/auth/components";
 import { Footer } from "@layouts";
 
 export default function Login() {

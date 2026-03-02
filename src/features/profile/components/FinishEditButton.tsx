@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Category } from "@/shared/types/category";
-import { CommonButton } from "@shared-ui";
+import { Category } from "@shared/types/category";
+import { CommonButton } from "@base-components";
 
 interface FinishEditButtonProps {
   selectedTags: Record<Category, string[]>;

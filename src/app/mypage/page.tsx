@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Header, Footer } from "@layouts";
-import { ProfileInfo, UserMenuButtons, MyPageContent } from "@features-mypage";
+import { ProfileInfo, UserMenuButtons, MyPageContent } from "@features/mypage/components";
 
 export default function MyPage() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "@/shared/lib/cn";
+import { cn } from "@shared/lib/cn";
 
 export interface ScrollEdgeButtonProps {
   direction: "left" | "right";
