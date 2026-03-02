@@ -28,7 +28,7 @@ export default function SearchInput({ keyword }: SearchInputProps) {
   };
 
   const handleClear = () => {
-    setInputValue("-ui");
+    setInputValue("");
     router.push(`?`);
   };
 

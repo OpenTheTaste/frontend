@@ -33,7 +33,7 @@ export const SettingModal = ({
       className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-ot-gray-800 rounded-lg p-5"
     >
       <div className="flex gap-x-10">
-        <p className="text-ot-text text-md font-semibold whitespace-nowrap">
+        <p className="text-ot-text text-base font-semibold whitespace-nowrap">
           {title}
         </p>
 

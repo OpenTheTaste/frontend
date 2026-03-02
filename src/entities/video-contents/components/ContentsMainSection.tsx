@@ -97,7 +97,7 @@ export default function ContentsMainSection({
 
         <div className="flex gap-20 mt-5">
           <div className="w-3/5">
-            <p className="text-md leading-relaxed">
+            <p className="text-base leading-relaxed">
               {isExpandedDescription
                 ? content.description
                 : truncatedDescription(content.description)}
@@ -112,7 +112,7 @@ export default function ContentsMainSection({
                     isExpandedDescription ? "rotate-180" : "rotate-0"
                   }`}
                 />
-                <p className="text-md text-ot-gray-600 group-hover:text-ot-gray-800">
+                <p className="text-base text-ot-gray-600 group-hover:text-ot-gray-800">
                   {isExpandedDescription ? "접기" : "더 보기"}
                 </p>
               </button>

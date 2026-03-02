@@ -1,7 +1,6 @@
 "use client";
 
 import { InteractionButton } from "@/shared/components";
-import Image from "next/image";
 
 interface ShortsActionButtonsProps {
   isLiked: boolean;
