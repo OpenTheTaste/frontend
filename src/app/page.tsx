@@ -1,5 +1,5 @@
-import { Header, Footer } from "@basecomponent";
-import { MainCarousel, ContentCarousel } from "@home";
+import { Header, Footer } from "@layouts";
+import { MainCarousel, ContentCarousel } from "@entities/home/components";
 
 export default function Home() {
   return (

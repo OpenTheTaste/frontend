@@ -20,34 +20,12 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      // componets
-      "@basecomponent": ["./src/components/common"],
-      "@home": ["./src/domains/home/components"],
-      "@mypage": ["./src/domains/mypage/components"],
-      "@mypage-bookmark": ["./src/domains/mypage/components/bookmark"],
-      "@mypage-dashboard": ["./src/domains/mypage/components/dashboard"],
-      "@mypage-profile": ["./src/domains/mypage/components/profile"],
-      "@mypage-recenthistory": [
-        "./src/domains/mypage/components/recenthistory"
-      ],
-      "@mypage-withdraw": ["./src/domains/mypage/components/withdraw"],
-      "@mypage-main": ["./src/domains/mypage/components/main"],
-      "@onboard": ["./src/domains/onboard/components"],
-      "@onboard-interest": ["./src/domains/onboard/components/Interest"],
-      "@video": ["./src/domains/player/video/components"],
-      "@shorts": ["./src/domains/player/shorts/components"],
-      "@video-contents": ["./src/domains/video-contents/components"],
-      "@search": ["./src/domains/search/components"],
-      "@admin-basecomponent": ["./src/components/admin/common"],
-      "@admin-upload": ["./src/components/admin/common/upload"],
-      "@admin-monitoring": ["./src/domains/admin/monitoring/components"],
-      "@admin-user": ["./src/domains/admin/user/components"],
-      "@admin-series": ["./src/domains/admin/series/components"],
-      "@admin-contents": ["./src/domains/admin/contents/components"],
-      "@admin-shorts": ["./src/domains/admin/shorts/components"],
-      // types
-      "@base-type": ["./src/types"],
-      "@admin-type": ["./src/types/admin"]
+      "@base-components": ["./src/shared/components"],
+      "@layouts": ["./src/layouts"],
+      "@entities/*": ["./src/entities/*"],
+      "@features/*": ["./src/features/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@layouts/*": ["./src/layouts/*"]
     }
   },
   "include": [
