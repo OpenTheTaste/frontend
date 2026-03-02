@@ -16,10 +16,13 @@ export default function MyPageContent() {
 
   // 쿼리 접근 관련
   const activeTab: TabType =
-    tabParam === "bookmark" || tabParam === "recenthistory" ? tabParam : "recenthistory";
+    tabParam === "bookmark" || tabParam === "recenthistory"
+      ? tabParam
+      : "recenthistory";
 
   const activeFilter =
-    activeTab === "bookmark" && (filterParam === "contents" || filterParam === "shorts")
+    activeTab === "bookmark" &&
+    (filterParam === "contents" || filterParam === "shorts")
       ? filterParam
       : "contents";
 
@@ -38,11 +41,15 @@ export default function MyPageContent() {
         {/* 탭 바 */}
         <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
         {/* 구분선 */}
-        <div className="w-full border-t border-ot-gray-600 absolute bottom-0 left-0 z-0" />
+        <div className="w-full border-t border-ot-gray-800 absolute bottom-0 left-0 z-0" />
       </div>
 
       {/* 탭 뭐눌렀는지에 따라 불러오는거 구분 */}
-      {activeTab === "recenthistory" ? <RecentContentBox /> : <BookmarkBox filter={activeFilter} />}
+      {activeTab === "recenthistory" ? (
+        <RecentContentBox />
+      ) : (
+        <BookmarkBox filter={activeFilter} />
+      )}
     </div>
   );
 }

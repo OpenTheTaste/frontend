@@ -19,12 +19,12 @@ export default function ProfileInfo() {
       </div>
 
       {/* 오른쪽) 사용자 정보 영역 */}
-      <div className="flex flex-col justify-center gap-1 h-full pl-4">
+      <div className="flex flex-col justify-center gap-1 h-full pl-8">
         {/* 사용자 이름 & 프로필 수정 아이콘 버튼 */}
         <div className="flex items-center gap-2 pb-2">
-          <h2 className="text-ot-text text-xl font-bold leading-tight">
-            [{MOCK_USER.name}]
-          </h2>
+          <p className="text-ot-text text-3xl font-bold leading-tight">
+            {MOCK_USER.name}
+          </p>
           <Link href="/mypage/profile" className="hover:opacity-70">
             <Pencil
               size={24}

@@ -8,7 +8,7 @@ export default function MyPage() {
       <Header />
 
       <main className="w-full max-w-480 flex-1 px-12 py-6">
-        <div className="flex justify-between items-end w-full">
+        <div className="flex justify-between items-end w-full mt-14 mb-8">
           {/* 왼쪽 : 사용자 프로필 정보 */}
           <ProfileInfo />
           {/* 오른쪽 : "대시보드" & "내 댓글 목록" 버튼 */}

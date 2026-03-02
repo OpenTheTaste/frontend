@@ -24,7 +24,7 @@ export default function UserMenuButtons() {
       <CommonButton
         variant="secondary"
         onClick={() => setIsModalOpen(true)}
-        className="py-2 px-4 text-ot-text text-[16px] font-semibold"
+        className="py-2 px-6 text-ot-text text-[16px] font-semibold"
       >
         내 댓글 목록
       </CommonButton>
