@@ -1,4 +1,4 @@
-import type { Factor } from '../constants/factors';
+import type { Factor } from '@features/custom/constants/factors';
 
 interface SliderItemProps {
   factorKey: Factor;
