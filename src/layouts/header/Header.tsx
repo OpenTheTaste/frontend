@@ -34,6 +34,14 @@ export const Header = () => {
             쇼츠
           </Link>
         )}
+        {isHomePage && (
+          <Link
+            href="/custom"
+            className="text-[1.125rem] font-bold text-ot-text hover:text-ot-primary-500 transition-colors cursor-pointer"
+          >
+            커스텀 추천
+          </Link>
+        )}
       </div>
 
       <div
