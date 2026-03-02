@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
+import { ScrollEdgeButton } from "@shared/components";
 
 interface ContentCarouselProps {
   title: string;
@@ -97,15 +98,11 @@ export default function ContentCarousel({
 
       <div className="relative">
         {!isAtStart && (
-          <button
+          <ScrollEdgeButton
+            direction="left"
             onClick={() => handleScroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors cursor-pointer"
-          >
-            <ChevronLeft
-              size={28}
-              className="text-ot-gray-600 hover:text-ot-text hover:scale-110 hover:drop-shadow-lg transition-all"
-            />
-          </button>
+            className="left-0"
+          />
         )}
 
         <div
@@ -129,15 +126,11 @@ export default function ContentCarousel({
         </div>
 
         {!isAtEnd && (
-          <button
+          <ScrollEdgeButton
+            direction="right"
             onClick={() => handleScroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-transparent transition-colors cursor-pointer"
-          >
-            <ChevronRight
-              size={28}
-              className="text-ot-gray-600 hover:text-ot-text hover:scale-110 hover:drop-shadow-lg transition-all"
-            />
-          </button>
+            className="right-0"
+          />
         )}
       </div>
     </div>
