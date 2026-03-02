@@ -165,6 +165,10 @@ body {
   background-image: url("/icons/checkboxOn.svg");
 }
 
+.custom-checkbox:hover {
+  opacity: 0.8;
+}
+
 .text-ot-primary-gradient {
   background: var(--gradient-ot-primary-diagonal);
   -webkit-background-clip: text;

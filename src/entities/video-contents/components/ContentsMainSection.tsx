@@ -1,11 +1,14 @@
 "use client";
 
 import { CommonButton, Badge, InteractionButton } from "@base-components";
-import { Play, ChevronDown, ChevronUp } from "lucide-react";
+import { Play, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { DESCRIPTION_MAX_LENGTH } from "@/entities/video-contents/constants/contentDescription";
-import { SingleContent, SeriesContent } from "@shared/types/video-contents/contents";
+import {
+  SingleContent,
+  SeriesContent,
+} from "@shared/types/video-contents/contents";
 import { useRouter } from "next/navigation";
 
 interface ContentsMainSectionProps {
@@ -60,8 +63,8 @@ export default function ContentsMainSection({
         </div>
       )}
 
-      <div className="flex gap-6 mt-8">
-        <CommonButton className="px-9" onClick={handlePlay}>
+      <div className="flex gap-4 mt-8 items-center">
+        <CommonButton className="px-9 py-3 mr-3" onClick={handlePlay}>
           <Play className="fill-ot-text stroke-ot-text w-6 h-6" />
           <p className="font-semibold text-lg">재생하기</p>
         </CommonButton>
@@ -69,12 +72,14 @@ export default function ContentsMainSection({
         <InteractionButton
           type="like"
           isActive={like}
+          size="md"
           onAction={() => setLike((prev) => !prev)}
         />
 
         <InteractionButton
           type="bookmark"
           isActive={bookmark}
+          size="md"
           onAction={() => setBookmark((prev) => !prev)}
         />
       </div>
@@ -92,7 +97,7 @@ export default function ContentsMainSection({
 
         <div className="flex gap-20 mt-5">
           <div className="w-3/5">
-            <p className="text-xl leading-relaxed">
+            <p className="text-md leading-relaxed">
               {isExpandedDescription
                 ? content.description
                 : truncatedDescription(content.description)}
@@ -102,12 +107,12 @@ export default function ContentsMainSection({
                 onClick={() => setIsExpandedDescription((prev) => !prev)}
                 className="flex gap-1 mt-2 items-center cursor-pointer group"
               >
-                {isExpandedDescription ? (
-                  <ChevronUp className="w-5 h-5 stroke-1 stroke-ot-text group-hover:stroke-ot-gray-600" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 stroke-1 stroke-ot-text group-hover:stroke-ot-gray-600" />
-                )}
-                <p className="text-md group-hover:text-ot-gray-600">
+                <ChevronDown
+                  className={`w-5 h-5 stroke-1 text-ot-gray-600 group-hover:text-ot-gray-800 transition-transform duration-300 ${
+                    isExpandedDescription ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+                <p className="text-md text-ot-gray-600 group-hover:text-ot-gray-800">
                   {isExpandedDescription ? "접기" : "더 보기"}
                 </p>
               </button>
