@@ -23,4 +23,6 @@ export const authApi = {
     api.get("/categories") as unknown as Promise<ApiResponse<CategoryItem[]>>,
   getTags: (categoryId: number) =>
     api.get(`/categories/${categoryId}/tags`) as unknown as Promise<ApiResponse<TagItem[]>>,
+  setPreferredTags: (tagsId: number[]) =>
+    api.post("/member/me/tags", { tagsId }),
 };
