@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { X, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { MOCK_PREVIEWS } from '@features/custom/constants/factors';
 
@@ -48,11 +49,13 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
         <div className="flex flex-col gap-4">
           {MOCK_PREVIEWS.map((item) => (
             <div key={item.id} className="flex items-center gap-4 bg-ot-gray-800 rounded-xl p-4">
-              <div className="w-20 h-14 rounded-lg bg-ot-gray-700 shrink-0 overflow-hidden">
-                <img
+              <div className="relative w-20 h-14 rounded-lg bg-ot-gray-700 shrink-0 overflow-hidden">
+                <Image
                   src={item.thumbnail}
                   alt={item.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="80px"
                 />
               </div>
               <div className="flex-1">
