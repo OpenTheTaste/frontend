@@ -1,10 +1,8 @@
 // src/components/Interest/SelectedTagsDisplay.tsx
 "use client";
 
-import { Category } from "@shared/types/category";
-
 interface SelectedTagsDisplayProps {
-  selectedTagsByCategory: Record<Category, string[]>;
+  selectedTagsByCategory: Record<string, string[]>;
   onClearAll: () => void;
 }
 
@@ -14,7 +12,7 @@ export default function SelectedTag({
 }: SelectedTagsDisplayProps) {
   const allSelectedTags = Object.entries(selectedTagsByCategory).flatMap(
     ([category, tags]) =>
-      tags.map((tag) => ({ category: category as Category, tag })),
+      tags.map((tag) => ({ category, tag })),
   );
 
   return (
