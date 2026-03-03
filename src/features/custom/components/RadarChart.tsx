@@ -11,8 +11,7 @@ import {
   type ChartEvent,
   type ActiveElement,
 } from "chart.js";
-import type { Factor } from "@/entities/custom/constants/factors";
-import { FACTORS } from "@/entities/custom/constants/factors";
+import { FACTORS, Factor } from "@/entities/custom/constants";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
