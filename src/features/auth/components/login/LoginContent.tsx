@@ -1,10 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useKakaoLogin } from "@/entities/auth/hooks";
 
 export default function LoginContent() {
-  const router = useRouter();
+  const { handleKakaoLogin } = useKakaoLogin();
 
   return (
     <section className="w-full h-[70vh] bg-ot-background flex-1 flex items-center justify-center py-12">
@@ -16,7 +16,7 @@ export default function LoginContent() {
           계정이 없다면 새로운 계정으로 시작해주세요
         </p>
         <button
-          onClick={() => router.push("/auth/userinfo")}
+          onClick={handleKakaoLogin}
           className="w-full max-w-80 hover:opacity-90 transition-opacity"
         >
           <Image

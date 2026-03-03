@@ -1,22 +1,21 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { CommonButton } from "@base-components";
 
 interface InterestButtonProps {
   selectedTagCount: number;
   disabled?: boolean;
+  onSubmit: () => void;
 }
 
-export default function ButtonInterest({ 
+export default function ButtonInterest({
   selectedTagCount,
-  disabled = false 
+  disabled = false,
+  onSubmit,
 }: InterestButtonProps) {
-  const router = useRouter();
-
   return (
     <CommonButton
-      onClick={() => router.push('/')}
+      onClick={onSubmit}
       disabled={disabled}
       className="w-1/2 py-4 text-[1rem] font-bold disabled:opacity-50 disabled:cursor-not-allowed"
     >
