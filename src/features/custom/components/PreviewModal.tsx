@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { X, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { MOCK_PREVIEWS } from '@/entities/custom/constants/factors';
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { X } from "lucide-react";
+import { MOCK_PREVIEWS } from "@/entities/custom/constants";
+import { CommonButton } from "@base-components";
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -11,14 +12,11 @@ interface PreviewModalProps {
 }
 
 export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
-  const [feedback, setFeedback] = useState<Record<number, 'good' | 'bad' | null>>({
-    1: null,
-    2: null,
-    3: null,
-  });
+  const router = useRouter();
 
-  const toggleFeedback = (id: number, type: 'good' | 'bad') => {
-    setFeedback((prev) => ({ ...prev, [id]: prev[id] === type ? null : type }));
+  const handleLike = () => {
+    onClose();
+    router.push("/");
   };
 
   if (!isOpen) return null;
@@ -62,38 +60,18 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
                 <p className="font-semibold">{item.title}</p>
                 <p className="text-sm text-ot-gray-400">{item.genre}</p>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => toggleFeedback(item.id, 'good')}
-                  className={`p-2 rounded-lg transition cursor-pointer ${
-                    feedback[item.id] === 'good'
-                      ? 'bg-ot-primary-400 text-ot-text'
-                      : 'bg-ot-gray-700 text-ot-gray-400 hover:bg-ot-gray-600'
-                  }`}
-                >
-                  <ThumbsUp className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => toggleFeedback(item.id, 'bad')}
-                  className={`p-2 rounded-lg transition cursor-pointer ${
-                    feedback[item.id] === 'bad'
-                      ? 'bg-ot-gray-500 text-ot-text'
-                      : 'bg-ot-gray-700 text-ot-gray-400 hover:bg-ot-gray-600'
-                  }`}
-                >
-                  <ThumbsDown className="w-4 h-4" />
-                </button>
-              </div>
             </div>
           ))}
         </div>
 
-        <button
-          onClick={onClose}
-          className="w-full mt-6 py-3 bg-ot-primary-400 text-ot-text rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
-        >
-          확인
-        </button>
+        <div className="flex gap-4">
+          <CommonButton onClick={handleLike} className="w-full mt-6 py-3">
+            좋아요
+          </CommonButton>
+          <CommonButton onClick={onClose} variant="secondary" className="w-full mt-6 py-3">
+            별로예요
+          </CommonButton>
+        </div>
       </div>
     </div>
   );

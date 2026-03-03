@@ -1,4 +1,4 @@
-import type { Factor } from '@/entities/custom/constants/factors';
+import type { Factor } from "@/entities/custom/constants";
 
 interface SliderItemProps {
   factorKey: Factor;
@@ -28,7 +28,7 @@ export function SliderItem({ factorKey, value, remaining, onChange }: SliderItem
       </div>
       <span
         className={`w-7 text-right text-sm font-bold transition-colors ${
-          value > 0 ? 'text-ot-primary-400' : 'text-ot-gray-600'
+          value > 0 ? "text-ot-primary-400" : "text-ot-gray-600"
         }`}
       >
         {value}
