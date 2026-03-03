@@ -70,11 +70,11 @@ export function CustomSetting() {
             {/* 상단 바 */}
             <div className="flex items-center justify-between mb-7">
               <h2 className="text-xl font-bold">요소별 값 설정</h2>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <span
-                  className={`text-xs px-3 py-1.5 rounded-full font-semibold transition-colors ${
+                  className={`text-xs px-3 py-1 rounded-full font-semibold transition-colors ${
                     isComplete
-                      ? 'bg-ot-primary-400 text-white'
+                      ? 'bg-ot-primary-gradient text-ot-text'
                       : 'bg-ot-gray-800 text-ot-gray-400'
                   }`}
                 >
@@ -85,7 +85,7 @@ export function CustomSetting() {
                 <div className="relative">
                   <button
                     onClick={() => setIsGenreOpen((p) => !p)}
-                    className="flex items-center gap-1.5 text-sm bg-ot-gray-800 px-3 py-1.5 rounded-full hover:bg-ot-gray-700 transition cursor-pointer"
+                    className="flex items-center gap-1 text-xs font-semibold bg-ot-gray-800 px-3 py-1 rounded-full hover:bg-ot-gray-700 transition cursor-pointer"
                   >
                     {genre}
                     <ChevronDown className="w-3 h-3" />

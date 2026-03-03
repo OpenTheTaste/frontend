@@ -10,7 +10,7 @@ interface SliderItemProps {
 export function SliderItem({ factorKey, value, remaining, onChange }: SliderItemProps) {
   return (
     <div className="flex items-center gap-4">
-      <span className="w-30 shrink-0 text-sm font-semibold bg-ot-primary-50 text-ot-primary-600 text-center py-3 rounded-lg">
+      <span className="w-30 shrink-0 text-sm font-semibold bg-ot-primary-50 text-ot-primary-600 text-center py-2.5 rounded-lg">
         {factorKey}
       </span>
       <div className="flex items-center gap-2 flex-1">
