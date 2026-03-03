@@ -13,6 +13,7 @@ import {
   type Factor,
 } from "@entities/custom/constants";
 import { RadarChart, SliderItem, PreviewModal } from "@features/custom/components";
+
 export function CustomSetting() {
   const router = useRouter();
 

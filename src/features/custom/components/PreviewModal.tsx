@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { MOCK_PREVIEWS } from "@/entities/custom/constants";
+import { CommonButton } from "@base-components";
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -64,18 +65,12 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
         </div>
 
         <div className="flex gap-4">
-          <button
-            onClick={handleLike}
-            className="w-full mt-6 py-3 bg-ot-primary-gradient text-ot-text rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
-          >
+          <CommonButton onClick={handleLike} className="w-full mt-6 py-3">
             좋아요
-          </button>
-          <button
-            onClick={onClose}
-            className="w-full mt-6 py-3 bg-ot-secondary-800 text-ot-text rounded-xl font-semibold hover:bg-ot-secondary-600 transition cursor-pointer"
-          >
+          </CommonButton>
+          <CommonButton onClick={onClose} variant="secondary" className="w-full mt-6 py-3">
             별로예요
-          </button>
+          </CommonButton>
         </div>
       </div>
     </div>
