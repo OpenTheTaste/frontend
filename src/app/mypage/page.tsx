@@ -1,6 +1,10 @@
 import { Suspense } from "react";
 import { Header, Footer } from "@layouts";
-import { ProfileInfo, UserMenuButtons, MyPageContent } from "@features/mypage/components";
+import {
+  ProfileInfo,
+  UserMenuButtons,
+  MyPageContent,
+} from "@features/mypage/components";
 
 export default function MyPage() {
   return (
@@ -16,7 +20,7 @@ export default function MyPage() {
         </div>
         {/* 저장한 작품들 리스트 */}
         {/* useSearchParams를 사용하는 컴포넌트는 Suspense로 감싸야 함 */}
-        <Suspense fallback={<div className="text-white">로딩 중...</div>}>
+        <Suspense fallback={<div className="text-ot-text">로딩 중...</div>}>
           <MyPageContent />
         </Suspense>
       </main>

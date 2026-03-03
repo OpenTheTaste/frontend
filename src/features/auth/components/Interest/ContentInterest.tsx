@@ -58,7 +58,7 @@ export default function ContentInterest() {
   return (
     <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-6">
       <div className="px-3 max-w-[1100px] mx-auto w-full flex flex-col">
-        <h1 className="text-[2rem] font-bold text-white mb-1">
+        <h1 className="text-[2rem] font-bold text-ot-text mb-1">
           관심사를 선택해주세요
         </h1>
 
@@ -67,8 +67,8 @@ export default function ContentInterest() {
         </p>
 
         {/* 카테고리 & 테그 섹션 */}
-        <div className="flex border border-text-white rounded-lg overflow-hidden mb-2">
-          <div className="border-r border-text-white">
+        <div className="flex border border-text-ot-text rounded-lg overflow-hidden mb-2">
+          <div className="border-r border-text-ot-text">
             <ListCategory
               categories={CATEGORIES}
               selectedCategory={selectedCategory}

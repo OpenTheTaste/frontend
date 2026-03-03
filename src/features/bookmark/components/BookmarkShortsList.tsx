@@ -46,7 +46,7 @@ export default function BookmarkShortsList() {
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <Play
                       size={18}
-                      className="text-white fill-white drop-shadow-md"
+                      className="text-ot-text fill-ot-text drop-shadow-md"
                     />
                   </div>
                 </>
@@ -75,7 +75,7 @@ export default function BookmarkShortsList() {
                 e.stopPropagation();
                 setIsDeleteShortsModalOpen(true);
               }}
-              className="absolute top-3 right-3 p-1.5 rounded-full text-ot-gray-500 hover:text-white hover:bg-ot-gray-800 transition-all duration-150"
+              className="absolute top-3 right-3 p-1.5 rounded-full text-ot-gray-500 hover:text-ot-text hover:bg-ot-gray-800 transition-all duration-150"
             >
               <X size={14} strokeWidth={2.5} />
             </button>
