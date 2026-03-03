@@ -1,59 +1,77 @@
 "use client";
 
-import { useState } from "react";
-import { Category } from "@shared/types/category";
-import { TAGS } from "@shared/types/tags";
+import { useState, useEffect, useRef } from "react";
+import { authApi, CategoryItem, TagItem } from "@entities/auth/api/auth";
 import ListCategory from "@/features/auth/components/Interest/ListCategory";
 import SelectedTag from "@/features/auth/components/Interest/SelectedTag";
 import SelectTag from "@/features/auth/components/Interest/SelectTag";
 import ButtonInterest from "@/features/auth/components/Interest/ButtonInterest";
 import { ButtonSkip } from "./ButtonSkip";
 
-const CATEGORIES: Category[] = [
-  "영화",
-  "드라마",
-  "예능",
-  "다큐",
-  "뉴스",
-  "스포츠",
-];
-
-const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
-  영화: [],
-  드라마: [],
-  예능: [],
-  다큐: [],
-  뉴스: [],
-  스포츠: [],
-};
-
 export default function ContentInterest() {
-  const [selectedCategory, setSelectedCategory] = useState<Category>("영화");
-  const [selectedTagsByCategory, setSelectedTagsByCategory] = useState<
-    Record<Category, string[]>
-  >(INITIAL_TAGS_BY_CATEGORY);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
+  const [tagsByCategory, setTagsByCategory] = useState<Record<number, TagItem[]>>({});
+  const [selectedTagIdsByCategory, setSelectedTagIdsByCategory] = useState<Record<number, number[]>>({});
+  const fetchedCategoryIds = useRef<Set<number>>(new Set());
 
-  const currentTags = TAGS[selectedCategory];
-  const selectedTags = selectedTagsByCategory[selectedCategory];
+  useEffect(() => {
+    authApi.getCategories().then((res) => {
+      const cats = res.data;
+      setCategories(cats);
+      setSelectedCategory(cats[0] ?? null);
+      setSelectedTagIdsByCategory(Object.fromEntries(cats.map((c) => [c.categoryId, []])));
+    });
+  }, []);
 
-  const handleToggleTag = (tag: string) => {
-    setSelectedTagsByCategory((prev) => ({
-      ...prev,
-      [selectedCategory]: prev[selectedCategory].includes(tag)
-        ? prev[selectedCategory].filter((t) => t !== tag)
-        : [...prev[selectedCategory], tag],
-    }));
+  useEffect(() => {
+    if (!selectedCategory) return;
+    if (fetchedCategoryIds.current.has(selectedCategory.categoryId)) return;
+
+    fetchedCategoryIds.current.add(selectedCategory.categoryId);
+    authApi.getTags(selectedCategory.categoryId).then((res) => {
+      setTagsByCategory((prev) => ({
+        ...prev,
+        [selectedCategory.categoryId]: res.data,
+      }));
+    });
+  }, [selectedCategory]);
+
+  const currentTags = selectedCategory ? (tagsByCategory[selectedCategory.categoryId] ?? []) : [];
+  const selectedTagIds = selectedCategory ? (selectedTagIdsByCategory[selectedCategory.categoryId] ?? []) : [];
+
+  const handleToggleTag = (tagId: number) => {
+    if (!selectedCategory) return;
+    setSelectedTagIdsByCategory((prev) => {
+      const current = prev[selectedCategory.categoryId] ?? [];
+      return {
+        ...prev,
+        [selectedCategory.categoryId]: current.includes(tagId)
+          ? current.filter((id) => id !== tagId)
+          : [...current, tagId],
+      };
+    });
   };
 
-  const handleSelectCategory = (category: Category) => {
+  const handleSelectCategory = (category: CategoryItem) => {
     setSelectedCategory(category);
   };
 
   const handleClearAll = () => {
-    setSelectedTagsByCategory(INITIAL_TAGS_BY_CATEGORY);
+    setSelectedTagIdsByCategory(Object.fromEntries(categories.map((c) => [c.categoryId, []])));
   };
 
-  const totalSelectedTags = Object.values(selectedTagsByCategory).flat().length;
+  // SelectedTag 표시용: Record<categoryName, tagName[]>
+  const selectedTagsByCategory: Record<string, string[]> = Object.fromEntries(
+    categories.map((cat) => [
+      cat.name,
+      (selectedTagIdsByCategory[cat.categoryId] ?? [])
+        .map((tagId) => tagsByCategory[cat.categoryId]?.find((t) => t.tagId === tagId)?.name ?? "")
+        .filter(Boolean),
+    ])
+  );
+
+  const totalSelectedTags = Object.values(selectedTagIdsByCategory).flat().length;
 
   return (
     <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-6">
@@ -66,23 +84,23 @@ export default function ContentInterest() {
           좋아하는 카테고리와 장르를 선택하면 맞춤 콘텐츠를 추천해드립니다.
         </p>
 
-        {/* 카테고리 & 테그 섹션 */}
+        {/* 카테고리 & 태그 섹션 */}
         <div className="flex border border-text-ot-text rounded-lg overflow-hidden mb-2">
           <div className="border-r border-text-ot-text">
             <ListCategory
-              categories={CATEGORIES}
+              categories={categories}
               selectedCategory={selectedCategory}
               onSelectCategory={handleSelectCategory}
             />
           </div>
           <SelectTag
             tags={currentTags}
-            selectedTags={selectedTags}
+            selectedTagIds={selectedTagIds}
             onToggleTag={handleToggleTag}
           />
         </div>
 
-        {/* 선택된 관심사 표시  */}
+        {/* 선택된 관심사 표시 */}
         <SelectedTag
           selectedTagsByCategory={selectedTagsByCategory}
           onClearAll={handleClearAll}
