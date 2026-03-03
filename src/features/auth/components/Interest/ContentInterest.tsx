@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { authApi, CategoryItem, TagItem } from "@entities/auth/api/auth";
 import ListCategory from "@/features/auth/components/Interest/ListCategory";
 import SelectedTag from "@/features/auth/components/Interest/SelectedTag";
@@ -9,6 +10,7 @@ import ButtonInterest from "@/features/auth/components/Interest/ButtonInterest";
 import { ButtonSkip } from "./ButtonSkip";
 
 export default function ContentInterest() {
+  const router = useRouter();
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
   const [tagsByCategory, setTagsByCategory] = useState<Record<number, TagItem[]>>({});
@@ -73,6 +75,18 @@ export default function ContentInterest() {
 
   const totalSelectedTags = Object.values(selectedTagIdsByCategory).flat().length;
 
+  const handleSubmit = async () => {
+    const allTagIds = Object.values(selectedTagIdsByCategory).flat();
+    console.log("[관심사 제출] 전송할 tagIds:", allTagIds);
+    try {
+      const res = await authApi.setPreferredTags(allTagIds);
+      console.log("[관심사 제출] 성공:", res);
+      router.push("/");
+    } catch (err) {
+      console.error("[관심사 제출] 실패:", err);
+    }
+  };
+
   return (
     <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-6">
       <div className="px-3 max-w-[1100px] mx-auto w-full flex flex-col">
@@ -111,6 +125,7 @@ export default function ContentInterest() {
           <ButtonInterest
             selectedTagCount={totalSelectedTags}
             disabled={totalSelectedTags === 0}
+            onSubmit={handleSubmit}
           />
         </div>
       </div>
