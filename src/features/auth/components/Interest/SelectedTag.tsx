@@ -18,9 +18,9 @@ export default function SelectedTag({
   );
 
   return (
-    <div className="border border-ot-white rounded-lg bg-ot-background p-6 mb-3">
+    <div className="border border-ot-text rounded-lg bg-ot-background p-6 mb-3">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-[1rem] font-bold text-white">
+        <h3 className="text-[1rem] font-bold text-ot-text">
           선택한 관심사 ({allSelectedTags.length})
         </h3>
         <button

@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
+import {
+  ListCategory,
+  SelectTag,
+  SelectedTag,
+} from "@features/auth/components/Interest";
 import { FinishEditButton } from "@features/profile/components";
 import { Category } from "@shared/types/category";
 import { TAGS } from "@shared/types/tags";
@@ -71,8 +75,8 @@ export default function EditFavoriteTagsUI() {
     <section className="w-full bg-ot-background flex-1 flex flex-col items-center justify-center py-6">
       <div className="px-3 max-w-275 mx-auto w-full flex flex-col items-center">
         {/* 카테고리 & 테그 섹션 */}
-        <div className="w-full flex border border-text-white rounded-lg overflow-hidden mb-2">
-          <div className="border-r border-text-white">
+        <div className="w-full flex border border-text-ot-text rounded-lg overflow-hidden mb-2">
+          <div className="border-r border-text-ot-text">
             <ListCategory
               categories={CATEGORIES}
               selectedCategory={selectedCategory}

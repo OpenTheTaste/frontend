@@ -1,13 +1,16 @@
 import { Header } from "@layouts";
 import { BackButton } from "@base-components";
-import { ProfileEditor, EditFavoriteTagsUI, AccountActionButtons } from "@features/profile/components";
+import {
+  ProfileEditor,
+  EditFavoriteTagsUI,
+  AccountActionButtons,
+} from "@features/profile/components";
 
 export default function MyPageProfile() {
   return (
     <div className="min-h-screen bg-ot-background flex flex-col items-center">
       <Header />
-
-      <main className="w-full max-w-480 flex-1 px-12 py-6">
+      <main className="relative w-full max-w-480 flex-1 px-12 py-6">
         <BackButton />
         <ProfileEditor />
         <EditFavoriteTagsUI />

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ShortsPlayer } from '@/entities/shorts/components/ShortsPlayer';
-import { ShortsInformation } from '@/entities/shorts/components/ShortsInformation';
-import { ShortsActionButtons } from '@/entities/shorts/components/ShortsActionButtons';
-import { ShortsContainerProps } from '@shared/types/player/shorts';
+import { useState } from "react";
+import { ShortsPlayer } from "@/entities/shorts/components/ShortsPlayer";
+import { ShortsInformation } from "@/entities/shorts/components/ShortsInformation";
+import { ShortsActionButtons } from "@/entities/shorts/components/ShortsActionButtons";
+import { ShortsContainerProps } from "@shared/types/player/shorts";
 
 export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
@@ -30,7 +30,7 @@ export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center px-8">
+    <div className="flex items-center justify-center px-8">
       <div className="flex items-end gap-4">
         <div className="max-w-sm mr-4">
           <ShortsInformation
@@ -39,7 +39,7 @@ export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
           />
         </div>
 
-        <div className="h-[80vh] max-h-[720px] aspect-[9/16] bg-ot-gray-800 rounded-lg overflow-hidden">
+        <div className="h-[80vh] max-h-[720px] aspect-9/16 bg-ot-gray-800 rounded-lg overflow-hidden">
           <ShortsPlayer
             src={currentShorts.src}
             shortsId={currentShorts.id}

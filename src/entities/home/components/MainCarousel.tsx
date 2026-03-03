@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import { ScrollEdgeButton } from "@shared/components";
 
 const GAP = 16;
 const PEEK = 48;
@@ -36,7 +36,7 @@ export default function MainCarousel({
 
   const itemsPerPage = Math.max(
     1,
-    Math.floor((containerWidth - 2 * PEEK + GAP) / (itemWidth + GAP))
+    Math.floor((containerWidth - 2 * PEEK + GAP) / (itemWidth + GAP)),
   );
   const pageWidth = itemsPerPage * (itemWidth + GAP);
   const totalPages = Math.ceil(itemCount / itemsPerPage);
@@ -51,22 +51,20 @@ export default function MainCarousel({
 
       <div className="relative" ref={containerRef}>
         {!isFirst && (
-          <button
+          <ScrollEdgeButton
+            direction="left"
             onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-            className="absolute left-0 z-10 p-2 bg-transparent"
-            style={{ top: `${itemHeight / 2}px`, transform: 'translateY(-50%)' }}
-          >
-            <ChevronLeft
-              size={28}
-              className="text-ot-gray-600 hover:text-ot-text hover:scale-130 hover:drop-shadow-lg transition-all"
-            />
-          </button>
+            className="left-0"
+          />
         )}
 
         <div className="overflow-hidden">
           <div
             className="flex transition-transform duration-300 ease-in-out"
-            style={{ gap: `${GAP}px`, transform: `translateX(-${translateX}px)` }}
+            style={{
+              gap: `${GAP}px`,
+              transform: `translateX(-${translateX}px)`,
+            }}
           >
             {Array.from({ length: itemCount }).map((_, idx) => (
               <div
@@ -79,16 +77,13 @@ export default function MainCarousel({
         </div>
 
         {!isLast && (
-          <button
-            onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
-            className="absolute right-0 z-10 p-2 bg-transparent"
-            style={{ top: `${itemHeight / 2}px`, transform: 'translateY(-50%)' }}
-          >
-            <ChevronRight
-              size={28}
-              className="text-ot-gray-600 hover:text-ot-text hover:scale-130 hover:drop-shadow-lg transition-all"
-            />
-          </button>
+          <ScrollEdgeButton
+            direction="right"
+            onClick={() =>
+              setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
+            }
+            className="right-0"
+          />
         )}
 
         <div className="flex justify-end gap-2 mt-3 pr-12">
@@ -98,8 +93,8 @@ export default function MainCarousel({
               onClick={() => setCurrentPage(idx)}
               className={`transition-all ${
                 idx === currentPage
-                  ? 'w-6 h-2 bg-ot-primary-500 rounded-full'
-                  : 'w-2 h-2 bg-ot-gray-600 rounded-full hover:bg-ot-gray-500'
+                  ? "w-6 h-2 bg-ot-primary-500 rounded-full"
+                  : "w-2 h-2 bg-ot-gray-600 rounded-full hover:bg-ot-gray-500"
               }`}
               aria-label={`Go to page ${idx + 1}`}
             />

@@ -1,3 +1,4 @@
+import { Footer, Header } from "@layouts";
 import { ContentsContainer } from "@entities/video-contents/components";
 import { mockRecommendations, getContentById } from "@shared/mocks/mockContent";
 
@@ -13,9 +14,13 @@ export default async function ContentsDetailPage({
   if (!content) return <div>콘텐츠를 찾을 수 없습니다.</div>;
 
   return (
-    <ContentsContainer
-      content={content}
-      recommendations={mockRecommendations}
-    />
+    <>
+      <Header />
+      <ContentsContainer
+        content={content}
+        recommendations={mockRecommendations}
+      />
+      <Footer />
+    </>
   );
 }

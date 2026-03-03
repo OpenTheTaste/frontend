@@ -4,7 +4,7 @@ interface InteractionButtonProps {
   type: "like" | "bookmark";
   isActive: boolean;
   onAction: () => void;
-  size?: "lg" | "md" | "sm";
+  size?: "lg" | "md" | "sm" | "xs";
 }
 
 const sizeConfig = {
@@ -20,6 +20,10 @@ const sizeConfig = {
     button: "w-12 h-9", // 48 * 36 px
     image: { width: 48, height: 36 },
   },
+  xs: {
+    button: "w-10 h-7", // 40 * 28 px
+    image: { width: 40, height: 28 },
+  },
 };
 
 export const InteractionButton = ({
@@ -34,7 +38,7 @@ export const InteractionButton = ({
     // size : 72 * 56 px, radius : 36px
     <button
       onClick={onAction}
-      className={`${config.button} flex items-center justify-center rounded-[2.25rem] shrink-0 cursor-pointer`}
+      className={`${config.button} flex items-center justify-center rounded-[2.25rem] shrink-0 cursor-pointer hover:opacity-80 transition`}
     >
       <Image
         src={

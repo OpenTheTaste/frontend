@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface TagSelectionProps {
   tags: string[];
@@ -9,7 +9,7 @@ interface TagSelectionProps {
 export default function SelectTag({
   tags,
   selectedTags,
-  onToggleTag
+  onToggleTag,
 }: TagSelectionProps) {
   return (
     <div className="flex-1 bg-ot-background p-6">
@@ -19,10 +19,10 @@ export default function SelectTag({
           <button
             key={tag}
             onClick={() => onToggleTag(tag)}
-            className={`px-6 py-2 rounded-lg text-[1rem] font-bold transition-colors border border-ot-white ${
+            className={`px-6 py-2 rounded-lg text-[1rem] font-bold transition-colors border border-ot-text ${
               selectedTags.includes(tag)
-                ? 'bg-ot-primary-50 text-ot-primary-500'
-                : 'bg-ot-background text-ot-gray-300 hover:bg-ot-gray-700'
+                ? "bg-ot-primary-50 text-ot-primary-500"
+                : "bg-ot-background text-ot-gray-300 hover:bg-ot-gray-700"
             }`}
           >
             {tag}

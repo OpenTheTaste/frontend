@@ -7,7 +7,10 @@ export interface ToggleProps {
 
 export const Toggle = ({ isOn, onToggle }: ToggleProps) => {
   return (
-    <div onClick={onToggle} className={`relative cursor-pointer w-4.75 h-3 shrink-0`}>
+    <div
+      onClick={onToggle}
+      className={`relative cursor-pointer w-4.75 h-3 shrink-0 hover:opacity-80 transition`}
+    >
       <Image
         src={isOn ? "/icons/toggleon.svg" : "/icons/toggleoff.svg"}
         alt="toggle"
