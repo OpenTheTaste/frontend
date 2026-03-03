@@ -17,8 +17,7 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
       몰입도: 10,
       마니아: 20,
       최신성: 20,
-      "숏폼 트렌드": 5,
-      "내 취향": 5,
+      "숏폼 트렌드": 10,
     },
   },
   HIDDEN_GEM: {
@@ -28,23 +27,9 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
     values: {
       대중성: 5,
       몰입도: 30,
-      마니아: 40,
+      마니아: 45,
       최신성: 10,
-      "숏폼 트렌드": 5,
-      "내 취향": 10,
-    },
-  },
-  PERSONALIZED: {
-    id: "personalized",
-    label: "내 취향",
-    icon: "⚡",
-    values: {
-      대중성: 10,
-      몰입도: 20,
-      마니아: 10,
-      최신성: 5,
-      "숏폼 트렌드": 5,
-      "내 취향": 50,
+      "숏폼 트렌드": 10,
     },
   },
   RESET: {

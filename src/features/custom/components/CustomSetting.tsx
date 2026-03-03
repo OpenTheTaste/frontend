@@ -127,7 +127,7 @@ export function CustomSetting() {
             </div>
 
             {/* 슬라이더 목록 */}
-            <div className="flex flex-col gap-4 flex-1">
+            <div className="flex flex-col gap-4 flex-1 justify-center">
               {FACTORS.map((key) => (
                 <SliderItem
                   key={key}
