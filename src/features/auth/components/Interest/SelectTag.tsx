@@ -1,6 +1,6 @@
 "use client";
 
-import { TagItem } from "@entities/auth/api/auth";
+import { TagItem } from "@entities/auth/api";
 
 interface TagSelectionProps {
   tags: TagItem[];
