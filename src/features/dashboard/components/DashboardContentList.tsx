@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  ChartOptions,
+} from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { DashboardData, TagDetail } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
@@ -13,10 +19,15 @@ interface DashboardContentListProps {
   data: DashboardData;
 }
 
-export default function DashboardContentList({ data }: DashboardContentListProps) {
+export default function DashboardContentList({
+  data,
+}: DashboardContentListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // 클릭된 태그의 정보를 담을 상태 변수
-  const [selectedTag, setSelectedTag] = useState<{ name: string; detail: TagDetail } | null>(null);
+  const [selectedTag, setSelectedTag] = useState<{
+    name: string;
+    detail: TagDetail;
+  } | null>(null);
 
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
@@ -103,7 +114,9 @@ export default function DashboardContentList({ data }: DashboardContentListProps
         },
         formatter: (value, context) => {
           const idx = context.dataIndex;
-          const label = context.chart.data.labels ? context.chart.data.labels[idx] : "-ui";
+          const label = context.chart.data.labels
+            ? context.chart.data.labels[idx]
+            : "-ui";
           return `${label} - ${value}번`;
         },
       },

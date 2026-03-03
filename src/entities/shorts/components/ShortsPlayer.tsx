@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useHls } from "@/features/player/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
@@ -10,10 +10,10 @@ interface ShortsPlayerProps {
   onNextShorts: () => void;
 }
 
-export const ShortsPlayer = ({ 
-  src, 
+export const ShortsPlayer = ({
+  src,
   shortsId,
-  onNextShorts 
+  onNextShorts,
 }: ShortsPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -107,7 +107,7 @@ export const ShortsPlayer = ({
 
       {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-          <Play className="w-16 h-16 fill-white text-white" />
+          <Play className="w-16 h-16 fill-ot-text text-ot-text" />
         </div>
       )}
     </div>

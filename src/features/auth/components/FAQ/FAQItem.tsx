@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 interface FAQItemProps {
   question: string;
@@ -17,10 +17,10 @@ export default function FAQItem({ question, answer }: FAQItemProps) {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-ot-gray-750 transition-colors"
       >
-        <span className="text-[1rem] text-white font-bold">{question}</span>
-        <ChevronDown 
+        <span className="text-[1rem] text-ot-text font-bold">{question}</span>
+        <ChevronDown
           size={20}
-          className={`text-ot-gray-500 transition-transform ${isOpen ? 'rotate-180' : '-ui'}`}
+          className={`text-ot-gray-500 transition-transform ${isOpen ? "rotate-180" : "-ui"}`}
         />
       </button>
 

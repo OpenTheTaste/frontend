@@ -13,12 +13,12 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
       {/* 3개월 내 시청내역 버튼 */}
       <button
         onClick={() => onTabChange("recenthistory")}
-        className={`flex items-center justify-center rounded-t-lg rounded-b-none text-[20px] font-semibold cursor-pointer
+        className={`flex items-center justify-center rounded-t-xl rounded-b-none text-lg font-semibold cursor-pointer
           px-5 py-3
           ${
             activeTab === "recenthistory"
-              ? "bg-ot-primary-gradient text-ot-text rounded-t-xl"
-              : "text-ot-gray-600 border-b border-ot-gray-600 hover:bg-ot-primary-400/20 transition-colors"
+              ? "bg-ot-primary-gradient text-ot-text"
+              : "text-ot-gray-600 hover:bg-ot-primary-400/20 transition-colors"
           }`}
       >
         3개월 내 시청내역
@@ -27,12 +27,12 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
       {/* 북마크 버튼 */}
       <button
         onClick={() => onTabChange("bookmark")}
-        className={`flex items-center justify-center rounded-t-lg rounded-b-none text-[20px] font-semibold cursor-pointer
+        className={`flex items-center justify-center rounded-t-xl rounded-b-none text-lg font-semibold cursor-pointer
           px-16 py-3
           ${
             activeTab === "bookmark"
-              ? "bg-ot-primary-gradient text-ot-text rounded-t-xl"
-              : "text-ot-gray-600 border-b border-ot-gray-600 hover:bg-ot-primary-400/20 transition-colors"
+              ? "bg-ot-primary-gradient text-ot-text "
+              : "text-ot-gray-600 hover:bg-ot-primary-400/20 transition-colors"
           }`}
       >
         북마크

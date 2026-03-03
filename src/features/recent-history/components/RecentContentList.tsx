@@ -92,12 +92,12 @@ export default function RecentContentList({ items }: RecentContentListProps) {
       {/* 가로 스크롤 */}
       <div
         ref={scrollRef}
-        className="flex gap-10 py-8 overflow-x-auto no-scrollbar"
+        className="flex gap-6 py-8 overflow-x-auto no-scrollbar"
       >
         {items.map((item) => (
           <div key={item.id} className="shrink-0">
             {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
-            <div className="w-45 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
+            <div className="w-60 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden">
               {item.image ? (
                 <Image
                   src={item.image}
