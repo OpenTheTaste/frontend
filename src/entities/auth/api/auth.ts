@@ -1,4 +1,5 @@
-import api from "@shared/api/apiClient";
+import api from "@shared/api/apiClient"; 
+import { ApiResponse } from "@/shared/types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -10,11 +11,6 @@ export interface CategoryItem {
 export interface TagItem {
   tagId: number;
   name: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
 }
 
 export const authApi = {
