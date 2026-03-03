@@ -102,6 +102,7 @@ export function CustomSetting() {
                         <button
                           key={preset.id}
                           onClick={() => {
+                            setIsRecommended(false);
                             if (preset.id === "reset") {
                               setGenre("템플릿");
                             } else {
@@ -111,7 +112,9 @@ export function CustomSetting() {
                             setChartValues(preset.values);
                             setIsGenreOpen(false);
                           }}
-                          className="block w-full px-4 py-2.5 text-sm hover:bg-ot-gray-700 text-left transition cursor-pointer"
+                          className={`block w-full px-4 py-2.5 text-sm text-left transition cursor-pointer ${
+                            genre === preset.label ? "bg-ot-gray-700" : "hover:bg-ot-gray-700"
+                          }`}
                         >
                           <span>{preset.icon}</span>
                           <span>{preset.label}</span>
