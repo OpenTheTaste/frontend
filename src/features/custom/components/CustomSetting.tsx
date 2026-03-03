@@ -12,10 +12,7 @@ import {
   CUSTOM_PRESETS,
   type Factor,
 } from "@entities/custom/constants";
-import { RadarChart } from "@features/custom/components/RadarChart";
-import { SliderItem } from "@features/custom/components/SliderItem";
-import { PreviewModal } from "@features/custom/components/PreviewModal";
-
+import { RadarChart, SliderItem, PreviewModal } from "@features/custom/components";
 export function CustomSetting() {
   const router = useRouter();
 

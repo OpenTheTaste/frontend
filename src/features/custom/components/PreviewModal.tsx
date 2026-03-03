@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { MOCK_PREVIEWS } from "@/entities/custom/constants/factors";
+import { MOCK_PREVIEWS } from "@/entities/custom/constants";
 
 interface PreviewModalProps {
   isOpen: boolean;
