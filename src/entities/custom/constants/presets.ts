@@ -1,4 +1,4 @@
-import { Factor } from "@/entities/custom/constants/factors";
+import { Factor, INITIAL_VALUES } from "@/entities/custom/constants/factors";
 
 export interface Preset {
   id: string;
@@ -51,13 +51,6 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
     id: "reset",
     label: "초기화",
     icon: "↩️",
-    values: {
-      대중성: 0,
-      몰입도: 0,
-      마니아: 0,
-      최신성: 0,
-      "숏폼 트렌드": 0,
-      "내 취향": 0,
-    },
+    values: { ...INITIAL_VALUES },
   },
 };
