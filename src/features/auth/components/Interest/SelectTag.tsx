@@ -1,14 +1,16 @@
 "use client";
 
+import { TagItem } from "@entities/auth/api/auth";
+
 interface TagSelectionProps {
-  tags: string[];
-  selectedTags: string[];
-  onToggleTag: (tag: string) => void;
+  tags: TagItem[];
+  selectedTagIds: number[];
+  onToggleTag: (tagId: number) => void;
 }
 
 export default function SelectTag({
   tags,
-  selectedTags,
+  selectedTagIds,
   onToggleTag,
 }: TagSelectionProps) {
   return (
@@ -17,15 +19,15 @@ export default function SelectTag({
       <div className="flex flex-wrap gap-3">
         {tags.map((tag) => (
           <button
-            key={tag}
-            onClick={() => onToggleTag(tag)}
+            key={tag.tagId}
+            onClick={() => onToggleTag(tag.tagId)}
             className={`px-6 py-2 rounded-lg text-[1rem] font-bold transition-colors border border-ot-text ${
-              selectedTags.includes(tag)
+              selectedTagIds.includes(tag.tagId)
                 ? "bg-ot-primary-50 text-ot-primary-500"
                 : "bg-ot-background text-ot-gray-300 hover:bg-ot-gray-700"
             }`}
           >
-            {tag}
+            {tag.name}
           </button>
         ))}
       </div>
