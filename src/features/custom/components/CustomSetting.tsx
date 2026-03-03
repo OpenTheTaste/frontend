@@ -9,7 +9,7 @@ import {
   INITIAL_VALUES,
   GUIDE_ITEMS,
   type Factor,
-} from '../constants/factors';
+} from '@entities/custom/constants';
 import { RadarChart } from '@features/custom/components/RadarChart';
 import { SliderItem } from '@features/custom/components/SliderItem';
 import { PreviewModal } from '@features/custom/components/PreviewModal';
