@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { X, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { MOCK_PREVIEWS } from '@features/custom/constants/factors';
+import { MOCK_PREVIEWS } from '@/entities/custom/constants/factors';
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -67,7 +67,7 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
                   onClick={() => toggleFeedback(item.id, 'good')}
                   className={`p-2 rounded-lg transition cursor-pointer ${
                     feedback[item.id] === 'good'
-                      ? 'bg-ot-primary-400 text-white'
+                      ? 'bg-ot-primary-400 text-ot-text'
                       : 'bg-ot-gray-700 text-ot-gray-400 hover:bg-ot-gray-600'
                   }`}
                 >
@@ -90,7 +90,7 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
 
         <button
           onClick={onClose}
-          className="w-full mt-6 py-3 bg-ot-primary-400 text-white rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
+          className="w-full mt-6 py-3 bg-ot-primary-400 text-ot-text rounded-xl font-semibold hover:opacity-90 transition cursor-pointer"
         >
           확인
         </button>
