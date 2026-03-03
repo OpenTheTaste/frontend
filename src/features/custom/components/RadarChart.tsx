@@ -52,7 +52,7 @@ export function RadarChart({ values }: RadarChartProps) {
         grid: { color: "rgba(255,255,255,0.08)" },
         angleLines: { color: "rgba(255,255,255,0.12)" },
         pointLabels: {
-          color: "rgba(220,220,220,0.85)",
+          color: "rgba(250,250,248)",
           font: { size: 12 },
         },
       },
