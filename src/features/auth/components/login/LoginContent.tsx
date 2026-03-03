@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useKakaoLogin } from "@/entities/auth/hooks/useKakaoLogin";
+import { useKakaoLogin } from "@/entities/auth/hooks";
 
 export default function LoginContent() {
   const { handleKakaoLogin } = useKakaoLogin();
