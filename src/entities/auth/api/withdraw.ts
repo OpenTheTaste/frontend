@@ -1,5 +1,5 @@
 import { api } from "@/shared/api/apiClient";
 
-export const withdraw = () => {
-    api.post("/auth/withdraw");
+export const withdrawApi = () => {
+    api.delete("/member/me");
 };

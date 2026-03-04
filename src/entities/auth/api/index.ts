@@ -7,3 +7,4 @@ export { getCategories } from "./category";
 export { getTags } from "./category";
 export { setPreferredTags } from "./category";
 export { logoutApi } from "./logout";
+export { withdrawApi } from "./withdraw";
