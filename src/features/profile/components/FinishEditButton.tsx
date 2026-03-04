@@ -1,21 +1,28 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Category } from "@shared/types/category";
 import { CommonButton } from "@base-components";
+import { editProfileApi } from "@/entities/profile/api";
 
 interface FinishEditButtonProps {
-  selectedTags: Record<Category, string[]>;
+  nickname: string;
+  selectedTagIds: number[];
 }
 
-export default function FinishEditButton({
-  selectedTags,
-}: FinishEditButtonProps) {
+export default function FinishEditButton({ nickname, selectedTagIds }: FinishEditButtonProps) {
   const router = useRouter();
 
-  const handleFinishEdit = () => {
-    console.log("새로 저장한 선호 태그들 : ", selectedTags); // 콘솔 출력
-    router.push("/mypage");
+  // 여기 쿼리로 바꾸기
+  const handleFinishEdit = async () => {
+    try {
+      await editProfileApi.updateMemberProfile({
+        nickname,
+        tagIds: selectedTagIds,
+      });
+      router.push("/mypage");
+    } catch (err) {
+      console.error("프로필 수정 실패:", err);
+    }
   };
 
   return (
