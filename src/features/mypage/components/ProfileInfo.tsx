@@ -23,7 +23,11 @@ export default function ProfileInfo() {
         {/* 사용자 이름 & 프로필 수정 아이콘 버튼 */}
         <div className="flex items-center gap-2 pb-2">
           <p className="text-ot-text text-3xl font-bold leading-tight">{profile.nickname}</p>
-          <Link href="/mypage/profile" className="hover:opacity-70">
+          <Link
+            href="/mypage/profile"
+            aria-label="프로필 수정 페이지로 이동"
+            className="hover:opacity-70"
+          >
             <Pencil size={24} className="text-background fill-ot-text" strokeWidth={2} />
           </Link>
         </div>

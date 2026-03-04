@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommonButton } from "@base-components";
 import { editProfileApi } from "@/entities/profile/api";
 
@@ -11,24 +12,41 @@ interface FinishEditButtonProps {
 
 export default function FinishEditButton({ nickname, selectedTagIds }: FinishEditButtonProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  // 여기 쿼리로 바꾸기
-  const handleFinishEdit = async () => {
-    try {
-      await editProfileApi.updateMemberProfile({
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      editProfileApi.updateMemberProfile({
         nickname,
         tagIds: selectedTagIds,
-      });
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["memberProfile"] });
       router.push("/mypage");
-    } catch (err) {
+    },
+    onError: (err) => {
       console.error("프로필 수정 실패:", err);
-    }
-  };
+    },
+  });
+
+  // // 여기 쿼리로 바꾸기
+  // const handleFinishEdit = async () => {
+  //   try {
+  //     await editProfileApi.updateMemberProfile({
+  //       nickname,
+  //       tagIds: selectedTagIds,
+  //     });
+  //     router.push("/mypage");
+  //   } catch (err) {
+  //     console.error("프로필 수정 실패:", err);
+  //   }
+  // };
 
   return (
     <div>
       <CommonButton
-        onClick={handleFinishEdit}
+        onClick={() => mutate()}
+        disabled={isPending}
         className="mt-4 mb-4 py-3 px-25 text-ot-text text-[18px] font-bold"
       >
         수정하기

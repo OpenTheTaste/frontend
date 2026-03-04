@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { authApi, CategoryItem, TagItem } from "@entities/auth/api/auth";
 import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
@@ -13,6 +13,7 @@ interface EditFavoriteTagsUIProps {
 
 export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps) {
   const { data: profile } = useMemberProfile();
+  const initializedFromProfileRef = useRef(false);
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
   const [selectedTagIdsByCategory, setSelectedTagIdsByCategory] = useState<
@@ -53,6 +54,7 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
 
   // 태그 로드 후 기존 선호태그 초기값 세팅
   useEffect(() => {
+    if (initializedFromProfileRef.current) return;
     if (!profile || Object.keys(tagsByCategory).length === 0) return;
 
     const preferredTagIds = profile.preferredTags.map((t) => t.tagId);
@@ -71,6 +73,7 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
       ...prev,
       ...initialSelected,
     }));
+    initializedFromProfileRef.current = true;
   }, [tagsByCategory, profile]);
 
   const currentTags = selectedCategory
