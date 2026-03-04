@@ -1,4 +1,4 @@
-import api from "@shared/api/apiClient";
+import { api } from "@shared/api/apiClient";
 import { ApiResponse } from "@/shared/types";
 
 /** 회원 프로필 응답 */

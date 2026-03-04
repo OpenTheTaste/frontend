@@ -1,4 +1,4 @@
-import api from "@shared/api/apiClient";
+import { api }  from "@shared/api/apiClient";
 import { ApiResponse } from "@/shared/types";
 import { MemberProfile } from "@/entities/profile/api";
 
