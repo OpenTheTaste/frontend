@@ -18,8 +18,7 @@ export default function ContentInterest() {
   const fetchedCategoryIds = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    getCategories().then((res) => {
-      const cats = res.data;
+    getCategories().then((cats) => {
       setCategories(cats);
       setSelectedCategory(cats[0] ?? null);
       setSelectedTagIdsByCategory(Object.fromEntries(cats.map((c) => [c.categoryId, []])));
@@ -31,10 +30,10 @@ export default function ContentInterest() {
     if (fetchedCategoryIds.current.has(selectedCategory.categoryId)) return;
 
     fetchedCategoryIds.current.add(selectedCategory.categoryId);
-    getTags(selectedCategory.categoryId).then((res) => {
+    getTags(selectedCategory.categoryId).then((tags) => {
       setTagsByCategory((prev) => ({
         ...prev,
-        [selectedCategory.categoryId]: res.data,
+        [selectedCategory.categoryId]: tags,
       }));
     });
   }, [selectedCategory]);

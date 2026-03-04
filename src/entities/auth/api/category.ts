@@ -16,14 +16,19 @@ export interface SetPreferredTagsRequest {
 
 export interface SetPreferredTagsResponse {
     tagId: number[];
-    nane: string;
+    name: string;
 }
 
-export const getCategories = () =>
-  api.get<CategoryItem[]>("/categories");
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
 
-export const getTags = (categoryId: number) =>
-    api.get<TagItem[]>(`/categories/${categoryId}/tags`);
+export const getCategories = async () =>
+  await api.get<ApiResponse<CategoryItem[]>>("/categories").then((res) => res.data.data);
 
-export const setPreferredTags = (tagsId: number[]) =>
-  api.post<SetPreferredTagsResponse>("/member/me/tags", { tagsId });
+export const getTags = async (categoryId: number) =>
+  await api.get<ApiResponse<TagItem[]>>(`/categories/${categoryId}/tags`).then((res) => res.data.data);
+
+export const setPreferredTags = async (tagsId: number[]) =>
+  await api.post<SetPreferredTagsResponse>("/member/me/tags", { tagsId });

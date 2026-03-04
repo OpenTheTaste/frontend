@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getTags, setPreferredTags, CategoryItem, TagItem } from "@entities/auth/api";
+import { getCategories, getTags, CategoryItem, TagItem } from "@entities/auth/api";
 import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
 import { FinishEditButton } from "@features/profile/components";
 import { useMemberProfile } from "@/entities/profile/hooks";
@@ -23,7 +23,7 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
   // 카테고리 목록 조회 + 캐싱
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories().then((res) => res.data),
+    queryFn: () => getCategories(),
   });
 
   // 첫 카테고리 자동 선택
@@ -40,9 +40,9 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
     queryFn: () =>
       Promise.all(
         categories.map((cat) =>
-          getTags(cat.categoryId).then((res) => ({
+          getTags(cat.categoryId).then((tags) => ({
             categoryId: cat.categoryId,
-            tags: res.data,
+            tags,
           })),
         ),
       ).then((results) =>

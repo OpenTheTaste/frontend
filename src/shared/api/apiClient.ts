@@ -10,7 +10,7 @@ export const api = axios.create({
 });
 
 api.interceptors.response.use(
-  (response) => response.data,
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
     const message = error.response?.data?.message || error.message;
