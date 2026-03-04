@@ -1,4 +1,4 @@
-import api from "@shared/api/apiClient"; 
+import { api }  from "@/shared/api"; 
 
 export interface CategoryItem {
   categoryId: number;
