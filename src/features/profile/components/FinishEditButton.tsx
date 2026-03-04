@@ -1,27 +1,52 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Category } from "@shared/types/category";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CommonButton } from "@base-components";
+import { editProfileApi } from "@/entities/profile/api";
 
 interface FinishEditButtonProps {
-  selectedTags: Record<Category, string[]>;
+  nickname: string;
+  selectedTagIds: number[];
 }
 
-export default function FinishEditButton({
-  selectedTags,
-}: FinishEditButtonProps) {
+export default function FinishEditButton({ nickname, selectedTagIds }: FinishEditButtonProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const handleFinishEdit = () => {
-    console.log("새로 저장한 선호 태그들 : ", selectedTags); // 콘솔 출력
-    router.push("/mypage");
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      editProfileApi.updateMemberProfile({
+        nickname,
+        tagIds: selectedTagIds,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["memberProfile"] });
+      router.push("/mypage");
+    },
+    onError: (err) => {
+      console.error("프로필 수정 실패:", err);
+    },
+  });
+
+  // // 여기 쿼리로 바꾸기
+  // const handleFinishEdit = async () => {
+  //   try {
+  //     await editProfileApi.updateMemberProfile({
+  //       nickname,
+  //       tagIds: selectedTagIds,
+  //     });
+  //     router.push("/mypage");
+  //   } catch (err) {
+  //     console.error("프로필 수정 실패:", err);
+  //   }
+  // };
 
   return (
     <div>
       <CommonButton
-        onClick={handleFinishEdit}
+        onClick={() => mutate()}
+        disabled={isPending}
         className="mt-4 mb-4 py-3 px-25 text-ot-text text-[18px] font-bold"
       >
         수정하기

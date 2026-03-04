@@ -1,36 +1,38 @@
 "use client";
 
-import { useState, KeyboardEvent, useRef } from "react";
+import { useState, useEffect, KeyboardEvent } from "react";
 import Image from "next/image";
 import { Input } from "@base-components";
-import { MOCK_USER } from "@shared/mocks/mockUser";
 
-export default function ProfileEditor() {
-  const [name, setName] = useState<string>(MOCK_USER.name);
-  const [draftName, setDraftName] = useState<string>(MOCK_USER.name);
-  const [editName, setEditName] = useState<boolean>(false);
+interface ProfileEditorProps {
+  nickname: string;
+  onNicknameChange: (nickname: string) => void;
+}
+
+export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEditorProps) {
+  const [draftName, setDraftName] = useState<string>(nickname ?? "");
+  const [editName, setEditName] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  // nickname props 바뀌면 동기화 (초기 로드 시)
+  useEffect(() => {
+    setDraftName(nickname ?? "");
+  }, [nickname]);
 
   const handleSave = () => {
-    if (!draftName.trim()) {
+    if (draftName === undefined || !draftName.trim()) {
       setError("이름은 비워둘 수 없습니다.");
       return;
     }
-
-    setName(draftName.trim());
+    onNicknameChange(draftName.trim());
     setEditName(false);
     setError(null);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-      handleSave();
-    }
-
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) handleSave();
     if (e.key === "Escape") {
-      setDraftName(name); // 원래 값 복원
+      setDraftName(nickname);
       setEditName(false);
       setError(null);
     }
@@ -40,12 +42,7 @@ export default function ProfileEditor() {
     <div className="flex flex-col items-center w-full">
       {/* 프로필 아이콘 */}
       <div className="relative w-16 h-16 rounded-full overflow-hidden">
-        <Image
-          src="/icons/logo.svg"
-          alt="Profile Logo"
-          fill
-          className="object-cover"
-        />
+        <Image src="/icons/logo.svg" alt="Profile Logo" fill className="object-cover" />
       </div>
 
       {/* 이름 영역 */}
@@ -77,7 +74,7 @@ export default function ProfileEditor() {
               onClick={() => setEditName(true)}
               className="text-xl font-semibold cursor-pointer hover:text-ot-gray-600 transition-colors"
             >
-              {name}
+              {nickname}
             </p>
           </div>
         )}
