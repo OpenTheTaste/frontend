@@ -1,75 +1,121 @@
 "use client";
 
-import { useState } from "react";
-import {
-  ListCategory,
-  SelectTag,
-  SelectedTag,
-} from "@features/auth/components/Interest";
+import { useState, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { authApi, CategoryItem, TagItem } from "@entities/auth/api/auth";
+import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
 import { FinishEditButton } from "@features/profile/components";
-import { Category } from "@shared/types/category";
-import { TAGS } from "@shared/types/tags";
-import { MOCK_USER } from "@shared/mocks/mockUser";
+import { useMemberProfile } from "@/entities/profile/hooks";
 
-const CATEGORIES: Category[] = [
-  "영화",
-  "드라마",
-  "예능",
-  "다큐",
-  "뉴스",
-  "스포츠",
-];
+interface EditFavoriteTagsUIProps {
+  nickname: string;
+}
 
-const INITIAL_TAGS_BY_CATEGORY: Record<Category, string[]> = {
-  영화: [],
-  드라마: [],
-  예능: [],
-  다큐: [],
-  뉴스: [],
-  스포츠: [],
-};
+export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps) {
+  const { data: profile } = useMemberProfile();
+  const initializedFromProfileRef = useRef(false);
 
-export default function EditFavoriteTagsUI() {
-  const createInitialTagsFromMock = (): Record<Category, string[]> => {
-    const base = { ...INITIAL_TAGS_BY_CATEGORY };
+  const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
+  const [selectedTagIdsByCategory, setSelectedTagIdsByCategory] = useState<
+    Record<number, number[]>
+  >({});
 
-    MOCK_USER.preferences.forEach(({ category, tags }) => {
-      base[category as Category] = tags;
+  // 카테고리 목록 조회 + 캐싱
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => authApi.getCategories().then((res) => res.data),
+  });
+
+  // 첫 카테고리 자동 선택
+  useEffect(() => {
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0]);
+      setSelectedTagIdsByCategory(Object.fromEntries(categories.map((c) => [c.categoryId, []])));
+    }
+  }, [categories]);
+
+  // 모든 카테고리 태그 조회 + 캐싱
+  const { data: tagsByCategory = {} } = useQuery({
+    queryKey: ["allTags", categories.map((c) => c.categoryId)],
+    queryFn: () =>
+      Promise.all(
+        categories.map((cat) =>
+          authApi.getTags(cat.categoryId).then((res) => ({
+            categoryId: cat.categoryId,
+            tags: res.data,
+          })),
+        ),
+      ).then((results) =>
+        Object.fromEntries(results.map(({ categoryId, tags }) => [categoryId, tags])),
+      ),
+    enabled: categories.length > 0,
+    staleTime: Infinity,
+  });
+
+  // 태그 로드 후 기존 선호태그 초기값 세팅
+  useEffect(() => {
+    if (initializedFromProfileRef.current) return;
+    if (!profile || Object.keys(tagsByCategory).length === 0) return;
+
+    const preferredTagIds = profile.preferredTags.map((t) => t.tagId);
+    const initialSelected: Record<number, number[]> = {};
+
+    Object.entries(tagsByCategory).forEach(([categoryId, tags]) => {
+      const matched = (tags as TagItem[])
+        .filter((tag) => preferredTagIds.includes(tag.tagId))
+        .map((tag) => tag.tagId);
+      if (matched.length > 0) {
+        initialSelected[Number(categoryId)] = matched;
+      }
     });
 
-    return base;
-  };
-  const [selectedTagsByCategory, setSelectedTagsByCategory] = useState<
-    Record<Category, string[]>
-  >(createInitialTagsFromMock);
-
-  const [selectedCategory, setSelectedCategory] = useState<Category>("영화");
-  // const [selectedTagsByCategory, setSelectedTagsByCategory] = useState<
-  //   Record<Category, string[]>
-  // >(INITIAL_TAGS_BY_CATEGORY);
-
-  const currentTags = TAGS[selectedCategory];
-  const selectedTags = selectedTagsByCategory[selectedCategory];
-
-  const handleToggleTag = (tag: string) => {
-    setSelectedTagsByCategory((prev) => ({
+    setSelectedTagIdsByCategory((prev) => ({
       ...prev,
-      [selectedCategory]: prev[selectedCategory].includes(tag)
-        ? prev[selectedCategory].filter((t) => t !== tag)
-        : [...prev[selectedCategory], tag],
+      ...initialSelected,
     }));
+    initializedFromProfileRef.current = true;
+  }, [tagsByCategory, profile]);
+
+  const currentTags = selectedCategory
+    ? ((tagsByCategory as Record<number, TagItem[]>)[selectedCategory.categoryId] ?? [])
+    : [];
+
+  const selectedTagIds = selectedCategory
+    ? (selectedTagIdsByCategory[selectedCategory.categoryId] ?? [])
+    : [];
+
+  const handleToggleTag = (tagId: number) => {
+    if (!selectedCategory) return;
+    setSelectedTagIdsByCategory((prev) => {
+      const current = prev[selectedCategory.categoryId] ?? [];
+      return {
+        ...prev,
+        [selectedCategory.categoryId]: current.includes(tagId)
+          ? current.filter((id) => id !== tagId)
+          : [...current, tagId],
+      };
+    });
   };
 
-  const handleSelectCategory = (category: Category) => {
-    setSelectedCategory(category);
-  };
+  const handleSelectCategory = (category: CategoryItem) => setSelectedCategory(category);
 
   const handleClearAll = () => {
-    setSelectedTagsByCategory(INITIAL_TAGS_BY_CATEGORY);
+    setSelectedTagIdsByCategory(Object.fromEntries(categories.map((c) => [c.categoryId, []])));
   };
 
-  // 아래 수정하기 버튼 기능 관련으로 사용하기
-  const totalSelectedTags = Object.values(selectedTagsByCategory).flat().length;
+  const selectedTagsByCategory: Record<string, string[]> = Object.fromEntries(
+    categories.map((cat) => [
+      cat.name,
+      (selectedTagIdsByCategory[cat.categoryId] ?? [])
+        .map(
+          (tagId) =>
+            (tagsByCategory as Record<number, TagItem[]>)[cat.categoryId]?.find(
+              (t) => t.tagId === tagId,
+            )?.name ?? "",
+        )
+        .filter(Boolean),
+    ]),
+  );
 
   return (
     <section className="w-full bg-ot-background flex-1 flex flex-col items-center justify-center py-6">
@@ -78,14 +124,14 @@ export default function EditFavoriteTagsUI() {
         <div className="w-full flex border border-text-ot-text rounded-lg overflow-hidden mb-2">
           <div className="border-r border-text-ot-text">
             <ListCategory
-              categories={CATEGORIES}
+              categories={categories}
               selectedCategory={selectedCategory}
               onSelectCategory={handleSelectCategory}
             />
           </div>
           <SelectTag
             tags={currentTags}
-            selectedTags={selectedTags}
+            selectedTagIds={selectedTagIds}
             onToggleTag={handleToggleTag}
           />
         </div>
@@ -98,7 +144,10 @@ export default function EditFavoriteTagsUI() {
           />
         </div>
 
-        <FinishEditButton selectedTags={selectedTagsByCategory} />
+        <FinishEditButton
+          nickname={nickname}
+          selectedTagIds={Object.values(selectedTagIdsByCategory).flat()}
+        />
       </div>
     </section>
   );

@@ -1,10 +1,6 @@
 import { Header } from "@layouts";
 import { BackButton } from "@base-components";
-import {
-  ProfileEditor,
-  EditFavoriteTagsUI,
-  AccountActionButtons,
-} from "@features/profile/components";
+import { ProfileEditContainer, AccountActionButtons } from "@features/profile/components";
 
 export default function MyPageProfile() {
   return (
@@ -12,8 +8,7 @@ export default function MyPageProfile() {
       <Header />
       <main className="relative w-full max-w-480 flex-1 px-12 py-6">
         <BackButton />
-        <ProfileEditor />
-        <EditFavoriteTagsUI />
+        <ProfileEditContainer />
         <div className="relative flex justify-center items-center w-full">
           {/* 로그아웃 | 회원탈퇴 버튼 : 오른쪽 끝에 배치 */}
           <div className="absolute right-0 bottom-0">
