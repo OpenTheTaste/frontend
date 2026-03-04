@@ -13,6 +13,7 @@ export default function AccountActionButtons() {
     try {
       await logoutApi();
     } catch (error) { 
+      console.error('[로그아웃 실패]', error);
       setIsLogoutModalOpen(false);
     }
   };
