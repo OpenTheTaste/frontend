@@ -6,3 +6,4 @@ export type { SetPreferredTagsResponse } from "./category";
 export { getCategories } from "./category";
 export { getTags } from "./category";
 export { setPreferredTags } from "./category";
+export { logoutApi } from "./logout";
