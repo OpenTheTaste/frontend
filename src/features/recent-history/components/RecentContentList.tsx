@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { RecentItem } from "@shared/types/mypage/recenthistory";
 import { ScrollEdgeButton } from "@base-components";
+import { RecentHistoryItem } from "@shared/types/mypage/recenthistory";
 
 interface RecentContentListProps {
-  items: RecentItem[];
+  items: RecentHistoryItem[];
 }
 
 export default function RecentContentList({ items }: RecentContentListProps) {
@@ -90,25 +90,15 @@ export default function RecentContentList({ items }: RecentContentListProps) {
   return (
     <div className="w-full relative">
       {/* 가로 스크롤 */}
-      <div
-        ref={scrollRef}
-        className="flex gap-6 py-8 overflow-x-auto no-scrollbar"
-      >
+      <div ref={scrollRef} className="flex gap-6 py-8 overflow-x-auto no-scrollbar">
         {items.map((item) => (
-          <div key={item.id} className="shrink-0">
+          <div key={item.mediaId} className="shrink-0">
             {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
             <div className="w-60 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden">
-              {item.image ? (
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                />
+              {item.posterUrl ? (
+                <Image src={item.posterUrl} alt="시청내역 포스터" fill className="object-cover" />
               ) : (
-                <span className="text-ot-gray-400 text-sm px-2 text-center">
-                  {item.title}
-                </span>
+                <span className="text-ot-gray-400 text-sm px-2 text-center">이미지</span>
               )}
             </div>
           </div>
@@ -116,14 +106,10 @@ export default function RecentContentList({ items }: RecentContentListProps) {
       </div>
 
       {/* 왼쪽 끝에 스크롤 버튼 */}
-      {showLeftButton && (
-        <ScrollEdgeButton direction="left" onClick={scrollToLeft} />
-      )}
+      {showLeftButton && <ScrollEdgeButton direction="left" onClick={scrollToLeft} />}
 
       {/* 오른쪽 끝에 스크롤 버튼 */}
-      {showRightButton && (
-        <ScrollEdgeButton direction="right" onClick={scrollToRight} />
-      )}
+      {showRightButton && <ScrollEdgeButton direction="right" onClick={scrollToRight} />}
     </div>
   );
 }
