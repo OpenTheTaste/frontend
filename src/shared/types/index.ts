@@ -4,3 +4,4 @@ export * from "./tags";
 export * from "./videoFileMeta";
 export type { ApiResponse } from "./apiResponse";
 export * from "./mypage/bookmark";
+export * from "./mypage/recenthistory";

@@ -29,19 +29,6 @@ export default function FinishEditButton({ nickname, selectedTagIds }: FinishEdi
     },
   });
 
-  // // 여기 쿼리로 바꾸기
-  // const handleFinishEdit = async () => {
-  //   try {
-  //     await editProfileApi.updateMemberProfile({
-  //       nickname,
-  //       tagIds: selectedTagIds,
-  //     });
-  //     router.push("/mypage");
-  //   } catch (err) {
-  //     console.error("프로필 수정 실패:", err);
-  //   }
-  // };
-
   return (
     <div>
       <CommonButton

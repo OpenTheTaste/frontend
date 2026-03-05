@@ -11,7 +11,6 @@ interface ProfileEditorProps {
 
 export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEditorProps) {
   const [draftName, setDraftName] = useState<string>(nickname ?? "");
-  const [editName, setEditName] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   // nickname props 바뀌면 동기화 (초기 로드 시)
@@ -19,22 +18,35 @@ export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEdi
     setDraftName(nickname ?? "");
   }, [nickname]);
 
-  const handleSave = () => {
-    if (draftName === undefined || !draftName.trim()) {
+  const handleChange = (value: string) => {
+    setDraftName(value);
+    if (error) setError(null);
+    if (!value.trim()) {
+      setError("이름은 비워둘 수 없습니다.");
+      // return;
+    }
+    // onNicknameChange(value.trim());
+  };
+
+  const commitNickname = () => {
+    const trimmed = draftName.trim();
+    if (!trimmed) {
       setError("이름은 비워둘 수 없습니다.");
       return;
     }
-    onNicknameChange(draftName.trim());
-    setEditName(false);
+    onNicknameChange(trimmed);
     setError(null);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.nativeEvent.isComposing) handleSave();
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+      commitNickname();
+      e.currentTarget.blur();
+    }
     if (e.key === "Escape") {
       setDraftName(nickname);
-      setEditName(false);
       setError(null);
+      e.currentTarget.blur();
     }
   };
 
@@ -47,37 +59,14 @@ export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEdi
 
       {/* 이름 영역 */}
       <div className="w-full max-w-100 h-10 mt-4 mb-3 flex flex-col items-center">
-        {editName ? (
-          <>
-            <Input
-              autoFocus
-              value={draftName}
-              onChange={(e) => {
-                setDraftName(e.target.value);
-                if (error) setError(null);
-              }}
-              onKeyDown={handleKeyDown}
-              onBlur={handleSave}
-              className={`w-full h-full text-ot-text text-center outline-none transition-all
-          ${error ? "border border-red-500 animate-shake" : "border border-ot-gray-300"}
-        `}
-            />
-
-            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
-          </>
-        ) : (
-          <div
-            onClick={() => setEditName(true)}
-            className="w-full h-full flex items-center justify-center border border-transparent cursor-pointer"
-          >
-            <p
-              onClick={() => setEditName(true)}
-              className="text-xl font-semibold cursor-pointer hover:text-ot-gray-600 transition-colors"
-            >
-              {nickname}
-            </p>
-          </div>
-        )}
+        <Input
+          value={draftName}
+          onChange={(e) => handleChange(e.target.value)}
+          onBlur={commitNickname}
+          onKeyDown={handleKeyDown}
+          className={`w-full h-full text-ot-text text-center outline-none transition-all
+            ${error ? "border border-red-500 animate-shake" : "border border-ot-gray-300"}`}
+        />
       </div>
     </div>
   );
