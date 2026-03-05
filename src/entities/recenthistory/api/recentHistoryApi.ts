@@ -1,5 +1,5 @@
 import { api } from "@shared/api";
-import { ApiResponse, RecentHistoryResponse } from "@/shared/types";
+import { ApiResponse, RecentHistoryResponse } from "@shared/types";
 
 export const recentHistoryApi = {
   getRecentHistorys: async (page: number) =>

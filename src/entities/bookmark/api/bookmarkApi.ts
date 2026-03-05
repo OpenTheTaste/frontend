@@ -1,5 +1,5 @@
 import { api } from "@shared/api";
-import { ApiResponse, BookmarkContentResponse, BookmarkShortFormResponse } from "@/shared/types";
+import { ApiResponse, BookmarkContentResponse, BookmarkShortFormResponse } from "@shared/types";
 
 export const bookmarkApi = {
   getBookmarkContents: async (page: number) =>
