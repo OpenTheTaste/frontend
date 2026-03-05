@@ -17,10 +17,13 @@ export default function ProfileEditContainer() {
     }
   }, [profile]);
 
+  const preferredTagIds = profile?.preferredTags.map((t) => t.tagId) ?? [];
+
   return (
     <>
       <ProfileEditor nickname={nickname} onNicknameChange={setNickname} />
-      <EditFavoriteTagsUI nickname={nickname} />
+
+      <EditFavoriteTagsUI nickname={nickname} initialTagIds={preferredTagIds} />
     </>
   );
 }

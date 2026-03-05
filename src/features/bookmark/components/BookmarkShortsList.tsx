@@ -5,10 +5,12 @@ import Image from "next/image";
 import { X, Play } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { BookmarkShortsMockData } from "@shared/mocks/mockbookmarkshorts";
+import { useBookmarkShortForms } from "@entities/bookmark/hooks";
 
 export default function BookmarkShortsList() {
-  const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
-    useState<boolean>(false);
+  const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] = useState<boolean>(false);
+
+  const { data, isLoading } = useBookmarkShortForms();
 
   const handleDelete = () => {
     // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
@@ -16,10 +18,28 @@ export default function BookmarkShortsList() {
     setIsDeleteShortsModalOpen(false);
   };
 
-  if (BookmarkShortsMockData.length === 0) {
+  // if (BookmarkShortsMockData.length === 0) {
+  //   return (
+  //     <div className="flex items-center justify-center h-[50vh]">
+  //       <p className="text-ot-gray-600">북마크한 숏폼이 없습니다.</p>
+  //     </div>
+  //   );
+  // }
+
+  const items = data?.pages.flatMap((page) => page.dataList) ?? [];
+
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[50vh]">
-        <p className="text-ot-gray-600">북마크한 숏폼이 없습니다.</p>
+        <p className="text-ot-text">로딩 중 ~</p>
+      </div>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[50vh]">
+        <p className="text-ot-gray-600">북마크한 숏폼 X</p>
       </div>
     );
   }
@@ -27,27 +47,24 @@ export default function BookmarkShortsList() {
   return (
     <div className="w-full h-[50vh] overflow-y-auto no-scrollbar">
       <div className="relative grid grid-cols-2 gap-x-10 gap-y-2">
-        {BookmarkShortsMockData.map((item) => (
+        {items.map((item) => (
           <div
-            key={item.id}
+            key={item.mediaId}
             className="relative group flex items-center gap-8 p-4 rounded-xl hover:bg-ot-gray-900 w-full cursor-pointer transition-all duration-200"
           >
             {/* 숏폼 이미지 (9:16) */}
             <div className="relative shrink-0 w-20 aspect-9/16 bg-ot-gray-800 rounded-lg overflow-hidden">
-              {item.image ? (
+              {item.thumbnailUrl ? (
                 <>
                   <Image
-                    src={item.image}
+                    src={item.thumbnailUrl}
                     alt={item.title}
                     fill
                     className="object-cover group-hover:brightness-50 transition-all duration-200"
                   />
                   {/* 플레이 아이콘 오버레이 */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <Play
-                      size={18}
-                      className="text-ot-text fill-ot-text drop-shadow-md"
-                    />
+                    <Play size={18} className="text-ot-text fill-ot-text drop-shadow-md" />
                   </div>
                 </>
               ) : (
