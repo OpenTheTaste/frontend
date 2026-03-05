@@ -6,7 +6,7 @@ export function useBookmarkContents() {
     queryKey: ["bookmarkContents"],
     queryFn: async ({ pageParam = 0 }) => {
       const res = await bookmarkApi.getBookmarkContents(pageParam);
-      return res.data;
+      return res.data.data;
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {

@@ -1,11 +1,12 @@
 import { PageInfo } from "@/shared/types/pagination";
 
-// export interface BookmarkItem {
-//   id: string;
-//   title: string;
-//   description: string;
-//   image: string;
-// }
+// 이제 사용 X
+export interface BookmarkItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+}
 
 // 북마크 콘텐츠 dataList 안쪽 타입
 export interface BookmarkContentItem {
