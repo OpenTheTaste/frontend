@@ -11,13 +11,16 @@ export default function BookmarkContentList() {
   const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] = useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
-  const { data, isLoading } = useBookmarkContents();
+  const { data, isLoading, isError } = useBookmarkContents();
   const { mutate: deleteBookmark, isPending } = useDeleteBookmark();
 
   const handleDelete = () => {
-    if (selectedMediaId === null) return;
+    if (isPending || selectedMediaId === null) return;
     deleteBookmark(selectedMediaId, {
-      onSuccess: () => setIsDeleteContentModalOpen(false),
+      onSuccess: () => {
+        setIsDeleteContentModalOpen(false);
+        setSelectedMediaId(null);
+      },
     });
   };
 
@@ -27,6 +30,14 @@ export default function BookmarkContentList() {
     return (
       <div className="flex items-center justify-center h-100">
         <p className="text-ot-text">로딩 중 ~</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-100">
+        <p className="text-ot-gray-600">북마크를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p>
       </div>
     );
   }
@@ -99,7 +110,11 @@ export default function BookmarkContentList() {
         isOpen={isDeleteContentModalOpen}
         message="북마크를 삭제하시겠습니까?"
         onConfirm={handleDelete}
-        onClose={() => setIsDeleteContentModalOpen(false)}
+        onClose={() => {
+          if (isPending) return;
+          setIsDeleteContentModalOpen(false);
+          setSelectedMediaId(null);
+        }}
         confirmText="네, 삭제합니다"
         cancelText="남겨두기"
         disabled={isPending}

@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { bookmarkApi } from "@entities/bookmark/api/bookmarkApi";
+import { bookmarkApi } from "@entities/bookmark/api";
 
 export function useBookmarkShortForms() {
   return useInfiniteQuery({

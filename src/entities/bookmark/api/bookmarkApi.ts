@@ -1,15 +1,15 @@
 import { api } from "@shared/api/apiClient";
 import { ApiResponse } from "@/shared/types";
-import { BookmarkContentResponse, BookmarkShortFormResponse } from "@/shared/types/mypage/bookmark";
+import { BookmarkContentResponse, BookmarkShortFormResponse } from "@/shared/types";
 
 export const bookmarkApi = {
-  getBookmarkContents: (page: number) =>
-    api.get<ApiResponse<BookmarkContentResponse>>("/bookmarks/me/contents", {
+  getBookmarkContents: async (page: number) =>
+    await api.get<ApiResponse<BookmarkContentResponse>>("/bookmarks/me/contents", {
       params: { page, size: 10 },
     }),
 
-  getBookmarkShortForms: (page: number) =>
-    api.get<ApiResponse<BookmarkShortFormResponse>>("/bookmarks/me/short-form", {
+  getBookmarkShortForms: async (page: number) =>
+    await api.get<ApiResponse<BookmarkShortFormResponse>>("/bookmarks/me/short-form", {
       params: { page, size: 10 },
     }),
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories, getTags, CategoryItem, TagItem } from "@entities/auth/api";
 import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
@@ -13,13 +13,18 @@ interface EditFavoriteTagsUIProps {
 
 export default function EditFavoriteTagsUI({ nickname, initialTagIds }: EditFavoriteTagsUIProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
+  const hasInitializedRef = useRef(false);
 
   // 선택된 태그는 tagId 배열 하나만 관리
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
 
   // 부모에서 내려준 초기 태그 세팅
   useEffect(() => {
+    if (hasInitializedRef.current) return;
+    if (initialTagIds.length === 0) return;
+
     setSelectedTagIds(initialTagIds);
+    hasInitializedRef.current = true;
   }, [initialTagIds]);
 
   // 카테고리 조회

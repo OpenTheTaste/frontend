@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { bookmarkDeleteApi } from "@entities/bookmark/api/bookmarkDeleteApi";
+import { bookmarkDeleteApi } from "@entities/bookmark/api";
 
 export function useDeleteBookmark() {
   const queryClient = useQueryClient();

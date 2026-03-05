@@ -30,6 +30,14 @@ export default function ConfirmModal({
 
   useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
 
+  const handleConfirm = () => {
+    if (!disabled) onConfirm();
+  };
+
+  const handleClose = () => {
+    if (!disabled) onClose();
+  };
+
   useEffect(() => {
     setIsMounted(true);
     if (isOpen) {
@@ -63,7 +71,8 @@ export default function ConfirmModal({
         {/* 모달창 닫기 X 버튼 */}
         <button
           className="absolute right-7 top-7 transition-opacity hover:opacity-70 cursor-pointer"
-          onClick={onClose}
+          onClick={handleClose}
+          disabled={disabled}
         >
           <X size={24} className="text-ot-text" strokeWidth={3} />
         </button>
@@ -80,11 +89,17 @@ export default function ConfirmModal({
           <div className="flex gap-8">
             <CommonButton
               className="w-32 h-10 text-ot-text transition-opacity hover:opacity-70"
-              onClick={onConfirm}
+              onClick={handleConfirm}
+              disabled={disabled}
             >
               {confirmText}
             </CommonButton>
-            <CommonButton variant="secondary" className="w-32 h-10 text-ot-text" onClick={onClose}>
+            <CommonButton
+              variant="secondary"
+              className="w-32 h-10 text-ot-text"
+              onClick={handleClose}
+              disabled={disabled}
+            >
               {cancelText}
             </CommonButton>
           </div>
