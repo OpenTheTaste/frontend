@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryItem } from "@entities/auth/api/auth";
+import { CategoryItem } from "@entities/auth/api";
 import { ChevronRight } from "lucide-react";
 
 interface CategoryListProps {

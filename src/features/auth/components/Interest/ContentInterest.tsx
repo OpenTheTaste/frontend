@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { authApi, CategoryItem, TagItem } from "@entities/auth/api/auth";
+import { getCategories, getTags, setPreferredTags, CategoryItem, TagItem } from "@entities/auth/api";
 import ListCategory from "@/features/auth/components/Interest/ListCategory";
 import SelectedTag from "@/features/auth/components/Interest/SelectedTag";
 import SelectTag from "@/features/auth/components/Interest/SelectTag";
@@ -18,8 +18,7 @@ export default function ContentInterest() {
   const fetchedCategoryIds = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    authApi.getCategories().then((res) => {
-      const cats = res.data;
+    getCategories().then((cats) => {
       setCategories(cats);
       setSelectedCategory(cats[0] ?? null);
       setSelectedTagIdsByCategory(Object.fromEntries(cats.map((c) => [c.categoryId, []])));
@@ -31,10 +30,10 @@ export default function ContentInterest() {
     if (fetchedCategoryIds.current.has(selectedCategory.categoryId)) return;
 
     fetchedCategoryIds.current.add(selectedCategory.categoryId);
-    authApi.getTags(selectedCategory.categoryId).then((res) => {
+    getTags(selectedCategory.categoryId).then((tags) => {
       setTagsByCategory((prev) => ({
         ...prev,
-        [selectedCategory.categoryId]: res.data,
+        [selectedCategory.categoryId]: tags,
       }));
     });
   }, [selectedCategory]);
@@ -79,7 +78,7 @@ export default function ContentInterest() {
     const allTagIds = Object.values(selectedTagIdsByCategory).flat();
     console.log("[관심사 제출] 전송할 tagIds:", allTagIds);
     try {
-      const res = await authApi.setPreferredTags(allTagIds);
+      const res = await setPreferredTags(allTagIds);
       console.log("[관심사 제출] 성공:", res);
       router.push("/");
     } catch (err) {

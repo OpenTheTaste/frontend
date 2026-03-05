@@ -3,14 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CommonButton, ConfirmModal } from "@base-components";
+import { logoutApi } from "@/entities/auth/api";
+import { useRouter } from "next/navigation";
 
 export default function AccountActionButtons() {
+  const router = useRouter();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // 실제 로그아웃 처리 로직 작성 부분 (API 호출 등)
-    console.log("로그아웃 완료");
-    setIsLogoutModalOpen(false);
+    try {
+      await logoutApi();
+      router.push("/auth");
+    } catch (error) { 
+      console.error('[로그아웃 실패]', error);
+      setIsLogoutModalOpen(false);
+    }
   };
 
   return (

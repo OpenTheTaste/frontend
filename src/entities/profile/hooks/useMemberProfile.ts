@@ -6,9 +6,7 @@ export function useMemberProfile() {
     queryKey: ["memberProfile"],
     queryFn: async () => {
       const res = await memberApi.getMemberProfile();
-      // console.log("res:", res);
-      // console.log("res.data:", res.data);
-      return res.data;
+      return res.data.data;
     },
   });
 }
