@@ -4,27 +4,22 @@ import { useState } from "react";
 import Image from "next/image";
 import { X, Play } from "lucide-react";
 import { ConfirmModal } from "@base-components";
-import { BookmarkShortsMockData } from "@shared/mocks/mockbookmarkshorts";
 import { useBookmarkShortForms } from "@entities/bookmark/hooks";
+import { useDeleteBookmark } from "@entities/bookmark/hooks";
 
 export default function BookmarkShortsList() {
   const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] = useState<boolean>(false);
+  const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
   const { data, isLoading } = useBookmarkShortForms();
+  const { mutate: deleteBookmark, isPending } = useDeleteBookmark();
 
   const handleDelete = () => {
-    // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
-    console.log("북마크 숏폼 삭제 완료");
-    setIsDeleteShortsModalOpen(false);
+    if (selectedMediaId === null) return;
+    deleteBookmark(selectedMediaId, {
+      onSuccess: () => setIsDeleteShortsModalOpen(false),
+    });
   };
-
-  // if (BookmarkShortsMockData.length === 0) {
-  //   return (
-  //     <div className="flex items-center justify-center h-[50vh]">
-  //       <p className="text-ot-gray-600">북마크한 숏폼이 없습니다.</p>
-  //     </div>
-  //   );
-  // }
 
   const items = data?.pages.flatMap((page) => page.dataList) ?? [];
 
@@ -90,6 +85,7 @@ export default function BookmarkShortsList() {
               aria-label="북마크 삭제"
               onClick={(e) => {
                 e.stopPropagation();
+                setSelectedMediaId(item.mediaId); // 북마크 삭제 API
                 setIsDeleteShortsModalOpen(true);
               }}
               className="absolute top-3 right-3 p-1.5 rounded-full text-ot-gray-500 hover:text-ot-text hover:bg-ot-gray-800 transition-all duration-150"
@@ -106,6 +102,7 @@ export default function BookmarkShortsList() {
         onClose={() => setIsDeleteShortsModalOpen(false)}
         confirmText="네, 삭제합니다"
         cancelText="남겨두기"
+        disabled={isPending}
       />
     </div>
   );

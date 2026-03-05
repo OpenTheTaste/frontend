@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { Play, X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
-import { BookmarkContentsMockData } from "@shared/mocks/mockbookmarkcontent";
 import { useBookmarkContents } from "@entities/bookmark/hooks";
 import { useDeleteBookmark } from "@entities/bookmark/hooks";
 
@@ -15,25 +14,12 @@ export default function BookmarkContentList() {
   const { data, isLoading } = useBookmarkContents();
   const { mutate: deleteBookmark, isPending } = useDeleteBookmark();
 
-  // const handleDelete = () => {
-  //   // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
-  //   console.log("북마크 콘텐츠 삭제 완료");
-  //   setIsDeleteContentModalOpen(false);
-  // };
   const handleDelete = () => {
     if (selectedMediaId === null) return;
     deleteBookmark(selectedMediaId, {
       onSuccess: () => setIsDeleteContentModalOpen(false),
     });
   };
-
-  // if (BookmarkContentsMockData.length === 0) {
-  //   return (
-  //     <div className="flex items-center justify-center h-100">
-  //       <p className="text-ot-gray-600">북마크한 콘텐츠가 없습니다.</p>
-  //     </div>
-  //   );
-  // }
 
   const items = data?.pages.flatMap((page) => page.dataList) ?? [];
 
@@ -116,7 +102,7 @@ export default function BookmarkContentList() {
         onClose={() => setIsDeleteContentModalOpen(false)}
         confirmText="네, 삭제합니다"
         cancelText="남겨두기"
-        // disabled={isPending}
+        disabled={isPending}
       />
     </div>
   );

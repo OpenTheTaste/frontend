@@ -13,6 +13,7 @@ interface ConfirmModalProps {
   message: string; // 안내 문구
   confirmText?: string; // YES 버튼 텍스트 (기본값: "예")
   cancelText?: string; // NO 버튼 텍스트 (기본값: "아니요")
+  disabled?: boolean; // 중복 클릭 방지
 }
 
 export default function ConfirmModal({
@@ -22,6 +23,7 @@ export default function ConfirmModal({
   message,
   confirmText = "예",
   cancelText = "아니요",
+  disabled = false, // 중복 클릭 방지
 }: ConfirmModalProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -82,11 +84,7 @@ export default function ConfirmModal({
             >
               {confirmText}
             </CommonButton>
-            <CommonButton
-              variant="secondary"
-              className="w-32 h-10 text-ot-text"
-              onClick={onClose}
-            >
+            <CommonButton variant="secondary" className="w-32 h-10 text-ot-text" onClick={onClose}>
               {cancelText}
             </CommonButton>
           </div>
