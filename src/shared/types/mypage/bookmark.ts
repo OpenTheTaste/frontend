@@ -37,3 +37,14 @@ export interface BookmarkShortFormResponse {
   pageInfo: PageInfo;
   dataList: BookmarkShortFormItem[];
 }
+
+// 북마크 삭제 요청 보낼 때 (프 -> 백)
+export interface BookmarkDeleteRequest {
+  mediaId: number;
+}
+
+// 북마크 삭제 응답 받을 때 (백 -> 프)
+export interface BookmarkDeleteResponse {
+  success: boolean;
+  data: string;
+}

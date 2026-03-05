@@ -6,16 +6,25 @@ import { Play, X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { BookmarkContentsMockData } from "@shared/mocks/mockbookmarkcontent";
 import { useBookmarkContents } from "@entities/bookmark/hooks";
+import { useDeleteBookmark } from "@entities/bookmark/hooks";
 
 export default function BookmarkContentList() {
   const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] = useState<boolean>(false);
+  const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
   const { data, isLoading } = useBookmarkContents();
+  const { mutate: deleteBookmark, isPending } = useDeleteBookmark();
 
+  // const handleDelete = () => {
+  //   // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
+  //   console.log("북마크 콘텐츠 삭제 완료");
+  //   setIsDeleteContentModalOpen(false);
+  // };
   const handleDelete = () => {
-    // 실제 북마크 삭제 처리 로직 작성 부분 (API 호출 등)
-    console.log("북마크 콘텐츠 삭제 완료");
-    setIsDeleteContentModalOpen(false);
+    if (selectedMediaId === null) return;
+    deleteBookmark(selectedMediaId, {
+      onSuccess: () => setIsDeleteContentModalOpen(false),
+    });
   };
 
   // if (BookmarkContentsMockData.length === 0) {
@@ -90,6 +99,7 @@ export default function BookmarkContentList() {
               aria-label="북마크 삭제"
               onClick={(e) => {
                 e.stopPropagation();
+                setSelectedMediaId(item.mediaId); // 북마크 삭제 API
                 setIsDeleteContentModalOpen(true);
               }}
               className="absolute top-3 right-3 p-1.5 rounded-full text-ot-gray-500 hover:text-ot-text hover:bg-ot-gray-800 transition-all duration-150"
@@ -106,6 +116,7 @@ export default function BookmarkContentList() {
         onClose={() => setIsDeleteContentModalOpen(false)}
         confirmText="네, 삭제합니다"
         cancelText="남겨두기"
+        // disabled={isPending}
       />
     </div>
   );
