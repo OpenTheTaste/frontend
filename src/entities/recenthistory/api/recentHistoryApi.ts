@@ -1,4 +1,4 @@
-import { api } from "@shared/api/apiClient";
+import { api } from "@shared/api";
 import { ApiResponse, RecentHistoryResponse } from "@/shared/types";
 
 export const recentHistoryApi = {

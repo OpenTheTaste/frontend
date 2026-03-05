@@ -1,4 +1,4 @@
-import { api } from "@shared/api/apiClient";
+import { api } from "@shared/api";
 import { ApiResponse, BookmarkContentResponse, BookmarkShortFormResponse } from "@/shared/types";
 
 export const bookmarkApi = {
