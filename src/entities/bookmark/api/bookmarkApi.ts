@@ -9,7 +9,7 @@ export const bookmarkApi = {
     }),
 
   getBookmarkShortForms: (page: number) =>
-    api.get<ApiResponse<BookmarkContentResponse>>("/bookmarks/me/short-form", {
+    api.get<ApiResponse<BookmarkShortFormResponse>>("/bookmarks/me/short-form", {
       params: { page, size: 10 },
     }),
 };
