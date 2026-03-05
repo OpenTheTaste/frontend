@@ -23,19 +23,24 @@ export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEdi
     if (error) setError(null);
     if (!value.trim()) {
       setError("이름은 비워둘 수 없습니다.");
+      // return;
+    }
+    // onNicknameChange(value.trim());
+  };
+
+  const commitNickname = () => {
+    const trimmed = draftName.trim();
+    if (!trimmed) {
+      setError("이름은 비워둘 수 없습니다.");
       return;
     }
-    onNicknameChange(value.trim());
+    onNicknameChange(trimmed);
+    setError(null);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-      if (!draftName.trim()) {
-        setError("이름은 비워둘 수 없습니다.");
-        return;
-      }
-      onNicknameChange(draftName.trim());
-      setError(null);
+      commitNickname();
       e.currentTarget.blur();
     }
     if (e.key === "Escape") {
@@ -57,6 +62,7 @@ export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEdi
         <Input
           value={draftName}
           onChange={(e) => handleChange(e.target.value)}
+          onBlur={commitNickname}
           onKeyDown={handleKeyDown}
           className={`w-full h-full text-ot-text text-center outline-none transition-all
             ${error ? "border border-red-500 animate-shake" : "border border-ot-gray-300"}`}
