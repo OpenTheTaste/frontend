@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { authApi, CategoryItem, TagItem } from "@entities/auth/api/auth";
+import { getCategories, getTags, CategoryItem, TagItem } from "@entities/auth/api";
 import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
 import { FinishEditButton } from "@features/profile/components";
 
@@ -25,7 +25,7 @@ export default function EditFavoriteTagsUI({ nickname, initialTagIds }: EditFavo
   // 카테고리 조회
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => authApi.getCategories().then((res) => res.data),
+    queryFn: () => getCategories(),
   });
 
   // 첫 카테고리 자동 선택
@@ -41,9 +41,9 @@ export default function EditFavoriteTagsUI({ nickname, initialTagIds }: EditFavo
     queryFn: () =>
       Promise.all(
         categories.map((cat) =>
-          authApi.getTags(cat.categoryId).then((res) => ({
+          getTags(cat.categoryId).then((tags) => ({
             categoryId: cat.categoryId,
-            tags: res.data,
+            tags,
           })),
         ),
       ).then((results) =>

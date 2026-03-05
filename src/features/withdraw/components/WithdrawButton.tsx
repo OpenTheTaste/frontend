@@ -1,16 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { CommonButton, ConfirmModal } from "@base-components";
+import { withdrawApi } from "@/entities/auth/api";
 
 export default function WithdrawButton() {
+  const router = useRouter();
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
     useState<boolean>(false);
 
-  const handleWithdraw = () => {
-    // 실제 회원탈퇴 처리 로직 작성 부분 (API 호출 등)
-    console.log("회원탈퇴 완료");
-    setIsWithdrawModalOpen(false);
+  const handleWithdraw = async () => {
+    try {
+      await withdrawApi();
+      router.push("/auth");
+      console.log("회원탈퇴 완료");
+    } catch (error) { 
+      console.error('회원탈퇴 실패', error);
+      setIsWithdrawModalOpen(false);
+    }
   };
 
   return (
