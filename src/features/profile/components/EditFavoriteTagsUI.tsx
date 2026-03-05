@@ -1,26 +1,33 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories, getTags, CategoryItem, TagItem } from "@entities/auth/api";
 import { ListCategory, SelectTag, SelectedTag } from "@features/auth/components/Interest";
 import { FinishEditButton } from "@features/profile/components";
-import { useMemberProfile } from "@/entities/profile/hooks";
 
 interface EditFavoriteTagsUIProps {
   nickname: string;
+  initialTagIds: number[];
 }
 
-export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps) {
-  const { data: profile } = useMemberProfile();
-  const initializedFromProfileRef = useRef(false);
-
+export default function EditFavoriteTagsUI({ nickname, initialTagIds }: EditFavoriteTagsUIProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryItem | null>(null);
-  const [selectedTagIdsByCategory, setSelectedTagIdsByCategory] = useState<
-    Record<number, number[]>
-  >({});
+  const hasInitializedRef = useRef(false);
 
-  // 카테고리 목록 조회 + 캐싱
+  // 선택된 태그는 tagId 배열 하나만 관리
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+
+  // 부모에서 내려준 초기 태그 세팅
+  useEffect(() => {
+    if (hasInitializedRef.current) return;
+    if (initialTagIds.length === 0) return;
+
+    setSelectedTagIds(initialTagIds);
+    hasInitializedRef.current = true;
+  }, [initialTagIds]);
+
+  // 카테고리 조회
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: () => getCategories(),
@@ -30,11 +37,10 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
   useEffect(() => {
     if (categories.length > 0 && !selectedCategory) {
       setSelectedCategory(categories[0]);
-      setSelectedTagIdsByCategory(Object.fromEntries(categories.map((c) => [c.categoryId, []])));
     }
   }, [categories, selectedCategory]);
 
-  // 모든 카테고리 태그 조회 + 캐싱
+  // 모든 카테고리 태그 조회
   const { data: tagsByCategory = {} } = useQuery({
     queryKey: ["allTags", categories.map((c) => c.categoryId)],
     queryFn: () =>
@@ -52,83 +58,45 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
     staleTime: Infinity,
   });
 
-  // 태그 로드 후 기존 선호태그 초기값 세팅
-  useEffect(() => {
-    if (initializedFromProfileRef.current) return;
-    if (!profile || Object.keys(tagsByCategory).length === 0) return;
-
-    const preferredTagIds = profile.preferredTags.map((t) => t.tagId);
-    const initialSelected: Record<number, number[]> = {};
-
-    Object.entries(tagsByCategory).forEach(([categoryId, tags]) => {
-      const matched = (tags as TagItem[])
-        .filter((tag) => preferredTagIds.includes(tag.tagId))
-        .map((tag) => tag.tagId);
-      if (matched.length > 0) {
-        initialSelected[Number(categoryId)] = matched;
-      }
-    });
-
-    setSelectedTagIdsByCategory((prev) => ({
-      ...prev,
-      ...initialSelected,
-    }));
-    initializedFromProfileRef.current = true;
-  }, [tagsByCategory, profile]);
-
   const currentTags = selectedCategory
     ? ((tagsByCategory as Record<number, TagItem[]>)[selectedCategory.categoryId] ?? [])
     : [];
 
-  const selectedTagIds = selectedCategory
-    ? (selectedTagIdsByCategory[selectedCategory.categoryId] ?? [])
-    : [];
-
   const handleToggleTag = (tagId: number) => {
-    if (!selectedCategory) return;
-    setSelectedTagIdsByCategory((prev) => {
-      const current = prev[selectedCategory.categoryId] ?? [];
-      return {
-        ...prev,
-        [selectedCategory.categoryId]: current.includes(tagId)
-          ? current.filter((id) => id !== tagId)
-          : [...current, tagId],
-      };
-    });
+    setSelectedTagIds((prev) =>
+      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId],
+    );
   };
-
-  const handleSelectCategory = (category: CategoryItem) => setSelectedCategory(category);
 
   const handleClearAll = () => {
-    setSelectedTagIdsByCategory(Object.fromEntries(categories.map((c) => [c.categoryId, []])));
+    setSelectedTagIds([]);
   };
 
-  const selectedTagsByCategory: Record<string, string[]> = Object.fromEntries(
-    categories.map((cat) => [
-      cat.name,
-      (selectedTagIdsByCategory[cat.categoryId] ?? [])
-        .map(
-          (tagId) =>
-            (tagsByCategory as Record<number, TagItem[]>)[cat.categoryId]?.find(
-              (t) => t.tagId === tagId,
-            )?.name ?? "",
-        )
-        .filter(Boolean),
-    ]),
-  );
+  // 선택된 태그를 카테고리별로 UI에 표시
+  const selectedTagsByCategory: Record<string, string[]> = useMemo(() => {
+    return Object.fromEntries(
+      categories.map((cat) => [
+        cat.name,
+        (tagsByCategory as Record<number, TagItem[]>)[cat.categoryId]
+          ?.filter((tag) => selectedTagIds.includes(tag.tagId))
+          .map((tag) => tag.name) ?? [],
+      ]),
+    );
+  }, [categories, tagsByCategory, selectedTagIds]);
 
   return (
     <section className="w-full bg-ot-background flex-1 flex flex-col items-center justify-center py-6">
       <div className="px-3 max-w-275 mx-auto w-full flex flex-col items-center">
-        {/* 카테고리 & 테그 섹션 */}
+        {/* 카테고리 & 태그 선택 */}
         <div className="w-full flex border border-text-ot-text rounded-lg overflow-hidden mb-2">
           <div className="border-r border-text-ot-text">
             <ListCategory
               categories={categories}
               selectedCategory={selectedCategory}
-              onSelectCategory={handleSelectCategory}
+              onSelectCategory={setSelectedCategory}
             />
           </div>
+
           <SelectTag
             tags={currentTags}
             selectedTagIds={selectedTagIds}
@@ -144,10 +112,8 @@ export default function EditFavoriteTagsUI({ nickname }: EditFavoriteTagsUIProps
           />
         </div>
 
-        <FinishEditButton
-          nickname={nickname}
-          selectedTagIds={Object.values(selectedTagIdsByCategory).flat()}
-        />
+        {/* 저장 버튼 */}
+        <FinishEditButton nickname={nickname} selectedTagIds={selectedTagIds} />
       </div>
     </section>
   );
