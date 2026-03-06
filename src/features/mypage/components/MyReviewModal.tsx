@@ -6,8 +6,9 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useOutsideClick } from "@shared/hooks/useOutsideClick";
-import { useMyreviews } from "@/entities/myreview/hooks";
-import { useDeleteMyreview } from "@/entities/myreview/hooks";
+import { useMyreviews } from "@entities/myreview/hooks";
+import { useDeleteMyreview } from "@entities/myreview/hooks";
+import { formatDate } from "@shared/lib";
 
 interface MyReviewModalProps {
   isOpen: boolean;
@@ -106,7 +107,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
               {reviews.map((review) => (
                 <div
                   key={review.commentId}
-                  className="relative group flex items-start w-full gap-5 shrink-0 p-4 rounded-xl hover:bg-ot-gray-700 transition-all duration-200 cursor-pointer"
+                  className="relative group flex items-center w-full gap-5 shrink-0 p-4 rounded-xl hover:bg-ot-gray-700 transition-all duration-200 cursor-pointer"
                 >
                   {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
                   <div className="relative shrink-0 w-45 aspect-video bg-black rounded overflow-hidden">
@@ -119,15 +120,17 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
                   </div>
 
                   {/* 텍스트 영역 */}
-                  <div className="flex flex-col flex-1 pt-4 pr-8 gap-1">
+                  <div className="flex flex-col flex-1 pr-8">
                     {/* 작성한 댓글 내용 */}
-                    <p className="text-ot-text text-[16px]">{review.content}</p>
+                    <div className="flex gap-3 flex-col justify-center">
+                      <p className="text-ot-text text-sm">{review.content}</p>
 
-                    {/* 작성자 & 작성 날짜 */}
-                    <div className="flex items-center gap-1 text-[14px] text-ot-gray-400">
-                      <span>{review.writerNickname}</span>
-                      <span>·</span>
-                      <span>{review.createdDate}</span>
+                      {/* 작성자 & 작성 날짜 */}
+                      <div className="flex items-center gap-1 text-xs text-ot-gray-600">
+                        {/* <span>{review.writerNickname}</span> */}
+                        {/* <span>·</span> */}
+                        <span>{formatDate(review.createdDate)}</span>
+                      </div>
                     </div>
                   </div>
 
