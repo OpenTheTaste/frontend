@@ -86,7 +86,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
           <X size={24} strokeWidth={2} />
         </button>
 
-        <div className="flex-1 mt-25 mx-15 mb-15 overflow-y-auto no-scrollbar">
+        <div className="flex-1 mt-15 mx-15 mb-10 overflow-y-auto no-scrollbar">
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
               <p className="text-ot-text">로딩 중 ~</p>
@@ -102,11 +102,11 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
               <p className="text-ot-gray-600">작성한 댓글이 없습니다.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3">
               {reviews.map((review) => (
                 <div
                   key={review.commentId}
-                  className="relative flex items-start w-full gap-5 shrink-0"
+                  className="relative group flex items-start w-full gap-5 shrink-0 p-4 rounded-xl hover:bg-ot-gray-700 transition-all duration-200 cursor-pointer"
                 >
                   {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
                   <div className="relative shrink-0 w-45 aspect-video bg-black rounded overflow-hidden">
@@ -133,7 +133,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
 
                   {/* 댓글별 삭제 버튼 */}
                   <button
-                    className="absolute top-0 right-0 text-ot-gray-400 hover:text-ot-gray-600 cursor-pointer"
+                    className="absolute top-2 right-2 p-2 text-ot-gray-400 hover:text-ot-gray-600 cursor-pointer"
                     onClick={() => handleDeleteClick(review.commentId)}
                   >
                     <X size={16} />
