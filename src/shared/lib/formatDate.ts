@@ -1,5 +1,9 @@
 export const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
+  const utcString = dateString.endsWith("Z") ? dateString : dateString + "Z";
+  const date = new Date(utcString);
+
+  if (Number.isNaN(date.getTime())) return dateString;
+
   return (
     date
       .toLocaleDateString("ko-KR", {

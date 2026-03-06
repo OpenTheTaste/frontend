@@ -31,8 +31,8 @@ export const GUIDE_ITEMS: { key: Factor; en: string; desc: string }[] = [
   },
   {
     key: "재시청률",
-    en: "Short-form Hot",
-    desc: "현재 O+T 숏폼에서 가장 뜨거운 반응을 얻고 있는 화제의 작품을 추천합니다.",
+    en: "Rewatch Rate",
+    desc: "다시 보고 싶을 만큼 만족도가 높은 작품을 우선으로 추천합니다.",
   },
 ];
 

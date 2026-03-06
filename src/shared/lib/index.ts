@@ -1,4 +1,4 @@
 export * from "./cn";
 export * from "./queryClient";
-export * from "./QueryClientProvider";
+export { default as QueryProvider } from "./QueryClientProvider";
 export * from "./formatDate";
