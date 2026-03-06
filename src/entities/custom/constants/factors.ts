@@ -1,13 +1,13 @@
-export type Factor = "대중성" | "몰입도" | "마니아" | "최신성" | "숏폼 트렌드";
+export type Factor = "대중성" | "몰입도" | "마니아" | "최신성" | "재시청률";
 
-export const FACTORS: Factor[] = ["대중성", "몰입도", "마니아", "최신성", "숏폼 트렌드"];
+export const FACTORS: Factor[] = ["대중성", "몰입도", "마니아", "최신성", "재시청률"];
 
 export const INITIAL_VALUES: Record<Factor, number> = {
   대중성: 0,
   몰입도: 0,
   마니아: 0,
   최신성: 0,
-  "숏폼 트렌드": 0,
+  재시청률: 0,
 };
 
 export const GENRES = ["인기작 위주", "숨은 명작", "초기화"];
@@ -30,7 +30,7 @@ export const GUIDE_ITEMS: { key: Factor; en: string; desc: string }[] = [
     desc: "지금 막 올라온 따끈따끈한 신규 콘텐츠를 빠르게 만나볼 수 있습니다.",
   },
   {
-    key: "숏폼 트렌드",
+    key: "재시청률",
     en: "Short-form Hot",
     desc: "현재 O+T 숏폼에서 가장 뜨거운 반응을 얻고 있는 화제의 작품을 추천합니다.",
   },

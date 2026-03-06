@@ -17,7 +17,7 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
       몰입도: 10,
       마니아: 20,
       최신성: 20,
-      "숏폼 트렌드": 10,
+      재시청률: 10,
     },
   },
   HIDDEN_GEM: {
@@ -29,7 +29,7 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
       몰입도: 30,
       마니아: 45,
       최신성: 10,
-      "숏폼 트렌드": 10,
+      재시청률: 10,
     },
   },
   RESET: {
