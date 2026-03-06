@@ -4,9 +4,11 @@ import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { mockReviews } from "@shared/mocks/mockReviews";
 import { ConfirmModal } from "@base-components";
 import { useOutsideClick } from "@shared/hooks/useOutsideClick";
+import { useMyreviews } from "@entities/myreview/hooks";
+import { useDeleteMyreview } from "@entities/myreview/hooks";
+import { formatDate } from "@shared/lib";
 
 interface MyReviewModalProps {
   isOpen: boolean;
@@ -20,6 +22,11 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const deleteTargetIdRef = useRef<number | null>(null);
   deleteTargetIdRef.current = deleteTargetId; // 항상 최신 값 동기화
+
+  const { data, isLoading, isError } = useMyreviews();
+  const { mutate: deleteComment, isPending } = useDeleteMyreview();
+
+  const reviews = data?.pages.flatMap((page) => page.dataList) ?? [];
 
   useOutsideClick(modalRef, onClose, isOpen && deleteTargetId === null); // 관련 hook 추가하여 사용
 
@@ -59,6 +66,13 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
     onClose();
   };
 
+  const handleConfirmDelete = () => {
+    if (deleteTargetId === null) return;
+    deleteComment(deleteTargetId, {
+      onSuccess: closeConfirmModal,
+    });
+  };
+
   return createPortal(
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
       <div
@@ -73,22 +87,32 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
           <X size={24} strokeWidth={2} />
         </button>
 
-        <div className="flex-1 mt-25 mx-15 mb-15 overflow-y-auto no-scrollbar">
-          {mockReviews.length === 0 ? (
+        <div className="flex-1 mt-15 mx-15 mb-10 overflow-y-auto no-scrollbar">
+          {isLoading ? (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-ot-text">로딩 중 ~</p>
+            </div>
+          ) : isError ? (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-ot-gray-600">
+                댓글을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+              </p>
+            </div>
+          ) : reviews.length === 0 ? (
             <div className="flex items-center justify-center">
               <p className="text-ot-gray-600">작성한 댓글이 없습니다.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-5">
-              {mockReviews.map((review) => (
+            <div className="flex flex-col gap-3">
+              {reviews.map((review) => (
                 <div
-                  key={review.id}
-                  className="relative flex items-start w-full gap-5 shrink-0"
+                  key={review.commentId}
+                  className="relative group flex items-center w-full gap-5 shrink-0 p-4 rounded-xl hover:bg-ot-gray-700 transition-all duration-200 cursor-pointer"
                 >
                   {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
                   <div className="relative shrink-0 w-45 aspect-video bg-black rounded overflow-hidden">
                     <Image
-                      src={review.image}
+                      src={review.contentsPosterUrl}
                       alt="Review"
                       fill
                       className="object-cover"
@@ -96,22 +120,24 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
                   </div>
 
                   {/* 텍스트 영역 */}
-                  <div className="flex flex-col flex-1 pt-4 pr-8 gap-1">
+                  <div className="flex flex-col flex-1 pr-8">
                     {/* 작성한 댓글 내용 */}
-                    <p className="text-ot-text text-[16px]">{review.content}</p>
+                    <div className="flex gap-3 flex-col justify-center">
+                      <p className="text-ot-text text-sm">{review.content}</p>
 
-                    {/* 작성자 & 작성 날짜 */}
-                    <div className="flex items-center gap-1 text-[14px] text-ot-gray-400">
-                      <span>{review.userId}</span>
-                      <span>·</span>
-                      <span>{review.date}</span>
+                      {/* 작성자 & 작성 날짜 */}
+                      <div className="flex items-center gap-1 text-xs text-ot-gray-600">
+                        {/* <span>{review.writerNickname}</span> */}
+                        {/* <span>·</span> */}
+                        <span>{formatDate(review.createdDate)}</span>
+                      </div>
                     </div>
                   </div>
 
                   {/* 댓글별 삭제 버튼 */}
                   <button
-                    className="absolute top-0 right-0 text-ot-gray-400 hover:text-ot-gray-600 cursor-pointer"
-                    onClick={() => handleDeleteClick(review.id)}
+                    className="absolute top-2 right-2 p-2 text-ot-gray-400 hover:text-ot-gray-600 cursor-pointer"
+                    onClick={() => handleDeleteClick(review.commentId)}
                   >
                     <X size={16} />
                   </button>
@@ -124,8 +150,9 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
       <ConfirmModal
         isOpen={deleteTargetId !== null}
         message="댓글을 삭제하시겠습니까?"
-        onConfirm={closeConfirmModal} // 아직 그냥 닫히기만 함
-        onClose={closeConfirmModal} // 아직 그냥 닫히기만 함
+        onConfirm={handleConfirmDelete}
+        onClose={closeConfirmModal}
+        disabled={isPending}
       />
     </div>,
     document.body,
