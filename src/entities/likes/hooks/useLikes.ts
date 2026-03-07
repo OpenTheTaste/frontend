@@ -5,8 +5,10 @@ export function useLikes() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (mediaId: number) => postLikes(mediaId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["likes"] });
+    onSuccess: (_data, mediaId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["contents", "detail", mediaId],
+      });
     },
     onError: (error) => {
       console.error("좋아요 실패", error);

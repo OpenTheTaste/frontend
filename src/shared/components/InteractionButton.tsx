@@ -39,9 +39,9 @@ export const InteractionButton = ({
   return (
     // size : 72 * 56 px, radius : 36px
     <button
-      onClick={onAction}
-      className={`${config.button} flex items-center justify-center rounded-[2.25rem] shrink-0 cursor-pointer hover:opacity-80 transition
-          ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:opacity-80"}`}
+      onClick={disabled ? undefined : onAction}
+      disabled={disabled}
+      className={`${config.button} flex shrink-0 items-center justify-center rounded-[2.25rem] transition ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:opacity-80"}`}
     >
       <Image
         src={

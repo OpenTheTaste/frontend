@@ -6,7 +6,6 @@ export function useToggleBookmark() {
   const { mutate, isPending } = useMutation({
     mutationFn: (mediaId: number) => toggleBookmark({ mediaId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookmark"] });
       queryClient.invalidateQueries({ queryKey: ["bookmarkContents"] });
       queryClient.invalidateQueries({ queryKey: ["bookmarkShortForms"] });
     },
