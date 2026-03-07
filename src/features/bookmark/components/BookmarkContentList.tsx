@@ -5,14 +5,17 @@ import Image from "next/image";
 import { Play, X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useBookmarkContents } from "@entities/bookmark/hooks";
-import { useDeleteBookmark } from "@entities/bookmark/hooks";
+import { useToggleBookmark } from "@entities/bookmark/hooks";
+import { useRouter } from "next/navigation";
 
 export default function BookmarkContentList() {
-  const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] = useState<boolean>(false);
+  const router = useRouter();
+  const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] =
+    useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
   const { data, isLoading, isError } = useBookmarkContents();
-  const { mutate: deleteBookmark, isPending } = useDeleteBookmark();
+  const { mutate: deleteBookmark, isPending } = useToggleBookmark();
 
   const handleDelete = () => {
     if (isPending || selectedMediaId === null) return;
@@ -37,7 +40,9 @@ export default function BookmarkContentList() {
   if (isError) {
     return (
       <div className="flex items-center justify-center h-100">
-        <p className="text-ot-gray-600">북마크를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p>
+        <p className="text-ot-gray-600">
+          북마크를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+        </p>
       </div>
     );
   }
@@ -56,6 +61,9 @@ export default function BookmarkContentList() {
         {items.map((item) => (
           <div
             key={item.mediaId}
+            onClick={() =>
+              router.push(`/contents/${item.mediaId}?type=${item.mediaType}`)
+            }
             className="relative group flex items-center gap-8 p-4 rounded-xl hover:bg-ot-gray-900 w-full cursor-pointer transition-all duration-200"
           >
             {/* 포스터 이미지 (4:3) */}
@@ -70,7 +78,10 @@ export default function BookmarkContentList() {
                   />
                   {/* 플레이 아이콘 오버레이 */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <Play size={18} className="text-ot-text fill-ot-text drop-shadow-md" />
+                    <Play
+                      size={18}
+                      className="text-ot-text fill-ot-text drop-shadow-md"
+                    />
                   </div>
                 </>
               ) : (
