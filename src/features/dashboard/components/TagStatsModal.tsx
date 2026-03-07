@@ -68,7 +68,7 @@ export default function TagStatsModal({
         {/* 그래프 영역 */}
         <div className="px-25">
           <div className="relative rounded-lg flex flex-col items-center p-3">
-            <h2 className="text-[20px] font-bold text-ot-text">#{tagName} 시청 통계</h2>
+            <h2 className="text-[20px] font-bold text-ot-text">{tagName} 시청 통계</h2>
 
             {/* 분리된 그래프 컴포넌트 호출 */}
             <TagStatsModalGraph tagName={tagName} monthlyStats={monthlyStats} />
