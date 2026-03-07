@@ -1,74 +1,85 @@
 "use client";
 
-import { ArrowDown, ArrowUp } from "lucide-react";
-import { CommonButton, ConfirmModal, Toggle } from "@base-components";
 import { useState } from "react";
-import { mockReview } from "@shared/mocks/mockReview";
-import { Review } from "@shared/types/video-contents/review";
 import { motion } from "framer-motion";
+import { ArrowDown, ArrowUp, Loader2 } from "lucide-react";
+import { CommonButton, ConfirmModal, Toggle } from "@base-components";
+import { useDeleteMyreview } from "@entities/myreview/hooks";
+import { ReviewListItem } from "@entities/review/api/review";
+import { useEditReview, useWriteReview } from "@entities/review/hooks";
+import { useInfiniteReviewList } from "@entities/review/hooks/useReviewList";
+import { useInfiniteScroll } from "@shared/hooks/useInfiniteScroll";
+import { formatDate } from "@shared/lib";
 
 interface ReviewSectionProps {
   isExpandAllReviews: boolean;
   setIsExpandAllReviews: (value: boolean) => void;
+  contentsId: number;
 }
 
 export default function ReviewSection({
   isExpandAllReviews,
   setIsExpandAllReviews,
+  contentsId,
 }: ReviewSectionProps) {
-  const [isSpoilerReview, setIsSpoilerReview] = useState<boolean>(false); // 스포일러 댓글인지 여부 (등록시 사용-체크박스)
-  const [showSpoiler, setShowSpoiler] = useState<boolean>(false); // 스포일러 보일지말지 - 토글
-  const [newReview, setNewReview] = useState<string>(""); // 댓글 등록
+  const [isSpoilerReview, setIsSpoilerReview] = useState<boolean>(false);
+  const [showSpoiler, setShowSpoiler] = useState<boolean>(false);
+  const [newReview, setNewReview] = useState<string>("");
 
-  const [editingReviewId, setEditingReviewId] = useState<number | null>(null); // 수정중인 댓글 id
-  const [editingReview, setEditingReview] = useState<string>(""); // 수정중인 댓글
-  const [editingSpoiler, setEditingSpoiler] = useState<boolean>(false); // 수정중인 스포일러 상태
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [editingReview, setEditingReview] = useState<string>("");
+  const [editingSpoiler, setEditingSpoiler] = useState<boolean>(false);
 
-  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null); // 제거할 댓글 id
-  const [reviewList, setReviewList] = useState<Review[]>(mockReview); // 댓글리스트
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+
+  const {
+    reviewList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteReviewList({
+    page: 0,
+    size: 10,
+    contentsId,
+    includeSpoiler: showSpoiler,
+  });
+  const filteredSpoilerReviews = reviewList;
+  const { observerRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+
+  const { mutateAsync: writeReview, isPending: isWritePending } =
+    useWriteReview();
+
+  const { mutateAsync: editReview, isPending: isEditPending } = useEditReview();
+  const { mutate: deleteReview, isPending: isDeletePending } =
+    useDeleteMyreview();
 
   // 등록
-  const handleSubmitReview = () => {
+  const handleSubmitReview = async () => {
     if (!newReview.trim()) return;
 
-    // FIXME: 임시 로컬에서 구현하기 위한 코드
-    const newReviewItem: Review = {
-      id: Math.floor(Math.random() * 1000000),
-      review: newReview,
-      author: "나",
-      date: new Date()
-        .toLocaleString("ko-KR", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })
-        .replace(/\. /g, ".")
-        .replace(/\.$/, ""),
-      myself: true,
-      spoiler: isSpoilerReview,
-    };
+    await writeReview({
+      contentId: contentsId,
+      content: newReview,
+      isSpoiler: isSpoilerReview,
+    });
 
-    setReviewList((prev) => [newReviewItem, ...prev]);
-
-    // 스포포함 등록 시 바로 스포포함한 댓글 조회
-    if (isSpoilerReview) {
-      setShowSpoiler(true);
-    } else {
-      setShowSpoiler(false);
-    }
+    if (isSpoilerReview) setShowSpoiler(true);
     setNewReview("");
     setIsSpoilerReview(false);
   };
 
   // 수정
-  const handleEditReview = (reviewId: number) => {
-    const target = reviewList.find((r) => r.id === reviewId);
+  const handleEditReview = (commentId: number) => {
+    const target = reviewList.find((r) => r.commentId === commentId);
     if (!target) return;
-    setEditingReviewId(reviewId);
-    setEditingReview(target.review);
+    setEditingReviewId(commentId);
+    setEditingReview(target.content);
     setEditingSpoiler(target.spoiler);
   };
 
@@ -80,23 +91,15 @@ export default function ReviewSection({
   };
 
   // 수정 저장
-  const handleSaveEditReview = (reviewId: number) => {
+  const handleSaveEditReview = async (commentId: number) => {
     if (!editingReview.trim()) return;
 
-    setReviewList((prev) =>
-      prev.map((review) =>
-        review.id === reviewId
-          ? { ...review, review: editingReview, spoiler: editingSpoiler }
-          : review,
-      ),
-    );
+    await editReview({
+      commentId,
+      content: editingReview,
+      isSpoiler: editingSpoiler,
+    });
 
-    // 스포포함 등록 시 바로 스포포함한 댓글 조회
-    if (editingSpoiler) {
-      setShowSpoiler(true);
-    } else {
-      setShowSpoiler(false);
-    }
     setEditingReviewId(null);
     setEditingReview("");
     setEditingSpoiler(false);
@@ -105,20 +108,11 @@ export default function ReviewSection({
   // 삭제
   const handleConfirmDelete = () => {
     if (deleteTargetId === null) return;
-    setReviewList((prev) =>
-      prev.filter((review) => review.id !== deleteTargetId),
-    );
+    deleteReview(deleteTargetId);
     setDeleteTargetId(null);
   };
 
-  // 모달 닫기
-  const closeConfirmModal = () => {
-    setDeleteTargetId(null);
-  };
-
-  const filteredSpoilerReviews = showSpoiler
-    ? reviewList
-    : reviewList.filter((review) => !review.spoiler);
+  const closeConfirmModal = () => setDeleteTargetId(null);
 
   const slideTransition = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
 
@@ -153,8 +147,9 @@ export default function ReviewSection({
         <CommonButton
           onClick={handleSubmitReview}
           className="px-2 py-1 rounded-sm"
+          disabled={isWritePending}
         >
-          <p className="text-sm">등록</p>
+          <p className="text-sm">{isWritePending ? "등록 중..." : "등록"}</p>
         </CommonButton>
       </div>
       <div className="flex gap-2 justify-end mt-2 text-ot-text">
@@ -169,18 +164,26 @@ export default function ReviewSection({
 
   const reviewListJSX = (
     <div className="overflow-y-auto flex-1 mt-2">
-      {filteredSpoilerReviews.length === 0 ? (
+      {isLoading ? (
+        <div className="flex items-center justify-center h-full">
+          <p className="text-ot-gray-600">불러오는 중...</p>
+        </div>
+      ) : isError ? (
+        <div className="flex items-center justify-center h-full">
+          <p className="text-ot-gray-600">댓글을 불러오지 못했습니다.</p>
+        </div>
+      ) : filteredSpoilerReviews.length === 0 ? (
         <div className="flex items-center justify-center h-full">
           <p className="text-ot-gray-600">작성된 댓글이 없습니다.</p>
         </div>
       ) : (
         <div>
-          {filteredSpoilerReviews.map((item) => (
+          {filteredSpoilerReviews.map((item: ReviewListItem) => (
             <div
-              key={item.id}
+              key={item.commentId}
               className="flex flex-col p-3 text-ot-text mt-1 border-ot-gray-700 border-b"
             >
-              {editingReviewId === item.id ? (
+              {editingReviewId === item.commentId ? (
                 <>
                   <textarea
                     placeholder="댓글을 입력하세요"
@@ -206,7 +209,7 @@ export default function ReviewSection({
                       </p>
                     </label>
                     <CommonButton
-                      onClick={() => handleSaveEditReview(item.id)}
+                      onClick={() => handleSaveEditReview(item.commentId)}
                       className="px-2 py-1 rounded-sm"
                     >
                       <p className="text-sm">수정</p>
@@ -222,34 +225,56 @@ export default function ReviewSection({
                 </>
               ) : (
                 <>
-                  <p className="flex-nowrap flex">{item.review}</p>
+                  <p className="flex-nowrap flex">{item.content}</p>
                   <div className="flex items-center">
-                    <div className="flex text-sm pt-1">
+                    <div className="flex text-sm pt-1 text-ot-gray-600">
                       <p>
-                        {item.author} ⋅ {item.date}
+                        {item.nickname} ⋅ {formatDate(item.createdAt)}
                       </p>
                     </div>
-                    {item.myself && (
-                      <div className="flex justify-center items-center ml-auto">
-                        <button
-                          onClick={() => handleEditReview(item.id)}
-                          className="text-sm flex mr-2 hover:text-ot-gray-600 cursor-pointer"
-                        >
-                          수정
-                        </button>
-                        <button
-                          onClick={() => setDeleteTargetId(item.id)}
-                          className="text-sm flex hover:text-ot-gray-600 cursor-pointer"
-                        >
-                          삭제
-                        </button>
-                      </div>
-                    )}
+                    {/* FIXME: 응답값 추가 요청함 */}
+                    {/* {item.myself && ( */}
+                    <div className="flex justify-center items-center ml-auto">
+                      <button
+                        onClick={() => handleEditReview(item.commentId)}
+                        className="text-sm flex mr-2 hover:text-ot-gray-600 cursor-pointer disabled:cursor-not-allowed"
+                        disabled={
+                          isEditPending && editingReviewId === item.commentId
+                        }
+                      >
+                        <p className="text-sm">
+                          {isEditPending && editingReviewId === item.commentId
+                            ? "수정 중..."
+                            : "수정"}
+                        </p>
+                      </button>
+                      <button
+                        onClick={() => setDeleteTargetId(item.commentId)}
+                        disabled={
+                          isDeletePending && deleteTargetId === item.commentId
+                        }
+                        className="text-sm flex hover:text-ot-gray-600 cursor-pointer disabled:cursor-not-allowed"
+                      >
+                        {isDeletePending && deleteTargetId === item.commentId
+                          ? "삭제 중..."
+                          : "삭제"}
+                      </button>
+                    </div>
+                    {/* )} */}
                   </div>
                 </>
               )}
             </div>
           ))}
+
+          <div ref={observerRef} className="h-4 flex justify-center">
+            {isFetchingNextPage && (
+              <Loader2
+                className="animate-spin text-ot-placeholder mt-4"
+                size={20}
+              />
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -298,7 +323,6 @@ export default function ReviewSection({
         </div>
 
         {reviewInput(isExpandAllReviews ? "expanded" : "collapsed")}
-
         {reviewListJSX}
       </motion.div>
 
