@@ -2,45 +2,52 @@
 
 import { CommonButton, Badge, InteractionButton } from "@base-components";
 import { Play, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { DESCRIPTION_MAX_LENGTH } from "@/entities/video-contents/constants/contentDescription";
-import {
-  SingleContent,
-  SeriesContent,
-} from "@shared/types/video-contents/contents";
+import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useRouter } from "next/navigation";
+import { useLikes } from "@entities/likes/hooks/useLikes";
+import { useToggleBookmark } from "@/entities/bookmark/hooks";
+import { ContentsDetailReponse } from "@entities/video-contents/api";
 
 interface ContentsMainSectionProps {
-  content: SingleContent | SeriesContent;
+  content: ContentsDetailReponse;
+  mediaType: "SERIES" | "CONTENTS";
   isEpisodeView?: boolean;
   seriesId?: number;
   seriesTitle?: string;
 }
 export default function ContentsMainSection({
   content,
+  mediaType,
   isEpisodeView = false,
   seriesId,
   seriesTitle,
 }: ContentsMainSectionProps) {
-  const [like, setLike] = useState<boolean>(false);
-  const [bookmark, setBookmark] = useState<boolean>(false);
+  const { mutate: toggleLike, isPending: isLikedPending } = useLikes();
+  const { mutate: toggleBookmark, isPending: isBookmarkPending } =
+    useToggleBookmark();
+
+  const [isLiked, setIsLiked] = useState<boolean>(content.isLiked);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(
+    content.isBookmarked,
+  );
+
   const [isExpandedDescription, setIsExpandedDescription] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLiked(content.isLiked);
+    setIsBookmarked(content.isBookmarked);
+  }, [content.isLiked, content.isBookmarked]);
 
   const router = useRouter();
 
   const handlePlay = () => {
-    if (content.type === "single") {
-      // 단편일 경우 -> 바로 플레이어로 이동
+    if (mediaType === "CONTENTS") {
       router.push(`/player/${content.id}`);
     } else {
-      // 시리즈일 경우 이어보기 or 1화로 이동
-      const series = content as SeriesContent;
-      if (series.episodes.length === 0) return;
-      const targetEpisodeId =
-        series.lastWatchedEpisode ?? series.episodes[0].id;
-      router.push(`/contents/${content.id}/episode/${targetEpisodeId}`);
+      router.push(`/contents/${content.id}/episode/1`); // FIXME: 임시
     }
   };
 
@@ -49,9 +56,24 @@ export default function ContentsMainSection({
       ? text
       : text.slice(0, DESCRIPTION_MAX_LENGTH) + "...";
 
+  const handleLikes = () => {
+    toggleLike(content.id, {
+      onSuccess: () => {
+        setIsLiked((prev) => !prev);
+      },
+    });
+  };
+  const handleBookmark = () => {
+    toggleBookmark(content.id, {
+      onSuccess: () => {
+        setIsBookmarked((prev) => !prev);
+      },
+    });
+  };
+
   return (
     <div className="flex-1">
-      {content.type === "single" ? (
+      {mediaType === "CONTENTS" ? (
         <Link href={`/player/${content.id}`}>
           <button className="aspect-video w-full max-w-284 bg-ot-gray-800 rounded-sm flex items-center justify-center">
             <Play className="fill-ot-text stroke-ot-text w-14 h-14" />
@@ -71,16 +93,18 @@ export default function ContentsMainSection({
 
         <InteractionButton
           type="like"
-          isActive={like}
+          isActive={isLiked}
           size="md"
-          onAction={() => setLike((prev) => !prev)}
+          onAction={handleLikes}
+          disabled={isLikedPending}
         />
 
         <InteractionButton
           type="bookmark"
-          isActive={bookmark}
+          isActive={isBookmarked}
           size="md"
-          onAction={() => setBookmark((prev) => !prev)}
+          onAction={handleBookmark}
+          disabled={isBookmarkPending}
         />
       </div>
 
@@ -123,7 +147,7 @@ export default function ContentsMainSection({
             <div className="flex items-start gap-5">
               <p className="text-lg font-semibold whitespace-nowrap">출연</p>
               <div className="text-base text-ot-text py-[0.063rem]">
-                {content.cast}
+                {content.actors}
               </div>
             </div>
 
@@ -133,9 +157,7 @@ export default function ContentsMainSection({
               </p>
               <div className="flex-1 min-w-0 py-1">
                 <div className="flex flex-wrap gap-x-2 gap-y-2">
-                  {content.categories.map((category, index) => (
-                    <Badge key={index} text={category} />
-                  ))}
+                  <Badge text={content.category} />
                 </div>
               </div>
             </div>
