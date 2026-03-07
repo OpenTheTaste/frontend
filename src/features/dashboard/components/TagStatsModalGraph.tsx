@@ -21,17 +21,17 @@ export default function TagStatsModalGraph({ tagName, monthlyStats }: TagStatsMo
       {/* 범례 묶음 */}
       <div className="flex flex-col gap-3 mt-10 mr-6 shrink-0">
         <div className="flex flex-col items-center">
-          <span className="text-xs" style={{ color: "#FF6A87" }}>
+          <span className="text-xs text-ot-primary-400">
             {isDarkPinkThisMonth ? "금월" : "전월"}
           </span>
-          <div className="w-10 h-3 rounded-sm" style={{ backgroundColor: "#FF6A87" }} />
+          <div className="w-10 h-3 rounded-sm bg-ot-primary-400" />
         </div>
         {!isNewUser && (
           <div className="flex flex-col items-center">
-            <span className="text-xs" style={{ color: "#FFB2BD" }}>
+            <span className="text-xs text-ot-primary-200">
               {isDarkPinkThisMonth ? "전월" : "금월"}
             </span>
-            <div className="w-10 h-3 rounded-sm" style={{ backgroundColor: "#FFB2BD" }} />
+            <div className="w-10 h-3 rounded-sm bg-ot-primary-200" />
           </div>
         )}
       </div>
@@ -90,8 +90,8 @@ export default function TagStatsModalGraph({ tagName, monthlyStats }: TagStatsMo
         {/* 그래프 바 별 횟수 표시 묶음 */}
         {/* darkpink 횟수 (더 많은 거) */}
         <motion.span
-          className="absolute z-30 text-xs whitespace-nowrap"
-          style={{ color: "#FF6A87", top: "2%", left: "77%" }}
+          className="absolute z-30 text-xs text-ot-primary-400 whitespace-nowrap"
+          style={{ top: "2%", left: "77%" }}
           initial={{ opacity: 0 }} // 처음 (찌그러짐)
           animate={{ opacity: 1 }} // 애니메이션 효과 후
           transition={{ delay: 0.7 }}
@@ -102,8 +102,8 @@ export default function TagStatsModalGraph({ tagName, monthlyStats }: TagStatsMo
         {/* lightpink 횟수 (더 적은 거) - 이거도 전월 데이터 있을 때만 표시됨 */}
         {!isNewUser && (
           <motion.span
-            className="absolute z-30 text-xs whitespace-nowrap"
-            style={{ color: "#FFB2BD", top: "48%", left: "96%" }}
+            className="absolute z-30 text-xs text-ot-primary-200 whitespace-nowrap"
+            style={{ top: "48%", left: "96%" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.0 }}
