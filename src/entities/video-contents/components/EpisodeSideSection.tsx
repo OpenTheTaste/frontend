@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import ReviewContainer from "@/entities/video-contents/components/ReviewSection";
 import { useState } from "react";
+import { ReviewSection } from "@entities/video-contents/components";
 import { Episode } from "@shared/types/video-contents/contents";
 
 interface EpisodeSideSectionProps {
@@ -18,9 +18,10 @@ export default function EpisodeSideSection({
 
   return (
     <div className="w-full max-w-134 shrink-0">
-      <ReviewContainer
+      <ReviewSection
         isExpandAllReviews={isExpandAllReviews}
         setIsExpandAllReviews={setIsExpandAllReviews}
+        contentsId={seriesId} // FIXME: 아마 수정 필요
       />
 
       {!isExpandAllReviews && (

@@ -67,7 +67,10 @@ export default function ContentsContainer({
             />
           ) : null
         ) : (
-          <SingleSideSection recommendations={recommendations} />
+          <SingleSideSection
+            recommendations={recommendations}
+            contentsId={mediaId}
+          />
         )}
         {/* FIXME: 시리즈 콘텐츠 API 연동 시 주석 해제 */}
         {/* {mediaType === "SERIES" && (
