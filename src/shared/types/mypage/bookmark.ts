@@ -39,13 +39,13 @@ export interface BookmarkShortFormResponse {
   dataList: BookmarkShortFormItem[];
 }
 
-// 북마크 삭제 요청 보낼 때 (프 -> 백)
-export interface BookmarkDeleteRequest {
+// 북마크 요청 보낼 때 (추가/삭제 포함)
+export interface BookmarkRequest {
   mediaId: number;
 }
 
-// 북마크 삭제 응답 받을 때 (백 -> 프)
-export interface BookmarkDeleteResponse {
+// 북마크 응답 받을 때 (추가/삭제 포함)
+export interface BookmarkResponse {
   success: boolean;
   data: string;
 }
