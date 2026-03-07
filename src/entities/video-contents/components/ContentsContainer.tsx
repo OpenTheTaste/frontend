@@ -1,91 +1,82 @@
+"use client";
+
 import {
-  EpisodeSideSection,
-  SingleSideSection,
-  SeriesSideSection,
   ContentsMainSection,
-} from "@/entities/video-contents/components";
-import {
-  Episode,
-  Recommendation,
-  SeriesContent,
-  SingleContent,
-} from "@shared/types/video-contents/contents";
+  EpisodeSideSection,
+  SeriesSideSection,
+  SingleSideSection,
+} from "@entities/video-contents/components";
+import { useContentsDetail } from "@entities/video-contents/hooks";
+import { Episode, Recommendation } from "@shared/types/video-contents/contents";
 
 interface ContentsContainerProps {
-  content: SingleContent | SeriesContent;
+  mediaId: number;
+  mediaType?: string;
   recommendations?: Recommendation[];
-  isEpisodeView?: boolean; // 에피소드 뷰 전용 props
+  isEpisodeView?: boolean;
   currentEpisodeId?: number;
   seriesId?: number;
   seriesTitle?: string;
 }
 
 export default function ContentsContainer({
-  content,
+  mediaId,
+  mediaType,
   recommendations = [],
   isEpisodeView = false,
   currentEpisodeId,
   seriesId,
   seriesTitle,
 }: ContentsContainerProps) {
-  // 에피소드 뷰일 때 현재 에피소드 찾기
-  let displayContent = content;
+  const { data, isLoading, isError } = useContentsDetail(mediaId);
+
+  if (isLoading) return <div>로딩중...</div>;
+  if (isError || !data) return <div>콘텐츠를 찾을 수 없습니다.</div>;
+
+  // fallback: query string 없으면 seriesMediaId로 판단
+  const resolvedMediaType =
+    mediaType === "SERIES"
+      ? "SERIES"
+      : data.seriesMediaId
+        ? "SERIES"
+        : "CONTENTS";
+
   let otherEpisodes: Episode[] = [];
 
-  if (isEpisodeView && content.type === "series" && currentEpisodeId) {
-    const currentEpisode = content.episodes.find(
-      (ep) => ep.id === currentEpisodeId,
-    );
-    if (currentEpisode) {
-      // 현재 에피소드를 SingleContent 형태로 변환 (UI가 동일하기 때문에)
-      displayContent = {
-        type: "single" as const,
-        id: currentEpisode.id,
-        title: currentEpisode.title,
-        description: currentEpisode.description,
-        cast: currentEpisode.cast,
-        tags: content.tags,
-        categories: content.categories,
-        thumbnail: currentEpisode.thumbnail,
-      };
-      // 다른 에피소드들
-      otherEpisodes = content.episodes.filter(
-        (ep) => ep.id !== currentEpisodeId,
-      );
-    }
+  // 에피소드 화면일 때 (추후 series episodes API 붙으면 확장)
+  if (isEpisodeView && currentEpisodeId) {
+    // TODO: series episodes API 연동 시 추가 구현
   }
 
   return (
-    <>
-      <div className="mx-24 my-7">
-        <div className="flex gap-14">
-          <ContentsMainSection
-            content={displayContent}
-            isEpisodeView={isEpisodeView}
-            seriesId={seriesId}
-            seriesTitle={seriesTitle}
-          />
+    <div className="mx-24 my-7">
+      <div className="flex gap-14">
+        <ContentsMainSection
+          content={data}
+          mediaType={resolvedMediaType}
+          isEpisodeView={isEpisodeView}
+          seriesId={seriesId}
+          seriesTitle={seriesTitle}
+        />
 
-          {isEpisodeView ? (
-            // 시리즈 별 회차 (에피소드 - 댓글 O)
-            seriesId ? (
-              <EpisodeSideSection
-                seriesId={seriesId}
-                otherEpisodes={otherEpisodes}
-              />
-            ) : null
-          ) : displayContent.type === "single" ? (
-            // 단편 콘텐츠
-            <SingleSideSection recommendations={recommendations} />
-          ) : (
-            // 시리즈 콘텐츠 (첫 진입 시 UI - 댓글 X)
-            <SeriesSideSection
+        {isEpisodeView ? (
+          seriesId ? (
+            <EpisodeSideSection
+              seriesId={seriesId}
+              otherEpisodes={otherEpisodes}
+            />
+          ) : null
+        ) : (
+          <SingleSideSection recommendations={recommendations} />
+        )}
+        {/* FIXME: 시리즈 콘텐츠 API 연동 시 주석 해제 */}
+        {/* {mediaType === "SERIES" && (
+           <SeriesSideSection
               episodes={displayContent.episodes}
               contentId={displayContent.id}
             />
-          )}
-        </div>
+        )} */}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,14 +1,14 @@
 "use client";
 
-import { CommonButton, Badge, InteractionButton } from "@base-components";
-import { Play, ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useRouter } from "next/navigation";
-import { useLikes } from "@entities/likes/hooks/useLikes";
-import { useToggleBookmark } from "@/entities/bookmark/hooks";
+import { useEffect, useState } from "react";
+import { ChevronDown, Play } from "lucide-react";
+import { Badge, CommonButton, InteractionButton } from "@base-components";
+import { useLikes } from "@entities/likes/hooks";
 import { ContentsDetailReponse } from "@entities/video-contents/api";
+import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
+import { useToggleBookmark } from "@/entities/bookmark/hooks";
 
 interface ContentsMainSectionProps {
   content: ContentsDetailReponse;
