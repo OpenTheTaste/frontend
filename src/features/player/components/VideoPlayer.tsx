@@ -1,10 +1,8 @@
 "use client";
 
-import { useHls } from "@/features/player/hooks/useHls";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { Level } from "hls.js";
-import { SettingModal } from "@features/player/components";
-
 import {
   ArrowLeft,
   FastForward,
@@ -18,14 +16,17 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import { SettingModal } from "@features/player/components";
+import { useHls } from "@features/player/hooks/useHls";
+import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks/useOutsideClick";
-import { useRouter } from "next/navigation";
 
 interface VideoPlayerProps {
-  src: string;
+  mediaId: number;
 }
 
-export const VideoPlayer = ({ src }: VideoPlayerProps) => {
+export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
+  const { data, isLoading } = useContentsDetail(mediaId);
   const router = useRouter();
   // ref
   const videoRef = useRef<HTMLVideoElement>(null); // 비디오
@@ -57,7 +58,7 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // 전체화면 상태
   // hls
   const hlsRef = useHls({
-    src,
+    src: data?.masterPlaylistUrl ?? "",
     videoRef,
     onLevels: setLevels,
   });
@@ -322,7 +323,7 @@ export const VideoPlayer = ({ src }: VideoPlayerProps) => {
     }
     router.back();
   };
-
+  if (isLoading) return <div className="fixed inset-0 bg-black" />;
   return (
     <div
       ref={containerRef}
