@@ -6,6 +6,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "cha
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { DashboardData, TagDetail } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
+import { DashboardContentsMockData } from "@shared/mocks/mockDashboardcontent"; // 임시 테스트용
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
