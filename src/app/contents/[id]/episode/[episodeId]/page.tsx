@@ -1,5 +1,6 @@
 import { ContentsContainer } from "@entities/video-contents/components";
-import { getContentById } from "@shared/mocks/mockContent";
+
+// import { getContentById } from "@shared/mocks/mockContent";
 
 export default async function EpisodeDetailPage({
   params,
@@ -14,11 +15,11 @@ export default async function EpisodeDetailPage({
   const mediaId = Number((await params).id);
   const mediaType = (await searchParams).type;
 
-  const series = getContentById(seriesId);
+  // const series = getContentById(seriesId);
 
-  if (!series || series.mediaType !== "SERIES") {
-    return <div>시리즈를 찾을 수 없습니다.</div>;
-  }
+  // if (!series || series.mediaType !== "SERIES") {
+  //   return <div>시리즈를 찾을 수 없습니다.</div>;
+  // }
 
   // const episode = series.episodes.find((ep) => ep.id === episodeId);
 
