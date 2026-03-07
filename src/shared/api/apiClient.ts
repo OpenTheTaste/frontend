@@ -37,12 +37,6 @@ api.interceptors.response.use(
       return Promise.reject(new Error(message));
     }
 
-    if (originalRequest.url === "/auth/reissue") {
-      console.error("[Reissue API 자체 실패]");
-      isRefreshing = false;
-      return Promise.reject(new Error("인증이 만료되었습니다. 다시 로그인해주세요."));
-    }
-
     // 이미 재시도한 요청이면 에러 반환
     if (originalRequest._retry) {
       return Promise.reject(new Error(message));
