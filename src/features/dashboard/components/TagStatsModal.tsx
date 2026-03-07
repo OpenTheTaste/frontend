@@ -61,19 +61,14 @@ export default function TagStatsModal({
         className="relative pt-14 pb-8 rounded-xl bg-ot-gray-800 shadow-2xl overflow-hidden w-[60%]"
       >
         {/* 닫기 버튼 */}
-        <button
-          className="absolute right-7 top-7 text-ot-text"
-          onClick={onClose}
-        >
+        <button className="absolute right-7 top-7 text-ot-text" onClick={onClose}>
           <X size={24} strokeWidth={2} />
         </button>
 
         {/* 그래프 영역 */}
-        <div className="px-25 mb-4">
-          <div className="relative h-64 rounded-lg flex flex-col items-center p-3">
-            <h2 className="text-[20px] font-bold text-ot-text">
-              #{tagName} 시청 통계
-            </h2>
+        <div className="px-25">
+          <div className="relative rounded-lg flex flex-col items-center p-3">
+            <h2 className="text-[20px] font-bold text-ot-text">{tagName} 시청 통계</h2>
 
             {/* 분리된 그래프 컴포넌트 호출 */}
             <TagStatsModalGraph tagName={tagName} monthlyStats={monthlyStats} />
@@ -87,9 +82,7 @@ export default function TagStatsModal({
 
         {/* 태그별 추천 콘텐츠 영역 */}
         <div className="px-15 mt-2">
-          <h3 className="text-[22px] font-bold text-ot-text">
-            태그별 추천 콘텐츠
-          </h3>
+          <h3 className="text-[22px] font-bold text-ot-text">태그별 추천 콘텐츠</h3>
           <TagStatsModalList items={recommendations} />
         </div>
       </div>

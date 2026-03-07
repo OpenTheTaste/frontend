@@ -1,17 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  ChartOptions,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { DashboardData, TagDetail } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
+import { DashboardContentsMockData } from "@shared/mocks/mockDashboardcontent"; // 임시 테스트용
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -19,15 +14,27 @@ interface DashboardContentListProps {
   data: DashboardData;
 }
 
-export default function DashboardContentList({
-  data,
-}: DashboardContentListProps) {
+export default function DashboardContentList({ data }: DashboardContentListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // 클릭된 태그의 정보를 담을 상태 변수
   const [selectedTag, setSelectedTag] = useState<{
     name: string;
     detail: TagDetail;
   } | null>(null);
+
+  // // ==================================================
+  // // 임시 테스트용 (이거 있으면 시청 기록 데이터 없어도 모달창 띄울 수 있음)
+  // useEffect(() => {
+  //   setSelectedTag({
+  //     name: "#스릴러",
+  //     detail: {
+  //       ...DashboardContentsMockData.tagDetails![0],
+  //       monthlyStats: { thisMonth: 55, lastMonth: 20 },
+  //     },
+  //   });
+  //   setIsModalOpen(true);
+  // }, []);
+  // // ==================================================
 
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
@@ -114,9 +121,7 @@ export default function DashboardContentList({
         },
         formatter: (value, context) => {
           const idx = context.dataIndex;
-          const label = context.chart.data.labels
-            ? context.chart.data.labels[idx]
-            : "-ui";
+          const label = context.chart.data.labels ? context.chart.data.labels[idx] : "-ui";
           return `${label} - ${value}번`;
         },
       },

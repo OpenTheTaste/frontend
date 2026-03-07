@@ -42,6 +42,7 @@ export default function DashboardContentBox() {
     tagDetails: [],
   };
 
+  // 테스트) 데이터 없을 때 모달창 띄울거면 아래 빈 거 체크하는 부분 주석으로 하기
   return (
     <div className="w-full mx-auto border border-ot-text rounded-lg flex flex-col items-center pt-6 pb-3">
       {data?.rankings.length === 0 ? (
