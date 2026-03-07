@@ -19,7 +19,7 @@ import {
 import { SettingModal } from "@features/player/components";
 import { useHls } from "@features/player/hooks/useHls";
 import { useContentsDetail } from "@entities/video-contents/hooks";
-import { useOutsideClick } from "@shared/hooks/useOutsideClick";
+import { useOutsideClick } from "@shared/hooks";
 
 interface VideoPlayerProps {
   mediaId: number;

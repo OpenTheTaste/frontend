@@ -1,6 +1,6 @@
 import { api } from "@shared/api";
 import { ApiResponse } from "@shared/types";
-import { BasePaginationParams, PageInfo } from "@shared/types/pagination";
+import { BasePaginationParams, PageInfo } from "@shared/types";
 
 // 댓글 목록 api
 export interface ReviewListResponse {

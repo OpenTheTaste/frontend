@@ -7,8 +7,8 @@ import { CommonButton, ConfirmModal, Toggle } from "@base-components";
 import { useDeleteMyreview } from "@entities/myreview/hooks";
 import { ReviewListItem } from "@entities/review/api/review";
 import { useEditReview, useWriteReview } from "@entities/review/hooks";
-import { useInfiniteReviewList } from "@entities/review/hooks/useReviewList";
-import { useInfiniteScroll } from "@shared/hooks/useInfiniteScroll";
+import { useInfiniteReviewList } from "@entities/review/hooks";
+import { useInfiniteScroll } from "@shared/hooks";
 import { formatDate } from "@shared/lib";
 
 interface ReviewSectionProps {
