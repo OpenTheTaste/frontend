@@ -5,10 +5,10 @@ export default async function ContentsDetailPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ mediaId: string }>;
   searchParams: Promise<{ type?: string }>;
 }) {
-  const mediaId = Number((await params).id);
+  const mediaId = Number((await params).mediaId);
   const mediaType = (await searchParams).type;
 
   return (

@@ -6,7 +6,10 @@ import {
   SeriesSideSection,
   SingleSideSection,
 } from "@entities/video-contents/components";
-import { useContentsDetail } from "@entities/video-contents/hooks";
+import {
+  useContentsDetail,
+  useSeriesDetail,
+} from "@entities/video-contents/hooks";
 import { Episode, Recommendation } from "@shared/types/video-contents/contents";
 
 interface ContentsContainerProps {
@@ -28,18 +31,34 @@ export default function ContentsContainer({
   seriesId,
   seriesTitle,
 }: ContentsContainerProps) {
-  const { data, isLoading, isError } = useContentsDetail(mediaId);
+  // const { data, isLoading, isError } = useContentsDetail(mediaId);
+  const isSeries = mediaType === "SERIES";
+
+  const {
+    data: contentsData,
+    isLoading: contentsLoading,
+    isError: contentsError,
+  } = useContentsDetail(!isSeries ? mediaId : 0);
+  const {
+    data: seriesData,
+    isLoading: seriesLoading,
+    isError: seriesError,
+  } = useSeriesDetail(isSeries ? mediaId : 0);
+
+  const data = isSeries ? seriesData : contentsData;
+  const isLoading = isSeries ? seriesLoading : contentsLoading;
+  const isError = isSeries ? seriesError : contentsError;
 
   if (isLoading) return <div>로딩중...</div>;
   if (isError || !data) return <div>콘텐츠를 찾을 수 없습니다.</div>;
 
   // fallback: query string 없으면 seriesMediaId로 판단
-  const resolvedMediaType =
-    mediaType === "SERIES"
-      ? "SERIES"
-      : data.seriesMediaId
-        ? "SERIES"
-        : "CONTENTS";
+  // const resolvedMediaType =
+  //   mediaType === "SERIES"
+  //     ? "SERIES"
+  //     : data.seriesMediaId
+  //       ? "SERIES"
+  //       : "CONTENTS";
 
   let otherEpisodes: Episode[] = [];
 
@@ -49,36 +68,53 @@ export default function ContentsContainer({
   }
 
   return (
+    // <div className="mx-24 my-7">
+    //   <div className="flex gap-14">
+    //     <ContentsMainSection
+    //       content={data}
+    //       mediaType={resolvedMediaType}
+    //       isEpisodeView={isEpisodeView}
+    //       seriesId={seriesId}
+    //       seriesTitle={seriesTitle}
+    //     />
+
+    //     {isEpisodeView ? (
+    //       seriesId ? (
+    //         <EpisodeSideSection
+    //           seriesId={seriesId}
+    //           otherEpisodes={otherEpisodes}
+    //         />
+    //       ) : null
+    //     ) : (
+    //       <SingleSideSection
+    //         recommendations={recommendations}
+    //         contentsId={mediaId}
+    //       />
+    //     )}
+    //     {/* FIXME: 시리즈 콘텐츠 API 연동 시 주석 해제 */}
+    //     {/* {mediaType === "SERIES" && (
+    //        <SeriesSideSection
+    //           episodes={displayContent.episodes}
+    //           contentId={displayContent.id}
+    //         />
+    //     )} */}
+    //   </div>
+    // </div>
     <div className="mx-24 my-7">
       <div className="flex gap-14">
         <ContentsMainSection
           content={data}
-          mediaType={resolvedMediaType}
-          isEpisodeView={isEpisodeView}
-          seriesId={seriesId}
-          seriesTitle={seriesTitle}
+          mediaType={isSeries ? "SERIES" : "CONTENTS"}
         />
 
-        {isEpisodeView ? (
-          seriesId ? (
-            <EpisodeSideSection
-              seriesId={seriesId}
-              otherEpisodes={otherEpisodes}
-            />
-          ) : null
+        {mediaType === "SERIES" ? (
+          <SeriesSideSection episodes={[]} contentId={mediaId} />
         ) : (
           <SingleSideSection
             recommendations={recommendations}
             contentsId={mediaId}
           />
         )}
-        {/* FIXME: 시리즈 콘텐츠 API 연동 시 주석 해제 */}
-        {/* {mediaType === "SERIES" && (
-           <SeriesSideSection
-              episodes={displayContent.episodes}
-              contentId={displayContent.id}
-            />
-        )} */}
       </div>
     </div>
   );

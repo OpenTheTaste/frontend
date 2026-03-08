@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronDown, Play } from "lucide-react";
 import { Badge, CommonButton, InteractionButton } from "@base-components";
+import { useToggleBookmark } from "@entities/bookmark/hooks";
 import { useLikes } from "@entities/likes/hooks";
-import { ContentsDetailReponse } from "@entities/video-contents/api";
+import {
+  ContentsDetailReponse,
+  SeriesDetailReponse,
+} from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
-import { useToggleBookmark } from "@/entities/bookmark/hooks";
 
 interface ContentsMainSectionProps {
-  content: ContentsDetailReponse;
+  content: ContentsDetailReponse | SeriesDetailReponse;
   mediaType: "SERIES" | "CONTENTS";
   isEpisodeView?: boolean;
   seriesId?: number;
@@ -75,20 +78,20 @@ export default function ContentsMainSection({
     <div className="flex-1">
       {mediaType === "CONTENTS" ? (
         <Link href={`/player/${content.id}`}>
-          <button className="aspect-video w-full max-w-284 bg-ot-gray-800 rounded-sm flex items-center justify-center">
-            <Play className="fill-ot-text stroke-ot-text w-14 h-14" />
+          <button className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
+            <Play className="fill-ot-text stroke-ot-text h-14 w-14" />
           </button>
         </Link>
       ) : (
-        <div className="aspect-video w-full max-w-284 bg-ot-gray-800 rounded-sm flex items-center justify-center">
+        <div className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
           시리즈 썸네일
         </div>
       )}
 
-      <div className="flex gap-4 mt-8 items-center">
-        <CommonButton className="px-9 py-3 mr-3" onClick={handlePlay}>
-          <Play className="fill-ot-text stroke-ot-text w-6 h-6" />
-          <p className="font-semibold text-lg">재생하기</p>
+      <div className="mt-8 flex items-center gap-4">
+        <CommonButton className="mr-3 px-9 py-3" onClick={handlePlay}>
+          <Play className="fill-ot-text stroke-ot-text h-6 w-6" />
+          <p className="text-lg font-semibold">재생하기</p>
         </CommonButton>
 
         <InteractionButton
@@ -108,18 +111,18 @@ export default function ContentsMainSection({
         />
       </div>
 
-      <div className="mt-13 text-ot-text max-w-284">
+      <div className="text-ot-text mt-13 max-w-284">
         {/* 에피소드 뷰일 때 시리즈 제목 표시 */}
         {isEpisodeView && seriesId && seriesTitle ? (
-          <p className="font-bold text-3xl">
+          <p className="text-3xl font-bold">
             {seriesTitle}: {content.title}
           </p>
         ) : (
           // 일반 뷰
-          <p className="font-bold text-3xl">{content.title}</p>
+          <p className="text-3xl font-bold">{content.title}</p>
         )}
 
-        <div className="flex gap-20 mt-5">
+        <div className="mt-5 flex gap-20">
           <div className="w-3/5">
             <p className="text-base leading-relaxed">
               {isExpandedDescription
@@ -129,14 +132,14 @@ export default function ContentsMainSection({
             {content.description.length > DESCRIPTION_MAX_LENGTH && (
               <button
                 onClick={() => setIsExpandedDescription((prev) => !prev)}
-                className="flex gap-1 mt-2 items-center cursor-pointer group"
+                className="group mt-2 flex cursor-pointer items-center gap-1"
               >
                 <ChevronDown
-                  className={`w-5 h-5 stroke-1 text-ot-gray-600 group-hover:text-ot-gray-800 transition-transform duration-300 ${
+                  className={`text-ot-gray-600 group-hover:text-ot-gray-800 h-5 w-5 stroke-1 transition-transform duration-300 ${
                     isExpandedDescription ? "rotate-180" : "rotate-0"
                   }`}
                 />
-                <p className="text-base text-ot-gray-600 group-hover:text-ot-gray-800">
+                <p className="text-ot-gray-600 group-hover:text-ot-gray-800 text-base">
                   {isExpandedDescription ? "접기" : "더 보기"}
                 </p>
               </button>
@@ -146,27 +149,27 @@ export default function ContentsMainSection({
           <div className="flex-1">
             <div className="flex items-start gap-5">
               <p className="text-lg font-semibold whitespace-nowrap">출연</p>
-              <div className="text-base text-ot-text py-[0.063rem]">
+              <div className="text-ot-text py-[0.063rem] text-base">
                 {content.actors}
               </div>
             </div>
 
-            <div className="flex items-start gap-5 mt-3">
-              <p className="text-lg font-semibold whitespace-nowrap shrink-0">
+            <div className="mt-3 flex items-start gap-5">
+              <p className="shrink-0 text-lg font-semibold whitespace-nowrap">
                 카테고리
               </p>
-              <div className="flex-1 min-w-0 py-1">
+              <div className="min-w-0 flex-1 py-1">
                 <div className="flex flex-wrap gap-x-2 gap-y-2">
                   <Badge text={content.category} />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-start gap-5 mt-3">
-              <p className="text-lg font-semibold whitespace-nowrap shrink-0">
+            <div className="mt-3 flex items-start gap-5">
+              <p className="shrink-0 text-lg font-semibold whitespace-nowrap">
                 태그
               </p>
-              <div className="flex-1 min-w-0 py-1">
+              <div className="min-w-0 flex-1 py-1">
                 <div className="flex flex-wrap gap-x-2 gap-y-2">
                   {content.tags.map((tag, index) => (
                     <Badge key={index} text={tag} />
