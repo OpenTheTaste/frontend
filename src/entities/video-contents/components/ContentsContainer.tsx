@@ -66,7 +66,7 @@ export default function ContentsContainer({
             />
           ) : null
         ) : isSeries ? (
-          <SeriesSideSection episodes={[]} seriesMediaId={mediaId} />
+          <SeriesSideSection seriesMediaId={mediaId} />
         ) : (
           <SingleSideSection
             recommendations={recommendations}
