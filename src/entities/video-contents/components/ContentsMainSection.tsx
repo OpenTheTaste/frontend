@@ -12,6 +12,7 @@ import {
   SeriesDetailReponse,
 } from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
+import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
 
 interface ContentsMainSectionProps {
   content: ContentsDetailReponse | SeriesDetailReponse;
@@ -19,7 +20,6 @@ interface ContentsMainSectionProps {
   mediaType: "SERIES" | "CONTENTS";
   isEpisodeView?: boolean;
   seriesMediaId?: number;
-  seriesTitle?: string;
 }
 export default function ContentsMainSection({
   content,
@@ -27,11 +27,11 @@ export default function ContentsMainSection({
   mediaType,
   isEpisodeView = false,
   seriesMediaId,
-  seriesTitle,
 }: ContentsMainSectionProps) {
   const { mutate: toggleLike, isPending: isLikedPending } = useLikes();
   const { mutate: toggleBookmark, isPending: isBookmarkPending } =
     useToggleBookmark();
+  const { data: episodesData } = useSeriesEpisodeList(mediaId);
 
   const [isLiked, setIsLiked] = useState<boolean>(content.isLiked);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(
@@ -53,10 +53,15 @@ export default function ContentsMainSection({
       router.push(`/player/${mediaId}`);
     } else {
       const resumeId =
-        "resumeMediaId" in content ? content.resumeMediaId : null; // FIXME: 임시 나중에 변경될 듯
-      router.push(`/contents/${mediaId}/episode/${resumeId}?type=SERIES`);
+        "resumeMediaId" in content ? content.resumeMediaId : null;
+      const firstEpisodeId = episodesData?.dataList[0]?.id;
+      const targetId = resumeId ?? firstEpisodeId;
+
+      if (!targetId) return;
+      router.push(`/contents/${mediaId}/episode/${targetId}?type=SERIES`);
     }
   };
+
   const truncatedDescription = (text: string) =>
     text.length <= DESCRIPTION_MAX_LENGTH
       ? text
@@ -116,10 +121,8 @@ export default function ContentsMainSection({
 
       <div className="text-ot-text mt-13 max-w-284">
         {/* 에피소드 뷰일 때 시리즈 제목 표시 */}
-        {isEpisodeView && seriesMediaId && seriesTitle ? (
-          <p className="text-3xl font-bold">
-            {seriesTitle}: {content.title}
-          </p>
+        {isEpisodeView && seriesMediaId ? (
+          <p className="text-3xl font-bold">{content.title}</p>
         ) : (
           // 일반 뷰
           <p className="text-3xl font-bold">{content.title}</p>
