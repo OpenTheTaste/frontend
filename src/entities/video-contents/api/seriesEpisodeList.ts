@@ -17,14 +17,14 @@ export interface SeriesEpisodesListResponse {
 }
 
 export interface GetSeriesEpisodesListParams extends BasePaginationParams {
-  seriesId: number;
+  seriesMediaId: number;
 }
 
 export const getSeriesEpisodesList = async (
   params: GetSeriesEpisodesListParams,
 ) => {
   const res = await api.get<ApiResponse<SeriesEpisodesListResponse>>(
-    `/series/${params.seriesId}/contents`,
+    `/series/${params.seriesMediaId}/contents`,
     {
       params: {
         page: params.page,
