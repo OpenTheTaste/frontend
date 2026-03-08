@@ -15,9 +15,22 @@ export default function EpisodeSideSection({
   currentEpisodeId,
 }: EpisodeSideSectionProps) {
   const [isExpandAllReviews, setIsExpandAllReviews] = useState<boolean>(false);
-  const { data: episodesData } = useSeriesEpisodeList(seriesMediaId);
+  const {
+    data: episodesData,
+    isLoading,
+    isError,
+  } = useSeriesEpisodeList(seriesMediaId);
   const otherEpisodes =
     episodesData?.dataList.filter((ep) => ep.id !== currentEpisodeId) ?? [];
+
+  if (isLoading)
+    return <div className="w-full max-w-134 shrink-0">로딩중...</div>;
+  if (isError)
+    return (
+      <div className="w-full max-w-134 shrink-0">
+        에피소드를 불러올 수 없습니다.
+      </div>
+    );
 
   return (
     <div className="w-full max-w-134 shrink-0">
