@@ -9,21 +9,21 @@ export const useInfiniteReviewList = ({
   page,
   size,
   searchWord,
-  contentsId,
+  mediaId,
   includeSpoiler,
 }: GetReviewListParams) => {
   const query = useInfiniteQuery({
     queryKey: [
       "review",
       "list",
-      { page, size, searchWord, contentsId, includeSpoiler },
+      { page, size, searchWord, mediaId, includeSpoiler },
     ],
     queryFn: ({ pageParam = 0 }) =>
       getReviewList({
         page: pageParam as number,
         size,
         searchWord: searchWord || undefined,
-        contentsId,
+        mediaId,
         includeSpoiler,
       }),
     initialPageParam: 0,

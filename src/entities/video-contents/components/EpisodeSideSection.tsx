@@ -24,7 +24,7 @@ export default function EpisodeSideSection({
       <ReviewSection
         isExpandAllReviews={isExpandAllReviews}
         setIsExpandAllReviews={setIsExpandAllReviews}
-        contentsId={currentEpisodeId}
+        mediaId={currentEpisodeId}
       />
 
       {!isExpandAllReviews && (

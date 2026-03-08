@@ -70,7 +70,7 @@ export default function ContentsContainer({
         ) : (
           <SingleSideSection
             recommendations={recommendations}
-            contentsId={mediaId}
+            mediaId={mediaId}
           />
         )}
       </div>

@@ -14,13 +14,13 @@ import { formatDate } from "@shared/lib";
 interface ReviewSectionProps {
   isExpandAllReviews: boolean;
   setIsExpandAllReviews: (value: boolean) => void;
-  contentsId: number;
+  mediaId: number;
 }
 
 export default function ReviewSection({
   isExpandAllReviews,
   setIsExpandAllReviews,
-  contentsId,
+  mediaId,
 }: ReviewSectionProps) {
   const [isSpoilerReview, setIsSpoilerReview] = useState<boolean>(false);
   const [showSpoiler, setShowSpoiler] = useState<boolean>(false);
@@ -42,7 +42,7 @@ export default function ReviewSection({
   } = useInfiniteReviewList({
     page: 0,
     size: 10,
-    contentsId,
+    mediaId,
     includeSpoiler: showSpoiler,
   });
   const filteredSpoilerReviews = reviewList;
@@ -64,7 +64,7 @@ export default function ReviewSection({
     if (!newReview.trim()) return;
 
     await writeReview({
-      contentId: contentsId,
+      mediaId: mediaId,
       content: newReview,
       isSpoiler: isSpoilerReview,
     });
@@ -127,12 +127,12 @@ export default function ReviewSection({
         placeholder="댓글을 입력하세요"
         value={newReview}
         onChange={(e) => setNewReview(e.target.value)}
-        className="w-full text-ot-text placeholder-ot-gray-600 py-2 px-3 border border-ot-gray-800 rounded-lg"
+        className="text-ot-text placeholder-ot-gray-600 border-ot-gray-800 w-full rounded-lg border px-3 py-2"
       />
-      <div className="flex items-center justify-end gap-3 mt-3">
+      <div className="mt-3 flex items-center justify-end gap-3">
         <label
           htmlFor={`${idPrefix}-spoiler`}
-          className="inline-flex items-center gap-2 cursor-pointer select-none"
+          className="inline-flex cursor-pointer items-center gap-2 select-none"
         >
           <input
             id={`${idPrefix}-spoiler`}
@@ -142,17 +142,17 @@ export default function ReviewSection({
             checked={isSpoilerReview}
             onChange={() => setIsSpoilerReview((prev) => !prev)}
           />
-          <p className="text-sm text-ot-text leading-none">스포 포함</p>
+          <p className="text-ot-text text-sm leading-none">스포 포함</p>
         </label>
         <CommonButton
           onClick={handleSubmitReview}
-          className="px-2 py-1 rounded-sm"
+          className="rounded-sm px-2 py-1"
           disabled={isWritePending}
         >
           <p className="text-sm">{isWritePending ? "등록 중..." : "등록"}</p>
         </CommonButton>
       </div>
-      <div className="flex gap-2 justify-end mt-2 text-ot-text">
+      <div className="text-ot-text mt-2 flex justify-end gap-2">
         <Toggle
           isOn={showSpoiler}
           onToggle={() => setShowSpoiler((prev) => !prev)}
@@ -163,17 +163,17 @@ export default function ReviewSection({
   );
 
   const reviewListJSX = (
-    <div className="overflow-y-auto flex-1 mt-2">
+    <div className="mt-2 flex-1 overflow-y-auto">
       {isLoading ? (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex h-full items-center justify-center">
           <p className="text-ot-gray-600">불러오는 중...</p>
         </div>
       ) : isError ? (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex h-full items-center justify-center">
           <p className="text-ot-gray-600">댓글을 불러오지 못했습니다.</p>
         </div>
       ) : filteredSpoilerReviews.length === 0 ? (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex h-full items-center justify-center">
           <p className="text-ot-gray-600">작성된 댓글이 없습니다.</p>
         </div>
       ) : (
@@ -181,7 +181,7 @@ export default function ReviewSection({
           {filteredSpoilerReviews.map((item: ReviewListItem) => (
             <div
               key={item.commentId}
-              className="flex flex-col p-3 text-ot-text mt-1 border-ot-gray-700 border-b"
+              className="text-ot-text border-ot-gray-700 mt-1 flex flex-col border-b p-3"
             >
               {editingReviewId === item.commentId ? (
                 <>
@@ -189,12 +189,12 @@ export default function ReviewSection({
                     placeholder="댓글을 입력하세요"
                     value={editingReview}
                     onChange={(e) => setEditingReview(e.target.value)}
-                    className="w-full text-ot-text placeholder-ot-gray-600 py-2 px-3 border border-ot-gray-800 rounded-lg"
+                    className="text-ot-text placeholder-ot-gray-600 border-ot-gray-800 w-full rounded-lg border px-3 py-2"
                   />
-                  <div className="flex items-center justify-end gap-3 mt-3">
+                  <div className="mt-3 flex items-center justify-end gap-3">
                     <label
                       htmlFor="editingSpoiler"
-                      className="inline-flex items-center gap-2 cursor-pointer select-none mr-2"
+                      className="mr-2 inline-flex cursor-pointer items-center gap-2 select-none"
                     >
                       <input
                         id="editingSpoiler"
@@ -204,20 +204,20 @@ export default function ReviewSection({
                         checked={editingSpoiler}
                         onChange={() => setEditingSpoiler((prev) => !prev)}
                       />
-                      <p className="text-sm text-ot-text leading-none">
+                      <p className="text-ot-text text-sm leading-none">
                         스포 포함
                       </p>
                     </label>
                     <CommonButton
                       onClick={() => handleSaveEditReview(item.commentId)}
-                      className="px-2 py-1 rounded-sm"
+                      className="rounded-sm px-2 py-1"
                     >
                       <p className="text-sm">수정</p>
                     </CommonButton>
                     <CommonButton
                       onClick={handleCancelEdit}
                       variant="secondary"
-                      className="px-2 py-1 rounded-sm"
+                      className="rounded-sm px-2 py-1"
                     >
                       <p className="text-sm">취소</p>
                     </CommonButton>
@@ -225,52 +225,52 @@ export default function ReviewSection({
                 </>
               ) : (
                 <>
-                  <p className="flex-nowrap flex">{item.content}</p>
+                  <p className="flex flex-nowrap">{item.content}</p>
                   <div className="flex items-center">
-                    <div className="flex text-sm pt-1 text-ot-gray-600">
+                    <div className="text-ot-gray-600 flex pt-1 text-sm">
                       <p>
                         {item.nickname} ⋅ {formatDate(item.createdAt)}
                       </p>
                     </div>
                     {/* FIXME: 응답값 추가 요청함 */}
-                    {/* {item.myself && ( */}
-                    <div className="flex justify-center items-center ml-auto">
-                      <button
-                        onClick={() => handleEditReview(item.commentId)}
-                        className="text-sm flex mr-2 hover:text-ot-gray-600 cursor-pointer disabled:cursor-not-allowed"
-                        disabled={
-                          isEditPending && editingReviewId === item.commentId
-                        }
-                      >
-                        <p className="text-sm">
-                          {isEditPending && editingReviewId === item.commentId
-                            ? "수정 중..."
-                            : "수정"}
-                        </p>
-                      </button>
-                      <button
-                        onClick={() => setDeleteTargetId(item.commentId)}
-                        disabled={
-                          isDeletePending && deleteTargetId === item.commentId
-                        }
-                        className="text-sm flex hover:text-ot-gray-600 cursor-pointer disabled:cursor-not-allowed"
-                      >
-                        {isDeletePending && deleteTargetId === item.commentId
-                          ? "삭제 중..."
-                          : "삭제"}
-                      </button>
-                    </div>
-                    {/* )} */}
+                    {item.mine && (
+                      <div className="ml-auto flex items-center justify-center">
+                        <button
+                          onClick={() => handleEditReview(item.commentId)}
+                          className="hover:text-ot-gray-600 mr-2 flex cursor-pointer text-sm disabled:cursor-not-allowed"
+                          disabled={
+                            isEditPending && editingReviewId === item.commentId
+                          }
+                        >
+                          <p className="text-sm">
+                            {isEditPending && editingReviewId === item.commentId
+                              ? "수정 중..."
+                              : "수정"}
+                          </p>
+                        </button>
+                        <button
+                          onClick={() => setDeleteTargetId(item.commentId)}
+                          disabled={
+                            isDeletePending && deleteTargetId === item.commentId
+                          }
+                          className="hover:text-ot-gray-600 flex cursor-pointer text-sm disabled:cursor-not-allowed"
+                        >
+                          {isDeletePending && deleteTargetId === item.commentId
+                            ? "삭제 중..."
+                            : "삭제"}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
             </div>
           ))}
 
-          <div ref={observerRef} className="h-4 flex justify-center">
+          <div ref={observerRef} className="flex h-4 justify-center">
             {isFetchingNextPage && (
               <Loader2
-                className="animate-spin text-ot-placeholder mt-4"
+                className="text-ot-placeholder mt-4 animate-spin"
                 size={20}
               />
             )}
@@ -284,14 +284,14 @@ export default function ReviewSection({
     <>
       <motion.div
         layout
-        className="p-6 rounded-lg flex flex-col mb-6 overflow-hidden"
+        className="mb-6 flex flex-col overflow-hidden rounded-lg p-6"
         variants={containerVariants}
         initial={false}
         animate={isExpandAllReviews ? "expanded" : "collapsed"}
         transition={slideTransition}
       >
         <div className="flex flex-row justify-between">
-          <p className="text-2xl font-bold text-ot-text mb-3">댓글</p>
+          <p className="text-ot-text mb-3 text-2xl font-bold">댓글</p>
 
           {isExpandAllReviews ? (
             <button
@@ -299,10 +299,10 @@ export default function ReviewSection({
                 handleCancelEdit();
                 setIsExpandAllReviews(false);
               }}
-              className="flex gap-1 items-center group cursor-pointer"
+              className="group flex cursor-pointer items-center gap-1"
             >
-              <ArrowUp className="w-4 h-4 stroke-1 stroke-ot-gray-600 group-hover:stroke-ot-gray-800" />
-              <p className="text-sm text-ot-gray-600 group-hover:text-ot-gray-800">
+              <ArrowUp className="stroke-ot-gray-600 group-hover:stroke-ot-gray-800 h-4 w-4 stroke-1" />
+              <p className="text-ot-gray-600 group-hover:text-ot-gray-800 text-sm">
                 접기
               </p>
             </button>
@@ -312,10 +312,10 @@ export default function ReviewSection({
                 handleCancelEdit();
                 setIsExpandAllReviews(true);
               }}
-              className="flex gap-1 items-center group cursor-pointer"
+              className="group flex cursor-pointer items-center gap-1"
             >
-              <ArrowDown className="w-4 h-4 stroke-1 stroke-ot-gray-600 group-hover:stroke-ot-gray-800" />
-              <p className="text-sm text-ot-gray-600 group-hover:text-ot-gray-800">
+              <ArrowDown className="stroke-ot-gray-600 group-hover:stroke-ot-gray-800 h-4 w-4 stroke-1" />
+              <p className="text-ot-gray-600 group-hover:text-ot-gray-800 text-sm">
                 전체 보기
               </p>
             </button>
