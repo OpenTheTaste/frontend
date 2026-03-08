@@ -5,14 +5,15 @@ import Image from "next/image";
 import { X, Play } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useBookmarkShortForms } from "@entities/bookmark/hooks";
-import { useDeleteBookmark } from "@entities/bookmark/hooks";
+import { useToggleBookmark } from "@entities/bookmark/hooks";
 
 export default function BookmarkShortsList() {
-  const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] = useState<boolean>(false);
+  const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
+    useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
   const { data, isLoading } = useBookmarkShortForms();
-  const { mutate: deleteBookmark, isPending } = useDeleteBookmark();
+  const { mutate: deleteBookmark, isPending } = useToggleBookmark();
 
   const handleDelete = () => {
     if (selectedMediaId === null) return;
@@ -59,7 +60,10 @@ export default function BookmarkShortsList() {
                   />
                   {/* 플레이 아이콘 오버레이 */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <Play size={18} className="text-ot-text fill-ot-text drop-shadow-md" />
+                    <Play
+                      size={18}
+                      className="text-ot-text fill-ot-text drop-shadow-md"
+                    />
                   </div>
                 </>
               ) : (

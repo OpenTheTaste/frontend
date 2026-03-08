@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { CommonButton } from "@base-components";
-import { useOutsideClick } from "@shared/hooks/useOutsideClick";
+import { useOutsideClick } from "@shared/hooks";
 
 interface ConfirmModalProps {
   isOpen: boolean; // 모달 열림 여부

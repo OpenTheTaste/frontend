@@ -1,24 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import ReviewContainer from "@/entities/video-contents/components/ReviewSection";
 import { useState } from "react";
+import { ReviewSection } from "@entities/video-contents/components";
 import { Recommendation } from "@shared/types/video-contents/contents";
 
 interface SingleSideSectionProps {
   recommendations: Recommendation[];
+  contentsId: number;
 }
 
 export default function SingleSideSection({
   recommendations,
+  contentsId,
 }: SingleSideSectionProps) {
   const [isExpandAllReviews, setIsExpandAllReviews] = useState<boolean>(false);
 
   return (
     <div className="w-full max-w-134 shrink-0">
-      <ReviewContainer
+      <ReviewSection
         isExpandAllReviews={isExpandAllReviews}
         setIsExpandAllReviews={setIsExpandAllReviews}
+        contentsId={contentsId}
       />
 
       {!isExpandAllReviews && (

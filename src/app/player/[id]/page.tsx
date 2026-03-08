@@ -1,11 +1,14 @@
-// /player 도메인
-
 import { VideoPlayer } from "@features/player/components";
 
-export default function PlayerPage() {
+export default async function PlayerPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = Number((await params).id);
   return (
     <div className="bg-black">
-      <VideoPlayer src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
+      <VideoPlayer mediaId={id} />
     </div>
   );
 }

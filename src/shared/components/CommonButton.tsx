@@ -10,7 +10,7 @@ export const CommonButton = ({
   ...props
 }: CommonButtonProps) => {
   const baseStyle =
-    "flex items-center justify-center gap-4 rounded-lg cursor-pointer";
+    "flex items-center justify-center gap-4 rounded-lg cursor-pointer disabled:cursor-not-allowed";
 
   const variantStyles: Record<
     NonNullable<CommonButtonProps["variant"]>,

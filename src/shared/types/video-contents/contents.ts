@@ -1,25 +1,27 @@
-// 콘텐츠 기본 타입
+// 콘텐츠 기본 타입 -> 현재 미사용
 export interface BaseContent {
   id: number;
-  type: "single" | "series";
+  mediaType: "CONTENTS" | "SERIES";
   title: string;
   description: string;
-  cast: string;
-  categories: string[];
+  actors: string;
+  category: string;
   tags: string[];
   thumbnail: string | null;
+  isLiked: boolean;
+  isBookmarked: boolean;
 }
 
-// 시리즈 콘텐츠
+// 시리즈 콘텐츠 -> 현재 미사용
 export interface SeriesContent extends BaseContent {
-  type: "series";
+  mediaType: "SERIES";
   lastWatchedEpisode: number | null;
   episodes: Episode[];
 }
 
-// 단편 콘텐츠
+// 단편 콘텐츠 -> 현재 미사용
 export interface SingleContent extends BaseContent {
-  type: "single";
+  mediaType: "CONTENTS";
 }
 
 // 시리즈 회차 (에피소드) - 시리즈

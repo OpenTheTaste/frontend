@@ -7,3 +7,4 @@ export * from "./mypage/bookmark";
 export * from "./mypage/recenthistory";
 export * from "./mypage/myreview";
 export * from "./mypage/dashboard";
+export * from "./pagination";

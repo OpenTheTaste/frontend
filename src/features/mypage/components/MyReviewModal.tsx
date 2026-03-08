@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { createPortal } from "react-dom";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
-import { useOutsideClick } from "@shared/hooks/useOutsideClick";
 import { useMyreviews } from "@entities/myreview/hooks";
 import { useDeleteMyreview } from "@entities/myreview/hooks";
+import { useOutsideClick } from "@shared/hooks";
 import { formatDate } from "@shared/lib";
 
 interface MyReviewModalProps {

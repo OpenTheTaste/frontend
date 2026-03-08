@@ -1,25 +1,20 @@
 import { Footer, Header } from "@layouts";
 import { ContentsContainer } from "@entities/video-contents/components";
-import { mockRecommendations, getContentById } from "@shared/mocks/mockContent";
 
 export default async function ContentsDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ type?: string }>;
 }) {
-  const id = Number((await params).id);
-
-  const content = getContentById(id);
-
-  if (!content) return <div>콘텐츠를 찾을 수 없습니다.</div>;
+  const mediaId = Number((await params).id);
+  const mediaType = (await searchParams).type;
 
   return (
     <>
       <Header />
-      <ContentsContainer
-        content={content}
-        recommendations={mockRecommendations}
-      />
+      <ContentsContainer mediaId={mediaId} mediaType={mediaType} />
       <Footer />
     </>
   );

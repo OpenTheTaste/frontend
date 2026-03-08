@@ -1,33 +1,31 @@
 import { ContentsContainer } from "@entities/video-contents/components";
-import { getContentById } from "@shared/mocks/mockContent";
+
+// import { getContentById } from "@shared/mocks/mockContent";
 
 export default async function EpisodeDetailPage({
   params,
+  searchParams,
 }: {
-  params: Promise<{ id: string; episodeId: string }>;
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ type?: string }>;
 }) {
   const seriesId = Number((await params).id);
-  const episodeId = Number((await params).episodeId);
+  // const episodeId = Number((await params).episodeId);
 
-  const series = getContentById(seriesId);
+  const mediaId = Number((await params).id);
+  const mediaType = (await searchParams).type;
 
-  if (!series || series.type !== "series") {
-    return <div>시리즈를 찾을 수 없습니다.</div>;
-  }
+  // const series = getContentById(seriesId);
 
-  const episode = series.episodes.find((ep) => ep.id === episodeId);
+  // if (!series || series.mediaType !== "SERIES") {
+  //   return <div>시리즈를 찾을 수 없습니다.</div>;
+  // }
 
-  if (!episode) {
-    return <div>에피소드를 찾을 수 없습니다.</div>;
-  }
+  // const episode = series.episodes.find((ep) => ep.id === episodeId);
 
-  return (
-    <ContentsContainer
-      content={series}
-      isEpisodeView={true}
-      currentEpisodeId={episodeId}
-      seriesId={seriesId}
-      seriesTitle={series.title}
-    />
-  );
+  // if (!episode) {
+  //   return <div>에피소드를 찾을 수 없습니다.</div>;
+  // }
+
+  return <ContentsContainer mediaId={mediaId} mediaType={mediaType} />;
 }
