@@ -15,16 +15,18 @@ import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 
 interface ContentsMainSectionProps {
   content: ContentsDetailReponse | SeriesDetailReponse;
+  mediaId: number;
   mediaType: "SERIES" | "CONTENTS";
   isEpisodeView?: boolean;
-  seriesId?: number;
+  seriesMediaId?: number;
   seriesTitle?: string;
 }
 export default function ContentsMainSection({
   content,
+  mediaId,
   mediaType,
   isEpisodeView = false,
-  seriesId,
+  seriesMediaId,
   seriesTitle,
 }: ContentsMainSectionProps) {
   const { mutate: toggleLike, isPending: isLikedPending } = useLikes();
@@ -48,26 +50,27 @@ export default function ContentsMainSection({
 
   const handlePlay = () => {
     if (mediaType === "CONTENTS") {
-      router.push(`/player/${content.id}`);
+      router.push(`/player/${mediaId}`);
     } else {
-      router.push(`/contents/${content.id}/episode/1`); // FIXME: 임시
+      const resumeId =
+        "resumeMediaId" in content ? content.resumeMediaId : null; // FIXME: 임시 나중에 변경될 듯
+      router.push(`/contents/${mediaId}/episode/${resumeId}?type=SERIES`);
     }
   };
-
   const truncatedDescription = (text: string) =>
     text.length <= DESCRIPTION_MAX_LENGTH
       ? text
       : text.slice(0, DESCRIPTION_MAX_LENGTH) + "...";
 
   const handleLikes = () => {
-    toggleLike(content.id, {
+    toggleLike(content.mediaId, {
       onSuccess: () => {
         setIsLiked((prev) => !prev);
       },
     });
   };
   const handleBookmark = () => {
-    toggleBookmark(content.id, {
+    toggleBookmark(content.mediaId, {
       onSuccess: () => {
         setIsBookmarked((prev) => !prev);
       },
@@ -77,7 +80,7 @@ export default function ContentsMainSection({
   return (
     <div className="flex-1">
       {mediaType === "CONTENTS" ? (
-        <Link href={`/player/${content.id}`}>
+        <Link href={`/player/${content.mediaId}`}>
           <button className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
             <Play className="fill-ot-text stroke-ot-text h-14 w-14" />
           </button>
@@ -113,7 +116,7 @@ export default function ContentsMainSection({
 
       <div className="text-ot-text mt-13 max-w-284">
         {/* 에피소드 뷰일 때 시리즈 제목 표시 */}
-        {isEpisodeView && seriesId && seriesTitle ? (
+        {isEpisodeView && seriesMediaId && seriesTitle ? (
           <p className="text-3xl font-bold">
             {seriesTitle}: {content.title}
           </p>

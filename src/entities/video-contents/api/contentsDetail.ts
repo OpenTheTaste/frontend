@@ -2,7 +2,7 @@ import { api } from "@shared/api";
 import { ApiResponse } from "@shared/types";
 
 export interface ContentsDetailReponse {
-  id: number;
+  mediaId: number;
   seriesMediaId: number;
   title: string;
   description: string;
