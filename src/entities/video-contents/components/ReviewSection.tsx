@@ -211,13 +211,17 @@ export default function ReviewSection({
                     <CommonButton
                       onClick={() => handleSaveEditReview(item.commentId)}
                       className="rounded-sm px-2 py-1"
+                      disabled={isEditPending}
                     >
-                      <p className="text-sm">수정</p>
+                      <p className="text-sm">
+                        {isEditPending ? "수정 중..." : "수정"}
+                      </p>
                     </CommonButton>
                     <CommonButton
                       onClick={handleCancelEdit}
                       variant="secondary"
                       className="rounded-sm px-2 py-1"
+                      disabled={isEditPending}
                     >
                       <p className="text-sm">취소</p>
                     </CommonButton>
@@ -238,15 +242,8 @@ export default function ReviewSection({
                         <button
                           onClick={() => handleEditReview(item.commentId)}
                           className="hover:text-ot-gray-600 mr-2 flex cursor-pointer text-sm disabled:cursor-not-allowed"
-                          disabled={
-                            isEditPending && editingReviewId === item.commentId
-                          }
                         >
-                          <p className="text-sm">
-                            {isEditPending && editingReviewId === item.commentId
-                              ? "수정 중..."
-                              : "수정"}
-                          </p>
+                          <p className="text-sm">수정</p>
                         </button>
                         <button
                           onClick={() => setDeleteTargetId(item.commentId)}
