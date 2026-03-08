@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
 
@@ -36,11 +37,12 @@ export default function SeriesSideSection({
             href={`/contents/${seriesMediaId}/episode/${ep.id}?type=SERIES`}
           >
             <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
-              <div className="bg-ot-gray-800 aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
+              <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
                 {ep.thumbnailUrl && (
-                  <img
+                  <Image
                     src={ep.thumbnailUrl}
-                    className="h-full w-full object-cover"
+                    fill
+                    className="object-cover"
                     alt={ep.title}
                   />
                 )}
