@@ -7,13 +7,15 @@ export interface RecentItem {
   image: string;
 }
 
-// 3개월 내 시청 내역 dataList 안쪽 타입
+// 3개월 내 시청 내역 dataList 안쪽 타입 - 갱신 수정
 export interface RecentHistoryItem {
   mediaId: number;
-  mediaType: string;
+  title: string;
   posterUrl: string;
-  positionSec: number | null;
-  duration: number | null;
+  thumbnailUrl: string;
+  mediaType: "CONTENTS" | "SERIES";
+  duration: number;
+  positionSec: number;
 }
 
 // 3개월 내 시청내역 조회 목록 전체 틀

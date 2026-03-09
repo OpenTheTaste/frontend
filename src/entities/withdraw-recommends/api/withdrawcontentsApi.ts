@@ -7,8 +7,6 @@ export interface RecommendPlaylistParams extends BasePaginationParams {
   excludeMediaId?: number;
 }
 
-// 추천 플레이리스트 타입 종류 (2개)
-export type MediaType = "CONTENTS" | "SERIES";
 
 // 추천 플레이리스트 답변 dataList 안쪽 타입
 export interface RecommendPlaylistItem {
@@ -16,7 +14,7 @@ export interface RecommendPlaylistItem {
   title: string;
   posterUrl: string;
   thumbnailUrl: string;
-  mediaType: MediaType;
+  mediaType: "CONTENTS" | "SERIES";
   duration: number;
   positionSec: number;
 }
