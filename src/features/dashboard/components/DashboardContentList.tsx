@@ -19,8 +19,8 @@ export default function DashboardContentList({ data }: DashboardContentListProps
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState<{ name: string } | null>(null);
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
-  const { data: monthlyStats } = useTagMonthlyStats(selectedTagId ?? 0);
-  const { data: playlist } = useTagRecommendPlaylist(selectedTagId ?? 0);
+  const { data: monthlyStats, isLoading: isStatsLoading, isError: isStatsError } = useTagMonthlyStats(selectedTagId ?? 0);
+  const { data: playlist, isLoading: isPlaylistLoading, isError: isPlaylistError } = useTagRecommendPlaylist(selectedTagId ?? 0);
 
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
@@ -123,6 +123,8 @@ export default function DashboardContentList({ data }: DashboardContentListProps
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           tagName={selectedTag.name}
+          isLoading={isStatsLoading || isPlaylistLoading}
+          isError={isStatsError || isPlaylistError}
           monthlyStats={{
             thisMonth: monthlyStats?.currentMonth.count ?? 0,
             lastMonth: monthlyStats?.previousMonth?.count ?? 0,
