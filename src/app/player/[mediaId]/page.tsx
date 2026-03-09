@@ -3,12 +3,12 @@ import { VideoPlayer } from "@features/player/components";
 export default async function PlayerPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ mediaId: string }>;
 }) {
-  const id = Number((await params).id);
+  const mediaId = Number((await params).mediaId);
   return (
     <div className="bg-black">
-      <VideoPlayer mediaId={id} />
+      <VideoPlayer mediaId={mediaId} />
     </div>
   );
 }

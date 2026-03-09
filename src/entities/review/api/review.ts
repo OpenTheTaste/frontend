@@ -14,15 +14,16 @@ export interface ReviewListItem {
   content: string;
   createdAt: string;
   spoiler: boolean;
+  mine: boolean;
 }
 export interface GetReviewListParams extends BasePaginationParams {
-  contentsId: number;
+  mediaId: number;
   includeSpoiler?: boolean;
 }
 
 export const getReviewList = async (params: GetReviewListParams) => {
   const res = await api.get<ApiResponse<ReviewListResponse>>(
-    `/comments/${params.contentsId}/comments`,
+    `/comments/${params.mediaId}/comments`,
     {
       params: {
         page: params.page,
@@ -36,7 +37,7 @@ export const getReviewList = async (params: GetReviewListParams) => {
 
 // 댓글 작성 api
 export interface WriteReviewRequest {
-  contentId: number;
+  mediaId: number;
   content: string;
   isSpoiler: boolean;
 }
@@ -46,7 +47,7 @@ export interface ReviewWriter {
 }
 export interface WriteReviewResponse {
   commentId: number;
-  contentsId: number;
+  mediaId: number;
   content: string;
   isSpoiler: boolean;
   createdDate: string;

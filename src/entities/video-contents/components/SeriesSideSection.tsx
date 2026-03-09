@@ -1,33 +1,53 @@
-import { Episode } from "@shared/types/video-contents/contents";
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
+import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
 
 interface SeriesSideSectionProps {
-  episodes: Episode[];
-  contentId: number;
+  seriesMediaId: number;
 }
 
 export default function SeriesSideSection({
-  episodes,
-  contentId,
+  seriesMediaId,
 }: SeriesSideSectionProps) {
+  const {
+    data: episodesData,
+    isLoading,
+    isError,
+  } = useSeriesEpisodeList(seriesMediaId);
+
+  if (isLoading)
+    return <div className="w-full max-w-134 shrink-0">로딩중...</div>;
+  if (isError)
+    return (
+      <div className="w-full max-w-134 shrink-0">
+        에피소드를 불러올 수 없습니다.
+      </div>
+    );
+
   return (
     <div className="w-full max-w-134 shrink-0">
-      <div className="px-5 py-4 rounded-lg flex flex-col h-[80vh] overflow-y-auto">
-        <p className="text-2xl font-bold pb-3 border-b">에피소드</p>
+      <div className="flex h-[80vh] flex-col overflow-y-auto rounded-lg px-5 py-4">
+        <p className="border-b pb-3 text-2xl font-bold">에피소드</p>
 
-        {episodes.map((ep) => (
-          <Link key={ep.id} href={`/contents/${contentId}/episode/${ep.id}`}>
-            <button
-              key={ep.id}
-              className="w-full p-4 text-ot-text gap-6 flex items-center hover:bg-ot-gray-900 transition"
-            >
-              <div className="max-w-25 w-full aspect-4/3 rounded-lg bg-ot-gray-800 shrink-0">
-                {/* <img src="/thumb.jpg" className="h-full w-full object-cover" alt="-ui" />  */}
-                {/* 썸네일 자리 4:3 */}
-                {/* {ep.thumbnail} */}
-                시리즈 가로 포스터
+        {episodesData?.dataList.map((ep) => (
+          <Link
+            key={ep.id}
+            href={`/contents/${seriesMediaId}/episode/${ep.id}?type=SERIES`}
+          >
+            <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
+              <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
+                {ep.thumbnailUrl && (
+                  <Image
+                    src={ep.thumbnailUrl}
+                    fill
+                    className="object-cover"
+                    alt={ep.title}
+                  />
+                )}
               </div>
-              <p className="text-xl font-semibold text-left">{ep.title}</p>
+              <p className="text-left text-xl font-semibold">{ep.title}</p>
             </button>
           </Link>
         ))}

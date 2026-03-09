@@ -7,12 +7,12 @@ import { Recommendation } from "@shared/types/video-contents/contents";
 
 interface SingleSideSectionProps {
   recommendations: Recommendation[];
-  contentsId: number;
+  mediaId: number;
 }
 
 export default function SingleSideSection({
   recommendations,
-  contentsId,
+  mediaId,
 }: SingleSideSectionProps) {
   const [isExpandAllReviews, setIsExpandAllReviews] = useState<boolean>(false);
 
@@ -21,12 +21,12 @@ export default function SingleSideSection({
       <ReviewSection
         isExpandAllReviews={isExpandAllReviews}
         setIsExpandAllReviews={setIsExpandAllReviews}
-        contentsId={contentsId}
+        mediaId={mediaId}
       />
 
       {!isExpandAllReviews && (
-        <div className="px-5 py-4 rounded-lg flex flex-col h-[45vh]">
-          <p className="text-2xl font-bold text-ot-text pb-3 border-b border-ot-gray-700">
+        <div className="flex h-[45vh] flex-col rounded-lg px-5 py-4">
+          <p className="text-ot-text border-ot-gray-700 border-b pb-3 text-2xl font-bold">
             다음 재생목록
           </p>
           <div className="overflow-y-auto">
@@ -34,9 +34,9 @@ export default function SingleSideSection({
               <Link key={item.id} href={`/contents/${item.id}`}>
                 <button
                   key={item.id}
-                  className="w-full p-4 text-ot-text gap-6 flex items-center hover:bg-ot-gray-900 transition"
+                  className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition"
                 >
-                  <div className="max-w-25 w-full aspect-4/3 rounded-lg bg-ot-gray-800 shrink-0">
+                  <div className="bg-ot-gray-800 aspect-4/3 w-full max-w-25 shrink-0 rounded-lg">
                     {/* <img src="/thumb.jpg" className="h-full w-full object-cover" alt="-ui" />  */}
                     {/* 썸네일 자리 4:3 */}
                     {/* {item.thumbnail} */}
