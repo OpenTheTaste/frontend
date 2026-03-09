@@ -1,0 +1,1 @@
+export { useTrendingList } from "./useTrendingList";
