@@ -28,7 +28,6 @@ export default function DashboardContentBox() {
   }
 
   const chartData: DashboardData = {
-    // labels: data?.rankings.map((tag) => `${tag.tagName}`) ?? [],
     labels: data?.rankings.map((tag) => (tag.etc ? tag.tagName : `#${tag.tagName}`)) ?? [],
     datasets: [
       {
@@ -40,6 +39,7 @@ export default function DashboardContentBox() {
       },
     ],
     tagDetails: [],
+    tagIds: data?.rankings.map((tag) => tag.tagId) ?? [],
   };
 
   // 테스트) 데이터 없을 때 모달창 띄울거면 아래 빈 거 체크하는 부분 주석으로 하기

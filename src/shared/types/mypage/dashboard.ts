@@ -51,4 +51,5 @@ export interface DashboardData {
   labels: string[];
   datasets: ChartDataset[];
   tagDetails?: TagDetail[];
+  tagIds?: number[];
 }
