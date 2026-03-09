@@ -3,7 +3,7 @@ import { ApiResponse, RecentHistoryResponse } from "@shared/types";
 
 export const recentHistoryApi = {
   getRecentHistorys: async (page: number) =>
-    await api.get<ApiResponse<RecentHistoryResponse>>("/playlists/me/history", {
+    await api.get<ApiResponse<RecentHistoryResponse>>("/playlists/history", {
       params: { page },
     }),
 };
