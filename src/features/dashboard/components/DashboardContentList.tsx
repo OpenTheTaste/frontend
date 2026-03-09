@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { DashboardData, TagDetail } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
-import { DashboardContentsMockData } from "@shared/mocks/mockDashboardcontent"; // 임시 테스트용
+// import { DashboardContentsMockData } from "@shared/mocks/mockDashboardcontent"; // 임시 테스트용
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -45,12 +45,12 @@ export default function DashboardContentList({ data }: DashboardContentListProps
       if (elements.length > 0) {
         const index = elements[0].index;
         const label = chart.data.labels?.[index] as string;
-        if (label === "기타" || !data.tagDetails?.[index]) {
+        if (label === "기타") {
           return;
         }
         setSelectedTag({
           name: label,
-          detail: data.tagDetails[index],
+          detail: data.tagDetails?.[index] ?? { monthlyStats: { thisMonth: 0, lastMonth: 0 }, recommendations: [] },
         });
         setIsModalOpen(true);
       }
