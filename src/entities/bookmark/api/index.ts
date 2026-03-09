@@ -1,2 +1,2 @@
-export { bookmarkApi } from "./bookmarkApi";
-export { toggleBookmark } from "./toggleBookmark";
+export * from "./bookmarkApi";
+export * from "./toggleBookmark";
