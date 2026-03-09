@@ -1,0 +1,44 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useTagsList } from "@entities/home/hooks";
+import { useMediaLink } from "@shared/hooks";
+import { ContentCarousel } from "@entities/home/components";
+import { RecommendTagItem } from "@entities/home/apis";
+import { useMemberProfile } from "@entities/profile/hooks";
+
+export default function RecommendTagsCarousel({ index }: { index: number }) {
+  const { data } = useTagsList({ page: 0, size: 20, index });
+  const { data: profile } = useMemberProfile();
+  const items = data?.medias.dataList ?? [];
+  const { getMediaHref } = useMediaLink();
+
+  const title = data?.tag.name && profile?.nickname
+    ? `${profile.nickname}님이 좋아하는 #${data.tag.name}`
+    : "";
+
+  return (
+    <ContentCarousel
+      title={title}
+      itemWidth={180}
+      itemHeight={240}
+      items={items}
+      renderItem={(item: RecommendTagItem) => (
+        <Link href={getMediaHref(item.mediaId, item.mediaType)} className="block w-full h-full">
+          <div className="relative w-full h-full rounded-lg overflow-hidden bg-ot-gray-800 border border-ot-gray-700">
+            <Image
+              src={item.thumbnailUrl}
+              alt={item.title}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+              <p className="text-white text-xs font-medium line-clamp-2">{item.title}</p>
+            </div>
+          </div>
+        </Link>
+      )}
+    />
+  );
+}
