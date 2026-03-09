@@ -7,6 +7,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import { DashboardData } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
 import { useTagMonthlyStats } from "@entities/dashboard/hooks/useTagMonthlyStats";
+import { useTagRecommendPlaylist } from "@entities/dashboard/hooks/useTagRecommendPlaylist";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -19,6 +20,7 @@ export default function DashboardContentList({ data }: DashboardContentListProps
   const [selectedTag, setSelectedTag] = useState<{ name: string } | null>(null);
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
   const { data: monthlyStats } = useTagMonthlyStats(selectedTagId ?? 0);
+  const { data: playlist } = useTagRecommendPlaylist(selectedTagId ?? 0);
 
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
@@ -125,7 +127,10 @@ export default function DashboardContentList({ data }: DashboardContentListProps
             thisMonth: monthlyStats?.currentMonth.count ?? 0,
             lastMonth: monthlyStats?.previousMonth?.count ?? 0,
           }}
-          recommendations={[]}
+          recommendations={playlist?.dataList.map((item) => ({
+            id: item.mediaId,
+            image: item.posterUrl,
+          })) ?? []} // 없으면 빈 칸
         />
       )}
     </div>

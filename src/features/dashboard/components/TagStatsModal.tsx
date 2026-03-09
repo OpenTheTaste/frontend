@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import {
@@ -28,13 +28,11 @@ export default function TagStatsModal({
   monthlyStats,
   recommendations,
 }: TagStatsModalProps) {
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
 
   useEffect(() => {
-    setIsMounted(true);
     if (isOpen) {
       document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
       const handleEsc = (e: KeyboardEvent) => {
@@ -50,8 +48,8 @@ export default function TagStatsModal({
     }
   }, [isOpen, onClose]);
 
-  if (!isMounted) {
-    return null; // 서버 사이드에서는 렌더링하지 않음 -> 에러 방지
+  if (typeof window === "undefined") {
+    return null;
   }
   if (!isOpen) {
     return null;
