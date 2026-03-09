@@ -92,7 +92,7 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
         {items.map((item) => (
           <div key={item.id} className="shrink-0">
             {/* 포스터 이미지 영역 (그림 320 * 240 크기) */}
-            <div className="w-45 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
+            <div className="w-45 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden">
               {item.image ? (
                 <Image
                   src={item.image}

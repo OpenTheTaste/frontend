@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import {
@@ -14,6 +14,8 @@ interface TagStatsModalProps {
   isOpen: boolean;
   onClose: () => void;
   tagName: string;
+  isLoading: boolean;
+  isError: boolean;
   monthlyStats: {
     thisMonth: number;
     lastMonth: number;
@@ -25,16 +27,16 @@ export default function TagStatsModal({
   isOpen,
   onClose,
   tagName,
+  isLoading,
+  isError,
   monthlyStats,
   recommendations,
 }: TagStatsModalProps) {
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
 
   useEffect(() => {
-    setIsMounted(true);
     if (isOpen) {
       document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
       const handleEsc = (e: KeyboardEvent) => {
@@ -50,8 +52,8 @@ export default function TagStatsModal({
     }
   }, [isOpen, onClose]);
 
-  if (!isMounted) {
-    return null; // 서버 사이드에서는 렌더링하지 않음 -> 에러 방지
+  if (typeof window === "undefined") {
+    return null;
   }
   if (!isOpen) {
     return null;
@@ -68,26 +70,38 @@ export default function TagStatsModal({
           <X size={24} strokeWidth={2} />
         </button>
 
-        {/* 그래프 영역 */}
-        <div className="px-25">
-          <div className="relative rounded-lg flex flex-col items-center p-3">
-            <h2 className="text-[20px] font-bold text-ot-text">{tagName} 시청 통계</h2>
-
-            {/* 분리된 그래프 컴포넌트 호출 */}
-            <TagStatsModalGraph tagName={tagName} monthlyStats={monthlyStats} />
+        {isLoading ? (
+          <div className="flex items-center justify-center h-40">
+            <p className="text-ot-text">로딩 중...</p>
           </div>
-        </div>
+        ) : isError ? (
+          <div className="flex items-center justify-center h-40">
+            <p className="text-ot-gray-600">데이터를 불러올 수 없습니다.</p>
+          </div>
+        ) : (
+          <>
+            {/* 그래프 영역 */}
+            <div className="px-25">
+              <div className="relative rounded-lg flex flex-col items-center p-3">
+                <h2 className="text-[20px] font-bold text-ot-text">{tagName} 시청 통계</h2>
 
-        {/* 구분선 */}
-        <div className="px-15 py-2">
-          <hr className="border-ot-gray-600" />
-        </div>
+                {/* 분리된 그래프 컴포넌트 호출 */}
+                <TagStatsModalGraph tagName={tagName} monthlyStats={monthlyStats} />
+              </div>
+            </div>
 
-        {/* 태그별 추천 콘텐츠 영역 */}
-        <div className="px-15 mt-2">
-          <h3 className="text-[22px] font-bold text-ot-text">태그별 추천 콘텐츠</h3>
-          <TagStatsModalList items={recommendations} />
-        </div>
+            {/* 구분선 */}
+            <div className="px-15 py-2">
+              <hr className="border-ot-gray-600" />
+            </div>
+
+            {/* 태그별 추천 콘텐츠 영역 */}
+            <div className="px-15 mt-2">
+              <h3 className="text-[22px] font-bold text-ot-text">태그별 추천 콘텐츠</h3>
+              <TagStatsModalList items={recommendations} />
+            </div>
+          </>
+        )}
       </div>
     </div>,
     document.body,

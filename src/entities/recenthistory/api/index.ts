@@ -1,1 +1,1 @@
-export { recentHistoryApi } from "./recentHistoryApi";
+export * from "./recentHistoryApi";

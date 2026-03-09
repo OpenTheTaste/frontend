@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { DashboardData, TagDetail } from "@shared/types/mypage/dashboard";
+import { DashboardData } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
-import { DashboardContentsMockData } from "@shared/mocks/mockDashboardcontent"; // 임시 테스트용
+import { useTagMonthlyStats } from "@entities/dashboard/hooks";
+import { useTagRecommendPlaylist } from "@entities/dashboard/hooks";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -16,25 +17,10 @@ interface DashboardContentListProps {
 
 export default function DashboardContentList({ data }: DashboardContentListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // 클릭된 태그의 정보를 담을 상태 변수
-  const [selectedTag, setSelectedTag] = useState<{
-    name: string;
-    detail: TagDetail;
-  } | null>(null);
-
-  // // ==================================================
-  // // 임시 테스트용 (이거 있으면 시청 기록 데이터 없어도 모달창 띄울 수 있음)
-  // useEffect(() => {
-  //   setSelectedTag({
-  //     name: "#스릴러",
-  //     detail: {
-  //       ...DashboardContentsMockData.tagDetails![0],
-  //       monthlyStats: { thisMonth: 55, lastMonth: 20 },
-  //     },
-  //   });
-  //   setIsModalOpen(true);
-  // }, []);
-  // // ==================================================
+  const [selectedTag, setSelectedTag] = useState<{ name: string } | null>(null);
+  const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
+  const { data: monthlyStats, isLoading: isStatsLoading, isError: isStatsError } = useTagMonthlyStats(selectedTagId ?? 0);
+  const { data: playlist, isLoading: isPlaylistLoading, isError: isPlaylistError } = useTagRecommendPlaylist(selectedTagId ?? 0);
 
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
@@ -45,14 +31,15 @@ export default function DashboardContentList({ data }: DashboardContentListProps
       if (elements.length > 0) {
         const index = elements[0].index;
         const label = chart.data.labels?.[index] as string;
-        if (label === "기타" || !data.tagDetails?.[index]) {
+        if (label === "기타") {
           return;
         }
-        setSelectedTag({
-          name: label,
-          detail: data.tagDetails[index],
-        });
-        setIsModalOpen(true);
+        const tagId = data.tagIds?.[index];
+        if (tagId) {
+          setSelectedTagId(tagId);
+          setSelectedTag({ name: label });
+          setIsModalOpen(true);
+        }
       }
     },
     onHover: (event, elements, chart) => {
@@ -136,8 +123,16 @@ export default function DashboardContentList({ data }: DashboardContentListProps
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           tagName={selectedTag.name}
-          monthlyStats={selectedTag.detail.monthlyStats}
-          recommendations={selectedTag.detail.recommendations}
+          isLoading={isStatsLoading || isPlaylistLoading}
+          isError={isStatsError || isPlaylistError}
+          monthlyStats={{
+            thisMonth: monthlyStats?.currentMonth.count ?? 0,
+            lastMonth: monthlyStats?.previousMonth?.count ?? 0,
+          }}
+          recommendations={playlist?.dataList.map((item) => ({
+            id: item.mediaId,
+            image: item.posterUrl,
+          })) ?? []} // 없으면 빈 칸
         />
       )}
     </div>

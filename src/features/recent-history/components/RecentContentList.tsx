@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ScrollEdgeButton } from "@base-components";
-import { RecentHistoryItem } from "@shared/types/mypage/recenthistory";
+import { RecentHistoryItem } from "@entities/recenthistory/api";
 
 interface RecentContentListProps {
   items: RecentHistoryItem[];
