@@ -1,6 +1,6 @@
-import { api } from "@/shared/api";
-import { ApiResponse, BasePaginationParams } from "@/shared/types";
-import { TrendingListResponse } from "@/shared/types/home";
+import { api } from "@shared/api";
+import { ApiResponse, BasePaginationParams } from "@shared/types";
+import { TrendingListResponse } from "@shared/types/home";
 
 export interface TrendingListParams extends BasePaginationParams {
     excludeMediaId?: number;
