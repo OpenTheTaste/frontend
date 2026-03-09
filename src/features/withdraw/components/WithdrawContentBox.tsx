@@ -18,7 +18,7 @@ export default function WithdrawContentBox() {
         {isLoading && <div>로딩 중...</div>}
         {isError && <div>추천 콘텐츠를 불러오지 못했습니다.</div>}
         {!isLoading && !isError && dataList.length === 0 && <div>추천 콘텐츠가 없습니다.</div>}
-        {!isLoading && !isError && <WithdrawContentList items={dataList} />}
+        {!isLoading && !isError && dataList.length > 0 && <WithdrawContentList items={dataList} />}
       </div>
     </div>
   );

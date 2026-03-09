@@ -15,8 +15,8 @@ export interface BookmarkContentItem {
   title: string;
   description: string;
   posterUrl: string;
-  positionSec: number | null;
-  duration: number | null;
+  positionSec: number;
+  duration: number;
 }
 
 // 북마크 숏폼 dataList 안쪽 타입
