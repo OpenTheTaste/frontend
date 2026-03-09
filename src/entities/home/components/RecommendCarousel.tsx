@@ -6,15 +6,18 @@ import { useMediaLink } from "@shared/hooks";
 import { ContentCarousel } from "@entities/home/components";
 import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
 import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
+import { useMemberProfile } from "@/entities/profile/hooks";
 
 export default function TrendingCarousel() {
   const { data } = useWithdrawContents({ page: 0, size: 20 });
+  const { data: profile } = useMemberProfile();
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
+  
 
   return (
     <ContentCarousel
-      title="00님이 좋아하실만한 콘텐츠"
+      title={`${profile?.nickname ?? ""}님이 좋아하실만한 콘텐츠`}
       itemWidth={180}
       itemHeight={240}
       items={items}
