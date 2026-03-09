@@ -2,23 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTrendingList } from "@entities/home/hooks";
 import { useMediaLink } from "@shared/hooks";
 import { ContentCarousel } from "@entities/home/components";
-import { TrendingListItem } from "@/shared/types/home";
+import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
+import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
 
 export default function TrendingCarousel() {
-  const { data } = useTrendingList({ page: 0, size: 20 });
+  const { data } = useWithdrawContents({ page: 0, size: 20 });
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
   return (
     <ContentCarousel
-      title="실시간 인기 차트"
+      title="00님이 좋아하실만한 콘텐츠"
       itemWidth={180}
       itemHeight={240}
       items={items}
-      renderItem={(item: TrendingListItem) => (
+      renderItem={(item: RecommendPlaylistItem) => (
         <Link href={getMediaHref(item.mediaId, item.mediaType)} className="block w-full h-full">
           <div className="relative w-full h-full rounded-lg overflow-hidden bg-ot-gray-800 border border-ot-gray-700">
             <Image

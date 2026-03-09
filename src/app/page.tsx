@@ -1,5 +1,5 @@
 import { Header, Footer } from "@layouts";
-import { MainCarousel, ContentCarousel, TrendingCarousel } from "@entities/home/components";
+import { MainCarousel, ContentCarousel, TrendingCarousel, RecommendCarousel } from "@entities/home/components";
 
 export default function Home() {
   return (
@@ -7,6 +7,7 @@ export default function Home() {
       <Header />
       <MainCarousel title="" itemCount={5} itemHeight={400} itemWidth={1350} />
       <TrendingCarousel />
+      <RecommendCarousel/>
       <ContentCarousel
         title="00님이 좋아하실 콘텐츠"
         itemCount={20}
