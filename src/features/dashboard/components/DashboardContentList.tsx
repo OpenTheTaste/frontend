@@ -6,8 +6,8 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "cha
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { DashboardData } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
-import { useTagMonthlyStats } from "@entities/dashboard/hooks/useTagMonthlyStats";
-import { useTagRecommendPlaylist } from "@entities/dashboard/hooks/useTagRecommendPlaylist";
+import { useTagMonthlyStats } from "@entities/dashboard/hooks";
+import { useTagRecommendPlaylist } from "@entities/dashboard/hooks";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
