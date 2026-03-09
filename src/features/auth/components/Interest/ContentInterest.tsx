@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { getCategories, getTags, setPreferredTags, CategoryItem, TagItem } from "@entities/auth/api";
+import { getCategories, getTags, setPreferredTags, skiptagApi, CategoryItem, TagItem } from "@entities/auth/api";
 import ListCategory from "@/features/auth/components/Interest/ListCategory";
 import SelectedTag from "@/features/auth/components/Interest/SelectedTag";
 import SelectTag from "@/features/auth/components/Interest/SelectTag";
 import ButtonInterest from "@/features/auth/components/Interest/ButtonInterest";
-import { ButtonSkip } from "./ButtonSkip";
+import { ButtonSkip } from "@features/auth/components"
 
 export default function ContentInterest() {
   const router = useRouter();
@@ -86,6 +86,15 @@ export default function ContentInterest() {
     }
   };
 
+  const handleSkip = async () => {
+    try {
+      await skiptagApi();
+      router.push("/");
+    } catch (err) {
+      console.error("건너뛰기 실패");
+    }
+  }
+
   return (
     <section className="w-full bg-ot-background flex-1 flex items-center justify-center py-6">
       <div className="px-3 max-w-[1100px] mx-auto w-full flex flex-col">
@@ -120,7 +129,9 @@ export default function ContentInterest() {
         />
 
         <div className="flex gap-3">
-          <ButtonSkip />
+          <ButtonSkip
+            onSkip={handleSkip}
+          />
           <ButtonInterest
             selectedTagCount={totalSelectedTags}
             disabled={totalSelectedTags === 0}
