@@ -4,25 +4,30 @@ import { useRef, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { ScrollEdgeButton } from "@shared/components";
 
-interface ContentCarouselProps {
+interface ContentCarouselProps<T = undefined> {
   title: string;
   itemCount?: number;
   itemWidth?: number;
   itemHeight?: number;
+  items?: T[];
+  renderItem?: (item: T, index: number) => React.ReactNode;
 }
 
-export default function ContentCarousel({
+export default function ContentCarousel<T = undefined>({
   title,
   itemCount = 10,
   itemWidth = 160,
   itemHeight = 220,
-}: ContentCarouselProps) {
+  items,
+  renderItem,
+}: ContentCarouselProps<T>) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const itemsPerScroll = 5;
   const itemWidthWithGap = itemWidth + 16;
-  const maxIndex = Math.max(0, itemCount - itemsPerScroll);
+  const resolvedCount = items ? items.length : itemCount;
+  const maxIndex = Math.max(0, resolvedCount - itemsPerScroll);
 
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -71,7 +76,7 @@ export default function ContentCarousel({
         </div>
         <div className="flex gap-2">
           {Array.from({
-            length: Math.ceil(itemCount / itemsPerScroll),
+            length: Math.ceil(resolvedCount / itemsPerScroll),
           }).map((_, idx) => (
             <button
               key={idx}
@@ -112,16 +117,26 @@ export default function ContentCarousel({
           style={{ scrollBehavior: "smooth" }}
         >
           <div className="flex gap-4">
-            {Array.from({ length: itemCount }).map((_, idx) => (
-              <div
-                key={idx}
-                className="shrink-0 rounded-lg bg-ot-gray-800 border border-ot-gray-700"
-                style={{
-                  width: `${itemWidth}px`,
-                  height: `${itemHeight}px`,
-                }}
-              />
-            ))}
+            {items && renderItem
+              ? items.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="shrink-0"
+                    style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
+                  >
+                    {renderItem(item, idx)}
+                  </div>
+                ))
+              : Array.from({ length: resolvedCount }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="shrink-0 rounded-lg bg-ot-gray-800 border border-ot-gray-700"
+                    style={{
+                      width: `${itemWidth}px`,
+                      height: `${itemHeight}px`,
+                    }}
+                  />
+                ))}
           </div>
         </div>
 

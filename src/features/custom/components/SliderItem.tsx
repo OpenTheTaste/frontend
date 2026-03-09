@@ -19,6 +19,7 @@ export function SliderItem({ factorKey, value, remaining, onChange }: SliderItem
           type="range"
           min={0}
           max={100}
+          step={10}
           value={value}
           onChange={(e) => onChange(factorKey, Number(e.target.value))}
           className="flex-1 accent-ot-primary-400 cursor-pointer"
