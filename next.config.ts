@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cdn.ott.com",
+        hostname: "cdn.openthetaste.cloud",
       },
     ],
   },
