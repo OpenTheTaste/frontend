@@ -1,3 +1,5 @@
+import { PageInfo } from "@shared/types";
+
 export interface TagRanking {
   tagId: number;
   tagName: string;
@@ -22,6 +24,24 @@ export interface TagMonthlyStatsResponse {
   currentMonth: MonthStat;
   previousMonth: MonthStat | null;
 }
+
+// 해당 태그 모달창 아래 뜨는 콘텐츠 안쪽 타입
+export interface TagPlaylistItem {
+  mediaId: number;
+  title: string;
+  posterUrl: string;
+  thumbnailUrl: string;
+  mediaType: "CONTENTS" | "SERIES";
+  duration: number;
+  positionSec: number;
+}
+
+// 해당 태그 모달창 추천 콘텐츠 리스트 전체 타입
+export interface TagPlaylistResponse {
+  pageInfo: PageInfo;
+  dataList: TagPlaylistItem[];
+}
+
 
 // ==================== Mock 데이터 타입 또는 차트 디자인 관련 ====================
 // 태그 상세 통계 모달창 추천 콘텐츠 관련
