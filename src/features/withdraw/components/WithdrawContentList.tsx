@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { WithdrawContent } from "@shared/types/mypage/withdrawcontent";
 import { ScrollEdgeButton } from "@base-components";
+import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
 
 interface WithdrawContentListProps {
-  items: WithdrawContent[];
+  items: RecommendPlaylistItem[];
 }
 
 export default function WithdrawContentList({
@@ -99,12 +99,12 @@ export default function WithdrawContentList({
             className="shrink-0 grid grid-cols-5 gap-x-9 gap-y-5"
           >
             {group.map((item) => (
-              <div key={item.id} className="shrink-0">
+              <div key={item.mediaId} className="shrink-0">
                 {/* 4 : 3 (240 * 180) */}
                 <div className="w-60 h-45 flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
-                  {item.image ? (
+                  {item.thumbnailUrl ? (
                     <img
-                      src={item.image}
+                      src={item.thumbnailUrl}
                       alt={item.title}
                       className="w-full h-full object-cover"
                     />
