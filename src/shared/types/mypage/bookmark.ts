@@ -11,12 +11,12 @@ export interface BookmarkItem {
 // 북마크 콘텐츠 dataList 안쪽 타입
 export interface BookmarkContentItem {
   mediaId: number;
-  mediaType: string;
+  mediaType: "CONTENTS" | "SERIES";
   title: string;
   description: string;
   posterUrl: string;
-  positionSec: number | null;
-  duration: number | null;
+  positionSec: number;
+  duration: number;
 }
 
 // 북마크 숏폼 dataList 안쪽 타입
