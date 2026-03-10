@@ -2,18 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMediaLink } from "@shared/hooks";
 import { ContentCarousel } from "@entities/home/components";
+import { useMemberProfile } from "@entities/profile/hooks";
 import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
 import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
-import { useMemberProfile } from "@/entities/profile/hooks";
+import { useMediaLink } from "@shared/hooks";
 
 export default function TrendingCarousel() {
   const { data } = useWithdrawContents({ page: 0, size: 20 });
   const { data: profile } = useMemberProfile();
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
-  
 
   return (
     <ContentCarousel
@@ -22,16 +21,23 @@ export default function TrendingCarousel() {
       itemHeight={240}
       items={items}
       renderItem={(item: RecommendPlaylistItem) => (
-        <Link href={getMediaHref(item.mediaId, item.mediaType)} className="block w-full h-full">
-          <div className="relative w-full h-full rounded-lg overflow-hidden bg-ot-gray-800 border border-ot-gray-700">
+        <Link
+          href={getMediaHref(item.mediaId, item.mediaType, {
+            type: "recommend",
+          })}
+          className="block h-full w-full"
+        >
+          <div className="bg-ot-gray-800 border-ot-gray-700 relative h-full w-full overflow-hidden rounded-lg border">
             <Image
               src={item.thumbnailUrl}
               alt={item.title}
               fill
               className="object-cover"
             />
-            <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-              <p className="text-white text-xs font-medium line-clamp-2">{item.title}</p>
+            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+              <p className="line-clamp-2 text-xs font-medium text-white">
+                {item.title}
+              </p>
             </div>
           </div>
         </Link>
