@@ -32,7 +32,7 @@ export default function ContentsMainSection({
   const { mutate: toggleLike, isPending: isLikedPending } = useLikes();
   const { mutate: toggleBookmark, isPending: isBookmarkPending } =
     useToggleBookmark();
-  const { data: episodesData } = useSeriesEpisodeList(mediaId, {
+  const { episodes } = useSeriesEpisodeList(mediaId, {
     enabled: mediaType === "SERIES", // series일 때만 에피소드 리스트 조회 (contents일 때는 X)
   });
 
@@ -57,7 +57,7 @@ export default function ContentsMainSection({
     } else {
       const resumeId =
         "resumeMediaId" in content ? content.resumeMediaId : null;
-      const firstEpisodeId = episodesData?.dataList[0]?.mediaId;
+      const firstEpisodeId = episodes[0]?.mediaId;
       const targetId = resumeId ?? firstEpisodeId;
 
       if (!targetId) return;
