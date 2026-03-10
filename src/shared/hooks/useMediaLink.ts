@@ -9,7 +9,7 @@ export const useMediaLink = () => {
     const type = mediaType === "SERIES" ? "SERIES" : "CONTENTS";
     const base = `/contents/${mediaId}?type=${type}`;
 
-    if (!playlistSource) return base;
+    if (!playlistSource || mediaType === "SERIES") return base;
 
     const params = new URLSearchParams();
     switch (playlistSource.type) {
