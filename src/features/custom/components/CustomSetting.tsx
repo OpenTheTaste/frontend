@@ -13,6 +13,28 @@ import {
   type Factor,
 } from "@entities/custom/constants";
 import { RadarChart, SliderItem, PreviewModal } from "@features/custom/components";
+import { useRadar, usePutRadar } from "@entities/custom/hooks";
+import type { RadarResponse } from "@entities/custom/apis/getRadar";
+
+function toFactorValues(radar: RadarResponse): Record<Factor, number> {
+  return {
+    대중성: radar.popularity,
+    몰입도: radar.immersion,
+    마니아: radar.mania,
+    최신성: radar.recency,
+    재시청률: radar.reWatch,
+  };
+}
+
+function toRadarResponse(values: Record<Factor, number>): RadarResponse {
+  return {
+    popularity: values["대중성"],
+    immersion: values["몰입도"],
+    mania: values["마니아"],
+    recency: values["최신성"],
+    reWatch: values["재시청률"],
+  };
+}
 
 export function CustomSetting() {
   const router = useRouter();
@@ -20,11 +42,20 @@ export function CustomSetting() {
   const [genre, setGenre] = useState("템플릿");
   const [isGenreOpen, setIsGenreOpen] = useState(false);
 
-  const [values, setValues] = useState<Record<Factor, number>>(INITIAL_VALUES);
-  const [chartValues, setChartValues] = useState<Record<Factor, number>>(INITIAL_VALUES);
-
   const [isRecommended, setIsRecommended] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const { data: radarData } = useRadar();
+  const { mutate: putRadar } = usePutRadar();
+
+  const serverValues = radarData ? toFactorValues(radarData) : INITIAL_VALUES;
+
+  // null = 사용자가 아직 수정 안 함 → serverValues로 fallback
+  const [localValues, setLocalValues] = useState<Record<Factor, number> | null>(null);
+  const [confirmedValues, setConfirmedValues] = useState<Record<Factor, number> | null>(null);
+
+  const values = localValues ?? serverValues;
+  const chartValues = confirmedValues ?? serverValues;
 
   const total = FACTORS.reduce((sum, f) => sum + values[f], 0);
   const remaining = 100 - total;
@@ -33,13 +64,14 @@ export function CustomSetting() {
   const handleSliderChange = (key: Factor, raw: number) => {
     const otherTotal = total - values[key];
     const capped = Math.min(raw, 100 - otherTotal);
-    setValues((prev) => ({ ...prev, [key]: capped }));
+    setLocalValues((prev) => ({ ...(prev ?? serverValues), [key]: capped }));
   };
 
   const handleRecommend = () => {
     if (!isComplete) return;
-    setChartValues({ ...values });
+    setConfirmedValues({ ...values });
     setIsRecommended(true);
+    putRadar(toRadarResponse(values));
   };
 
   return (
@@ -108,8 +140,8 @@ export function CustomSetting() {
                             } else {
                               setGenre(preset.label);
                             }
-                            setValues(preset.values);
-                            setChartValues(preset.values);
+                            setLocalValues(preset.values);
+                            setConfirmedValues(preset.values);
                             setIsGenreOpen(false);
                           }}
                           className={`block w-full px-4 py-2.5 text-sm text-left transition cursor-pointer ${
