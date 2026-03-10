@@ -13,9 +13,11 @@ export const parsePlaylistSource = (
   const playlist = searchParams.get("playlist");
   switch (playlist) {
     case "topTag":
+      const rawIndex = Number(searchParams.get("index"));
+      const index = [0, 1, 2].includes(rawIndex) ? (rawIndex as 0 | 1 | 2) : 0;
       return {
         type: "topTag",
-        index: Number(searchParams.get("index")) as 0 | 1 | 2,
+        index: index,
       };
     case "search":
       return { type: "search" };

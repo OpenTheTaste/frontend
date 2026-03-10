@@ -8,7 +8,7 @@ import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
 import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
 import { useMediaLink } from "@shared/hooks";
 
-export default function TrendingCarousel() {
+export default function RecommendCarousel() {
   const { data } = useWithdrawContents({ page: 0, size: 20 });
   const { data: profile } = useMemberProfile();
   const items = data?.dataList ?? [];

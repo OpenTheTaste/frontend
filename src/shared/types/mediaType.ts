@@ -1,1 +1,1 @@
-export type MediaType = "CONTENTS" | "SERIES" | "SHORT_FORM";
+export type MediaType = "CONTENTS" | "SERIES";

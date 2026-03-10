@@ -8,7 +8,7 @@ import { useMemberProfile } from "@entities/profile/hooks";
 import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
 
-export default function TrendingCarousel() {
+export default function HistoryCarousel() {
   const { data } = useHistoryList({ page: 0, size: 20 });
   const { data: profile } = useMemberProfile();
   const items = data?.dataList ?? [];

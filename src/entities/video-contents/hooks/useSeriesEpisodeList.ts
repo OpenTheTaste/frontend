@@ -11,7 +11,9 @@ export function useSeriesEpisodeList(
     queryFn: ({ pageParam = 0 }) =>
       getSeriesEpisodesList({ seriesMediaId, page: pageParam, size: 24 }),
     getNextPageParam: (lastPage) =>
-      lastPage.dataList?.length ? lastPage.pageInfo.currentPage + 1 : null,
+      lastPage.pageInfo.currentPage + 1 < lastPage.pageInfo.totalPage
+        ? lastPage.pageInfo.currentPage + 1
+        : undefined,
     enabled: (options?.enabled ?? true) && !!seriesMediaId,
   });
 
