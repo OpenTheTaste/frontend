@@ -2,23 +2,13 @@ import { api } from "@shared/api";
 import {
   ApiResponse,
   BasePaginationParams,
-  MediaType,
   PageInfo,
+  PlaylistItem,
 } from "@shared/types";
-
-export interface HistoryItem {
-  mediaId: number;
-  title: string;
-  posterUrl: string;
-  thumbnailUrl: string;
-  mediaType: MediaType;
-  duration: number;
-  positionSec: number;
-}
 
 export interface HistoryListResponse {
   pageInfo: PageInfo;
-  dataList: HistoryItem[];
+  dataList: PlaylistItem[];
 }
 
 export interface GetHistoryListParams extends BasePaginationParams {

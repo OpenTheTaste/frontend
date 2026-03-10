@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@base-components";
-import { RecentHistoryItem } from "@entities/recenthistory/api";
+import { PlaylistItem } from "@shared/types";
 
 interface RecentContentListProps {
-  items: RecentHistoryItem[];
+  items: PlaylistItem[];
 }
 
 export default function RecentContentList({ items }: RecentContentListProps) {
@@ -81,24 +81,34 @@ export default function RecentContentList({ items }: RecentContentListProps) {
 
   if (items.length === 0) {
     return (
-      <div className="flex items-center justify-center w-full py-16">
+      <div className="flex w-full items-center justify-center py-16">
         <p className="text-ot-gray-600">최근 시청한 콘텐츠가 없습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full relative">
+    <div className="relative w-full">
       {/* 가로 스크롤 */}
-      <div ref={scrollRef} className="flex gap-6 py-8 overflow-x-auto no-scrollbar">
+      <div
+        ref={scrollRef}
+        className="no-scrollbar flex gap-6 overflow-x-auto py-8"
+      >
         {items.map((item) => (
           <div key={item.mediaId} className="shrink-0">
             {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
-            <div className="w-60 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden">
+            <div className="bg-ot-gray-800 relative flex aspect-4/3 w-60 items-center justify-center overflow-hidden rounded-lg">
               {item.posterUrl ? (
-                <Image src={item.posterUrl} alt="시청내역 포스터" fill className="object-cover" />
+                <Image
+                  src={item.posterUrl}
+                  alt="시청내역 포스터"
+                  fill
+                  className="object-cover"
+                />
               ) : (
-                <span className="text-ot-gray-400 text-sm px-2 text-center">이미지</span>
+                <span className="text-ot-gray-400 px-2 text-center text-sm">
+                  이미지
+                </span>
               )}
             </div>
           </div>
@@ -106,10 +116,14 @@ export default function RecentContentList({ items }: RecentContentListProps) {
       </div>
 
       {/* 왼쪽 끝에 스크롤 버튼 */}
-      {showLeftButton && <ScrollEdgeButton direction="left" onClick={scrollToLeft} />}
+      {showLeftButton && (
+        <ScrollEdgeButton direction="left" onClick={scrollToLeft} />
+      )}
 
       {/* 오른쪽 끝에 스크롤 버튼 */}
-      {showRightButton && <ScrollEdgeButton direction="right" onClick={scrollToRight} />}
+      {showRightButton && (
+        <ScrollEdgeButton direction="right" onClick={scrollToRight} />
+      )}
     </div>
   );
 }
