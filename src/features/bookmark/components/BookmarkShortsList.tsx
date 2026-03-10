@@ -27,7 +27,7 @@ export default function BookmarkShortsList() {
   if (isLoading) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
-        <p className="text-ot-text">로딩 중...</p>
+        <p className="text-ot-gray-600">로딩 중...</p>
       </div>
     );
   }
