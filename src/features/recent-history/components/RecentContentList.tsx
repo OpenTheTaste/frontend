@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@base-components";
 import { PlaylistItem } from "@shared/types";
+import { useMediaLink } from "@/shared/hooks";
 
 interface RecentContentListProps {
   items: PlaylistItem[];
@@ -13,6 +15,7 @@ export default function RecentContentList({ items }: RecentContentListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRightButton, setShowRightButton] = useState<boolean>(true); // 오른쪽 버튼 상태 (처음은 있음)
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false); // 왼쪽 버튼 상태 (처음엔 없음)
+  const { getMediaHref } = useMediaLink();
 
   const checkScrollPosition = () => {
     if (scrollRef.current) {
@@ -95,23 +98,33 @@ export default function RecentContentList({ items }: RecentContentListProps) {
         className="no-scrollbar flex gap-6 overflow-x-auto py-8"
       >
         {items.map((item) => (
-          <div key={item.mediaId} className="shrink-0">
-            {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
-            <div className="bg-ot-gray-800 relative flex aspect-4/3 w-60 items-center justify-center overflow-hidden rounded-lg">
-              {item.posterUrl ? (
-                <Image
-                  src={item.posterUrl}
-                  alt="시청내역 포스터"
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <span className="text-ot-gray-400 px-2 text-center text-sm">
-                  이미지
-                </span>
-              )}
+          <Link
+            key={item.mediaId}
+            href={getMediaHref(item.mediaId, item.mediaType, {
+              type: "history",
+            })}
+            className="block"
+          >
+            <div key={item.mediaId} className="shrink-0">
+              {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
+              <div className="bg-ot-gray-800 relative flex aspect-4/3 w-60 items-center justify-center overflow-hidden rounded-lg">
+                {item.thumbnailUrl ? (
+                  <Image
+                    src={item.thumbnailUrl}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <span className="text-ot-gray-400 text-sm">
+                      {item.title}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

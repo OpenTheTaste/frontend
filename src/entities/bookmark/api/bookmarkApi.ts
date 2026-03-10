@@ -1,5 +1,11 @@
 import { api } from "@shared/api";
-import { ApiResponse, MediaType, PageInfo } from "@shared/types";
+import {
+  ApiResponse,
+  BasePaginationParams,
+  MediaType,
+  PageInfo,
+  PlaylistItem,
+} from "@shared/types";
 
 // 북마크 콘텐츠 dataList 안쪽 타입
 export interface BookmarkContentItem {
@@ -48,4 +54,30 @@ export const bookmarkApi = {
         params: { page, size: 10 },
       },
     ),
+};
+
+/// 북마크 플레이리스트
+export interface GetBookmarkListParams extends BasePaginationParams {
+  excludeMediaId?: number;
+}
+
+export interface BookmarkPlaylistResponse {
+  pageInfo: PageInfo;
+  dataList: PlaylistItem[];
+}
+
+export const bookmarkPlaylistApi = async (params: GetBookmarkListParams) => {
+  const res = await api.get<ApiResponse<BookmarkPlaylistResponse>>(
+    "/playlists/history",
+    {
+      params: {
+        page: params.page,
+        size: params.size,
+        ...(params.excludeMediaId !== undefined && {
+          excludeMediaId: params.excludeMediaId,
+        }),
+      },
+    },
+  );
+  return res.data.data;
 };

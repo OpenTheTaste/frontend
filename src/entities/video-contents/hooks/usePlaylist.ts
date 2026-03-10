@@ -1,11 +1,14 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { TrendingListApi } from "@entities/home/apis";
-import { HistoryListApi } from "@entities/home/apis";
-import { getTagsTopList } from "@entities/home/apis";
+import { bookmarkPlaylistApi } from "@entities/bookmark/api";
+import {
+  HistoryListApi,
+  TrendingListApi,
+  getTagsTopList,
+} from "@entities/home/apis";
+import { searchPlaylistApi } from "@entities/search/api";
 import { withdrawcontentsApi } from "@entities/withdraw-recommends/api";
 import { PlaylistSource } from "@shared/types";
 import { PlaylistResponse } from "@shared/types";
-import { bookmarkApi } from "@/entities/bookmark/api";
 
 export const parsePlaylistSource = (
   searchParams: URLSearchParams,
@@ -51,6 +54,10 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
           );
         case "history":
           return HistoryListApi(baseParams) as Promise<PlaylistResponse>;
+        case "bookmarks":
+          return bookmarkPlaylistApi(baseParams) as Promise<PlaylistResponse>;
+        case "search":
+          return searchPlaylistApi(baseParams) as Promise<PlaylistResponse>;
         default:
           return TrendingListApi(baseParams) as Promise<PlaylistResponse>;
       }

@@ -1,8 +1,11 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@base-components";
 import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
+import { useMediaLink } from "@/shared/hooks";
 
 interface WithdrawContentListProps {
   items: RecommendPlaylistItem[];
@@ -14,6 +17,7 @@ export default function WithdrawContentList({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRightButton, setShowRightButton] = useState<boolean>(true); // 오른쪽 버튼 상태 (처음은 있음)
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false); // 왼쪽 버튼 상태 (처음엔 없음)
+  const { getMediaHref } = useMediaLink();
 
   // 20개를 10개씩 묶어서 2묶음으로 표시
   const chunkedContents = [];
@@ -87,45 +91,49 @@ export default function WithdrawContentList({
   };
 
   return (
-    <div className="w-full relative group">
-      {/* 가로 스크롤 */}
+    <div className="group relative w-full">
       <div
         ref={scrollRef}
-        className="gap-10 flex pt-5 pb-5 overflow-x-auto no-scrollbar"
+        className="no-scrollbar flex gap-10 overflow-x-auto pt-5 pb-5"
       >
         {chunkedContents.map((group, groupIndex) => (
           <div
             key={groupIndex}
-            className="shrink-0 grid grid-cols-5 gap-x-9 gap-y-5"
+            className="grid shrink-0 grid-cols-5 gap-x-9 gap-y-5"
           >
             {group.map((item) => (
-              <div key={item.mediaId} className="shrink-0">
-                {/* 4 : 3 (240 * 180) */}
-                <div className="w-60 h-45 flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden border border-ot-gray-700">
+              <Link
+                key={item.mediaId}
+                href={getMediaHref(item.mediaId, item.mediaType, {
+                  type: "recommend",
+                })}
+                className="block"
+              >
+                <div className="bg-ot-gray-800 border-ot-gray-700 relative h-45 w-60 overflow-hidden rounded-lg border">
                   {item.thumbnailUrl ? (
-                    <img
+                    <Image
                       src={item.thumbnailUrl}
                       alt={item.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   ) : (
-                    <span className="text-ot-gray-400 text-sm">
-                      {item.title}
-                    </span>
+                    <div className="flex h-full w-full items-center justify-center">
+                      <span className="text-ot-gray-400 text-sm">
+                        {item.title}
+                      </span>
+                    </div>
                   )}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ))}
       </div>
 
-      {/* 왼쪽 끝에 스크롤 버튼 */}
       {showLeftButton && (
         <ScrollEdgeButton direction="left" onClick={scrollToLeft} />
       )}
-
-      {/* 오른쪽 끝에 스크롤 버튼 */}
       {showRightButton && (
         <ScrollEdgeButton direction="right" onClick={scrollToRight} />
       )}
