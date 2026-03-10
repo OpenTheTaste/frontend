@@ -68,7 +68,7 @@ export interface BookmarkPlaylistResponse {
 
 export const bookmarkPlaylistApi = async (params: GetBookmarkListParams) => {
   const res = await api.get<ApiResponse<BookmarkPlaylistResponse>>(
-    "/playlists/history",
+    "/playlists/bookmarks",
     {
       params: {
         page: params.page,
