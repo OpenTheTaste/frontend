@@ -6,15 +6,32 @@ export default async function ContentsDetailPage({
   searchParams,
 }: {
   params: Promise<{ mediaId: string }>;
-  searchParams: Promise<{ type?: string }>;
+  searchParams: Promise<{
+    type?: string;
+    playlist?: string;
+    tagId?: string;
+    index?: string;
+    query?: string;
+  }>;
 }) {
   const mediaId = Number((await params).mediaId);
-  const mediaType = (await searchParams).type;
+  const { type: mediaType, playlist, tagId, index, query } = await searchParams;
+
+  const playlistParams = {
+    playlist,
+    tagId,
+    index,
+    query,
+  };
 
   return (
     <>
       <Header />
-      <ContentsContainer mediaId={mediaId} mediaType={mediaType} />
+      <ContentsContainer
+        mediaId={mediaId}
+        mediaType={mediaType}
+        playlistParams={playlistParams}
+      />
       <Footer />
     </>
   );

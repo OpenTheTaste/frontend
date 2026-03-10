@@ -32,7 +32,9 @@ export default function ContentsMainSection({
   const { mutate: toggleLike, isPending: isLikedPending } = useLikes();
   const { mutate: toggleBookmark, isPending: isBookmarkPending } =
     useToggleBookmark();
-  const { data: episodesData } = useSeriesEpisodeList(mediaId);
+  const { data: episodesData } = useSeriesEpisodeList(mediaId, {
+    enabled: mediaType === "SERIES", // series일 때만 에피소드 리스트 조회 (contents일 때는 X)
+  });
 
   const [isLiked, setIsLiked] = useState<boolean>(content.isLiked);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(
