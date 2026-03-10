@@ -15,7 +15,7 @@ export interface GetHistoryListParams extends BasePaginationParams {
   excludeMediaId?: number;
 }
 
-export const HistoryListApi = async (params: GetHistoryListParams) => {
+export const historyListApi = async (params: GetHistoryListParams) => {
   const res = await api.get<ApiResponse<HistoryListResponse>>(
     "/playlists/history",
     {

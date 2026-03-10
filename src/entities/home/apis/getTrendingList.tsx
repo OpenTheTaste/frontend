@@ -15,7 +15,7 @@ export interface TrendingListResponse {
   dataList: PlaylistItem[];
 }
 
-export const TrendingListApi = async (params: TrendingListParams) => {
+export const trendingListApi = async (params: TrendingListParams) => {
   const res = await api.get<ApiResponse<TrendingListResponse>>(
     "/playlists/trending",
     {

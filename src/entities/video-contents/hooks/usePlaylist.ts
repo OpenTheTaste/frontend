@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { bookmarkPlaylistApi } from "@entities/bookmark/api";
 import {
-  HistoryListApi,
-  TrendingListApi,
   getTagsTopList,
+  historyListApi,
+  trendingListApi,
 } from "@entities/home/apis";
 import { searchPlaylistApi } from "@entities/search/api";
 import { withdrawcontentsApi } from "@entities/withdraw-recommends/api";
@@ -43,7 +43,7 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
       const baseParams = { excludeMediaId, page: pageParam, size: 20 };
       switch (source.type) {
         case "trending":
-          return TrendingListApi(baseParams) as Promise<PlaylistResponse>;
+          return trendingListApi(baseParams) as Promise<PlaylistResponse>;
         case "recommend":
           return withdrawcontentsApi
             .getWithdrawRecommendsContents(baseParams)
@@ -53,13 +53,13 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
             (res) => res.medias as PlaylistResponse,
           );
         case "history":
-          return HistoryListApi(baseParams) as Promise<PlaylistResponse>;
+          return historyListApi(baseParams) as Promise<PlaylistResponse>;
         case "bookmarks":
           return bookmarkPlaylistApi(baseParams) as Promise<PlaylistResponse>;
         case "search":
           return searchPlaylistApi(baseParams) as Promise<PlaylistResponse>;
         default:
-          return TrendingListApi(baseParams) as Promise<PlaylistResponse>;
+          return trendingListApi(baseParams) as Promise<PlaylistResponse>;
       }
     },
     getNextPageParam: (lastPage) =>
