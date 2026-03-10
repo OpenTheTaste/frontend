@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -88,17 +89,33 @@ export default function ContentsMainSection({
   return (
     <div className="flex-1">
       {mediaType === "CONTENTS" ? (
-        <Link href={`/player/${content.mediaId}`}>
-          <button className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
-            <Play className="fill-ot-text stroke-ot-text h-14 w-14" />
-          </button>
-        </Link>
+        <div className="bg-ot-gray-800 relative flex aspect-video w-full max-w-284 items-center justify-center overflow-hidden rounded-sm">
+          {content.thumbnailUrl && (
+            <Image
+              src={content.thumbnailUrl}
+              alt={content.title}
+              fill
+              className="object-cover brightness-50"
+            />
+          )}
+          <Link href={`/player/${content.mediaId}`} className="relative z-10">
+            <button className="group">
+              <Play className="fill-ot-text stroke-ot-text h-14 w-14 transition-transform duration-200 group-hover:scale-110" />
+            </button>
+          </Link>
+        </div>
       ) : (
-        <div className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
-          시리즈 썸네일
+        <div className="bg-ot-gray-800 relative flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
+          {content.thumbnailUrl && (
+            <Image
+              src={content.thumbnailUrl}
+              alt={content.title}
+              fill
+              className="object-cover"
+            />
+          )}
         </div>
       )}
-
       <div className="mt-8 flex items-center gap-4">
         <CommonButton className="mr-3 px-9 py-3" onClick={handlePlay}>
           <Play className="fill-ot-text stroke-ot-text h-6 w-6" />

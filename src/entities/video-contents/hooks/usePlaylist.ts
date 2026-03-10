@@ -48,10 +48,11 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
           return withdrawcontentsApi
             .getWithdrawRecommendsContents(baseParams)
             .then((res) => res.data.data as PlaylistResponse);
-        case "topTag":
+        case "topTag": {
           return getTagsTopList({ ...baseParams, index: source.index }).then(
             (res) => res.medias as PlaylistResponse,
           );
+        }
         case "history":
           return historyListApi(baseParams) as Promise<PlaylistResponse>;
         case "bookmarks":
@@ -63,7 +64,9 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
       }
     },
     getNextPageParam: (lastPage) =>
-      lastPage.dataList?.length ? lastPage.pageInfo.currentPage + 1 : null,
+      lastPage.pageInfo.currentPage + 1 < lastPage.pageInfo.totalPage
+        ? lastPage.pageInfo.currentPage + 1
+        : undefined,
   });
   const items = query.data?.pages.flatMap((page) => page.dataList) ?? [];
 
