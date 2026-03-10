@@ -3,7 +3,7 @@ import { MediaType, PageInfo } from "@shared/types";
 export type PlaylistSource =
   | { type: "trending" }
   | { type: "topTag"; index: 0 | 1 | 2 }
-  | { type: "search"; query: string }
+  | { type: "search" }
   | { type: "recommend" }
   | { type: "history" }
   | { type: "bookmarks" };

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { TrendingListApi } from "@entities/home/apis";
 import { HistoryListApi } from "@entities/home/apis";
 import { getTagsTopList } from "@entities/home/apis";
@@ -18,7 +18,7 @@ export const parsePlaylistSource = (
         index: Number(searchParams.get("index")) as 0 | 1 | 2,
       };
     case "search":
-      return { type: "search", query: searchParams.get("query") ?? "" };
+      return { type: "search" };
     case "history":
       return { type: "history" };
     case "bookmarks":
@@ -31,11 +31,12 @@ export const parsePlaylistSource = (
 };
 
 export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
-  return useQuery({
+  const query = useInfiniteQuery({
     queryKey: ["playlist", source, excludeMediaId],
-    queryFn: async (): Promise<PlaylistResponse> => {
-      const baseParams = { excludeMediaId, page: 0, size: 20 };
-      switch (source!.type) {
+    initialPageParam: 0,
+    queryFn: async ({ pageParam = 0 }): Promise<PlaylistResponse> => {
+      const baseParams = { excludeMediaId, page: pageParam, size: 20 };
+      switch (source.type) {
         case "trending":
           return TrendingListApi(baseParams) as Promise<PlaylistResponse>;
         case "recommend":
@@ -43,17 +44,19 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
             .getWithdrawRecommendsContents(baseParams)
             .then((res) => res.data.data as PlaylistResponse);
         case "topTag":
-          return getTagsTopList({ ...baseParams, index: source!.index }).then(
-            (res) => res.medias as unknown as PlaylistResponse,
+          return getTagsTopList({ ...baseParams, index: source.index }).then(
+            (res) => res.medias as PlaylistResponse,
           );
         case "history":
           return HistoryListApi(baseParams) as Promise<PlaylistResponse>;
-        // case "bookmarks":
-        //   return;
-        // case "search": return;
         default:
           return TrendingListApi(baseParams) as Promise<PlaylistResponse>;
       }
     },
+    getNextPageParam: (lastPage) =>
+      lastPage.dataList?.length ? lastPage.pageInfo.currentPage + 1 : null,
   });
+  const items = query.data?.pages.flatMap((page) => page.dataList) ?? [];
+
+  return { ...query, items };
 };

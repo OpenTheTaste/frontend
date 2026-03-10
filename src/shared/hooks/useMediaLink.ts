@@ -22,7 +22,6 @@ export const useMediaLink = () => {
         break;
       case "search":
         params.set("playlist", "search");
-        params.set("query", playlistSource.query);
         break;
       case "recommend":
         params.set("playlist", "recommend");

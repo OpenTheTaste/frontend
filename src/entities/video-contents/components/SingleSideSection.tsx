@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
 import {
   parsePlaylistSource,
   usePlaylist,
 } from "@entities/video-contents/hooks";
+import { useInfiniteScroll } from "@shared/hooks";
 import { useMediaLink } from "@shared/hooks/useMediaLink";
 import { PlaylistItem, PlaylistParams } from "@shared/types";
 
@@ -24,16 +26,22 @@ export default function SingleSideSection({
 
   const source = parsePlaylistSource(
     new URLSearchParams({
-      ...(playlistParams?.playlist && {
-        playlist: playlistParams.playlist,
-      }),
+      ...(playlistParams?.playlist && { playlist: playlistParams.playlist }),
       ...(playlistParams?.tagId && { tagId: playlistParams.tagId }),
       ...(playlistParams?.index && { index: playlistParams.index }),
       ...(playlistParams?.query && { query: playlistParams.query }),
     }),
   );
 
-  const { data: playlist } = usePlaylist(source, mediaId);
+  const { items, fetchNextPage, hasNextPage, isFetchingNextPage } = usePlaylist(
+    source,
+    mediaId,
+  );
+  const { observerRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
   const { getMediaHref } = useMediaLink();
 
   return (
@@ -49,8 +57,8 @@ export default function SingleSideSection({
           <p className="text-ot-text border-ot-gray-700 border-b pb-3 text-2xl font-bold">
             다음 재생목록
           </p>
-          <div className="overflow-y-auto">
-            {playlist?.dataList.map((item: PlaylistItem) => (
+          <div className="flex-1 overflow-y-auto">
+            {items.map((item: PlaylistItem) => (
               <Link
                 key={item.mediaId}
                 href={getMediaHref(item.mediaId, item.mediaType, source)}
@@ -70,6 +78,14 @@ export default function SingleSideSection({
                 </button>
               </Link>
             ))}
+            <div ref={observerRef} className="flex h-2 justify-center">
+              {isFetchingNextPage && (
+                <Loader2
+                  className="text-ot-placeholder mt-4 animate-spin"
+                  size={20}
+                />
+              )}
+            </div>
           </div>
         </div>
       )}
