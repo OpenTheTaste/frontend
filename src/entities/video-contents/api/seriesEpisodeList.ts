@@ -2,7 +2,7 @@ import { api } from "@shared/api";
 import { ApiResponse, BasePaginationParams, PageInfo } from "@shared/types";
 
 export interface SeriesEpisodeItem {
-  id: number;
+  mediaId: number;
   seriesMediaId: number;
   title: string;
   description: string;

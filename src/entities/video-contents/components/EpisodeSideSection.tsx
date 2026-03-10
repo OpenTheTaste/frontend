@@ -22,7 +22,8 @@ export default function EpisodeSideSection({
     isError,
   } = useSeriesEpisodeList(seriesMediaId);
   const otherEpisodes =
-    episodesData?.dataList.filter((ep) => ep.id !== currentEpisodeId) ?? [];
+    episodesData?.dataList.filter((ep) => ep.mediaId !== currentEpisodeId) ??
+    [];
 
   return (
     <div className="w-full max-w-134 shrink-0">
@@ -47,8 +48,8 @@ export default function EpisodeSideSection({
             ) : (
               otherEpisodes.map((ep) => (
                 <Link
-                  key={ep.id}
-                  href={`/contents/${seriesMediaId}/episode/${ep.id}?type=SERIES`}
+                  key={ep.mediaId}
+                  href={`/contents/${seriesMediaId}/episode/${ep.mediaId}?type=SERIES`}
                 >
                   <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
                     <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
