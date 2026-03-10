@@ -1,11 +1,11 @@
-import { PageInfo } from "@shared/types";
+import { MediaType, PageInfo } from "@shared/types";
 
 export interface TrendingListItem {
   mediaId: number;
   title: string;
   posterUrl: string;
   thumbnailUrl: string;
-  mediaType: string;
+  mediaType: MediaType;
   duration: number | null;
   positionSec: number | null;
 }

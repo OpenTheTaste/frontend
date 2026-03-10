@@ -13,11 +13,12 @@ import {
 } from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
+import { MediaType } from "@/shared/types";
 
 interface ContentsMainSectionProps {
   content: ContentsDetailReponse | SeriesDetailReponse;
   mediaId: number;
-  mediaType: "SERIES" | "CONTENTS";
+  mediaType: MediaType;
   isEpisodeView?: boolean;
   seriesMediaId?: number;
 }
@@ -54,7 +55,7 @@ export default function ContentsMainSection({
     } else {
       const resumeId =
         "resumeMediaId" in content ? content.resumeMediaId : null;
-      const firstEpisodeId = episodesData?.dataList[0]?.id;
+      const firstEpisodeId = episodesData?.dataList[0]?.mediaId;
       const targetId = resumeId ?? firstEpisodeId;
 
       if (!targetId) return;

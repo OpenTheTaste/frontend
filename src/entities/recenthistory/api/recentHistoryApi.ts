@@ -1,5 +1,5 @@
 import { api } from "@shared/api";
-import { ApiResponse, PageInfo } from "@shared/types";
+import { ApiResponse, MediaType, PageInfo } from "@shared/types";
 
 // 3개월 내 시청 내역 dataList 안쪽 타입 - 갱신 수정
 export interface RecentHistoryItem {
@@ -7,7 +7,7 @@ export interface RecentHistoryItem {
   title: string;
   posterUrl: string;
   thumbnailUrl: string;
-  mediaType: "CONTENTS" | "SERIES";
+  mediaType: MediaType;
   duration: number;
   positionSec: number;
 }
