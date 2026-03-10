@@ -3,7 +3,7 @@ import {
   MainCarousel,
   TrendingCarousel,
   RecommendCarousel,
-  RecommendTagsCarousel,
+  RecommendTagsSection,
   HistoryCarousel
 } from "@entities/home/components";
 
@@ -15,9 +15,7 @@ export default function Home() {
       <TrendingCarousel />
       <RecommendCarousel />
       <HistoryCarousel/>
-      <RecommendTagsCarousel index={0} />
-      <RecommendTagsCarousel index={1} />
-      <RecommendTagsCarousel index={2} />
+      <RecommendTagsSection />
       <Footer />
     </div>
   );
