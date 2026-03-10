@@ -10,22 +10,22 @@ import {
   useContentsDetail,
   useSeriesDetail,
 } from "@entities/video-contents/hooks";
-import { Recommendation } from "@shared/types/video-contents/contents";
+import { PlaylistParams } from "@shared/types";
 
 interface ContentsContainerProps {
   mediaId: number;
   mediaType?: string;
-  recommendations?: Recommendation[];
   isEpisodeView?: boolean;
   seriesMediaId?: number;
+  playlistParams?: PlaylistParams;
 }
 
 export default function ContentsContainer({
   mediaId,
   mediaType,
-  recommendations = [],
   isEpisodeView = false,
   seriesMediaId,
+  playlistParams,
 }: ContentsContainerProps) {
   const isSeries = mediaType === "SERIES" && !isEpisodeView;
 
@@ -55,7 +55,7 @@ export default function ContentsContainer({
           mediaId={mediaId}
           mediaType={isSeries ? "SERIES" : "CONTENTS"}
           isEpisodeView={isEpisodeView}
-          seriesMediaId={seriesMediaId} // 시리즈의 mediaId
+          seriesMediaId={seriesMediaId}
         />
 
         {isEpisodeView ? (
@@ -69,8 +69,8 @@ export default function ContentsContainer({
           <SeriesSideSection seriesMediaId={mediaId} />
         ) : (
           <SingleSideSection
-            recommendations={recommendations}
             mediaId={mediaId}
+            playlistParams={playlistParams}
           />
         )}
       </div>

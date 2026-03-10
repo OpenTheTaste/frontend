@@ -11,15 +11,15 @@ export default function DashboardContentBox() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-100">
-        <p className="text-ot-text">로딩 중 ~</p>
+      <div className="flex h-100 items-center justify-center">
+        <p className="text-ot-gray-600">로딩 중...</p>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="flex items-center justify-center h-100">
+      <div className="flex h-100 items-center justify-center">
         <p className="text-ot-gray-600">
           통계 그래프를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
         </p>
@@ -28,7 +28,10 @@ export default function DashboardContentBox() {
   }
 
   const chartData: DashboardData = {
-    labels: data?.rankings.map((tag) => (tag.etc ? tag.tagName : `#${tag.tagName}`)) ?? [],
+    labels:
+      data?.rankings.map((tag) =>
+        tag.etc ? tag.tagName : `#${tag.tagName}`,
+      ) ?? [],
     datasets: [
       {
         label: "시청 통계",
@@ -44,9 +47,9 @@ export default function DashboardContentBox() {
 
   // 테스트) 데이터 없을 때 모달창 띄울거면 아래 빈 거 체크하는 부분 주석으로 하기
   return (
-    <div className="w-full mx-auto border border-ot-text rounded-lg flex flex-col items-center pt-6 pb-3">
+    <div className="border-ot-text mx-auto flex w-full flex-col items-center rounded-lg border pt-6 pb-3">
       {data?.rankings.length === 0 ? (
-        <div className="flex items-center justify-center h-100">
+        <div className="flex h-100 items-center justify-center">
           <p className="text-ot-gray-600">시청 기록이 없습니다.</p>
         </div>
       ) : (

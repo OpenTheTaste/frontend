@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { recentHistoryApi } from "@entities/recenthistory/api";
 
 export function useRecentHistory() {

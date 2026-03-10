@@ -6,18 +6,18 @@ import {
   PlaylistItem,
 } from "@shared/types";
 
-export interface TrendingListParams extends BasePaginationParams {
+export interface SearchPlaylistParams extends BasePaginationParams {
   excludeMediaId?: number;
 }
 
-export interface TrendingListResponse {
+export interface SearchPlaylistResponse {
   pageInfo: PageInfo;
   dataList: PlaylistItem[];
 }
 
-export const trendingListApi = async (params: TrendingListParams) => {
-  const res = await api.get<ApiResponse<TrendingListResponse>>(
-    "/playlists/trending",
+export const searchPlaylistApi = async (params: SearchPlaylistParams) => {
+  const res = await api.get<ApiResponse<SearchPlaylistResponse>>(
+    "/playlists/search",
     {
       params: {
         page: params.page,
