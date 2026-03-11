@@ -1,0 +1,1 @@
+export { useInfiniteSearchList } from "./useSearch";
