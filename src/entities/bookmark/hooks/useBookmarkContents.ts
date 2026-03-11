@@ -1,11 +1,11 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { bookmarkApi } from "@entities/bookmark/api";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { bookmarkApi, BookmarkContentItem } from "@entities/bookmark/api";
 
 export function useBookmarkContents() {
-  return useInfiniteQuery({
+  const query = useInfiniteQuery({
     queryKey: ["bookmarkContents"],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await bookmarkApi.getBookmarkContents(pageParam);
+      const res = await bookmarkApi.getBookmarkContents(pageParam as number);
       return res.data.data;
     },
     initialPageParam: 0,
@@ -14,4 +14,9 @@ export function useBookmarkContents() {
       return currentPage + 1 < totalPage ? currentPage + 1 : undefined;
     },
   });
+
+  const bookmarkContents: BookmarkContentItem[] =
+    query.data?.pages.flatMap((page) => page.dataList) ?? [];
+
+  return { ...query, bookmarkContents };
 }

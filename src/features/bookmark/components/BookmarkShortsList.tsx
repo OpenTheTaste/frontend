@@ -2,18 +2,25 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Play, X } from "lucide-react";
+import { Play, X, Loader2 } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useBookmarkShortForms } from "@entities/bookmark/hooks";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
+import { useInfiniteScroll } from "@/shared/hooks";
 
 export default function BookmarkShortsList() {
   const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
     useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
-  const { data, isLoading } = useBookmarkShortForms();
+  const { bookmarkShortForms, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useBookmarkShortForms();
   const { mutate: deleteBookmark, isPending } = useToggleBookmark();
+
+  const { observerRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleDelete = () => {
     if (selectedMediaId === null) return;
@@ -21,8 +28,6 @@ export default function BookmarkShortsList() {
       onSuccess: () => setIsDeleteShortsModalOpen(false),
     });
   };
-
-  const items = data?.pages.flatMap((page) => page.dataList) ?? [];
 
   if (isLoading) {
     return (
@@ -32,7 +37,17 @@ export default function BookmarkShortsList() {
     );
   }
 
-  if (items.length === 0) {
+  if (isError) {
+    return (
+      <div className="flex h-100 items-center justify-center">
+        <p className="text-ot-gray-600">
+          북마크를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+        </p>
+      </div>
+    );
+  }
+
+  if (bookmarkShortForms.length === 0) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
         <p className="text-ot-gray-600">현재 북마크한 숏폼이 없습니다.</p>
@@ -43,7 +58,7 @@ export default function BookmarkShortsList() {
   return (
     <div className="no-scrollbar h-[50vh] w-full overflow-y-auto">
       <div className="relative grid grid-cols-2 gap-x-10 gap-y-2">
-        {items.map((item) => (
+        {bookmarkShortForms.map((item) => (
           <div
             key={item.mediaId}
             className="group hover:bg-ot-gray-900 relative flex w-full cursor-pointer items-center gap-8 rounded-xl p-4 transition-all duration-200"
@@ -99,11 +114,23 @@ export default function BookmarkShortsList() {
           </div>
         ))}
       </div>
+
+      {/* 무한스크롤 감지 영역 */}
+      <div ref={observerRef} className="flex h-4 justify-center">
+        {isFetchingNextPage && (
+          <Loader2 className="text-ot-placeholder mt-4 animate-spin" size={20} />
+        )}
+      </div>
+
       <ConfirmModal
         isOpen={isDeleteShortsModalOpen}
         message="북마크를 삭제하시겠습니까?"
         onConfirm={handleDelete}
-        onClose={() => setIsDeleteShortsModalOpen(false)}
+        onClose={() => {
+          if (isPending) return;
+          setIsDeleteShortsModalOpen(false);
+          setSelectedMediaId(null);
+        }}
         confirmText="네, 삭제합니다"
         cancelText="남겨두기"
         disabled={isPending}

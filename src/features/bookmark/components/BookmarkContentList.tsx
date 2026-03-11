@@ -3,21 +3,28 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Play, X } from "lucide-react";
+import { Play, X, Loader2 } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useBookmarkContents } from "@entities/bookmark/hooks";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
 import { useMediaLink } from "@/shared/hooks";
+import { useInfiniteScroll } from "@/shared/hooks";
 
 export default function BookmarkContentList() {
   const [isDeleteContentModalOpen, setIsDeleteContentModalOpen] =
     useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
-  const { data, isLoading, isError } = useBookmarkContents();
+  const { bookmarkContents, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useBookmarkContents();
   const { mutate: deleteBookmark, isPending } = useToggleBookmark();
   const { getMediaHref } = useMediaLink();
   const router = useRouter();
+
+  const { observerRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleDelete = () => {
     if (isPending || selectedMediaId === null) return;
@@ -28,8 +35,6 @@ export default function BookmarkContentList() {
       },
     });
   };
-
-  const items = data?.pages.flatMap((page) => page.dataList) ?? [];
 
   if (isLoading) {
     return (
@@ -49,7 +54,7 @@ export default function BookmarkContentList() {
     );
   }
 
-  if (items.length === 0) {
+  if (bookmarkContents.length === 0) {
     return (
       <div className="flex h-100 items-center justify-center">
         <p className="text-ot-gray-600">현재 북마크한 콘텐츠가 없습니다.</p>
@@ -60,7 +65,7 @@ export default function BookmarkContentList() {
   return (
     <div className="no-scrollbar h-100 w-full overflow-y-auto">
       <div className="relative grid grid-cols-2 gap-x-10 gap-y-2">
-        {items.map((item) => (
+        {bookmarkContents.map((item) => (
           <div
             key={item.mediaId}
             onClick={() =>
@@ -122,6 +127,13 @@ export default function BookmarkContentList() {
             </button>
           </div>
         ))}
+      </div>
+
+      {/* 무한스크롤 감지 영역 */}
+      <div ref={observerRef} className="flex h-4 justify-center">
+        {isFetchingNextPage && (
+          <Loader2 className="text-ot-placeholder mt-4 animate-spin" size={20} />
+        )}
       </div>
 
       <ConfirmModal
