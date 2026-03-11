@@ -8,6 +8,7 @@ import { ConfirmModal } from "@base-components";
 import { useMyreviews } from "@entities/myreview/hooks";
 import { useDeleteMyreview } from "@entities/myreview/hooks";
 import { useOutsideClick } from "@shared/hooks";
+import { useInfiniteScroll } from "@shared/hooks";
 import { formatDate } from "@shared/lib";
 
 interface MyReviewModalProps {
@@ -18,10 +19,12 @@ interface MyReviewModalProps {
 export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   // Mock 데이터 아직 리뷰 숫자만 있으니까 number, 아니면 string으로 나중에 바꾸기
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const deleteTargetIdRef = useRef<number | null>(null);
-  deleteTargetIdRef.current = deleteTargetId; // 항상 최신 값 동기화
+
+  useEffect(() => {
+    deleteTargetIdRef.current = deleteTargetId;
+  }, [deleteTargetId]);
 
   const { data, isLoading, isError } = useMyreviews();
   const { mutate: deleteComment, isPending } = useDeleteMyreview();
@@ -31,7 +34,6 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   useOutsideClick(modalRef, onClose, isOpen && deleteTargetId === null); // 관련 hook 추가하여 사용
 
   useEffect(() => {
-    setIsMounted(true);
     if (isOpen) {
       document.body.style.overflow = "hidden"; // 모달창 열리면 뒷 원본 페이지 스크롤 기능 X
       const handleEsc = (e: KeyboardEvent) => {
@@ -51,7 +53,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
     }
   }, [isOpen, onClose]);
 
-  if (!isOpen || !isMounted) {
+  if (typeof window === "undefined" || !isOpen) {
     return null;
   }
 
