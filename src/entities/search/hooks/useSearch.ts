@@ -10,9 +10,10 @@ export const useInfiniteSearchList = ({
 }: BasePaginationParams) => {
   const query = useInfiniteQuery({
     queryKey: ["search", { page, size, searchWord }],
-    queryFn: ({ pageParam = 0 }) =>
+    queryFn: ({ pageParam = page }) =>
       searchApi({ page: pageParam as number, size, searchWord }),
-    initialPageParam: 0,
+    initialPageParam: page,
+    enabled: !!searchWord && searchWord.trim().length >= 2,
     getNextPageParam: (lastPage) => {
       const { currentPage, totalPage } = lastPage.pageInfo;
       return currentPage + 1 < totalPage ? currentPage + 1 : undefined;

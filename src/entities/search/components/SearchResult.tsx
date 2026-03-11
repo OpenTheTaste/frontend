@@ -12,8 +12,9 @@ interface SearchResultProps {
 }
 
 export default function SearchResult({ keyword }: SearchResultProps) {
-  const hasSearched = !!keyword;
   const { getMediaHref } = useMediaLink();
+
+  const hasSearched = (keyword?.trim().length ?? 0) >= 2;
 
   const { searchList, isFetching, observerRef, isFetchingNextPage } =
     useInfiniteSearchList({
