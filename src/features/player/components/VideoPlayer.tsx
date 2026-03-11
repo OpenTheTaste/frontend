@@ -65,12 +65,14 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     currentTime: pipCurrentTime,
   } = usePipStore();
 
+  const initialResumeTimeRef = useRef(isPip ? pipCurrentTime : 0);
+
   // hls
   const hlsRef = useHls({
     src: data?.masterPlaylistUrl ?? "",
     videoRef,
     onLevels: setLevels,
-    startTime: isPip ? pipCurrentTime : 0,
+    startTime: initialResumeTimeRef.current,
   });
 
   useEffect(() => {
@@ -310,9 +312,12 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   // pip
   const togglePip = async () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !data?.masterPlaylistUrl) {
+      return alert("pip 전환 중 에러가 발생했습니다. 다시 시도해주세요.");
+    }
+    video.pause();
     enterPip(
-      data?.masterPlaylistUrl ?? "",
+      data?.masterPlaylistUrl,
       mediaId,
       video.currentTime, // 현재 재생 시점 저장
     );

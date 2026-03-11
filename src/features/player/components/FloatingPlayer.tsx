@@ -145,7 +145,11 @@ export const FloatingPlayer = () => {
   };
 
   const handleExpand = () => {
-    if (!mediaId) return;
+    const video = videoRef.current;
+    if (!mediaId || !video) {
+      return alert("전체보기 전환 중 에러가 발생했습니다. 다시 시도해주세요.");
+    }
+    setCurrentTime(video.currentTime);
     router.push(`/player/${mediaId}`);
   };
 
