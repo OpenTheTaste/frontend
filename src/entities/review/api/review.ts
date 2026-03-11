@@ -68,7 +68,7 @@ export interface EditReviewRequest {
   isSpoiler: boolean;
 }
 
-export interface EditReviewResponse extends WriteReviewResponse {}
+export type EditReviewResponse = WriteReviewResponse;
 
 export const editReview = async (
   commentId: number,
