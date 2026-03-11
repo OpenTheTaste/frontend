@@ -3,7 +3,7 @@ import { CommonButton } from "@base-components";
 
 export default function MainSection() {
   return (
-    <section className="w-full max-w-480 flex flex-col items-center justify-center py-[3rem] px-3 mx-auto bg-ot-background">
+    <section className="w-full max-w-480 flex flex-col items-center justify-center py-12 px-3 mx-auto bg-ot-background">
       <h1 className="text-[3rem] font-bold text-ot-text mb-2">O+T</h1>
 
       <p className="text-[1.75rem] text-ot-text text-center mb-1 font-bold">
@@ -13,10 +13,10 @@ export default function MainSection() {
       <p className="text-[1rem] font-bold text-ot-text text-center mb-6 leading-relaxed">
         정확한 지표를 통한 태그 기반 추천으로
         <br />
-        속깊까지 볼 수 있는 O+T를 시작해보세요
+        숏폼까지 볼 수 있는 O+T를 시작해보세요
       </p>
       <Link href="auth/login">
-        <CommonButton className="px-[2.5rem] py-[0.75rem] text-[1rem] font-bold">
+        <CommonButton className="px-10 py-3 text-[1rem] font-bold">
           시작하기
         </CommonButton>
       </Link>
