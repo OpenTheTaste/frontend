@@ -86,7 +86,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
       <div
         ref={modalRef}
-        className="bg-ot-gray-800 relative flex max-h-[85vh] w-200 flex-col overflow-hidden rounded-xl shadow-2xl shadow-black/50"
+        className="bg-ot-gray-900 relative flex max-h-[85vh] w-200 flex-col overflow-hidden rounded-xl shadow-2xl shadow-black/50"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -116,7 +116,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
               {myreviews.map((review) => (
                 <div
                   key={review.commentId}
-                  className="group hover:bg-ot-gray-700 relative flex w-full shrink-0 cursor-pointer items-center gap-5 rounded-xl p-4 transition-all duration-200"
+                  className="group hover:bg-ot-gray-800 relative flex w-full shrink-0 cursor-pointer items-center gap-5 rounded-xl p-4 transition-all duration-200"
                 >
                   {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
                   <div className="relative aspect-video w-45 shrink-0 overflow-hidden rounded bg-black">
