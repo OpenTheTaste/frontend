@@ -1,9 +1,9 @@
 "use client";
 
-import { Input } from "@base-components";
-import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Search, X } from "lucide-react";
+import { Input } from "@base-components";
 
 interface SearchInputProps {
   keyword?: string;
@@ -14,6 +14,10 @@ export default function SearchInput({ keyword }: SearchInputProps) {
   const [inputValue, setInputValue] = useState<string>(keyword ?? "");
 
   const submitSearch = (value: string) => {
+    if (value.length < 2) {
+      alert("검색어는 2글자 이상 입력해주세요.");
+      return;
+    }
     if (value) {
       router.push(`?keyword=${encodeURIComponent(value)}`);
     } else {
@@ -22,7 +26,7 @@ export default function SearchInput({ keyword }: SearchInputProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       submitSearch(inputValue.trim());
     }
   };
@@ -36,7 +40,7 @@ export default function SearchInput({ keyword }: SearchInputProps) {
     <div className="mx-auto flex w-full max-w-160 items-center gap-4">
       <div className="relative flex-1">
         <Input
-          placeholder="콘텐츠를 입력하세요"
+          placeholder="콘텐츠(시리즈) 제목을 입력하세요."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -45,7 +49,7 @@ export default function SearchInput({ keyword }: SearchInputProps) {
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-ot-gray-500 hover:text-ot-gray-600 cursor-pointer"
+            className="text-ot-gray-500 hover:text-ot-gray-600 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
           >
             <X size={18} />
           </button>
