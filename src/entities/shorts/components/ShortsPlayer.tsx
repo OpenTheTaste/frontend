@@ -1,8 +1,8 @@
 "use client";
 
-import { useHls } from "@/features/player/hooks/useHls";
 import { useEffect, useRef, useState } from "react";
-import { Play, Pause } from "lucide-react";
+import { Pause, Play } from "lucide-react";
+import { useHls } from "@entities/player/hooks";
 
 interface ShortsPlayerProps {
   src: string;
@@ -91,7 +91,7 @@ export const ShortsPlayer = ({
   return (
     <div
       ref={containerRef}
-      className="w-full h-full bg-black relative flex items-center justify-center cursor-pointer"
+      className="relative flex h-full w-full cursor-pointer items-center justify-center bg-black"
       tabIndex={0}
       onWheel={handleWheel}
       onMouseDown={handleMouseDown}
@@ -100,14 +100,14 @@ export const ShortsPlayer = ({
     >
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
+        className="h-full w-full object-cover"
         autoPlay
         playsInline
       />
 
       {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-          <Play className="w-16 h-16 fill-ot-text text-ot-text" />
+          <Play className="fill-ot-text text-ot-text h-16 w-16" />
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { usePipStore } from "@store";
 import type { Level } from "hls.js";
 import {
   ArrowLeft,
@@ -11,13 +12,15 @@ import {
   Maximize,
   Minimize,
   Pause,
+  PictureInPicture,
+  PictureInPicture2,
   Play,
   Volume1,
   Volume2,
   VolumeX,
 } from "lucide-react";
 import { SettingModal } from "@features/player/components";
-import { useHls } from "@features/player/hooks/useHls";
+import { useHideControls, useHls } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
 
@@ -31,7 +34,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   // ref
   const videoRef = useRef<HTMLVideoElement>(null); // 비디오
   const containerRef = useRef<HTMLDivElement>(null);
-  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null); // 컨트롤러 숨기기
   const levelModalRef = useRef<HTMLDivElement>(null); // 화질 모달
   const speedModalRef = useRef<HTMLDivElement>(null); // 배속 모달
 
@@ -54,19 +56,31 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   const [currentTime, setCurrentTime] = useState<number>(0); // 현재 시간
   const [duration, setDuration] = useState<number>(0); // 영상 길이
 
-  const [showControls, setShowControls] = useState<boolean>(true); // 컨트롤러 표시 여부
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // 전체화면 상태
+
+  const {
+    enterPip,
+    exitPip,
+    isPip,
+    currentTime: pipCurrentTime,
+  } = usePipStore();
+
   // hls
   const hlsRef = useHls({
     src: data?.masterPlaylistUrl ?? "",
     videoRef,
     onLevels: setLevels,
+    startTime: isPip ? pipCurrentTime : 0,
   });
+
+  useEffect(() => {
+    if (isPip) exitPip();
+  }, []);
 
   // 모달 외부 클릭 시 false 처리
   useOutsideClick(levelModalRef, () => setIsOpenLevels(false), isOpenLevels);
   useOutsideClick(speedModalRef, () => setIsOpenSpeed(false), isOpenSpeed);
-
+  const { showControls, reset: resetHideControlsTimer } = useHideControls(3000); // 3초 뒤 컨트롤러 사라짐
   // 화질 옵션 생성
   const levelOptions = [
     { label: "auto", value: -1, isActive: isAutoLevels },
@@ -82,19 +96,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     { label: "1x", value: 1, isActive: playbackRate === 1 },
     { label: "1.25x", value: 1.25, isActive: playbackRate === 1.25 },
   ];
-
-  // 컨트롤러 숨김 타이머 설정 (5초 간 표시)
-  const resetHideControlsTimer = () => {
-    setShowControls(true);
-
-    if (hideControlsTimeoutRef.current) {
-      clearTimeout(hideControlsTimeoutRef.current);
-    }
-
-    hideControlsTimeoutRef.current = setTimeout(() => {
-      setShowControls(false);
-    }, 5000);
-  };
 
   // 마우스 움직임 감지
   const handleMouseMove = () => {
@@ -114,24 +115,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
-
-  // 마우스 움직임 이벤트 등록 -> 마우스 움직이면 컨트롤러 표시 관련
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    container.addEventListener("mousemove", handleMouseMove);
-
-    // 초기 타이머 설정
-    resetHideControlsTimer();
-
-    return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-      if (hideControlsTimeoutRef.current) {
-        clearTimeout(hideControlsTimeoutRef.current);
-      }
     };
   }, []);
 
@@ -323,6 +306,19 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
     router.back();
   };
+
+  // pip
+  const togglePip = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+    enterPip(
+      data?.masterPlaylistUrl ?? "",
+      mediaId,
+      video.currentTime, // 현재 재생 시점 저장
+    );
+    router.back();
+  };
+
   if (isLoading) return <div className="fixed inset-0 bg-black" />;
   return (
     <div
@@ -330,23 +326,30 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
       className="fixed inset-0 bg-black"
       tabIndex={0}
       onKeyDown={handleKeyboardShortcuts}
+      onMouseMove={resetHideControlsTimer}
       onClick={() => containerRef.current?.focus()}
     >
       <div
-        className={`fixed top-0 left-0 right-0 z-20 p-4 flex items-center transition-opacity duration-300 bg-linear-to-b from-black/40 via-black/20 to-transparent
-        ${showControls ? "opacity-100" : "opacity-0"}`}
+        className={`fixed top-0 right-0 left-0 z-20 flex items-center justify-between bg-linear-to-b from-black/40 via-black/20 to-transparent p-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
       >
-        <button onClick={handleBack} className="p-2 cursor-pointer">
-          <ArrowLeft className="w-7 h-7 stroke-2 text-ot-text hover:text-ot-gray-600 active:text-ot-gray-600" />
+        <button onClick={handleBack} className="p-2">
+          <ArrowLeft className="text-ot-text hover:text-ot-gray-600 active:text-ot-gray-600 h-7 w-7 stroke-2" />
+        </button>
+        <button onClick={togglePip} className="p-2">
+          {isPip ? (
+            <PictureInPicture2 className="text-ot-text hover:text-ot-gray-600 h-7 w-7 stroke-2" />
+          ) : (
+            <PictureInPicture className="text-ot-text hover:text-ot-gray-600 h-7 w-7 stroke-2" />
+          )}
         </button>
       </div>
 
       {/* 비디오 영역 */}
       <div className="fixed inset-0 flex items-center justify-center">
-        <div className="relative w-full h-full max-w-screen max-h-screen flex items-center justify-center">
+        <div className="relative flex h-full max-h-screen w-full max-w-screen items-center justify-center">
           <video
             ref={videoRef}
-            className="w-full h-full object-contain"
+            className="h-full w-full object-contain"
             autoPlay
             playsInline
           />
@@ -355,44 +358,46 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
 
       {/* 컨트롤러 */}
       <div
-        className={`fixed bottom-0 left-0 right-0 p-3 text-ot-text z-10 transition-opacity duration-300  bg-linear-to-t from-black/40 via-black/20 to-transparent
-           ${showControls ? "opacity-100" : "opacity-0"}`}
+        className={`text-ot-text fixed right-0 bottom-0 left-0 z-10 bg-linear-to-t from-black/40 via-black/20 to-transparent p-3 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
       >
         {/* Seek bar */}
-        <div className="flex justify-between gap-3 items-center">
-          <p className="text-sm whitespace-nowrap">{formatTime(currentTime)}</p>
+        <div className="flex items-center gap-3">
+          <p className="min-w-13 text-right text-sm whitespace-nowrap">
+            {formatTime(currentTime)}
+          </p>
           <input
             type="range"
             min={0}
             max={duration || 0}
             value={currentTime}
             onChange={handleSeek}
-            className="w-full accent-ot-primary-400"
+            className="accent-ot-primary-400 w-full focus:outline-none"
           />
-          <p className="text-sm whitespace-nowrap">{formatTime(duration)}</p>
+          <p className="min-w-13 text-sm whitespace-nowrap">
+            {formatTime(duration)}
+          </p>
         </div>
-
         {/* 컨트롤 버튼들 */}
-        <div className="flex justify-between px-2 mt-2">
+        <div className="mt-2 flex justify-between px-2">
           {/* 좌측: 재생, 감기, 음향 */}
           <div className="flex items-center gap-5">
             <button onClick={togglePlay}>
               {isPlaying ? (
-                <Pause className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                <Pause className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
               ) : (
-                <Play className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                <Play className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
               )}
             </button>
             <button onClick={rewind}>
-              <FastForward className="w-8 h-8 stroke-1 stroke-ot-text rotate-180 cursor-pointer hover:stroke-ot-gray-600" />
+              <FastForward className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 rotate-180 cursor-pointer stroke-1" />
             </button>
             <button onClick={forward}>
-              <FastForward className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+              <FastForward className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
             </button>
 
             {/* 음향 조절 */}
-            <div className="relative flex items-center group">
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-ot-gray-800 rounded-lg p-3 flex-col items-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <div className="group relative flex items-center">
+              <div className="bg-ot-gray-800 invisible absolute bottom-full left-1/2 mb-2 -translate-x-1/2 flex-col items-center rounded-lg p-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                 <input
                   type="range"
                   min={0}
@@ -400,7 +405,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
                   step={0.01}
                   value={volume}
                   onChange={handleVolumeChange}
-                  className="accent-ot-primary-400 cursor-pointer block"
+                  className="accent-ot-primary-400 block cursor-pointer"
                   style={{
                     writingMode: "vertical-lr",
                     direction: "rtl",
@@ -410,11 +415,11 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
 
               <button onClick={toggleMute}>
                 {isMuted || volume === 0 ? (
-                  <VolumeX className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                  <VolumeX className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
                 ) : volume < 0.5 ? (
-                  <Volume1 className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                  <Volume1 className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
                 ) : (
-                  <Volume2 className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                  <Volume2 className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
                 )}
               </button>
             </div>
@@ -430,7 +435,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
                   setIsOpenLevels((prev) => !prev);
                 }}
               >
-                <Hd className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                <Hd className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
               </button>
               <SettingModal
                 title="화질"
@@ -449,7 +454,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
                   setIsOpenSpeed((prev) => !prev);
                 }}
               >
-                <Gauge className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                <Gauge className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
               </button>
 
               <SettingModal
@@ -464,9 +469,9 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
             {/* 전체화면 */}
             <button onClick={toggleFullscreen}>
               {isFullscreen ? (
-                <Minimize className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                <Minimize className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
               ) : (
-                <Maximize className="w-8 h-8 stroke-1 stroke-ot-text cursor-pointer hover:stroke-ot-gray-600" />
+                <Maximize className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
               )}
             </button>
           </div>
