@@ -63,12 +63,20 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
           return trendingListApi(baseParams) as Promise<PlaylistResponse>;
       }
     },
-    getNextPageParam: (lastPage) =>
-      lastPage.pageInfo.currentPage + 1 < lastPage.pageInfo.totalPage
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.dataList || lastPage.dataList.length === 0)
+        return undefined;
+      return lastPage.pageInfo.currentPage + 1 < lastPage.pageInfo.totalPage
         ? lastPage.pageInfo.currentPage + 1
-        : undefined,
+        : undefined;
+    },
   });
-  const items = query.data?.pages.flatMap((page) => page.dataList) ?? [];
+
+  const rawItems = query.data?.pages.flatMap((page) => page.dataList) ?? [];
+  const items = rawItems.filter(
+    (item, index, self) =>
+      self.findIndex((i) => i.mediaId === item.mediaId) === index,
+  );
 
   return { ...query, items };
 };
