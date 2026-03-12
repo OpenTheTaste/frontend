@@ -7,7 +7,7 @@ export default function HeaderButton() {
   return (
     <Link href = "auth/login">
       <CommonButton 
-      className="px-[1.25rem] py-[0.5rem] text-[0.875rem] font-bold">
+      className="px-5 py-2 text-[0.875rem] font-bold">
       로그인하기
     </CommonButton>
     </Link>
