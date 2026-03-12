@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/cdn-proxy/:path*",
+        destination: "https://cdn.openthetaste.cloud/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
