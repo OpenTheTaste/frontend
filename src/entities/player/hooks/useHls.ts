@@ -11,7 +11,7 @@ interface UseHlsProps {
 }
 
 const toProxySrc = (src: string) =>
-  src.replace("https://cdn.openthetaste.cloud", "/cdn-proxy");
+  src.replace(process.env.NEXT_PUBLIC_CDN_BASE_URL!, "/cdn-proxy");
 
 export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
   const hlsRef = useRef<Hls | null>(null);
