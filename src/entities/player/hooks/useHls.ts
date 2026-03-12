@@ -11,7 +11,7 @@ interface UseHlsProps {
 }
 
 const toProxySrc = (src: string) =>
-  src.replace("https://cdn.openthetaste.cloud", "/cdn-proxy");
+  src.replace(process.env.NEXT_PUBLIC_CDN_BASE_URL!, "/cdn-proxy");
 
 export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
   const hlsRef = useRef<Hls | null>(null);
@@ -25,7 +25,8 @@ export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
       const hls = new Hls();
       hlsRef.current = hls;
 
-      hls.loadSource(proxySrc);
+      hls.loadSource(proxySrc); // m3u8 파일 로드
+
       hls.attachMedia(videoRef.current);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -38,7 +39,8 @@ export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
       });
 
       return () => {
-        if (document.pictureInPictureElement) return;
+        if (document.pictureInPictureElement) return; // 이어보기 구현
+        // clean up
         hls.destroy();
         hlsRef.current = null;
       };

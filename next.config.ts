@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/cdn-proxy/:path*",
-        destination: "https://cdn.openthetaste.cloud/:path*",
+        destination: `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/:path*`,
       },
     ];
   },

@@ -9,3 +9,4 @@ export * from "./mypage/dashboard";
 export * from "./pagination";
 export * from "./playlistSource";
 export * from "./mediaType";
+export * from "./apiError";
