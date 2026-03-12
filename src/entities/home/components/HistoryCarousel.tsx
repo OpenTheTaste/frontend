@@ -14,6 +14,8 @@ export default function HistoryCarousel() {
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
+  if (!items.length) return null;
+
   return (
     <ContentCarousel
       title={`${profile?.nickname ?? ""}님이 시청하신 콘텐츠`}
