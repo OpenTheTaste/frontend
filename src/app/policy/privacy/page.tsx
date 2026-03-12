@@ -313,7 +313,7 @@ export default function PrivacyPage() {
           </p>
           <div className="rounded-xl border border-ot-primary-800 bg-ot-background p-4">
             <p className="text-sm font-medium text-ot-text">
-              개인정보 처리방침 시행일자: 2026. 01. 29
+              개인정보 처리방침 시행일자: 2026. 03. 20
             </p>
           </div>
         </section>

@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { MOCK_PREVIEWS } from "@/entities/custom/constants";
 import { CommonButton } from "@base-components";
+import { useRadarRecommend } from "@entities/custom/hooks";
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -13,6 +13,8 @@ interface PreviewModalProps {
 
 export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
   const router = useRouter();
+  const { data } = useRadarRecommend({ page: 1, size: 3 });
+  const previewItems = data?.dataList.slice(0, 3) ?? [];
 
   const handleLike = () => {
     onClose();
@@ -45,11 +47,11 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
         </p>
 
         <div className="flex flex-col gap-4">
-          {MOCK_PREVIEWS.map((item) => (
-            <div key={item.id} className="flex items-center gap-4 bg-ot-gray-800 rounded-xl p-4">
+          {previewItems.map((item) => (
+            <div key={item.mediaId} className="flex items-center gap-4 bg-ot-gray-800 rounded-xl p-4">
               <div className="relative w-20 h-14 rounded-lg bg-ot-gray-700 shrink-0 overflow-hidden">
                 <Image
-                  src={item.thumbnail}
+                  src={item.thumbnailUrl}
                   alt={item.title}
                   fill
                   className="object-cover"
@@ -58,7 +60,7 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
               </div>
               <div className="flex-1">
                 <p className="font-semibold">{item.title}</p>
-                <p className="text-sm text-ot-gray-400">{item.genre}</p>
+                <p className="text-sm text-ot-gray-400">{item.mediaType}</p>
               </div>
             </div>
           ))}

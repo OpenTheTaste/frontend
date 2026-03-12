@@ -11,6 +11,7 @@ interface ContentCarouselProps<T = undefined> {
   itemHeight?: number;
   items?: T[];
   renderItem?: (item: T, index: number) => React.ReactNode;
+  onRefresh?: (nextPage: number) => void;
 }
 
 export default function ContentCarousel<T = undefined>({
@@ -20,9 +21,19 @@ export default function ContentCarousel<T = undefined>({
   itemHeight = 220,
   items,
   renderItem,
+  onRefresh,
 }: ContentCarouselProps<T>) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [refreshPage, setRefreshPage] = useState(0);
+
+  const handleRefresh = () => {
+    const nextPage = refreshPage + 1;
+    setRefreshPage(nextPage);
+    onRefresh?.(nextPage);
+    setCurrentIndex(0);
+    scrollRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+  };
 
   const itemsPerScroll = 5;
   const itemWidthWithGap = itemWidth + 16;
@@ -67,7 +78,7 @@ export default function ContentCarousel<T = undefined>({
       <div className="flex items-center justify-between mb-5">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-[1.5rem] font-bold text-ot-text">{title}</h2>
-          <button>
+          <button onClick={handleRefresh}>
             <RefreshCw
               size={20}
               className="text-ot-text hover:text-ot-gray-600"
