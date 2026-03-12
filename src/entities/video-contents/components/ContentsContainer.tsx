@@ -18,6 +18,7 @@ interface ContentsContainerProps {
   isEpisodeView?: boolean;
   seriesMediaId?: number;
   playlistParams?: PlaylistParams;
+  commentId?: number;
 }
 
 export default function ContentsContainer({
@@ -26,6 +27,7 @@ export default function ContentsContainer({
   isEpisodeView = false,
   seriesMediaId,
   playlistParams,
+  commentId,
 }: ContentsContainerProps) {
   const isSeries = mediaType === "SERIES" && !isEpisodeView;
 
@@ -63,6 +65,7 @@ export default function ContentsContainer({
             <EpisodeSideSection
               seriesMediaId={seriesMediaId}
               currentEpisodeId={mediaId}
+              commentId={commentId}
             />
           ) : null
         ) : isSeries ? (
@@ -71,6 +74,7 @@ export default function ContentsContainer({
           <SingleSideSection
             mediaId={mediaId}
             playlistParams={playlistParams}
+            commentId={commentId}
           />
         )}
       </div>

@@ -11,11 +11,13 @@ import { useInfiniteScroll } from "@shared/hooks";
 interface EpisodeSideSectionProps {
   seriesMediaId: number;
   currentEpisodeId: number;
+  commentId?: number;
 }
 
 export default function EpisodeSideSection({
   seriesMediaId,
   currentEpisodeId,
+  commentId,
 }: EpisodeSideSectionProps) {
   const [isExpandAllReviews, setIsExpandAllReviews] = useState<boolean>(false);
 
@@ -44,6 +46,7 @@ export default function EpisodeSideSection({
         isExpandAllReviews={isExpandAllReviews}
         setIsExpandAllReviews={setIsExpandAllReviews}
         mediaId={currentEpisodeId}
+        commentId={commentId}
       />
 
       {!isExpandAllReviews && (

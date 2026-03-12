@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowUp, Loader2 } from "lucide-react";
 import { CommonButton, ConfirmModal, Toggle } from "@base-components";
@@ -15,12 +15,14 @@ interface ReviewSectionProps {
   isExpandAllReviews: boolean;
   setIsExpandAllReviews: (value: boolean) => void;
   mediaId: number;
+  commentId?: number;
 }
 
 export default function ReviewSection({
   isExpandAllReviews,
   setIsExpandAllReviews,
   mediaId,
+  commentId,
 }: ReviewSectionProps) {
   const [isSpoilerReview, setIsSpoilerReview] = useState<boolean>(false);
   const [showSpoiler, setShowSpoiler] = useState<boolean>(false);
@@ -31,6 +33,8 @@ export default function ReviewSection({
   const [editingSpoiler, setEditingSpoiler] = useState<boolean>(false);
 
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+
+  const shouldIncludeSpoiler = showSpoiler || commentId !== undefined;
 
   const {
     reviewList,
@@ -43,7 +47,7 @@ export default function ReviewSection({
     page: 0,
     size: 10,
     mediaId,
-    includeSpoiler: showSpoiler,
+    includeSpoiler: shouldIncludeSpoiler,
   });
   const filteredSpoilerReviews = reviewList;
   const { observerRef } = useInfiniteScroll({
@@ -58,6 +62,36 @@ export default function ReviewSection({
   const { mutateAsync: editReview, isPending: isEditPending } = useEditReview();
   const { mutate: deleteReview, isPending: isDeletePending } =
     useDeleteMyreview();
+  
+  // ========== 상세 페이지 이동 후 스크롤 기능 ==========
+  const targetCommentRef = useRef<HTMLDivElement>(null); // 스크롤 대상 댓글 위치 useRef
+  const reviewListRef = useRef<HTMLDivElement>(null); // 댓글 목록 스크롤 useRef
+  const hasScrolledRef = useRef(false); // 스크롤 중복 실행 방지해주는 useRef
+
+  // commentId가 현재 page에 없음 -> fetchNextPage로 계속 쭉 page 넘김
+  useEffect(() => {
+    if (!commentId) return;
+    if (hasScrolledRef.current) return; // 이미 스크롤했으면 종료
+
+    // review = 댓글 하나하나...
+    const found = filteredSpoilerReviews.find(review => review.commentId === commentId);
+    if (found) {
+      setTimeout(() => {
+        if (targetCommentRef.current && reviewListRef.current) {
+          const container = reviewListRef.current;
+          const target = targetCommentRef.current;
+          container.scrollTo({
+            top: target.offsetTop - container.offsetTop,
+            behavior: "smooth"
+          });
+          hasScrolledRef.current = true; // 스크롤 완료된 것 표시
+        }
+      }, 200);
+    } else if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [commentId, filteredSpoilerReviews, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  // =================================================
 
   // 등록
   const handleSubmitReview = async () => {
@@ -163,7 +197,7 @@ export default function ReviewSection({
   );
 
   const reviewListJSX = (
-    <div className="mt-2 flex-1 overflow-y-auto">
+    <div ref={reviewListRef} className="mt-2 flex-1 overflow-y-auto">
       {isLoading ? (
         <div className="flex h-full items-center justify-center">
           <p className="text-ot-gray-600">불러오는 중...</p>
@@ -181,6 +215,7 @@ export default function ReviewSection({
           {filteredSpoilerReviews.map((item: ReviewListItem) => (
             <div
               key={item.commentId}
+              ref={item.commentId === commentId ? targetCommentRef : null}
               className="text-ot-text border-ot-gray-700 mt-1 flex flex-col border-b p-3"
             >
               {editingReviewId === item.commentId ? (

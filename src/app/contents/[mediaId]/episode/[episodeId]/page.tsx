@@ -6,11 +6,14 @@ export default async function EpisodeDetailPage({
   searchParams,
 }: {
   params: Promise<{ mediaId: string; episodeId: string }>;
-  searchParams: Promise<{ type?: string }>;
+    searchParams: Promise<{
+      type?: string;
+      commentId?: string;
+     }>;
 }) {
   const seriesMediaId = Number((await params).mediaId);
   const episodeId = Number((await params).episodeId);
-  const mediaType = (await searchParams).type;
+  const { type: mediaType, commentId } = await searchParams;
 
   return (
     <>
@@ -20,6 +23,7 @@ export default async function EpisodeDetailPage({
         mediaType={mediaType}
         isEpisodeView={true}
         seriesMediaId={seriesMediaId}
+        commentId={commentId ? Number(commentId) : undefined}
       />
       <Footer />
     </>
