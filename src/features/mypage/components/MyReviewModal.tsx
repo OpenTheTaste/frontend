@@ -119,7 +119,10 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
                 <div
                   key={review.commentId}
                   onClick={() => {
-                    router.push(`/contents/${review.mediaId}`);
+                    const url = review.mediaType === "SERIES"
+                      ? `/contents/${review.seriesMediaId}/episode/${review.mediaId}?type=SERIES&commentId=${review.commentId}`
+                      : `/contents/${review.mediaId}?type=CONTENTS&commentId=${review.commentId}`;
+                    router.push(url);
                   }}
                   className="group hover:bg-ot-gray-800 relative flex w-full shrink-0 cursor-pointer items-center gap-5 rounded-xl p-4 transition-all duration-200"
                 >
