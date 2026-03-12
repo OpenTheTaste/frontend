@@ -4,7 +4,8 @@ import {
   TrendingCarousel,
   RecommendCarousel,
   RecommendTagsSection,
-  HistoryCarousel
+  HistoryCarousel,
+  CustomRecommendCarousel
 } from "@entities/home/components";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
     <div>
       <Header />
       <MainCarousel title="" itemCount={5} itemHeight={400} itemWidth={1350} />
+      <CustomRecommendCarousel/>
       <TrendingCarousel />
       <RecommendCarousel />
       <HistoryCarousel/>
