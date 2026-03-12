@@ -60,11 +60,11 @@ export default function EpisodeSideSection({
                 />
               </div>
             ) : isError ? (
-              <div className="text-ot-placeholder flex h-full items-center justify-center text-sm">
+              <div className="text-ot-placeholder flex h-full items-center justify-center">
                 에피소드를 불러올 수 없습니다.
               </div>
             ) : otherEpisodes.length === 0 ? (
-              <div className="text-ot-placeholder flex h-full items-center justify-center text-sm">
+              <div className="text-ot-gray-600 flex h-full items-center justify-center">
                 다음 에피소드가 없습니다.
               </div>
             ) : (

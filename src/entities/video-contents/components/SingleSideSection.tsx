@@ -33,10 +33,8 @@ export default function SingleSideSection({
     }),
   );
 
-  const { items, fetchNextPage, hasNextPage, isFetchingNextPage } = usePlaylist(
-    source,
-    mediaId,
-  );
+  const { items, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    usePlaylist(source, mediaId);
   const { observerRef } = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
@@ -58,34 +56,49 @@ export default function SingleSideSection({
             다음 재생목록
           </p>
           <div className="flex-1 overflow-y-auto">
-            {items.map((item: PlaylistItem) => (
-              <Link
-                key={item.mediaId}
-                href={getMediaHref(item.mediaId, item.mediaType, source)}
-              >
-                <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
-                  <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
-                    {item.thumbnailUrl && (
-                      <Image
-                        src={item.thumbnailUrl}
-                        fill
-                        className="object-cover"
-                        alt={item.title}
-                      />
-                    )}
-                  </div>
-                  <p className="text-xl font-semibold">{item.title}</p>
-                </button>
-              </Link>
-            ))}
-            <div ref={observerRef} className="flex h-2 justify-center">
-              {isFetchingNextPage && (
+            {isLoading ? (
+              <div className="flex h-full items-center justify-center">
                 <Loader2
-                  className="text-ot-placeholder mt-4 animate-spin"
+                  className="text-ot-placeholder animate-spin"
                   size={20}
                 />
-              )}
-            </div>
+              </div>
+            ) : items.length === 0 ? (
+              <div className="text-ot-gray-600 flex h-full items-center justify-center">
+                현재 재생목록이 없습니다.
+              </div>
+            ) : (
+              <>
+                {items.map((item: PlaylistItem) => (
+                  <Link
+                    key={item.mediaId}
+                    href={getMediaHref(item.mediaId, item.mediaType, source)}
+                  >
+                    <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
+                      <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
+                        {item.thumbnailUrl && (
+                          <Image
+                            src={item.thumbnailUrl}
+                            fill
+                            className="object-cover"
+                            alt={item.title}
+                          />
+                        )}
+                      </div>
+                      <p className="text-xl font-semibold">{item.title}</p>
+                    </button>
+                  </Link>
+                ))}
+                <div ref={observerRef} className="flex h-2 justify-center">
+                  {isFetchingNextPage && (
+                    <Loader2
+                      className="text-ot-placeholder mt-4 animate-spin"
+                      size={20}
+                    />
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
