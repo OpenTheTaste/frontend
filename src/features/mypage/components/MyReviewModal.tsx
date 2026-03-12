@@ -118,8 +118,9 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
               {myreviews.map((review) => (
                 <div
                   key={review.commentId}
+                  // 시리즈 아이디 있는지 없는지 이걸로 구분해서 분기 처리
                   onClick={() => {
-                    const url = review.mediaType === "SERIES"
+                    const url = review.seriesMediaId
                       ? `/contents/${review.seriesMediaId}/episode/${review.mediaId}?type=SERIES&commentId=${review.commentId}`
                       : `/contents/${review.mediaId}?type=CONTENTS&commentId=${review.commentId}`;
                     router.push(url);
