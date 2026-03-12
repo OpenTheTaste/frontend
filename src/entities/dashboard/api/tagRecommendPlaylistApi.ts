@@ -1,5 +1,5 @@
 import { api } from "@shared/api";
-import { ApiResponse, PageInfo } from "@shared/types";
+import { ApiResponse, MediaType, PageInfo } from "@shared/types";
 
 // 해당 태그 모달창 아래 뜨는 콘텐츠 안쪽 타입
 export interface TagPlaylistItem {
@@ -7,7 +7,7 @@ export interface TagPlaylistItem {
   title: string;
   posterUrl: string;
   thumbnailUrl: string;
-  mediaType: "CONTENTS" | "SERIES";
+  mediaType: MediaType;
   duration: number;
   positionSec: number;
 }

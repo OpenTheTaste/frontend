@@ -1,19 +1,26 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { X, Play } from "lucide-react";
+import { useState } from "react";
+import { Play, X, Loader2 } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useBookmarkShortForms } from "@entities/bookmark/hooks";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
+import { useInfiniteScroll } from "@/shared/hooks";
 
 export default function BookmarkShortsList() {
   const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
     useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
 
-  const { data, isLoading } = useBookmarkShortForms();
+  const { bookmarkShortForms, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useBookmarkShortForms();
   const { mutate: deleteBookmark, isPending } = useToggleBookmark();
+
+  const { observerRef } = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleDelete = () => {
     if (selectedMediaId === null) return;
@@ -22,44 +29,52 @@ export default function BookmarkShortsList() {
     });
   };
 
-  const items = data?.pages.flatMap((page) => page.dataList) ?? [];
-
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-[50vh]">
-        <p className="text-ot-text">로딩 중 ~</p>
+      <div className="flex h-[50vh] items-center justify-center">
+        <p className="text-ot-gray-600">로딩 중...</p>
       </div>
     );
   }
 
-  if (items.length === 0) {
+  if (isError) {
     return (
-      <div className="flex items-center justify-center h-[50vh]">
-        <p className="text-ot-gray-600">북마크한 숏폼 X</p>
+      <div className="flex h-100 items-center justify-center">
+        <p className="text-ot-gray-600">
+          북마크를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+        </p>
+      </div>
+    );
+  }
+
+  if (bookmarkShortForms.length === 0) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <p className="text-ot-gray-600">현재 북마크한 숏폼이 없습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[50vh] overflow-y-auto no-scrollbar">
+    <div className="no-scrollbar h-[50vh] w-full overflow-y-auto">
       <div className="relative grid grid-cols-2 gap-x-10 gap-y-2">
-        {items.map((item) => (
+        {bookmarkShortForms.map((item) => (
           <div
             key={item.mediaId}
-            className="relative group flex items-center gap-8 p-4 rounded-xl hover:bg-ot-gray-900 w-full cursor-pointer transition-all duration-200"
+            className="group hover:bg-ot-gray-900 relative flex w-full cursor-pointer items-center gap-8 rounded-xl p-4 transition-all duration-200"
           >
             {/* 숏폼 이미지 (9:16) */}
-            <div className="relative shrink-0 w-20 aspect-9/16 bg-ot-gray-800 rounded-lg overflow-hidden">
+            <div className="bg-ot-gray-800 relative aspect-9/16 w-20 shrink-0 overflow-hidden rounded-lg">
               {item.thumbnailUrl ? (
                 <>
                   <Image
                     src={item.thumbnailUrl}
                     alt={item.title}
                     fill
-                    className="object-cover group-hover:brightness-50 transition-all duration-200"
+                    className="object-cover transition-all duration-200 group-hover:brightness-50"
                   />
                   {/* 플레이 아이콘 오버레이 */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                     <Play
                       size={18}
                       className="text-ot-text fill-ot-text drop-shadow-md"
@@ -67,18 +82,18 @@ export default function BookmarkShortsList() {
                   </div>
                 </>
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[9px] text-ot-gray-400 text-center leading-tight px-1">
+                <div className="text-ot-gray-400 flex h-full w-full items-center justify-center px-1 text-center text-[9px] leading-tight">
                   9:16
                 </div>
               )}
             </div>
 
             {/* 텍스트 설명 */}
-            <div className="flex flex-col flex-1 min-w-0 pr-8">
-              <h3 className="text-lg font-semibold text-ot-text mb-1.5 line-clamp-2 break-all group-hover:text-ot-gray-300 transition-colors leading-snug">
+            <div className="flex min-w-0 flex-1 flex-col pr-8">
+              <h3 className="text-ot-text group-hover:text-ot-gray-300 mb-1.5 line-clamp-2 text-lg leading-snug font-semibold break-all transition-colors">
                 {item.title}
               </h3>
-              <p className="text-sm font-normal text-ot-gray-400 line-clamp-2 break-all group-hover:text-ot-gray-500 transition-colors leading-relaxed">
+              <p className="text-ot-gray-400 group-hover:text-ot-gray-500 line-clamp-2 text-sm leading-relaxed font-normal break-all transition-colors">
                 {item.description}
               </p>
             </div>
@@ -92,18 +107,30 @@ export default function BookmarkShortsList() {
                 setSelectedMediaId(item.mediaId); // 북마크 삭제 API
                 setIsDeleteShortsModalOpen(true);
               }}
-              className="absolute top-3 right-3 p-1.5 rounded-full text-ot-gray-500 hover:text-ot-text hover:bg-ot-gray-800 transition-all duration-150"
+              className="text-ot-gray-500 hover:text-ot-text hover:bg-ot-gray-800 absolute top-3 right-3 rounded-full p-1.5 transition-all duration-150"
             >
               <X size={14} strokeWidth={2.5} />
             </button>
           </div>
         ))}
       </div>
+
+      {/* 무한스크롤 감지 영역 */}
+      <div ref={observerRef} className="flex h-4 justify-center">
+        {isFetchingNextPage && (
+          <Loader2 className="text-ot-placeholder mt-4 animate-spin" size={20} />
+        )}
+      </div>
+
       <ConfirmModal
         isOpen={isDeleteShortsModalOpen}
         message="북마크를 삭제하시겠습니까?"
         onConfirm={handleDelete}
-        onClose={() => setIsDeleteShortsModalOpen(false)}
+        onClose={() => {
+          if (isPending) return;
+          setIsDeleteShortsModalOpen(false);
+          setSelectedMediaId(null);
+        }}
         confirmText="네, 삭제합니다"
         cancelText="남겨두기"
         disabled={isPending}

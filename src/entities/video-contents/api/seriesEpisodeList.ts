@@ -1,19 +1,14 @@
 import { api } from "@shared/api";
-import { ApiResponse, BasePaginationParams, PageInfo } from "@shared/types";
-
-export interface SeriesEpisodeItem {
-  id: number;
-  seriesMediaId: number;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  duration: number;
-  positionSec: number;
-}
+import {
+  ApiResponse,
+  BasePaginationParams,
+  PageInfo,
+  PlaylistItem,
+} from "@shared/types";
 
 export interface SeriesEpisodesListResponse {
   pageInfo: PageInfo;
-  dataList: SeriesEpisodeItem[];
+  dataList: PlaylistItem[];
 }
 
 export interface GetSeriesEpisodesListParams extends BasePaginationParams {

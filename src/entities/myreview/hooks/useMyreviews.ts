@@ -1,11 +1,11 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { myreviewApi } from "@entities/myreview/api";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { myreviewApi, MyReview } from "@entities/myreview/api";
 
 export function useMyreviews() {
-  return useInfiniteQuery({
+  const query = useInfiniteQuery({
     queryKey: ["myreviews"],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await myreviewApi.getMyReviews(pageParam);
+      const res = await myreviewApi.getMyReviews(pageParam as number);
       return res.data.data;
     },
     initialPageParam: 0,
@@ -14,4 +14,8 @@ export function useMyreviews() {
       return currentPage + 1 < totalPage ? currentPage + 1 : undefined;
     },
   });
+
+  const myreviews: MyReview[] = query.data?.pages.flatMap((page) => page.dataList) ?? [];
+
+  return {...query, myreviews}
 }

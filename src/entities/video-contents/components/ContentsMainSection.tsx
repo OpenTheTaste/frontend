@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,11 +14,12 @@ import {
 } from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
+import { MediaType } from "@/shared/types";
 
 interface ContentsMainSectionProps {
   content: ContentsDetailReponse | SeriesDetailReponse;
   mediaId: number;
-  mediaType: "SERIES" | "CONTENTS";
+  mediaType: MediaType;
   isEpisodeView?: boolean;
   seriesMediaId?: number;
 }
@@ -31,7 +33,9 @@ export default function ContentsMainSection({
   const { mutate: toggleLike, isPending: isLikedPending } = useLikes();
   const { mutate: toggleBookmark, isPending: isBookmarkPending } =
     useToggleBookmark();
-  const { data: episodesData } = useSeriesEpisodeList(mediaId);
+  const { episodes } = useSeriesEpisodeList(mediaId, {
+    enabled: mediaType === "SERIES", // series일 때만 에피소드 리스트 조회 (contents일 때는 X)
+  });
 
   const [isLiked, setIsLiked] = useState<boolean>(content.isLiked);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(
@@ -54,7 +58,7 @@ export default function ContentsMainSection({
     } else {
       const resumeId =
         "resumeMediaId" in content ? content.resumeMediaId : null;
-      const firstEpisodeId = episodesData?.dataList[0]?.id;
+      const firstEpisodeId = episodes[0]?.mediaId;
       const targetId = resumeId ?? firstEpisodeId;
 
       if (!targetId) return;
@@ -85,17 +89,33 @@ export default function ContentsMainSection({
   return (
     <div className="flex-1">
       {mediaType === "CONTENTS" ? (
-        <Link href={`/player/${content.mediaId}`}>
-          <button className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
-            <Play className="fill-ot-text stroke-ot-text h-14 w-14" />
-          </button>
-        </Link>
+        <div className="bg-ot-gray-800 relative flex aspect-video w-full max-w-284 items-center justify-center overflow-hidden rounded-sm">
+          {content.thumbnailUrl && (
+            <Image
+              src={content.thumbnailUrl}
+              alt={content.title}
+              fill
+              className="object-cover brightness-50"
+            />
+          )}
+          <Link href={`/player/${content.mediaId}`} className="relative z-10">
+            <button className="group">
+              <Play className="fill-ot-text stroke-ot-text h-14 w-14 transition-transform duration-200 group-hover:scale-110" />
+            </button>
+          </Link>
+        </div>
       ) : (
-        <div className="bg-ot-gray-800 flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
-          시리즈 썸네일
+        <div className="bg-ot-gray-800 relative flex aspect-video w-full max-w-284 items-center justify-center rounded-sm">
+          {content.thumbnailUrl && (
+            <Image
+              src={content.thumbnailUrl}
+              alt={content.title}
+              fill
+              className="object-cover"
+            />
+          )}
         </div>
       )}
-
       <div className="mt-8 flex items-center gap-4">
         <CommonButton className="mr-3 px-9 py-3" onClick={handlePlay}>
           <Play className="fill-ot-text stroke-ot-text h-6 w-6" />
