@@ -3,7 +3,7 @@ import { CommonButton } from "@base-components";
 
 export default function MainSection() {
   return (
-    <section className="w-full max-w-480 flex flex-col items-center justify-center py-12 px-3 mx-auto bg-ot-background">
+    <section className="w-full max-w-480 flex flex-col items-center justify-center py-12 px-3 mx-auto ">
       <h1 className="text-[3rem] font-bold text-ot-text mb-2">O+T</h1>
 
       <p className="text-[1.75rem] text-ot-text text-center mb-1 font-bold">
