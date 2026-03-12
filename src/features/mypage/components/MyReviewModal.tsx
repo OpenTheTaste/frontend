@@ -10,6 +10,7 @@ import { useDeleteMyreview } from "@entities/myreview/hooks";
 import { useOutsideClick } from "@shared/hooks";
 import { useInfiniteScrollInModal } from "@features/mypage/components"
 import { formatDate } from "@shared/lib";
+import { useRouter } from "next/navigation";
 
 interface MyReviewModalProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const deleteTargetIdRef = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null); // 모달 스크롤 영역 인식 관련
+
+  const router = useRouter();
 
   useEffect(() => {
     deleteTargetIdRef.current = deleteTargetId;
@@ -83,11 +86,10 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50" >
       <div
         ref={modalRef}
         className="bg-ot-gray-900 relative flex max-h-[85vh] w-200 flex-col overflow-hidden rounded-xl shadow-2xl shadow-black/50"
-        onClick={(e) => e.stopPropagation()}
       >
         <button
           className="absolute top-7 right-7 cursor-pointer transition-opacity hover:opacity-70"
@@ -116,6 +118,9 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
               {myreviews.map((review) => (
                 <div
                   key={review.commentId}
+                  onClick={() => {
+                    router.push(`/contents/${review.mediaId}`);
+                  }}
                   className="group hover:bg-ot-gray-800 relative flex w-full shrink-0 cursor-pointer items-center gap-5 rounded-xl p-4 transition-all duration-200"
                 >
                   {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
@@ -146,7 +151,10 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
                   {/* 댓글별 삭제 버튼 */}
                   <button
                     className="text-ot-gray-400 hover:text-ot-gray-600 absolute top-2 right-2 cursor-pointer p-2"
-                    onClick={() => handleDeleteClick(review.commentId)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(review.commentId);
+                    }}
                   >
                     <X size={16} />
                   </button>
