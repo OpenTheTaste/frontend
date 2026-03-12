@@ -22,9 +22,9 @@ export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
       hlsRef.current = hls;
 
       // FIXME: 아래 코드 주석 해제 해야 함
-      // hls.loadSource(src); // m3u8 파일 로드
+      hls.loadSource(src); // m3u8 파일 로드
 
-      hls.loadSource("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"); // 임시테스트용
+      // hls.loadSource("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"); // 임시테스트용
       hls.attachMedia(videoRef.current);
       // hls엔진을 video 태그에 연결 -> 여기서부터 video가 hls 기반으로 재생 가능하게 됨
 
