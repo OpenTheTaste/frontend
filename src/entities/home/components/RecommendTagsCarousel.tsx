@@ -33,7 +33,7 @@ export default function RecommendTagsCarousel({ index }: { index: number }) {
           })}
           className="block h-full w-full"
         >
-          <div className="bg-ot-gray-800 border-ot-gray-700 relative h-full w-full overflow-hidden rounded-lg border">
+          <div className="bg-ot-gray-800 relative h-full w-full overflow-hidden rounded-lg">
             <Image
               src={item.thumbnailUrl}
               alt={item.title}
