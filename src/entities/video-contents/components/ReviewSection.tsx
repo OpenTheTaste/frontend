@@ -34,6 +34,8 @@ export default function ReviewSection({
 
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
+  const shouldIncludeSpoiler = showSpoiler || commentId !== undefined;
+
   const {
     reviewList,
     fetchNextPage,
@@ -45,7 +47,7 @@ export default function ReviewSection({
     page: 0,
     size: 10,
     mediaId,
-    includeSpoiler: showSpoiler,
+    includeSpoiler: shouldIncludeSpoiler,
   });
   const filteredSpoilerReviews = reviewList;
   const { observerRef } = useInfiniteScroll({
