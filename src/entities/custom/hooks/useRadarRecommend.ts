@@ -3,7 +3,7 @@ import { radarRecommendApi, GetRadarListParams } from "@entities/custom/apis";
 
 export const useRadarRecommend = (params: GetRadarListParams) => { 
     return useQuery({
-        queryKey: ["radar"],
+        queryKey: ["radar", "recommend"],
         queryFn: () => radarRecommendApi(params),
     })
 }
