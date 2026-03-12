@@ -1,8 +1,10 @@
 import { api } from "@shared/api";
-import { ApiResponse, PageInfo } from "@shared/types";
+import { ApiResponse, PageInfo, MediaType } from "@shared/types";
 
 // 내가 쓴 댓글 형태 안쪽 타입
 export interface MyReview {
+  mediaId: number;
+  mediaType: MediaType;
   commentId: number;
   content: string;
   contentsPosterUrl: string;
