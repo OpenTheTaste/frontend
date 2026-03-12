@@ -53,10 +53,19 @@ export default function EpisodeSideSection({
           </p>
           <div className="flex-1 overflow-y-auto">
             {isLoading ? (
-              <div className="py-4 text-center">로딩중...</div>
+              <div className="flex h-full items-center justify-center">
+                <Loader2
+                  className="text-ot-placeholder animate-spin"
+                  size={20}
+                />
+              </div>
             ) : isError ? (
-              <div className="py-4 text-center">
+              <div className="text-ot-placeholder flex h-full items-center justify-center text-sm">
                 에피소드를 불러올 수 없습니다.
+              </div>
+            ) : otherEpisodes.length === 0 ? (
+              <div className="text-ot-placeholder flex h-full items-center justify-center text-sm">
+                다음 에피소드가 없습니다.
               </div>
             ) : (
               <>
