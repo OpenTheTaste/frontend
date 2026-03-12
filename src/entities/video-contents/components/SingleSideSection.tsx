@@ -16,13 +16,13 @@ import { PlaylistItem, PlaylistParams } from "@shared/types";
 interface SingleSideSectionProps {
   mediaId: number;
   playlistParams?: PlaylistParams;
-  commentId?: number; // 추가함
+  commentId?: number;
 }
 
 export default function SingleSideSection({
   mediaId,
   playlistParams,
-  commentId, // 추가함
+  commentId,
 }: SingleSideSectionProps) {
   const [isExpandAllReviews, setIsExpandAllReviews] = useState<boolean>(false);
 
@@ -52,7 +52,7 @@ export default function SingleSideSection({
         isExpandAllReviews={isExpandAllReviews}
         setIsExpandAllReviews={setIsExpandAllReviews}
         mediaId={mediaId}
-        commentId={commentId} // 추가함
+        commentId={commentId}
       />
 
       {!isExpandAllReviews && (

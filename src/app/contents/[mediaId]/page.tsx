@@ -12,7 +12,7 @@ export default async function ContentsDetailPage({
     tagId?: string;
     index?: string;
     query?: string;
-    commentId?: string; // 추가함
+    commentId?: string;
   }>;
 }) {
   const mediaId = Number((await params).mediaId);
@@ -32,7 +32,7 @@ export default async function ContentsDetailPage({
         mediaId={mediaId}
         mediaType={mediaType}
         playlistParams={playlistParams}
-        commentId={commentId ? Number(commentId) : undefined} // 추가함
+        commentId={commentId ? Number(commentId) : undefined}
       />
       <Footer />
     </>

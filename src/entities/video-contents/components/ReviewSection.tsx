@@ -15,14 +15,14 @@ interface ReviewSectionProps {
   isExpandAllReviews: boolean;
   setIsExpandAllReviews: (value: boolean) => void;
   mediaId: number;
-  commentId?: number; // 추가함
+  commentId?: number;
 }
 
 export default function ReviewSection({
   isExpandAllReviews,
   setIsExpandAllReviews,
   mediaId,
-  commentId, // 추가함
+  commentId,
 }: ReviewSectionProps) {
   const [isSpoilerReview, setIsSpoilerReview] = useState<boolean>(false);
   const [showSpoiler, setShowSpoiler] = useState<boolean>(false);
@@ -195,7 +195,6 @@ export default function ReviewSection({
   );
 
   const reviewListJSX = (
-    // 아래 ref={reviewListRef} 추가함
     <div ref={reviewListRef} className="mt-2 flex-1 overflow-y-auto">
       {isLoading ? (
         <div className="flex h-full items-center justify-center">
@@ -214,7 +213,7 @@ export default function ReviewSection({
           {filteredSpoilerReviews.map((item: ReviewListItem) => (
             <div
               key={item.commentId}
-              ref={item.commentId === commentId ? targetCommentRef : null}  // 추가함
+              ref={item.commentId === commentId ? targetCommentRef : null}
               className="text-ot-text border-ot-gray-700 mt-1 flex flex-col border-b p-3"
             >
               {editingReviewId === item.commentId ? (

@@ -8,13 +8,12 @@ export default async function EpisodeDetailPage({
   params: Promise<{ mediaId: string; episodeId: string }>;
     searchParams: Promise<{
       type?: string;
-      commentId?: string; // 추가함
+      commentId?: string;
      }>;
 }) {
   const seriesMediaId = Number((await params).mediaId);
   const episodeId = Number((await params).episodeId);
-  // const mediaType = (await searchParams).type;
-  const { type: mediaType, commentId } = await searchParams; // 추가함
+  const { type: mediaType, commentId } = await searchParams;
 
   return (
     <>
@@ -24,7 +23,7 @@ export default async function EpisodeDetailPage({
         mediaType={mediaType}
         isEpisodeView={true}
         seriesMediaId={seriesMediaId}
-        commentId={commentId ? Number(commentId) : undefined} // 추가함
+        commentId={commentId ? Number(commentId) : undefined}
       />
       <Footer />
     </>
