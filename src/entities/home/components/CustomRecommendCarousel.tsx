@@ -40,7 +40,7 @@ export default function CustomRecommendCarousel() {
               className="object-cover"
             />
             <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-              <p className="line-clamp-2 text-xs font-medium text-white">
+              <p className="line-clamp-2 text-xs font-medium text-ot-text">
                 {item.title}
               </p>
             </div>
