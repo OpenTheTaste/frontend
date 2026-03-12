@@ -14,7 +14,7 @@ export function PosterBackground() {
     <div className="absolute inset-0 overflow-hidden mix-blend-lighten">
       <div className="absolute inset-0 flex flex-col gap-4 -rotate-12 scale-125 origin-center">
         {/* 행1 */}
-        <div className="flex gap-4 animate-scroll-left">
+        <div className="flex gap-4">
           {[...row1, ...row1].map((poster, index) => (
             <div
               key={`row1-${index}`}
@@ -32,7 +32,7 @@ export function PosterBackground() {
         </div>
 
         {/* 행2 */}
-        <div className="flex gap-4 -ml-20 animate-scroll-right">
+        <div className="flex gap-4 -ml-20">
           {[...row2, ...row2].map((poster, index) => (
             <div
               key={`row2-${index}`}
@@ -50,7 +50,7 @@ export function PosterBackground() {
         </div>
 
         {/* 행3 */}
-        <div className="flex gap-4 animate-scroll-left">
+        <div className="flex gap-4">
           {[...row3, ...row3].map((poster, index) => (
             <div
               key={`row3-${index}`}
