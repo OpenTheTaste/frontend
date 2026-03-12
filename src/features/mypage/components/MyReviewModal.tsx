@@ -11,6 +11,7 @@ import { useOutsideClick } from "@shared/hooks";
 import { useInfiniteScrollInModal } from "@features/mypage/components"
 import { formatDate } from "@shared/lib";
 import { useRouter } from "next/navigation";
+import { useMediaLink } from "@shared/hooks";
 
 interface MyReviewModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
   const deleteTargetIdRef = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null); // 모달 스크롤 영역 인식 관련
 
+  const { getMediaHref } = useMediaLink();
   const router = useRouter();
 
   useEffect(() => {
@@ -115,55 +117,54 @@ export default function MyReviewModal({ isOpen, onClose }: MyReviewModalProps) {
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {myreviews.map((review) => (
-                <div
-                  key={review.commentId}
-                  // 시리즈 아이디 있는지 없는지 이걸로 구분해서 분기 처리
-                  onClick={() => {
-                    const url = review.seriesMediaId
-                      ? `/contents/${review.seriesMediaId}/episode/${review.mediaId}?type=SERIES&commentId=${review.commentId}`
-                      : `/contents/${review.mediaId}?type=CONTENTS&commentId=${review.commentId}`;
-                    router.push(url);
-                  }}
-                  className="group hover:bg-ot-gray-800 relative flex w-full shrink-0 cursor-pointer items-center gap-5 rounded-xl p-4 transition-all duration-200"
-                >
-                  {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
-                  <div className="relative aspect-video w-45 shrink-0 overflow-hidden rounded bg-black">
-                    <Image
-                      src={review.contentsPosterUrl}
-                      alt="Review"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+              {myreviews.map((review) => {
+                const url = review.seriesMediaId
+                ? `/contents/${review.seriesMediaId}/episode/${review.mediaId}?type=SERIES&commentId=${review.commentId}`
+                : getMediaHref(review.mediaId, review.mediaType, { type: "recommend" }, review.commentId);
+                return (
+                  <div
+                    key={review.commentId}
+                    onClick={() => router.push(url)}
+                    className="group hover:bg-ot-gray-800 relative flex w-full shrink-0 cursor-pointer items-center gap-5 rounded-xl p-4 transition-all duration-200"
+                  >
+                    {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
+                    <div className="relative aspect-video w-45 shrink-0 overflow-hidden rounded bg-black">
+                      <Image
+                        src={review.contentsPosterUrl}
+                        alt="Review"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
 
-                  {/* 텍스트 영역 */}
-                  <div className="flex flex-1 flex-col pr-8">
-                    {/* 작성한 댓글 내용 */}
-                    <div className="flex flex-col justify-center gap-3">
-                      <p className="text-ot-text text-sm">{review.content}</p>
+                    {/* 텍스트 영역 */}
+                    <div className="flex flex-1 flex-col pr-8">
+                      {/* 작성한 댓글 내용 */}
+                      <div className="flex flex-col justify-center gap-3">
+                        <p className="text-ot-text text-sm">{review.content}</p>
 
-                      {/* 작성자 & 작성 날짜 */}
-                      <div className="text-ot-gray-600 flex items-center gap-1 text-xs">
-                        {/* <span>{review.writerNickname}</span> */}
-                        {/* <span>·</span> */}
-                        <span>{formatDate(review.createdDate)}</span>
+                        {/* 작성자 & 작성 날짜 */}
+                        <div className="text-ot-gray-600 flex items-center gap-1 text-xs">
+                          {/* <span>{review.writerNickname}</span> */}
+                          {/* <span>·</span> */}
+                          <span>{formatDate(review.createdDate)}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* 댓글별 삭제 버튼 */}
-                  <button
-                    className="text-ot-gray-400 hover:text-ot-gray-600 absolute top-2 right-2 cursor-pointer p-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteClick(review.commentId);
-                    }}
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-              ))}
+                    {/* 댓글별 삭제 버튼 */}
+                    <button
+                      className="text-ot-gray-400 hover:text-ot-gray-600 absolute top-2 right-2 cursor-pointer p-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(review.commentId);
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           )}
           <div ref={observerRef} className="flex h-4 justify-center">
