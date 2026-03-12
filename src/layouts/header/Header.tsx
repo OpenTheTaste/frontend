@@ -31,7 +31,7 @@ export const Header = () => {
             href="/shorts"
             className="text-[1.125rem] font-bold text-ot-text hover:text-ot-primary-500 transition-colors cursor-pointer"
           >
-            쇼츠
+            숏폼
           </Link>
         )}
         {isHomePage && (
