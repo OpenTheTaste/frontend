@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
@@ -9,7 +10,8 @@ import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
 
 export default function HistoryCarousel() {
-  const { data } = useHistoryList({ page: 0, size: 20 });
+  const [page, setPage] = useState(0);
+  const { data } = useHistoryList({ page, size: 20 });
   const { data: profile } = useMemberProfile();
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
@@ -22,6 +24,7 @@ export default function HistoryCarousel() {
       itemWidth={240}
       itemHeight={180}
       items={items}
+      onRefresh={setPage}
       renderItem={(item: PlaylistItem) => (
         <Link
           href={getMediaHref(item.mediaId, item.mediaType, {

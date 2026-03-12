@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
@@ -9,7 +10,8 @@ import { PlaylistItem } from "@/shared/types";
 import { useRadarRecommend } from "@/entities/custom/hooks";
 
 export default function CustomRecommendCarousel() {
-    const { data } = useRadarRecommend({ page: 0, size: 20 });
+    const [page, setPage] = useState(0);
+    const { data } = useRadarRecommend({ page, size: 20 });
     const { data: profile } = useMemberProfile();
     const items = data?.dataList ?? [];
     const { getMediaHref } = useMediaLink();
@@ -22,6 +24,7 @@ export default function CustomRecommendCarousel() {
       itemWidth={180}
       itemHeight={240}
       items={items}
+      onRefresh={setPage}
       renderItem={(item: PlaylistItem) => (
         <Link
           href={getMediaHref(item.mediaId, item.mediaType, {
