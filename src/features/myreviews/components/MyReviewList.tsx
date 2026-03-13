@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useMyreviews } from "@entities/myreview/hooks";
 import { useDeleteMyreview } from "@entities/myreview/hooks";
@@ -33,10 +33,6 @@ export default function MyReviewList() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* 맨 위 */}
-      {/* <div className="relative flex items-center justify-center">
-        <h1 className="text-3xl font-bold text-ot-text">내 댓글 목록</h1>
-      </div> */}
 
       {/* 내 댓글목록 */}
       <div className="flex flex-col gap-4">
@@ -82,7 +78,7 @@ export default function MyReviewList() {
                 }}
                 aria-label="댓글 삭제"
               >
-                <X size={16} />
+                <Trash2 size={16} />
               </button>
             </div>
           );

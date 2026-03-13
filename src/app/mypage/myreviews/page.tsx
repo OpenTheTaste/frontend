@@ -1,6 +1,6 @@
 import { Header } from "@layouts";
 import { BackButton } from "@base-components";
-import { MyReviewBox } from "@features/myreviews/components";
+import { MyReviewList } from "@features/myreviews/components";
 
 export default function MyPageReviews() {
   return (
@@ -11,7 +11,7 @@ export default function MyPageReviews() {
         <h1 className="text-ot-text text-3xl font-bold items-center justify-center flex gap-2">
           내가 작성한 댓글
         </h1>
-        <MyReviewBox />
+        <MyReviewList />
       </main>
     </div>
   )
