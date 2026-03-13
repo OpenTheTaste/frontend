@@ -32,7 +32,7 @@ export default function MyReviewList() {
   if (myreviews.length === 0) return <p>작성한 댓글이 없습니다. </p>;
 
   return (
-    <div className="flex flex-col px-90 gap-6">
+    <div className="flex flex-col max-w-3xl mx-auto w-full">
 
       {/* 내 댓글목록 */}
       <div className="flex flex-col">
