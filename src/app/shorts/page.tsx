@@ -5,7 +5,7 @@ import { ShortsData } from "@shared/types/player/shorts";
 
 const shortsList: ShortsData[] = [
   {
-    id: "1",
+    id: 1,
     src: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
     contentLink: {
       title: "다만 악에서 구하소서 (원본)",
