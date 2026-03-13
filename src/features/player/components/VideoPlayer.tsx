@@ -324,6 +324,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   useEffect(() => {
     return () => {
       if (isSavedRef.current) return;
+      if (currentTimeRef.current === 0) return;
       playbackApi(mediaId, currentTimeRef.current).catch(() => {});
     };
   }, [mediaId]);
