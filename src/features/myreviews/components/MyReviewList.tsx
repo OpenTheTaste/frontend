@@ -32,10 +32,10 @@ export default function MyReviewList() {
   if (myreviews.length === 0) return <p>작성한 댓글이 없습니다. </p>;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col px-90 gap-6">
 
       {/* 내 댓글목록 */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
         {myreviews.map((review) => {
           const url = review.seriesMediaId
             ? `/contents/${review.seriesMediaId}/episode/${review.mediaId}?type=SERIES&commentId=${review.commentId}`
@@ -45,33 +45,36 @@ export default function MyReviewList() {
             <div
               key={review.commentId}
               onClick={() => router.push(url)}
-              className="group hover:border-ot-gray-800 hover:bg-ot-gray-900 relative flex w-full shrink-0 cursor-pointer items-center gap-4 rounded-lg p-4 bg-ot-gray-900/60 border border-ot-gray-900 transition-all duration-200"
+              className="group hover:bg-ot-gray-900 relative flex w-full shrink-0 cursor-pointer items-center gap-8 py-5 px-4 border-b border-ot-gray-700 transition-all duration-200"
             >
-              {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
-              <div className="relative aspect-video w-45 shrink-0 overflow-hidden rounded-lg bg-ot-background">
-                <Image
-                  src={review.contentsPosterUrl}
-                  alt="Review"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <div className="flex flex-1 items-center gap-4">
+                {/* 텍스트 영역 */}
+                <div className="flex flex-1 flex-col pr-8">
+                  <div className="flex flex-col justify-center gap-3">
+                    <p className="text-ot-text text-sm">
+                      {review.content}
+                    </p>
+                    <span className="text-ot-gray-600 flex items-center gap-1 text-xs">
+                      {formatDate(review.createdDate)}
+                    </span>
+                  </div>
+                </div>
 
-              {/* 텍스트 영역 */}
-              <div className="flex flex-1 flex-col pr-8">
-                <div className="flex flex-col justify-center gap-3">
-                  <p className="text-ot-text text-sm">
-                    {review.content}
-                  </p>
-                  <span className="text-ot-gray-600 flex items-center gap-1 text-xs">
-                    {formatDate(review.createdDate)}
-                  </span>
+                {/* 왼쪽 댓글단 작품 이미지 (16 : 9) */}
+                <div className="relative aspect-video w-36 shrink-0 overflow-hidden rounded-lg bg-ot-background">
+                  <Image
+                    src={review.contentsPosterUrl}
+                    alt="Review"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </div>
 
+
               {/* 댓글별 삭제 버튼 */}
               <button
-                className="absolute top-2 right-2 cursor-pointer p-2 text-ot-gray-400 hover:text-ot-gray-600 hover:bg-ot-gray-800 rounded-sm transition-colors"
+                className="self-start cursor-pointer text-ot-gray-600 hover:text-ot-gray-700 rounded-sm transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   setDeleteTargetId(review.commentId);
