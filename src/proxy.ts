@@ -15,26 +15,27 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // FIXME: pr시에는 이걸 사용
-  // if (isDev) {
-  //   return NextResponse.next();
-  // }
-
   if (isDev) {
-    const response = NextResponse.next();
-
-    const keyPairId = process.env.CLOUDFRONT_KEY_PAIR_ID;
-    const policy = process.env.CLOUDFRONT_POLICY;
-    const signature = process.env.CLOUDFRONT_SIGNATURE;
-
-    if (keyPairId && policy && signature) {
-      response.cookies.set("CloudFront-Key-Pair-Id", keyPairId, { path: "/" });
-      response.cookies.set("CloudFront-Policy", policy, { path: "/" });
-      response.cookies.set("CloudFront-Signature", signature, { path: "/" });
-    }
-
-    return response;
+    return NextResponse.next();
   }
+
+  // FIXME: 마지막에 주석 지우기!!
+  // FIXME: 개발환경에서 영상 play 해보고 싶다면 아래 주석 살린 뒤, cookie에 저장된 3개의 CloudFront Cookies -> .env.local에 저장해서 서버 재실행 -> s3에 업로드 되어 있는 영상 확인 가능
+  // if (isDev) {
+  //   const response = NextResponse.next();
+
+  //   const keyPairId = process.env.CLOUDFRONT_KEY_PAIR_ID;
+  //   const policy = process.env.CLOUDFRONT_POLICY;
+  //   const signature = process.env.CLOUDFRONT_SIGNATURE;
+
+  //   if (keyPairId && policy && signature) {
+  //     response.cookies.set("CloudFront-Key-Pair-Id", keyPairId, { path: "/" });
+  //     response.cookies.set("CloudFront-Policy", policy, { path: "/" });
+  //     response.cookies.set("CloudFront-Signature", signature, { path: "/" });
+  //   }
+
+  //   return response;
+  // }
 
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
