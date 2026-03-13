@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
+import { ViewProgressBar } from "@entities/home/components";
 import { useHistoryList } from "@entities/home/hooks";
 import { useMemberProfile } from "@entities/profile/hooks";
 import { useMediaLink } from "@shared/hooks";
@@ -43,6 +44,12 @@ export default function HistoryCarousel() {
               <p className="line-clamp-2 text-xs font-medium text-white">
                 {item.title}
               </p>
+            </div>
+            <div className="absolute right-0 bottom-0 left-0">
+              <ViewProgressBar
+                duration={item.duration}
+                positionSec={item.positionSec}
+              />
             </div>
           </div>
         </Link>

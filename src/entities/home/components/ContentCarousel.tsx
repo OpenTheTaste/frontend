@@ -26,42 +26,46 @@ export default function ContentCarousel<T = undefined>({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshPage, setRefreshPage] = useState(0);
-
-  const handleRefresh = () => {
-    const nextPage = refreshPage + 1;
-    setRefreshPage(nextPage);
-    onRefresh?.(nextPage);
-    setCurrentIndex(0);
-    scrollRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-  };
+  const isProgrammaticRef = useRef(false);
+  const programmaticTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const itemsPerScroll = 5;
   const itemWidthWithGap = itemWidth + 16;
   const resolvedCount = items ? items.length : itemCount;
   const maxIndex = Math.max(0, resolvedCount - itemsPerScroll);
+  const totalPages = Math.ceil(resolvedCount / itemsPerScroll);
+  const currentPage =
+    currentIndex >= maxIndex
+      ? totalPages - 1
+      : Math.floor(currentIndex / itemsPerScroll);
+
+  const scrollToIndex = (index: number) => {
+    isProgrammaticRef.current = true;
+    if (programmaticTimerRef.current) clearTimeout(programmaticTimerRef.current);
+    programmaticTimerRef.current = setTimeout(() => {
+      isProgrammaticRef.current = false;
+    }, 500);
+    setCurrentIndex(index);
+    scrollRef.current?.scrollTo({ left: index * itemWidthWithGap, behavior: "smooth" });
+  };
+
+  const handleRefresh = () => {
+    const nextPage = refreshPage + 1;
+    setRefreshPage(nextPage);
+    onRefresh?.(nextPage);
+    scrollToIndex(0);
+  };
 
   const handleScroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-
-    let newIndex = currentIndex;
-
-    if (direction === "right") {
-      newIndex = Math.min(currentIndex + itemsPerScroll, maxIndex);
-    } else {
-      newIndex = Math.max(currentIndex - itemsPerScroll, 0);
-    }
-
-    setCurrentIndex(newIndex);
-
-    scrollRef.current.scrollTo({
-      left: newIndex * itemWidthWithGap,
-      behavior: "smooth",
-    });
+    const newIndex =
+      direction === "right"
+        ? Math.min(currentIndex + itemsPerScroll, maxIndex)
+        : Math.max(currentIndex - itemsPerScroll, 0);
+    scrollToIndex(newIndex);
   };
 
   const handleScrollPosition = () => {
-    if (!scrollRef.current) return;
-
+    if (isProgrammaticRef.current || !scrollRef.current) return;
     const scrollLeft = scrollRef.current.scrollLeft;
     const newIndex = Math.min(
       Math.round(scrollLeft / itemWidthWithGap),
@@ -78,31 +82,22 @@ export default function ContentCarousel<T = undefined>({
       <div className="flex items-center justify-between mb-5">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-[1.5rem] font-bold text-ot-text">{title}</h2>
-          <button onClick={handleRefresh}>
-            <RefreshCw
-              size={20}
-              className="text-ot-text hover:text-ot-gray-600"
-            />
-          </button>
+          {onRefresh && (
+            <button onClick={handleRefresh}>
+              <RefreshCw
+                size={20}
+                className="text-ot-text hover:text-ot-gray-600"
+              />
+            </button>
+          )}
         </div>
         <div className="flex gap-2">
-          {Array.from({
-            length: Math.ceil(resolvedCount / itemsPerScroll),
-          }).map((_, idx) => (
+          {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
-              onClick={() => {
-                const newIndex = Math.min(idx * itemsPerScroll, maxIndex);
-                setCurrentIndex(newIndex);
-                if (scrollRef.current) {
-                  scrollRef.current.scrollTo({
-                    left: newIndex * itemWidthWithGap,
-                    behavior: "smooth",
-                  });
-                }
-              }}
+              onClick={() => scrollToIndex(Math.min(idx * itemsPerScroll, maxIndex))}
               className={`transition-all ${
-                idx === Math.floor(currentIndex / itemsPerScroll)
+                idx === currentPage
                   ? "w-6 h-2 bg-ot-primary-500 rounded-full"
                   : "w-2 h-2 bg-ot-gray-600 rounded-full hover:bg-ot-gray-500"
               }`}

@@ -8,6 +8,7 @@ import { ScrollEdgeButton } from "@base-components";
 import { PlaylistItem } from "@shared/types";
 import { useMediaLink } from "@/shared/hooks";
 import { useInfiniteScroll } from "@shared/hooks";
+import { ViewProgressBar }  from "@entities/home/components";
 
 interface RecentContentListProps {
   items: PlaylistItem[];
@@ -138,6 +139,12 @@ export default function RecentContentList({
                     </span>
                   </div>
                 )}
+                <div className="absolute bottom-0 left-0 w-full">
+                  <ViewProgressBar
+                    duration={item.duration}
+                    positionSec={item.positionSec}
+                  />
+                </div>
               </div>
             </div>
           </Link>
