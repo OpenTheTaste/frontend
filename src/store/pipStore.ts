@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 interface PipState {
   isPip: boolean;
@@ -10,14 +11,20 @@ interface PipState {
   setCurrentTime: (time: number) => void;
 }
 
-export const usePipStore = create<PipState>((set) => ({
-  isPip: false,
-  src: "",
-  mediaId: null,
-  currentTime: 0,
-  enterPip: (src, mediaId, currentTime) => {
-    set({ isPip: true, src, mediaId, currentTime });
-  },
-  exitPip: () => set({ isPip: false, src: "", mediaId: null }),
-  setCurrentTime: (time) => set({ currentTime: time }),
-}));
+export const usePipStore = create<PipState>()(
+  devtools(
+    (set) => ({
+      isPip: false,
+      src: "",
+      mediaId: null,
+      currentTime: 0,
+      enterPip: (src, mediaId, currentTime) =>
+        set({ isPip: true, src, mediaId, currentTime }, false, "enterPip"),
+      exitPip: () =>
+        set({ isPip: false, src: "", mediaId: null }, false, "exitPip"),
+      setCurrentTime: (time) =>
+        set({ currentTime: time }, false, "setCurrentTime"),
+    }),
+    { name: "PipStore" },
+  ),
+);
