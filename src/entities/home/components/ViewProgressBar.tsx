@@ -12,9 +12,9 @@ export default function ViewProgressBar({
   const progress = Math.min(positionSec / duration, 1) * 100;
 
   return (
-    <div className="h-1 w-full bg-white/30">
+    <div className="h-1 w-full bg-ot-gray-800">
       <div
-        className="h-full bg-red-500"
+        className="h-full bg-ot-primary-500"
         style={{ width: `${progress}%` }}
       />
     </div>
