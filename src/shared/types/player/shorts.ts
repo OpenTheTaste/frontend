@@ -6,7 +6,7 @@ export interface ContentLink {
 }
 
 export interface ShortsData {
-  id: string;
+  id: number;
   src: string;
   contentLink: ContentLink;
 }

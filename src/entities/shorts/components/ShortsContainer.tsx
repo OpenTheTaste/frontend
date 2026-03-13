@@ -5,6 +5,8 @@ import { ShortsPlayer } from "@/entities/shorts/components/ShortsPlayer";
 import { ShortsInformation } from "@/entities/shorts/components/ShortsInformation";
 import { ShortsActionButtons } from "@/entities/shorts/components/ShortsActionButtons";
 import { ShortsContainerProps } from "@shared/types/player/shorts";
+import { postLikes } from "@entities/likes/api";
+import { toggleBookmark } from "@entities/bookmark/api/toggleBookmark";
 
 export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
@@ -21,12 +23,22 @@ export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
     window.location.href = currentShorts.contentLink.url;
   };
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async () => {
     setIsLiked((prev) => !prev);
+    try {
+      await postLikes(currentShorts.id);
+    } catch {
+      setIsLiked((prev) => !prev);
+    }
   };
 
-  const handleBookmarkClick = () => {
+  const handleBookmarkClick = async () => {
     setIsBookmarked((prev) => !prev);
+    try {
+      await toggleBookmark({ mediaId: currentShorts.id });
+    } catch {
+      setIsBookmarked((prev) => !prev);
+    }
   };
 
   return (

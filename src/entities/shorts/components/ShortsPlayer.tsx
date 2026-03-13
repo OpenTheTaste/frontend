@@ -6,7 +6,7 @@ import { useHls } from "@entities/player/hooks";
 
 interface ShortsPlayerProps {
   src: string;
-  shortsId: string;
+  shortsId: number;
   onNextShorts: () => void;
 }
 
