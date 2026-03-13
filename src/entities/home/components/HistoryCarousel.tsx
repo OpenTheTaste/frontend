@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
-import ViewProgressBar from "@entities/home/components/ViewProgressBar";
+import { ViewProgressBar } from "@entities/home/components";
 import { useHistoryList } from "@entities/home/hooks";
 import { useMemberProfile } from "@entities/profile/hooks";
 import { useMediaLink } from "@shared/hooks";

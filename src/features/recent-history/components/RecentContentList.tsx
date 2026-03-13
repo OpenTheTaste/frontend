@@ -8,7 +8,7 @@ import { ScrollEdgeButton } from "@base-components";
 import { PlaylistItem } from "@shared/types";
 import { useMediaLink } from "@/shared/hooks";
 import { useInfiniteScroll } from "@shared/hooks";
-import ViewProgressBar from "@entities/home/components/ViewProgressBar";
+import { ViewProgressBar }  from "@entities/home/components";
 
 interface RecentContentListProps {
   items: PlaylistItem[];
