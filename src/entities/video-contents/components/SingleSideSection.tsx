@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAutoPlayStore } from "@store";
 import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
 import {
@@ -43,6 +44,14 @@ export default function SingleSideSection({
     fetchNextPage,
   });
   const { getMediaHref } = useMediaLink();
+
+  // playlist를 전역상태에 저장
+  const { setQueue } = useAutoPlayStore();
+  useEffect(() => {
+    if (items.length > 0) {
+      setQueue(items, mediaId, source.type);
+    }
+  }, [items.length, setQueue]);
 
   return (
     <div className="w-full max-w-134 shrink-0">

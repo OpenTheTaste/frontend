@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAutoPlayStore } from "@store";
 import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
@@ -39,6 +40,14 @@ export default function EpisodeSideSection({
   const otherEpisodes = episodes.filter(
     (ep) => ep.mediaId !== currentEpisodeId,
   );
+
+  const { setQueue } = useAutoPlayStore();
+
+  useEffect(() => {
+    if (episodes.length > 0) {
+      setQueue(episodes, currentEpisodeId);
+    }
+  }, [episodes.length, setQueue]);
 
   return (
     <div className="w-full max-w-134 shrink-0">

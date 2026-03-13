@@ -35,7 +35,8 @@ export const useAutoPlayStore = create<AutoPlayStore>()(
         return queue[idx + 1] ?? null;
       },
 
-      clear: () => set({ queue: [], currentMediaId: null }, false, "clear"),
+      clear: () =>
+        set({ queue: [], currentMediaId: null, source: null }, false, "clear"),
     }),
     { name: "AutoPlayStore", store: "AutoPlayStore", enabled: true },
   ),

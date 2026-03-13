@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { usePipStore } from "@store";
+import { useAutoPlayStore, usePipStore } from "@store";
 import type { Level } from "hls.js";
 import {
   ArrowLeft,
@@ -19,12 +19,13 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { SettingModal } from "@features/player/components";
-import { useHideControls, useHls } from "@entities/player/hooks";
-import { usePlayback } from "@entities/player/hooks";
+import { AutoPlayNextBanner, SettingModal } from "@features/player/components";
+import { playbackApi } from "@entities/player/api";
+import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
-import { playbackApi } from "@/entities/player/api";
+
+export const AUTO_PLAY_THRESHOLD = 0.95; // 영상길이 대 현재재생길이에 대한 비율 상수
 
 interface VideoPlayerProps {
   mediaId: number;
@@ -60,7 +61,10 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   const [currentTime, setCurrentTime] = useState<number>(0); // 현재 시간
   const [duration, setDuration] = useState<number>(0); // 영상 길이
 
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // 전체화면 상태
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  const [showNextBanner, setShowNextBanner] = useState<boolean>(false);
+  const showNextBannerRef = useRef(false);
 
   const {
     enterPip,
@@ -68,12 +72,32 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     isPip,
     currentTime: pipCurrentTime,
   } = usePipStore();
+  const { setQueue } = useAutoPlayStore();
+
+  // 다음 재생 영상 호출
+  const nextMedia = useAutoPlayStore((state) => {
+    const idx = state.queue.findIndex(
+      (item) => item.mediaId === state.currentMediaId,
+    );
+    return state.queue[idx + 1] ?? null;
+  });
+
   const startTime = isPip ? pipCurrentTime : (data?.positionSec ?? 0);
 
   const handleTimeUpdate = useCallback(() => {
     if (videoRef.current) {
       setCurrentTime(videoRef.current.currentTime);
       currentTimeRef.current = videoRef.current.currentTime;
+
+      const { currentTime, duration } = videoRef.current;
+      if (
+        duration > 0 &&
+        currentTime / duration >= AUTO_PLAY_THRESHOLD &&
+        !showNextBannerRef.current
+      ) {
+        showNextBannerRef.current = true;
+        setShowNextBanner(true);
+      }
     }
   }, []);
 
@@ -290,7 +314,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
   };
 
-  // 뒤로 가기
   const handleBack = async () => {
     isSavedRef.current = true;
     if (videoRef.current && !videoRef.current.paused) {
@@ -313,7 +336,15 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     router.back();
   };
 
-  // 이어보기 api
+  const handleNextConfirm = useCallback(() => {
+    if (!nextMedia) return;
+    showNextBannerRef.current = false;
+    setShowNextBanner(false);
+    isSavedRef.current = true;
+    setQueue(useAutoPlayStore.getState().queue, nextMedia.mediaId);
+    router.push(`/player/${nextMedia.mediaId}`);
+  }, [nextMedia, router, setQueue]);
+
   usePlayback({
     mediaId,
     getCurrentPostionSec: () => videoRef.current?.currentTime ?? 0,
@@ -330,6 +361,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   }, [mediaId]);
 
   if (isLoading) return <div className="fixed inset-0 bg-black" />;
+
   return (
     <div
       ref={containerRef}
@@ -354,7 +386,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
         </button>
       </div>
 
-      {/* 비디오 영역 */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative flex h-full max-h-screen w-full max-w-screen items-center justify-center">
           <video
@@ -366,11 +397,22 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
         </div>
       </div>
 
-      {/* 컨트롤러 */}
+      {showNextBanner && nextMedia && (
+        <AutoPlayNextBanner
+          type={data?.seriesMediaId ? "episode" : "contents"}
+          nextMedia={nextMedia}
+          onConfirm={handleNextConfirm}
+          onCancel={() => {
+            showNextBannerRef.current = false;
+            setShowNextBanner(false);
+          }}
+          showControls={showControls}
+        />
+      )}
+
       <div
         className={`text-ot-text fixed right-0 bottom-0 left-0 z-10 bg-linear-to-t from-black/40 via-black/20 to-transparent p-3 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
       >
-        {/* Seek bar */}
         <div className="flex items-center gap-3">
           <p className="min-w-13 text-right text-sm whitespace-nowrap">
             {formatTime(currentTime)}
@@ -387,9 +429,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
             {formatTime(duration)}
           </p>
         </div>
-        {/* 컨트롤 버튼들 */}
         <div className="mt-2 flex justify-between px-2">
-          {/* 좌측: 재생, 감기, 음향 */}
           <div className="flex items-center gap-5">
             <button onClick={togglePlay}>
               {isPlaying ? (
@@ -405,7 +445,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
               <FastForward className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
             </button>
 
-            {/* 음향 조절 */}
             <div className="group relative flex items-center">
               <div className="bg-ot-gray-800 invisible absolute bottom-full left-1/2 mb-2 -translate-x-1/2 flex-col items-center rounded-lg p-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                 <input
@@ -435,9 +474,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
             </div>
           </div>
 
-          {/* 우측: 화질, 배속, 전체화면 */}
           <div className="flex items-center gap-5">
-            {/* 화질 */}
             <div ref={levelModalRef} className="relative flex items-center">
               <button
                 onClick={() => {
@@ -456,7 +493,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
               />
             </div>
 
-            {/* 배속 */}
             <div ref={speedModalRef} className="relative flex items-center">
               <button
                 onClick={() => {
@@ -476,7 +512,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
               />
             </div>
 
-            {/* 전체화면 */}
             <button onClick={toggleFullscreen}>
               {isFullscreen ? (
                 <Minimize className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />

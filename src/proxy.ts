@@ -15,8 +15,25 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // FIXME: pr시에는 이걸 사용
+  // if (isDev) {
+  //   return NextResponse.next();
+  // }
+
   if (isDev) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+
+    const keyPairId = process.env.CLOUDFRONT_KEY_PAIR_ID;
+    const policy = process.env.CLOUDFRONT_POLICY;
+    const signature = process.env.CLOUDFRONT_SIGNATURE;
+
+    if (keyPairId && policy && signature) {
+      response.cookies.set("CloudFront-Key-Pair-Id", keyPairId, { path: "/" });
+      response.cookies.set("CloudFront-Policy", policy, { path: "/" });
+      response.cookies.set("CloudFront-Signature", signature, { path: "/" });
+    }
+
+    return response;
   }
 
   const accessToken = request.cookies.get("accessToken")?.value;
