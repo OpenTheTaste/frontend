@@ -18,7 +18,7 @@ export default function Pagination({ totalPage, currentPage, setPage }: Paginati
         {/* 이전 페이지 < 버튼 */}
         <button
           onClick={() => setPage(currentPage - 1)}
-          disabled={currentPage === 0}
+          className={`${currentPage === 0 ? "text-ot-gray-800 cursor-default" : "text-ot-text cursor-pointer"}`}
         >
           <ChevronLeft size={20}/>
         </button>
@@ -36,7 +36,7 @@ export default function Pagination({ totalPage, currentPage, setPage }: Paginati
         {/* 이후 페이지 > 버튼 */}
         <button
           onClick={() => setPage(currentPage + 1)}
-          disabled={currentPage === totalPage - 1}
+          className={`${totalPage === 0 || currentPage === totalPage - 1 ? "text-ot-gray-800 cursor-default" : "text-ot-text cursor-pointer"}`}
         >
           <ChevronRight size={20} />
         </button>
