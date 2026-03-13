@@ -63,9 +63,13 @@ export default function EditFavoriteTagsUI({ nickname, initialTagIds }: EditFavo
     : [];
 
   const handleToggleTag = (tagId: number) => {
-    setSelectedTagIds((prev) =>
-      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId],
-    );
+    setSelectedTagIds((prev) => {
+      if (!prev.includes(tagId) && prev.length >= 5) {
+        alert("태그는 최대 5개까지만 선택할 수 있습니다.");
+        return prev;
+      }
+      return prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId];
+    });
   };
 
   const handleClearAll = () => {

@@ -43,6 +43,11 @@ export default function ContentInterest() {
 
   const handleToggleTag = (tagId: number) => {
     if (!selectedCategory) return;
+    const isSelected = (selectedTagIdsByCategory[selectedCategory.categoryId] ?? []).includes(tagId);
+    if (!isSelected && totalSelectedTags >= 5) {
+      alert("태그는 최대 5개까지만 선택할 수 있습니다.");
+      return;
+    }
     setSelectedTagIdsByCategory((prev) => {
       const current = prev[selectedCategory.categoryId] ?? [];
       return {
