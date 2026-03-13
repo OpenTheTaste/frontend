@@ -8,6 +8,8 @@ export interface ContentLink {
 export interface ShortsData {
   id: number;
   src: string;
+  isLiked: boolean;
+  isBookmarked: boolean;
   contentLink: ContentLink;
 }
 
