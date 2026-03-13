@@ -35,9 +35,15 @@ export const ShortsPlayer = ({
     }
   }, [src]);
 
+  const isScrollingRef = useRef(false);
+
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    if (e.deltaY > 0) {
+    if (e.deltaY > 0 && !isScrollingRef.current) {
+      isScrollingRef.current = true;
       onNextShorts();
+      setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 800);
     }
   };
 
