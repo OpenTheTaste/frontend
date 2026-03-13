@@ -78,12 +78,14 @@ export default function ContentCarousel<T = undefined>({
       <div className="flex items-center justify-between mb-5">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-[1.5rem] font-bold text-ot-text">{title}</h2>
-          <button onClick={handleRefresh}>
-            <RefreshCw
-              size={20}
-              className="text-ot-text hover:text-ot-gray-600"
-            />
-          </button>
+          {onRefresh && (
+            <button onClick={handleRefresh}>
+              <RefreshCw
+                size={20}
+                className="text-ot-text hover:text-ot-gray-600"
+              />
+            </button>
+          )}
         </div>
         <div className="flex gap-2">
           {Array.from({

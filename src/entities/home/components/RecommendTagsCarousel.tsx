@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
@@ -10,8 +9,7 @@ import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@/shared/types";
 
 export default function RecommendTagsCarousel({ index }: { index: number }) {
-  const [page, setPage] = useState(0);
-  const { data } = useTagsList({ page, size: 20, index });
+  const { data } = useTagsList({ page: 0, size: 20, index });
   const { data: profile } = useMemberProfile();
   const items = data?.medias.dataList ?? [];
   const { getMediaHref } = useMediaLink();
@@ -27,7 +25,7 @@ export default function RecommendTagsCarousel({ index }: { index: number }) {
       itemWidth={180}
       itemHeight={240}
       items={items}
-      onRefresh={setPage}
+
       renderItem={(item: PlaylistItem) => (
         <Link
           href={getMediaHref(item.mediaId, item.mediaType, {
