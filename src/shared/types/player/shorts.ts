@@ -5,11 +5,15 @@ export interface ContentLink {
   date: string;
 }
 
+import { MediaType } from "@shared/types";
+
 export interface ShortsData {
   id: number;
   src: string;
   isLiked: boolean;
   isBookmarked: boolean;
+  originMediaId: number;
+  mediaType: MediaType;
   contentLink: ContentLink;
 }
 

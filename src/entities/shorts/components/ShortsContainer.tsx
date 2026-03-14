@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ShortsPlayer } from "@/entities/shorts/components/ShortsPlayer";
 import { ShortsInformation } from "@/entities/shorts/components/ShortsInformation";
 import { ShortsActionButtons } from "@/entities/shorts/components/ShortsActionButtons";
@@ -8,8 +9,16 @@ import { ShortsData } from "@shared/types/player/shorts";
 import { postLikes } from "@entities/likes/api";
 import { toggleBookmark } from "@entities/bookmark/api/toggleBookmark";
 import { getShortLists } from "@entities/shorts/api/getShortLists";
+import { useMediaLink } from "@shared/hooks/useMediaLink";
+import { MediaType } from "@shared/types";
 
-export const ShortsContainer = () => {
+interface ShortsContainerProps {
+  initialShortsId?: number;
+}
+
+export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
+  const router = useRouter();
+  const { getMediaHref } = useMediaLink();
   const [shortsList, setShortsList] = useState<ShortsData[]>([]);
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
   const [likedToggles, setLikedToggles] = useState<Set<number>>(new Set());
@@ -17,26 +26,38 @@ export const ShortsContainer = () => {
 
   useEffect(() => {
     getShortLists({ page: 0, size: 10 }).then(({ dataList }) => {
-      setShortsList(
-        dataList.map((item) => ({
-          id: item.shortFormId,
-          src: item.shortMasterPlaylistUrl,
-          isLiked: item.isLiked,
-          isBookmarked: item.isBookmarked,
-          contentLink: {
-            title: item.title,
-            url: `/contents/${item.originMediaId}`,
-            editor: item.editorName,
-            date: item.uploadDate.slice(0, 10).replace(/-/g, ".") + ".",
-          },
-        }))
-      );
+      const list = dataList.map((item) => ({
+        id: item.shortFormId,
+        src: item.shortMasterPlaylistUrl,
+        isLiked: item.isLiked,
+        isBookmarked: item.isBookmarked,
+        originMediaId: item.originMediaId,
+        mediaType: item.mediaType as MediaType,
+        contentLink: {
+          title: item.title,
+          url: `/contents/${item.originMediaId}`,
+          editor: item.editorName,
+          date: item.uploadDate.slice(0, 10).replace(/-/g, ".") + ".",
+        },
+      }));
+
+      setShortsList(list);
+
+      if (initialShortsId) {
+        const idx = list.findIndex((s) => s.id === initialShortsId);
+        if (idx !== -1) setCurrentShortsIndex(idx);
+      }
     });
-  }, []);
+  }, [initialShortsId]);
 
-  if (shortsList.length === 0) return null;
+  const currentShorts = shortsList[currentShortsIndex];
 
-  const currentShorts = shortsList[currentShortsIndex] || shortsList[0];
+  useEffect(() => {
+    if (!currentShorts) return;
+    window.history.replaceState(null, "", `/shorts/${currentShorts.id}`);
+  }, [currentShorts]);
+
+  if (!currentShorts) return null;
 
   const isLiked = currentShorts.isLiked !== likedToggles.has(currentShorts.id);
   const isBookmarked =
@@ -46,8 +67,14 @@ export const ShortsContainer = () => {
     setCurrentShortsIndex((prev) => (prev + 1) % shortsList.length);
   };
 
+  const handlePrevShorts = () => {
+    setCurrentShortsIndex((prev) =>
+      prev === 0 ? shortsList.length - 1 : prev - 1
+    );
+  };
+
   const handleContentLinkClick = () => {
-    window.location.href = currentShorts.contentLink.url;
+    router.push(getMediaHref(currentShorts.originMediaId, currentShorts.mediaType));
   };
 
   const toggleLiked = (id: number) =>
@@ -99,6 +126,7 @@ export const ShortsContainer = () => {
             src={currentShorts.src}
             shortsId={currentShorts.id}
             onNextShorts={handleNextShorts}
+            onPrevShorts={handlePrevShorts}
           />
         </div>
 

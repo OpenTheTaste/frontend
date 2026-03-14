@@ -8,12 +8,14 @@ interface ShortsPlayerProps {
   src: string;
   shortsId: number;
   onNextShorts: () => void;
+  onPrevShorts: () => void;
 }
 
 export const ShortsPlayer = ({
   src,
   shortsId,
   onNextShorts,
+  onPrevShorts,
 }: ShortsPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,9 +40,13 @@ export const ShortsPlayer = ({
   const isScrollingRef = useRef(false);
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    if (e.deltaY > 0 && !isScrollingRef.current) {
+    if (!isScrollingRef.current) {
       isScrollingRef.current = true;
-      onNextShorts();
+      if (e.deltaY > 0) {
+        onNextShorts();
+      } else if (e.deltaY < 0) {
+        onPrevShorts();
+      }
       setTimeout(() => {
         isScrollingRef.current = false;
       }, 800);
@@ -64,6 +70,8 @@ export const ShortsPlayer = ({
 
     if (diff > 50) {
       onNextShorts();
+    } else if (diff < -50) {
+      onPrevShorts();
     }
   };
 
