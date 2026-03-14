@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { PlaylistSource } from "@shared/types";
 
 interface AutoPlayMedia {
   mediaId: number;
@@ -10,11 +11,11 @@ interface AutoPlayMedia {
 interface AutoPlayStore {
   queue: AutoPlayMedia[];
   currentMediaId: number | null;
-  source: string | null; // playlist 종류 들어옴
+  source: PlaylistSource | null; // playlist 종류 들어옴
   setQueue: (
     queue: AutoPlayMedia[],
     currentMediaId: number,
-    source?: string,
+    source?: PlaylistSource,
   ) => void; // 현재 저장되어있는 콘텐츠 리스트와 mediaId 저장
   getNextMedia: () => AutoPlayMedia | null;
   clear: () => void;
@@ -25,6 +26,7 @@ export const useAutoPlayStore = create<AutoPlayStore>()(
     (set, get) => ({
       queue: [],
       currentMediaId: null,
+      source: null,
 
       setQueue: (queue, currentMediaId, source) =>
         set({ queue, currentMediaId, source }, false, "setQueue"),

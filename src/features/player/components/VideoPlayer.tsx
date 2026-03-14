@@ -72,7 +72,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     isPip,
     currentTime: pipCurrentTime,
   } = usePipStore();
-  const { setQueue } = useAutoPlayStore();
+  const { setQueue, source } = useAutoPlayStore();
 
   // 다음 재생 영상 호출
   const nextMedia = useAutoPlayStore((state) => {
@@ -315,12 +315,32 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   };
 
   const handleBack = async () => {
+    console.log("source:", source);
+    console.log("data:", data);
     isSavedRef.current = true;
     if (videoRef.current && !videoRef.current.paused) {
       videoRef.current.pause();
     }
     await playbackApi(mediaId, currentTimeRef.current).catch(() => {});
-    router.back();
+
+    if (data?.seriesMediaId) {
+      router.push(
+        `/contents/${data.seriesMediaId}/episode/${mediaId}?type=SERIES`,
+      );
+    } else if (source) {
+      // 단편인 경우 뒤에 playlist 를 쿼리스트링에 붙여서 router 이동
+      const params = new URLSearchParams({
+        type: "CONTENTS",
+        playlist: source.type,
+      });
+      if (source.type === "topTag" && "index" in source) {
+        params.set("index", String(source.index));
+      } // topTag 플리인 경우, index도 붙여서 이동
+      console.log("이동 URL:", `/contents/${mediaId}?${params.toString()}`);
+      router.push(`/contents/${mediaId}?${params.toString()}`);
+    } else {
+      router.push(`/contents/${mediaId}?type=CONTENTS`);
+    }
   };
 
   // pip
@@ -341,7 +361,8 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     showNextBannerRef.current = false;
     setShowNextBanner(false);
     isSavedRef.current = true;
-    setQueue(useAutoPlayStore.getState().queue, nextMedia.mediaId);
+    const { queue, source } = useAutoPlayStore.getState();
+    setQueue(queue, nextMedia.mediaId, source ?? undefined);
     router.push(`/player/${nextMedia.mediaId}`);
   }, [nextMedia, router, setQueue]);
 

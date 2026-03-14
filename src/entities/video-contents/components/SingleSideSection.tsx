@@ -49,7 +49,7 @@ export default function SingleSideSection({
   const { setQueue } = useAutoPlayStore();
   useEffect(() => {
     if (items.length > 0) {
-      setQueue(items, mediaId, source.type);
+      setQueue(items, mediaId, source);
     }
   }, [items.length, setQueue]);
 
