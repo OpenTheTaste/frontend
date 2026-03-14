@@ -8,13 +8,14 @@ import { ChevronDown, Play } from "lucide-react";
 import { Badge, CommonButton, InteractionButton } from "@base-components";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
 import { useLikes } from "@entities/likes/hooks";
+import { watchHistoryApi } from "@entities/player/api";
 import {
   ContentsDetailReponse,
   SeriesDetailReponse,
 } from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
-import { MediaType } from "@/shared/types";
+import { MediaType } from "@shared/types";
 
 interface ContentsMainSectionProps {
   content: ContentsDetailReponse | SeriesDetailReponse;
@@ -52,9 +53,10 @@ export default function ContentsMainSection({
 
   const router = useRouter();
 
-  const handlePlay = () => {
+  const handlePlay = async () => {
     if (mediaType === "CONTENTS") {
       router.push(`/player/${mediaId}`);
+      await watchHistoryApi(mediaId).catch(() => {});
     } else {
       const resumeId =
         "resumeMediaId" in content ? content.resumeMediaId : null;
@@ -63,9 +65,9 @@ export default function ContentsMainSection({
 
       if (!targetId) return;
       router.push(`/contents/${mediaId}/episode/${targetId}?type=SERIES`);
+      await watchHistoryApi(targetId).catch(() => {});
     }
   };
-
   const truncatedDescription = (text: string) =>
     text.length <= DESCRIPTION_MAX_LENGTH
       ? text

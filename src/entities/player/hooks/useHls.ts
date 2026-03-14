@@ -8,12 +8,19 @@ interface UseHlsProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
   onLevels?: (levels: Level[]) => void;
   startTime?: number;
+  onReady?: () => void;
 }
 
 const toProxySrc = (src: string) =>
   src.replace(process.env.NEXT_PUBLIC_CDN_BASE_URL!, "/cdn-proxy");
 
-export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
+export const useHls = ({
+  src,
+  videoRef,
+  onLevels,
+  startTime,
+  onReady,
+}: UseHlsProps) => {
   const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
@@ -36,6 +43,7 @@ export const useHls = ({ src, videoRef, onLevels, startTime }: UseHlsProps) => {
         if (startTime && videoRef.current) {
           videoRef.current.currentTime = startTime;
         }
+        if (onReady) onReady();
       });
 
       return () => {

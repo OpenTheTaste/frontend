@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { usePipStore } from "@store";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useAutoPlayStore, usePipStore } from "@store";
 import type { Level } from "hls.js";
 import {
   ArrowLeft,
@@ -19,10 +19,13 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { SettingModal } from "@features/player/components";
-import { useHideControls, useHls } from "@entities/player/hooks";
+import { AutoPlayNextBanner, SettingModal } from "@features/player/components";
+import { playbackApi, watchHistoryApi } from "@entities/player/api";
+import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
+
+export const AUTO_PLAY_THRESHOLD = 0.95; // 영상길이 대 현재재생길이에 대한 비율 상수
 
 interface VideoPlayerProps {
   mediaId: number;
@@ -36,6 +39,8 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const levelModalRef = useRef<HTMLDivElement>(null); // 화질 모달
   const speedModalRef = useRef<HTMLDivElement>(null); // 배속 모달
+  const currentTimeRef = useRef(0);
+  const isSavedRef = useRef(false);
 
   // 화질 선택 관련 state
   const [isOpenLevels, setIsOpenLevels] = useState<boolean>(false);
@@ -56,7 +61,10 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   const [currentTime, setCurrentTime] = useState<number>(0); // 현재 시간
   const [duration, setDuration] = useState<number>(0); // 영상 길이
 
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false); // 전체화면 상태
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  const [showNextBanner, setShowNextBanner] = useState<boolean>(false);
+  const showNextBannerRef = useRef(false);
 
   const {
     enterPip,
@@ -64,15 +72,67 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     isPip,
     currentTime: pipCurrentTime,
   } = usePipStore();
+  const { setQueue, source } = useAutoPlayStore();
 
-  const initialResumeTimeRef = useRef(isPip ? pipCurrentTime : 0);
+  // 다음 재생 영상 호출
+  const nextMedia = useAutoPlayStore((state) => {
+    const idx = state.queue.findIndex(
+      (item) => item.mediaId === state.currentMediaId,
+    );
+    return state.queue[idx + 1] ?? null;
+  });
+
+  const startTime = isPip ? pipCurrentTime : (data?.positionSec ?? 0);
+
+  const handleTimeUpdate = useCallback(() => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+      currentTimeRef.current = videoRef.current.currentTime;
+
+      const { currentTime, duration } = videoRef.current;
+      if (
+        duration > 0 &&
+        currentTime / duration >= AUTO_PLAY_THRESHOLD &&
+        !showNextBannerRef.current
+      ) {
+        showNextBannerRef.current = true;
+        setShowNextBanner(true);
+      }
+    }
+  }, []);
+
+  const handleLoadedMetadata = useCallback(() => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  const handlePlay = useCallback(() => setIsPlaying(true), []);
+  const handlePause = useCallback(() => setIsPlaying(false), []);
+
+  const attachVideoEvents = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.removeEventListener("timeupdate", handleTimeUpdate);
+    video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+    video.removeEventListener("play", handlePlay);
+    video.removeEventListener("pause", handlePause);
+
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
+  };
 
   // hls
   const hlsRef = useHls({
     src: data?.masterPlaylistUrl ?? "",
     videoRef,
     onLevels: setLevels,
-    startTime: initialResumeTimeRef.current,
+    startTime,
+    onReady: attachVideoEvents,
   });
 
   useEffect(() => {
@@ -99,11 +159,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     { label: "1.25x", value: 1.25, isActive: playbackRate === 1.25 },
   ];
 
-  // 마우스 움직임 감지
-  const handleMouseMove = () => {
-    resetHideControlsTimer();
-  };
-
   useEffect(() => {
     containerRef.current?.focus();
   }, []);
@@ -117,40 +172,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
-
-  // 이벤트 핸들러들
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-    }
-  };
-
-  const handlePlay = () => setIsPlaying(true);
-  const handlePause = () => setIsPlaying(false);
-
-  // video 이벤트 연결
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
-    video.addEventListener("play", handlePlay);
-    video.addEventListener("pause", handlePause);
-
-    return () => {
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      video.removeEventListener("play", handlePlay);
-      video.removeEventListener("pause", handlePause);
     };
   }, []);
 
@@ -271,42 +292,53 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
 
   // 키보드 단축키 핸들러
   const handleKeyboardShortcuts = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // 스페이스바: 재생/일시정지
     if (e.code === "Space") {
       e.preventDefault();
       togglePlay();
     }
-
-    // 왼쪽 화살표: 10초 뒤로
     if (e.code === "ArrowLeft") {
       e.preventDefault();
       rewind();
     }
-
-    // 오른쪽 화살표: 10초 앞으로
     if (e.code === "ArrowRight") {
       e.preventDefault();
       forward();
     }
-
-    // 위쪽 화살표: 볼륨 올리기
     if (e.code === "ArrowUp") {
       e.preventDefault();
       adjustVolume(volume + 0.1);
     }
-    // 아래쪽 화살표: 볼륨 줄이기
     if (e.code === "ArrowDown") {
       e.preventDefault();
       adjustVolume(volume - 0.1);
     }
   };
 
-  // 뒤로 가기
-  const handleBack = () => {
+  // 뒤로가기
+  const handleBack = async () => {
+    isSavedRef.current = true;
     if (videoRef.current && !videoRef.current.paused) {
       videoRef.current.pause();
     }
-    router.back();
+    await playbackApi(mediaId, currentTimeRef.current).catch(() => {});
+
+    if (data?.seriesMediaId) {
+      router.push(
+        `/contents/${data.seriesMediaId}/episode/${mediaId}?type=SERIES`,
+      );
+    } else if (source) {
+      // 단편인 경우 뒤에 playlist 를 쿼리스트링에 붙여서 router 이동
+      const params = new URLSearchParams({
+        type: "CONTENTS",
+        playlist: source.type,
+      });
+      if (source.type === "topTag" && "index" in source) {
+        params.set("index", String(source.index));
+      } // topTag 플리인 경우, index도 붙여서 이동
+      router.push(`/contents/${mediaId}?${params.toString()}`);
+    } else {
+      router.push(`/contents/${mediaId}?type=CONTENTS`);
+    }
   };
 
   // pip
@@ -315,16 +347,46 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     if (!video || !data?.masterPlaylistUrl) {
       return alert("pip 전환 중 에러가 발생했습니다. 다시 시도해주세요.");
     }
+    isSavedRef.current = true;
     video.pause();
-    enterPip(
-      data?.masterPlaylistUrl,
-      mediaId,
-      video.currentTime, // 현재 재생 시점 저장
-    );
+    await playbackApi(mediaId, video.currentTime).catch(() => {});
+    enterPip(data?.masterPlaylistUrl, mediaId, video.currentTime);
     router.back();
   };
 
+  const handleNextConfirm = useCallback(async () => {
+    if (!nextMedia) return;
+    showNextBannerRef.current = false;
+    setShowNextBanner(false);
+    isSavedRef.current = true;
+    const { queue, source } = useAutoPlayStore.getState();
+    setQueue(queue, nextMedia.mediaId, source ?? undefined);
+
+    if (nextMedia.mediaType === "SERIES") {
+      router.push(`/contents/${nextMedia.mediaId}?type=SERIES`);
+    } else {
+      await watchHistoryApi(nextMedia.mediaId).catch(() => {});
+      router.push(`/player/${nextMedia.mediaId}`);
+    }
+  }, [nextMedia, router, setQueue]);
+
+  usePlayback({
+    mediaId,
+    getCurrentPostionSec: () => videoRef.current?.currentTime ?? 0,
+    isPlaying,
+  });
+
+  // 플레이어 unmount 시 playback 저장 (+ 트랙패드 뒤로가기 포함)
+  useEffect(() => {
+    return () => {
+      if (isSavedRef.current) return;
+      if (currentTimeRef.current === 0) return;
+      playbackApi(mediaId, currentTimeRef.current).catch(() => {});
+    };
+  }, [mediaId]);
+
   if (isLoading) return <div className="fixed inset-0 bg-black" />;
+
   return (
     <div
       ref={containerRef}
@@ -349,7 +411,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
         </button>
       </div>
 
-      {/* 비디오 영역 */}
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="relative flex h-full max-h-screen w-full max-w-screen items-center justify-center">
           <video
@@ -361,11 +422,22 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
         </div>
       </div>
 
-      {/* 컨트롤러 */}
+      {showNextBanner && nextMedia && (
+        <AutoPlayNextBanner
+          type={data?.seriesMediaId ? "episode" : "contents"}
+          nextMedia={nextMedia}
+          onConfirm={handleNextConfirm}
+          onCancel={() => {
+            showNextBannerRef.current = false;
+            setShowNextBanner(false);
+          }}
+          showControls={showControls}
+        />
+      )}
+
       <div
         className={`text-ot-text fixed right-0 bottom-0 left-0 z-10 bg-linear-to-t from-black/40 via-black/20 to-transparent p-3 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
       >
-        {/* Seek bar */}
         <div className="flex items-center gap-3">
           <p className="min-w-13 text-right text-sm whitespace-nowrap">
             {formatTime(currentTime)}
@@ -382,9 +454,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
             {formatTime(duration)}
           </p>
         </div>
-        {/* 컨트롤 버튼들 */}
         <div className="mt-2 flex justify-between px-2">
-          {/* 좌측: 재생, 감기, 음향 */}
           <div className="flex items-center gap-5">
             <button onClick={togglePlay}>
               {isPlaying ? (
@@ -400,7 +470,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
               <FastForward className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
             </button>
 
-            {/* 음향 조절 */}
             <div className="group relative flex items-center">
               <div className="bg-ot-gray-800 invisible absolute bottom-full left-1/2 mb-2 -translate-x-1/2 flex-col items-center rounded-lg p-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                 <input
@@ -430,9 +499,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
             </div>
           </div>
 
-          {/* 우측: 화질, 배속, 전체화면 */}
           <div className="flex items-center gap-5">
-            {/* 화질 */}
             <div ref={levelModalRef} className="relative flex items-center">
               <button
                 onClick={() => {
@@ -451,7 +518,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
               />
             </div>
 
-            {/* 배속 */}
             <div ref={speedModalRef} className="relative flex items-center">
               <button
                 onClick={() => {
@@ -471,7 +537,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
               />
             </div>
 
-            {/* 전체화면 */}
             <button onClick={toggleFullscreen}>
               {isFullscreen ? (
                 <Minimize className="stroke-ot-text hover:stroke-ot-gray-600 h-8 w-8 cursor-pointer stroke-1" />
