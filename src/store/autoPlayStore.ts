@@ -35,6 +35,7 @@ export const useAutoPlayStore = create<AutoPlayStore>()(
       getNextMedia: () => {
         const { queue, currentMediaId } = get();
         const idx = queue.findIndex((item) => item.mediaId === currentMediaId);
+        if (idx < 0) return null;
         return queue[idx + 1] ?? null;
       },
 
