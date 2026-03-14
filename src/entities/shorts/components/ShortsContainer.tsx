@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShortsPlayer } from "@/entities/shorts/components/ShortsPlayer";
-import { ShortsInformation } from "@/entities/shorts/components/ShortsInformation";
-import { ShortsActionButtons } from "@/entities/shorts/components/ShortsActionButtons";
+import { ShortsPlayer } from "@/entities/shorts/components";
+import { ShortsInformation } from "@/entities/shorts/components";
+import { ShortsActionButtons } from "@/entities/shorts/components";
 import { ShortsData } from "@shared/types/player/shorts";
 import { postLikes } from "@entities/likes/api";
-import { toggleBookmark } from "@entities/bookmark/api/toggleBookmark";
-import { getShortLists } from "@entities/shorts/api/getShortLists";
-import { postShortsCta } from "@entities/shorts/api/postShortsCta";
-import { postShortsEvents } from "@entities/shorts/api/postShortsEvents";
-import { useMediaLink } from "@shared/hooks/useMediaLink";
+import { toggleBookmark } from "@entities/bookmark/api";
+import { getShortLists } from "@entities/shorts/api";
+import { postShortsCta } from "@entities/shorts/api";
+import { postShortsEvents } from "@entities/shorts/api";
+import { useMediaLink } from "@shared/hooks";
 import { MediaType } from "@shared/types";
 
 interface ShortsContainerProps {
