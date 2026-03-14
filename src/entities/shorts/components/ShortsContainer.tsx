@@ -9,6 +9,7 @@ import { ShortsData } from "@shared/types/player/shorts";
 import { postLikes } from "@entities/likes/api";
 import { toggleBookmark } from "@entities/bookmark/api/toggleBookmark";
 import { getShortLists } from "@entities/shorts/api/getShortLists";
+import { postShortsCta } from "@entities/shorts/api/postShortsCta";
 import { useMediaLink } from "@shared/hooks/useMediaLink";
 import { MediaType } from "@shared/types";
 
@@ -73,7 +74,8 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     );
   };
 
-  const handleContentLinkClick = () => {
+  const handleContentLinkClick = async () => {
+    await postShortsCta(currentShorts.id);
     router.push(getMediaHref(currentShorts.originMediaId, currentShorts.mediaType));
   };
 
