@@ -1,32 +1,127 @@
 "use client";
 
-import { useState } from "react";
-import { ShortsPlayer } from "@/entities/shorts/components/ShortsPlayer";
-import { ShortsInformation } from "@/entities/shorts/components/ShortsInformation";
-import { ShortsActionButtons } from "@/entities/shorts/components/ShortsActionButtons";
-import { ShortsContainerProps } from "@shared/types/player/shorts";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ShortsPlayer } from "@/entities/shorts/components";
+import { ShortsInformation } from "@/entities/shorts/components";
+import { ShortsActionButtons } from "@/entities/shorts/components";
+import { ShortsData } from "@shared/types/player/shorts";
+import { postLikes } from "@entities/likes/api";
+import { toggleBookmark } from "@entities/bookmark/api";
+import {
+  postShortsCta,
+  postShortsEvents,
+  getShortLists,
+ } from "@entities/shorts/api";
+import { useMediaLink } from "@shared/hooks";
+import { MediaType } from "@shared/types";
 
-export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
+interface ShortsContainerProps {
+  initialShortsId?: number;
+}
+
+export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
+  const router = useRouter();
+  const { getMediaHref } = useMediaLink();
+  const [shortsList, setShortsList] = useState<ShortsData[]>([]);
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [likedToggles, setLikedToggles] = useState<Set<number>>(new Set());
+  const [bookmarkToggles, setBookmarkToggles] = useState<Set<number>>(new Set());
 
-  const currentShorts = initialData[currentShortsIndex] || initialData[0];
+  useEffect(() => {
+    getShortLists({ page: 0, size: 10 }).then(({ dataList }) => {
+      const list = dataList.map((item) => ({
+        id: item.shortFormId,
+        src: item.shortMasterPlaylistUrl,
+        isLiked: item.isLiked,
+        isBookmarked: item.isBookmarked,
+        originMediaId: item.originMediaId,
+        mediaType: item.mediaType as MediaType,
+        contentLink: {
+          title: item.title,
+          url: `/contents/${item.originMediaId}`,
+          editor: item.editorName,
+          date: item.uploadDate.slice(0, 10).replace(/-/g, ".") + ".",
+        },
+      }));
+
+      setShortsList(list);
+
+      if (initialShortsId) {
+        const idx = list.findIndex((s) => s.id === initialShortsId);
+        if (idx !== -1) setCurrentShortsIndex(idx);
+      }
+    });
+  }, [initialShortsId]);
+
+  const currentShorts = shortsList[currentShortsIndex];
+
+  useEffect(() => {
+    if (!currentShorts) return;
+    window.history.replaceState(null, "", `/shorts/${currentShorts.id}`);
+  }, [currentShorts]);
+
+  useEffect(() => {
+    if (!currentShorts) return;
+    const timer = setTimeout(() => {
+      postShortsEvents(currentShorts.id);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [currentShorts]);
+
+  if (!currentShorts) return null;
+
+  const isLiked = currentShorts.isLiked !== likedToggles.has(currentShorts.id);
+  const isBookmarked =
+    currentShorts.isBookmarked !== bookmarkToggles.has(currentShorts.id);
 
   const handleNextShorts = () => {
-    setCurrentShortsIndex((prev) => (prev + 1) % initialData.length);
+    setCurrentShortsIndex((prev) => (prev + 1) % shortsList.length);
+  };
+
+  const handlePrevShorts = () => {
+    setCurrentShortsIndex((prev) =>
+      prev === 0 ? shortsList.length - 1 : prev - 1
+    );
   };
 
   const handleContentLinkClick = () => {
-    window.location.href = currentShorts.contentLink.url;
+    postShortsCta(currentShorts.id);
+    router.push(getMediaHref(currentShorts.originMediaId, currentShorts.mediaType));
   };
 
-  const handleLikeClick = () => {
-    setIsLiked((prev) => !prev);
+  const toggleLiked = (id: number) =>
+    setLikedToggles((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  const toggleBookmarked = (id: number) =>
+    setBookmarkToggles((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  const handleLikeClick = async () => {
+    toggleLiked(currentShorts.id);
+    try {
+      await postLikes(currentShorts.id);
+    } catch {
+      toggleLiked(currentShorts.id);
+    }
   };
 
-  const handleBookmarkClick = () => {
-    setIsBookmarked((prev) => !prev);
+  const handleBookmarkClick = async () => {
+    toggleBookmarked(currentShorts.id);
+    try {
+      await toggleBookmark({ mediaId: currentShorts.id });
+    } catch {
+      toggleBookmarked(currentShorts.id);
+    }
   };
 
   return (
@@ -44,6 +139,7 @@ export const ShortsContainer = ({ initialData }: ShortsContainerProps) => {
             src={currentShorts.src}
             shortsId={currentShorts.id}
             onNextShorts={handleNextShorts}
+            onPrevShorts={handlePrevShorts}
           />
         </div>
 
