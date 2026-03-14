@@ -20,7 +20,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { AutoPlayNextBanner, SettingModal } from "@features/player/components";
-import { playbackApi } from "@entities/player/api";
+import { playbackApi, watchHistoryApi } from "@entities/player/api";
 import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
@@ -356,13 +356,14 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     router.back();
   };
 
-  const handleNextConfirm = useCallback(() => {
+  const handleNextConfirm = useCallback(async () => {
     if (!nextMedia) return;
     showNextBannerRef.current = false;
     setShowNextBanner(false);
     isSavedRef.current = true;
     const { queue, source } = useAutoPlayStore.getState();
     setQueue(queue, nextMedia.mediaId, source ?? undefined);
+    await watchHistoryApi(nextMedia.mediaId).catch(() => {}); // 자동재생 이후 시청이력 갱신
     router.push(`/player/${nextMedia.mediaId}`);
   }, [nextMedia, router, setQueue]);
 
