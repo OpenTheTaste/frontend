@@ -8,9 +8,11 @@ import { ShortsActionButtons } from "@/entities/shorts/components";
 import { ShortsData } from "@shared/types/player/shorts";
 import { postLikes } from "@entities/likes/api";
 import { toggleBookmark } from "@entities/bookmark/api";
-import { getShortLists } from "@entities/shorts/api";
-import { postShortsCta } from "@entities/shorts/api";
-import { postShortsEvents } from "@entities/shorts/api";
+import {
+  postShortsCta,
+  postShortsEvents,
+  getShortLists,
+ } from "@entities/shorts/api";
 import { useMediaLink } from "@shared/hooks";
 import { MediaType } from "@shared/types";
 
