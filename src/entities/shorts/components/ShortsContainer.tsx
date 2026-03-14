@@ -10,6 +10,7 @@ import { postLikes } from "@entities/likes/api";
 import { toggleBookmark } from "@entities/bookmark/api/toggleBookmark";
 import { getShortLists } from "@entities/shorts/api/getShortLists";
 import { postShortsCta } from "@entities/shorts/api/postShortsCta";
+import { postShortsEvents } from "@entities/shorts/api/postShortsEvents";
 import { useMediaLink } from "@shared/hooks/useMediaLink";
 import { MediaType } from "@shared/types";
 
@@ -56,6 +57,14 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   useEffect(() => {
     if (!currentShorts) return;
     window.history.replaceState(null, "", `/shorts/${currentShorts.id}`);
+  }, [currentShorts]);
+
+  useEffect(() => {
+    if (!currentShorts) return;
+    const timer = setTimeout(() => {
+      postShortsEvents(currentShorts.id);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, [currentShorts]);
 
   if (!currentShorts) return null;
