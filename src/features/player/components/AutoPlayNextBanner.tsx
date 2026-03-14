@@ -50,7 +50,8 @@ export const AutoPlayNextBanner = ({
 
   const bottomClass = showControls ? "bottom-20" : "bottom-4";
 
-  if (type === "episode") {
+  // 콘텐츠
+  if (type === "contents") {
     return (
       <div
         className={`bg-ot-gray-900/90 hover:bg-ot-gray-800/90 absolute right-4 ${bottomClass} flex items-center gap-4 rounded-md px-3 py-3 shadow-lg backdrop-blur-sm transition-all`}
@@ -84,7 +85,7 @@ export const AutoPlayNextBanner = ({
       </div>
     );
   }
-
+  // 에피소드
   return (
     <button
       onClick={onConfirm}

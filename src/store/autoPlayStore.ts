@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { PlaylistSource } from "@shared/types";
+import { MediaType, PlaylistSource } from "@shared/types";
 
 interface AutoPlayMedia {
   mediaId: number;
   title: string;
   thumbnailUrl: string;
+  mediaType: MediaType;
 }
 
 interface AutoPlayStore {

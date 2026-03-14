@@ -314,9 +314,8 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
   };
 
+  // 뒤로가기
   const handleBack = async () => {
-    console.log("source:", source);
-    console.log("data:", data);
     isSavedRef.current = true;
     if (videoRef.current && !videoRef.current.paused) {
       videoRef.current.pause();
@@ -336,7 +335,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
       if (source.type === "topTag" && "index" in source) {
         params.set("index", String(source.index));
       } // topTag 플리인 경우, index도 붙여서 이동
-      console.log("이동 URL:", `/contents/${mediaId}?${params.toString()}`);
       router.push(`/contents/${mediaId}?${params.toString()}`);
     } else {
       router.push(`/contents/${mediaId}?type=CONTENTS`);
@@ -363,8 +361,13 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     isSavedRef.current = true;
     const { queue, source } = useAutoPlayStore.getState();
     setQueue(queue, nextMedia.mediaId, source ?? undefined);
-    await watchHistoryApi(nextMedia.mediaId).catch(() => {}); // 자동재생 이후 시청이력 갱신
-    router.push(`/player/${nextMedia.mediaId}`);
+
+    if (nextMedia.mediaType === "SERIES") {
+      router.push(`/contents/${nextMedia.mediaId}?type=SERIES`);
+    } else {
+      await watchHistoryApi(nextMedia.mediaId).catch(() => {});
+      router.push(`/player/${nextMedia.mediaId}`);
+    }
   }, [nextMedia, router, setQueue]);
 
   usePlayback({
