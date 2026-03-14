@@ -83,8 +83,8 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     );
   };
 
-  const handleContentLinkClick = async () => {
-    await postShortsCta(currentShorts.id);
+  const handleContentLinkClick = () => {
+    postShortsCta(currentShorts.id);
     router.push(getMediaHref(currentShorts.originMediaId, currentShorts.mediaType));
   };
 
