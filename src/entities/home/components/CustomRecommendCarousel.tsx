@@ -1,24 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { ContentCarousel } from "@entities/home/components";
 import { useMemberProfile } from "@entities/profile/hooks";
 import { useMediaLink } from "@shared/hooks";
-import { PlaylistItem } from "@/shared/types";
 import { useRadarRecommend } from "@/entities/custom/hooks";
+import { PlaylistItem } from "@/shared/types";
 
 export default function CustomRecommendCarousel() {
-    const [page, setPage] = useState(0);
-    const { data } = useRadarRecommend({ page, size: 20 });
-    const { data: profile } = useMemberProfile();
-    const items = data?.dataList ?? [];
-    const { getMediaHref } = useMediaLink();
+  const [page, setPage] = useState(0);
+  const { data } = useRadarRecommend({ page, size: 20 });
+  const { data: profile } = useMemberProfile();
+  const items = data?.dataList ?? [];
+  const { getMediaHref } = useMediaLink();
 
-    if (!items.length) return null;
+  if (!items.length) return null;
 
-    return (
+  return (
     <ContentCarousel
       title={`${profile?.nickname ?? ""}님의 커스텀 추천 플레이리스트`}
       itemWidth={180}
@@ -28,7 +28,7 @@ export default function CustomRecommendCarousel() {
       renderItem={(item: PlaylistItem) => (
         <Link
           href={getMediaHref(item.mediaId, item.mediaType, {
-            type: "history",
+            type: "recommend",
           })}
           className="block h-full w-full"
         >
@@ -40,7 +40,7 @@ export default function CustomRecommendCarousel() {
               className="object-cover"
             />
             <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-              <p className="line-clamp-2 text-xs font-medium text-ot-text">
+              <p className="text-ot-text line-clamp-2 text-xs font-medium">
                 {item.title}
               </p>
             </div>
