@@ -15,7 +15,7 @@ interface AiCardSlideProps {
 const gradientMap: Record<number, string> = {
   1: "from-blue-950 via-blue-900 to-slate-900", // 슬픔
   2: "from-gray-950 via-purple-950 to-slate-900", // 공포
-  3: "from-yellow-900 via-orange-900 to-slate-900", // 유쾌
+  3: "from-yellow-600 via-yellow-700 to-yellow-950", // 유쾌
   4: "from-green-950 via-teal-900 to-slate-900", // 힐링
   5: "from-pink-950 via-rose-900 to-slate-900", // 설렘
   6: "from-teal-900 via-cyan-900 to-slate-900", // 지식
@@ -27,7 +27,7 @@ const gradientMap: Record<number, string> = {
 const cardBackGradientMap: Record<number, string> = {
   1: "from-blue-950 via-blue-950 to-slate-950", // 슬픔
   2: "from-gray-950 via-purple-950 to-gray-950", // 공포
-  3: "from-yellow-950 via-orange-950 to-slate-950", // 유쾌
+  3: "from-yellow-700 via-yellow-800 to-yellow-950", // 유쾌
   4: "from-green-950 via-teal-950 to-slate-950", // 힐링
   5: "from-pink-950 via-rose-950 to-slate-950", // 설렘
   6: "from-teal-950 via-cyan-950 to-slate-950", // 지식
@@ -111,7 +111,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
               }}
             >
               <div
-                className={`h-55 w-40 rounded-none bg-linear-to-b ${cardBackGradientMap[aiCard.imageId]}`}
+                className={`h-55 w-40 rounded-none bg-linear-to-b ${cardBackGradientMap[aiCard.imageId] ?? "from-gray-950 via-gray-900 to-slate-950"}`}
               />
             </div>
           </motion.div>

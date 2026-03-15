@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@shared/components";
 import { mockActiveAiCard } from "@shared/mocks/mockAiCardList";
-import { AiCardSlide } from "@entities/home/components";
+import AiCardSlide from "./AiCardSlide";
 
 const GAP = 16;
 const PEEK = 48;
