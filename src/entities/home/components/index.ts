@@ -7,3 +7,4 @@ export { default as RecommendTagsSection } from "./RecommendTagsSection";
 export { default as HistoryCarousel } from "./HistoryCarousel";
 export { default as CustomRecommendCarousel } from "./CustomRecommendCarousel";
 export { default as ViewProgressBar } from "./ViewProgressBar";
+export { default as AiCardSlide } from "./AiCardSlide"
