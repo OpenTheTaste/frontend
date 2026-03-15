@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@shared/components";
+import { mockActiveAiCard } from "@shared/mocks/mockAiCardList";
+import AiCardSlide from "./AiCardSlide";
 
 const GAP = 16;
 const PEEK = 48;
@@ -22,6 +24,7 @@ export default function MainCarousel({
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [aiCard, setAiCard] = useState(mockActiveAiCard);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -46,8 +49,8 @@ export default function MainCarousel({
   const translateX = isFirst ? 0 : currentPage * pageWidth - PEEK;
 
   return (
-    <div className="w-full bg-ot-background pl-[3rem] pr-[3rem] pt-[1.33rem] pb-[1.33rem]">
-      <h2 className="text-[1.5rem] font-bold text-ot-text mb-5">{title}</h2>
+    <div className="bg-ot-background w-full pt-[1.33rem] pr-[3rem] pb-[1.33rem] pl-[3rem]">
+      <h2 className="text-ot-text mb-5 text-[1.5rem] font-bold">{title}</h2>
 
       <div className="relative" ref={containerRef}>
         {!isFirst && (
@@ -69,9 +72,18 @@ export default function MainCarousel({
             {Array.from({ length: itemCount }).map((_, idx) => (
               <div
                 key={idx}
-                className="flex-shrink-0 rounded-xl bg-ot-gray-800 border border-ot-gray-700"
+                className="bg-ot-gray-800 border-ot-gray-700 flex-shrink-0 rounded-xl border"
                 style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
-              />
+              >
+                {/* ============================== 추가한 부분 ============================== */}
+                {idx === 0 && aiCard ? (
+                  <AiCardSlide
+                    aiCard={aiCard}
+                    onClose={() => setAiCard(null)}
+                  />
+                ) : null}
+                {/* ====================================================================== */}
+              </div>
             ))}
           </div>
         </div>
@@ -86,15 +98,15 @@ export default function MainCarousel({
           />
         )}
 
-        <div className="flex justify-end gap-2 mt-3 pr-12">
+        <div className="mt-3 flex justify-end gap-2 pr-12">
           {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentPage(idx)}
               className={`transition-all ${
                 idx === currentPage
-                  ? "w-6 h-2 bg-ot-primary-500 rounded-full"
-                  : "w-2 h-2 bg-ot-gray-600 rounded-full hover:bg-ot-gray-500"
+                  ? "bg-ot-primary-500 h-2 w-6 rounded-full"
+                  : "bg-ot-gray-600 hover:bg-ot-gray-500 h-2 w-2 rounded-full"
               }`}
               aria-label={`Go to page ${idx + 1}`}
             />
