@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAutoPlayStore } from "@store";
+import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
+import { ViewProgressBar } from "@shared/components";
 import { useInfiniteScroll } from "@shared/hooks";
 
 interface EpisodeSideSectionProps {
@@ -58,7 +60,15 @@ export default function EpisodeSideSection({
         commentId={commentId}
       />
 
-      {!isExpandAllReviews && (
+      <motion.div
+        initial={false}
+        animate={{
+          height: isExpandAllReviews ? 0 : "45vh",
+          opacity: isExpandAllReviews ? 0 : 1,
+        }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        className="overflow-hidden"
+      >
         <div className="flex h-[45vh] flex-col rounded-lg px-5 py-4">
           <p className="text-ot-text border-ot-gray-700 border-b pb-3 text-2xl font-bold">
             다른 에피소드
@@ -89,12 +99,20 @@ export default function EpisodeSideSection({
                     <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
                       <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
                         {ep.thumbnailUrl && (
-                          <Image
-                            src={ep.thumbnailUrl}
-                            fill
-                            className="object-cover"
-                            alt={ep.title}
-                          />
+                          <>
+                            <Image
+                              src={ep.thumbnailUrl}
+                              fill
+                              className="object-cover"
+                              alt={ep.title}
+                            />
+                            <div className="absolute right-0 bottom-0 left-0">
+                              <ViewProgressBar
+                                duration={ep.duration}
+                                positionSec={ep.positionSec}
+                              />
+                            </div>
+                          </>
                         )}
                       </div>
                       <p className="text-xl font-semibold">{ep.title}</p>
@@ -113,7 +131,7 @@ export default function EpisodeSideSection({
             )}
           </div>
         </div>
-      )}
+      </motion.div>
     </div>
   );
 }

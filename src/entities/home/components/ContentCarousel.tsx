@@ -27,7 +27,9 @@ export default function ContentCarousel<T = undefined>({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshPage, setRefreshPage] = useState(0);
   const isProgrammaticRef = useRef(false);
-  const programmaticTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const programmaticTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const itemsPerScroll = 5;
   const itemWidthWithGap = itemWidth + 16;
@@ -41,12 +43,16 @@ export default function ContentCarousel<T = undefined>({
 
   const scrollToIndex = (index: number) => {
     isProgrammaticRef.current = true;
-    if (programmaticTimerRef.current) clearTimeout(programmaticTimerRef.current);
+    if (programmaticTimerRef.current)
+      clearTimeout(programmaticTimerRef.current);
     programmaticTimerRef.current = setTimeout(() => {
       isProgrammaticRef.current = false;
     }, 500);
     setCurrentIndex(index);
-    scrollRef.current?.scrollTo({ left: index * itemWidthWithGap, behavior: "smooth" });
+    scrollRef.current?.scrollTo({
+      left: index * itemWidthWithGap,
+      behavior: "smooth",
+    });
   };
 
   const handleRefresh = () => {
@@ -78,10 +84,10 @@ export default function ContentCarousel<T = undefined>({
   const isAtEnd = currentIndex >= maxIndex;
 
   return (
-    <div className="w-full bg-ot-background pl-[3rem] pr-[3rem] pt-[1.33rem] pb-[1.33rem]">
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex justify-center items-center gap-4">
-          <h2 className="text-[1.5rem] font-bold text-ot-text">{title}</h2>
+    <div className="bg-ot-background w-full pt-[1.33rem] pr-[3rem] pb-[1.33rem] pl-[3rem]">
+      <div className="mb-5 flex items-center justify-between">
+        <div className="flex items-center justify-center gap-4">
+          <h2 className="text-ot-text text-[1.5rem] font-bold">{title}</h2>
           {onRefresh && (
             <button onClick={handleRefresh}>
               <RefreshCw
@@ -95,11 +101,13 @@ export default function ContentCarousel<T = undefined>({
           {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
-              onClick={() => scrollToIndex(Math.min(idx * itemsPerScroll, maxIndex))}
+              onClick={() =>
+                scrollToIndex(Math.min(idx * itemsPerScroll, maxIndex))
+              }
               className={`transition-all ${
                 idx === currentPage
-                  ? "w-6 h-2 bg-ot-primary-500 rounded-full"
-                  : "w-2 h-2 bg-ot-gray-600 rounded-full hover:bg-ot-gray-500"
+                  ? "bg-ot-primary-500 h-2 w-6 rounded-full"
+                  : "bg-ot-gray-600 hover:bg-ot-gray-500 h-2 w-2 rounded-full"
               }`}
               aria-label={`Go to page ${idx + 1}`}
             />
@@ -118,7 +126,7 @@ export default function ContentCarousel<T = undefined>({
 
         <div
           ref={scrollRef}
-          className="overflow-x-auto overflow-y-hidden no-scrollbar"
+          className="no-scrollbar overflow-x-auto overflow-y-hidden"
           onScroll={handleScrollPosition}
           style={{ scrollBehavior: "smooth" }}
         >
@@ -128,7 +136,10 @@ export default function ContentCarousel<T = undefined>({
                   <div
                     key={idx}
                     className="shrink-0"
-                    style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
+                    style={{
+                      width: `${itemWidth}px`,
+                      height: `${itemHeight}px`,
+                    }}
                   >
                     {renderItem(item, idx)}
                   </div>
@@ -136,7 +147,7 @@ export default function ContentCarousel<T = undefined>({
               : Array.from({ length: resolvedCount }).map((_, idx) => (
                   <div
                     key={idx}
-                    className="shrink-0 rounded-lg bg-ot-gray-800 border border-ot-gray-700"
+                    className="bg-ot-gray-800 border-ot-gray-700 shrink-0 rounded-lg border"
                     style={{
                       width: `${itemWidth}px`,
                       height: `${itemHeight}px`,

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Loader2, VideoOff } from "lucide-react";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
+import { ViewProgressBar } from "@shared/components";
 import { useInfiniteScroll } from "@shared/hooks";
 
 interface SeriesSideSectionProps {
@@ -59,12 +60,20 @@ export default function SeriesSideSection({
                 <button className="text-ot-text hover:bg-ot-gray-900 flex w-full items-center gap-6 p-4 transition">
                   <div className="bg-ot-gray-800 relative aspect-4/3 w-full max-w-25 shrink-0 overflow-hidden rounded-lg">
                     {ep.thumbnailUrl && (
-                      <Image
-                        src={ep.thumbnailUrl}
-                        fill
-                        className="object-cover"
-                        alt={ep.title}
-                      />
+                      <>
+                        <Image
+                          src={ep.thumbnailUrl}
+                          fill
+                          className="object-cover"
+                          alt={ep.title}
+                        />
+                        <div className="absolute right-0 bottom-0 left-0">
+                          <ViewProgressBar
+                            duration={ep.duration}
+                            positionSec={ep.positionSec}
+                          />
+                        </div>
+                      </>
                     )}
                   </div>
                   <p className="text-left text-xl font-semibold">{ep.title}</p>

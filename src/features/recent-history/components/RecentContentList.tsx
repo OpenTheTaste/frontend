@@ -2,13 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { ScrollEdgeButton } from "@base-components";
+import { Loader2 } from "lucide-react";
+import { ScrollEdgeButton, ViewProgressBar } from "@base-components";
+import { useInfiniteScroll } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
 import { useMediaLink } from "@/shared/hooks";
-import { useInfiniteScroll } from "@shared/hooks";
-import { ViewProgressBar }  from "@entities/home/components";
 
 interface RecentContentListProps {
   items: PlaylistItem[];
@@ -151,7 +150,10 @@ export default function RecentContentList({
         ))}
 
         {/* 무한스크롤 감지 영역 */}
-        <div ref={observerRef} className="flex w-4 shrink-0 items-center justify-center">
+        <div
+          ref={observerRef}
+          className="flex w-4 shrink-0 items-center justify-center"
+        >
           {isFetchingNextPage && (
             <Loader2 className="text-ot-placeholder animate-spin" size={20} />
           )}

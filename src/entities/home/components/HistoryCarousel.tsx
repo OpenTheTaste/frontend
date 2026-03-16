@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
-import { ViewProgressBar } from "@entities/home/components";
 import { useHistoryList } from "@entities/home/hooks";
 import { useMemberProfile } from "@entities/profile/hooks";
+import { ViewProgressBar } from "@shared/components";
 import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
 
@@ -23,7 +23,7 @@ export default function HistoryCarousel() {
       itemWidth={240}
       itemHeight={180}
       items={items}
-renderItem={(item: PlaylistItem) => (
+      renderItem={(item: PlaylistItem) => (
         <Link
           href={getMediaHref(item.mediaId, item.mediaType, {
             type: "history",
