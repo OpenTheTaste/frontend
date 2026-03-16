@@ -1,29 +1,45 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import { MemberProfile } from "@/entities/profile/api";
 import { useMemberProfile } from "@/entities/profile/hooks";
-import ProfileEditor from "./ProfileEditor";
 import EditFavoriteTagsUI from "./EditFavoriteTagsUI";
+import FinishEditButton from "./FinishEditButton";
+import ProfileEditor from "./ProfileEditor";
 
-export default function ProfileEditContainer() {
-  const { data: profile } = useMemberProfile();
-  const [nickname, setNickname] = useState<string>("");
-  const isInitializedRef = useRef(false);
+function ProfileEditContent({ profile }: { profile: MemberProfile }) {
+  const initialTagIds = profile.preferredTags.map((t) => t.tagId);
 
-  useEffect(() => {
-    if (profile && !isInitializedRef.current) {
-      setNickname(profile.nickname);
-      isInitializedRef.current = true;
-    }
-  }, [profile]);
+  const [nickname, setNickname] = useState<string>(profile.nickname);
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>(initialTagIds);
 
-  const preferredTagIds = profile?.preferredTags.map((t) => t.tagId) ?? [];
+  const isNicknameChanged = nickname !== profile.nickname;
+  const isTagsChanged =
+    selectedTagIds.length !== initialTagIds.length ||
+    selectedTagIds.some((id) => !initialTagIds.includes(id));
+
+  const isChanged = isNicknameChanged || isTagsChanged;
 
   return (
     <>
       <ProfileEditor nickname={nickname} onNicknameChange={setNickname} />
-
-      <EditFavoriteTagsUI nickname={nickname} initialTagIds={preferredTagIds} />
+      <EditFavoriteTagsUI
+        initialTagIds={initialTagIds}
+        onTagsChange={setSelectedTagIds}
+      />
+      <FinishEditButton
+        nickname={nickname}
+        selectedTagIds={selectedTagIds}
+        disabled={!isChanged}
+      />
     </>
   );
+}
+
+export default function ProfileEditContainer() {
+  const { data: profile } = useMemberProfile();
+
+  if (!profile) return null;
+
+  return <ProfileEditContent profile={profile} />;
 }

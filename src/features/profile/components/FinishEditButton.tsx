@@ -17,11 +17,11 @@ export default function FinishEditButton({
   const { mutate, isPending } = useEditProfile();
 
   return (
-    <div>
+    <div className="flex justify-center">
       <CommonButton
         onClick={() => mutate({ nickname, tagIds: selectedTagIds })}
         disabled={isPending || !!disabled}
-        className="text-ot-text mt-4 mb-4 px-25 py-3 text-[18px] font-bold"
+        className={`text-ot-text mt-4 mb-4 px-25 py-3 text-[18px] font-bold ${isPending || !!disabled ? "cursor-not-allowed opacity-50" : ""}`}
       >
         수정하기
       </CommonButton>
