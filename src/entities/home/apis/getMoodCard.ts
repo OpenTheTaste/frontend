@@ -10,10 +10,11 @@ export interface MoodCardList {
     mediaType: MediaType;
 }
 
-export interface MoodCardResponse { 
+export interface MoodCardResponse {
     refreshId: number;
-    imageId: number;
+    imageId: string;
     subtitle: string;
+    tags: string[];
     recommendedMediaList: MoodCardList[];
 }
 
