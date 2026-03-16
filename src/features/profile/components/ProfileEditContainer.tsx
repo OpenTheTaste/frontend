@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import {
+  EditFavoriteTagsUI,
+  FinishEditButton,
+  ProfileEditor,
+} from "@features/profile/components";
 import { MemberProfile } from "@/entities/profile/api";
 import { useMemberProfile } from "@/entities/profile/hooks";
-import EditFavoriteTagsUI from "./EditFavoriteTagsUI";
-import FinishEditButton from "./FinishEditButton";
-import ProfileEditor from "./ProfileEditor";
 
 function ProfileEditContent({ profile }: { profile: MemberProfile }) {
   const initialTagIds = profile.preferredTags.map((t) => t.tagId);

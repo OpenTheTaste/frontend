@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EditProfileParams } from "@entities/profile/api";
-import { editProfileApi } from "@/entities/profile/api";
+import { EditProfileParams, editProfileApi } from "@entities/profile/api";
 
 export function useEditProfile() {
   const router = useRouter();
