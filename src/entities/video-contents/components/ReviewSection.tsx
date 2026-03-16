@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowUp, Loader2 } from "lucide-react";
+import { ArrowDown, Loader2 } from "lucide-react";
 import { CommonButton, ConfirmModal, Toggle } from "@base-components";
 import { useDeleteMyreview } from "@entities/myreview/hooks";
 import { ReviewListItem } from "@entities/review/api/review";
@@ -65,7 +65,7 @@ export default function ReviewSection({
 
   // 상세 페이지 이동 후 스크롤 기능
   const targetCommentRef = useRef<HTMLDivElement>(null); // 스크롤 대상 댓글 위치 useRef
-  const reviewListRef = useRef<HTMLDivElement>(null); // 댓글 목록 스크롤 useRef
+  const reviewListRef = useRef<HTMLDivElement>(null); // 댓글 목록 스크롤 useRef (motion.div에 연결)
   const hasScrolledRef = useRef(false); // 스크롤 중복 실행 방지해주는 useRef
 
   // commentId가 현재 page에 없음 -> fetchNextPage로 계속 쭉 page 넘김
@@ -198,7 +198,8 @@ export default function ReviewSection({
   );
 
   const reviewListJSX = (
-    <div ref={reviewListRef} className="mt-2 flex-1 overflow-y-auto">
+    // ref, overflow-y-auto 제거 -> 스크롤 컨테이너 역할을 motion.div가 담당
+    <div className="mt-2 flex-1">
       {isLoading ? (
         <div className="flex h-full items-center justify-center">
           <p className="text-ot-gray-600">불러오는 중...</p>
@@ -337,7 +338,9 @@ export default function ReviewSection({
         </div>
 
         {reviewInput(isExpandAllReviews ? "expanded" : "collapsed")}
+
         <motion.div
+          ref={reviewListRef}
           initial={false}
           animate={{ height: isExpandAllReviews ? "80vh" : "35vh" }}
           transition={slideTransition}
