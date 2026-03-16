@@ -2,3 +2,4 @@ export * from "./getTrendingList";
 export * from "./getTagsTop";
 export * from "./getHistoryList";
 export * from "./getMoodCard";
+export * from "./patchMoodHide";
