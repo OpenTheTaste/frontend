@@ -27,9 +27,7 @@ export default function ContentCarousel<T = undefined>({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refreshPage, setRefreshPage] = useState(0);
   const isProgrammaticRef = useRef(false);
-  const programmaticTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
+  const targetScrollLeftRef = useRef(0);
 
   const itemsPerScroll = 5;
   const itemWidthWithGap = itemWidth + 16;
@@ -43,14 +41,10 @@ export default function ContentCarousel<T = undefined>({
 
   const scrollToIndex = (index: number) => {
     isProgrammaticRef.current = true;
-    if (programmaticTimerRef.current)
-      clearTimeout(programmaticTimerRef.current);
-    programmaticTimerRef.current = setTimeout(() => {
-      isProgrammaticRef.current = false;
-    }, 500);
+    targetScrollLeftRef.current = index * itemWidthWithGap;
     setCurrentIndex(index);
     scrollRef.current?.scrollTo({
-      left: index * itemWidthWithGap,
+      left: targetScrollLeftRef.current,
       behavior: "smooth",
     });
   };
@@ -71,8 +65,14 @@ export default function ContentCarousel<T = undefined>({
   };
 
   const handleScrollPosition = () => {
-    if (isProgrammaticRef.current || !scrollRef.current) return;
+    if (!scrollRef.current) return;
     const scrollLeft = scrollRef.current.scrollLeft;
+    if (isProgrammaticRef.current) {
+      if (Math.abs(scrollLeft - targetScrollLeftRef.current) < 2) {
+        isProgrammaticRef.current = false;
+      }
+      return;
+    }
     const newIndex = Math.min(
       Math.round(scrollLeft / itemWidthWithGap),
       maxIndex,
