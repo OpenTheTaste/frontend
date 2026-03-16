@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { AiCardItem } from "@shared/mocks/mockAiCardList";
+import { useHideMood } from "@entities/home/hooks";
 
 interface AiCardSlideProps {
   aiCard: AiCardItem;
@@ -41,6 +42,12 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
 
   const [rotation, setRotation] = useState<number>(0);
   const [spinning, setSpinning] = useState<boolean>(false);
+  const { hideMood, isLoading } = useHideMood();
+
+  const handleClose = async () => {
+    await hideMood(aiCard.refreshId);
+    onClose();
+  };
 
   // 한 바퀴 회전
   const handleCardClick = () => {
@@ -55,8 +62,9 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
     >
       {/* 닫기 버튼 */}
       <button
-        onClick={onClose}
-        className="text-ot-text absolute top-4 right-4 flex h-8 w-8 items-center justify-center transition-colors hover:text-gray-600"
+        onClick={handleClose}
+        disabled={isLoading}
+        className="text-ot-text absolute top-4 right-4 flex h-8 w-8 items-center justify-center transition-colors hover:text-gray-600 disabled:opacity-50"
         aria-label="닫기"
       >
         <X size={20} />
