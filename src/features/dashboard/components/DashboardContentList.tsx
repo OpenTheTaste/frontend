@@ -2,12 +2,18 @@
 
 import { useState } from "react";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions } from "chart.js";
+import {
+  ArcElement,
+  Chart as ChartJS,
+  ChartOptions,
+  Legend,
+  Tooltip,
+} from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { DashboardData } from "@shared/types/mypage/dashboard";
 import { TagStatsModal } from "@features/dashboard/components";
 import { useTagMonthlyStats } from "@entities/dashboard/hooks";
 import { useTagRecommendPlaylist } from "@entities/dashboard/hooks";
+import { DashboardData } from "@shared/types/mypage/dashboard";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -15,12 +21,22 @@ interface DashboardContentListProps {
   data: DashboardData;
 }
 
-export default function DashboardContentList({ data }: DashboardContentListProps) {
+export default function DashboardContentList({
+  data,
+}: DashboardContentListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState<{ name: string } | null>(null);
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
-  const { data: monthlyStats, isLoading: isStatsLoading, isError: isStatsError } = useTagMonthlyStats(selectedTagId ?? 0);
-  const { data: playlist, isLoading: isPlaylistLoading, isError: isPlaylistError } = useTagRecommendPlaylist(selectedTagId ?? 0);
+  const {
+    data: monthlyStats,
+    isLoading: isStatsLoading,
+    isError: isStatsError,
+  } = useTagMonthlyStats(selectedTagId ?? 0);
+  const {
+    data: playlist,
+    isLoading: isPlaylistLoading,
+    isError: isPlaylistError,
+  } = useTagRecommendPlaylist(selectedTagId ?? 0);
 
   // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
@@ -68,7 +84,7 @@ export default function DashboardContentList({ data }: DashboardContentListProps
     elements: {
       arc: {
         borderWidth: 0,
-        hoverOffset: 20,
+        hoverOffset: 0,
       },
     },
     layout: {
@@ -108,7 +124,9 @@ export default function DashboardContentList({ data }: DashboardContentListProps
         },
         formatter: (value, context) => {
           const idx = context.dataIndex;
-          const label = context.chart.data.labels ? context.chart.data.labels[idx] : "-ui";
+          const label = context.chart.data.labels
+            ? context.chart.data.labels[idx]
+            : "-ui";
           return `${label} - ${value}번`;
         },
       },
@@ -116,7 +134,7 @@ export default function DashboardContentList({ data }: DashboardContentListProps
   };
 
   return (
-    <div className="w-full h-125 flex justify-center items-center">
+    <div className="flex h-125 w-full items-center justify-center">
       <Pie data={data} options={options} />
       {selectedTag && (
         <TagStatsModal
@@ -129,10 +147,12 @@ export default function DashboardContentList({ data }: DashboardContentListProps
             thisMonth: monthlyStats?.currentMonth.count ?? 0,
             lastMonth: monthlyStats?.previousMonth?.count ?? 0,
           }}
-          recommendations={playlist?.dataList.map((item) => ({
-            id: item.mediaId,
-            image: item.posterUrl,
-          })) ?? []} // 없으면 빈 칸
+          recommendations={
+            playlist?.dataList.map((item) => ({
+              id: item.mediaId,
+              image: item.posterUrl,
+            })) ?? []
+          } // 없으면 빈 칸
         />
       )}
     </div>
