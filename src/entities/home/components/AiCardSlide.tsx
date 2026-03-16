@@ -4,13 +4,25 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { AiCardItem } from "@shared/mocks/mockAiCardList";
+import { MoodCardResponse } from "@entities/home/apis";
 import { useHideMood } from "@entities/home/hooks";
 
 interface AiCardSlideProps {
-  aiCard: AiCardItem;
+  aiCard: MoodCardResponse;
   onClose: () => void;
 }
+
+// imageId("1"~"8") → 카드 이미지 경로 매핑
+const imagePathMap: Record<string, string> = {
+  "1": "/images/feeling_sad.png",
+  "2": "/images/feeling_fear.png",
+  "3": "/images/feeling_joyful.png",
+  "4": "/images/feeling_healing.png",
+  "5": "/images/feeling_excitement.png",
+  "6": "/images/feeling_knowledge.png",
+  "7": "/images/feeling_stimulation.png",
+  "8": "/images/feeling_dopamine.png",
+};
 
 // 캐러셀 뷰 그라데이션 배경색
 const gradientMap: Record<number, string> = {
@@ -37,8 +49,9 @@ const cardBackGradientMap: Record<number, string> = {
 };
 
 export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
+  const imageIdNum = parseInt(aiCard.imageId);
   const gradient =
-    gradientMap[aiCard.imageId] ?? "from-gray-900 via-gray-800 to-slate-900";
+    gradientMap[imageIdNum] ?? "from-gray-900 via-gray-800 to-slate-900";
 
   const [rotation, setRotation] = useState<number>(0);
   const [spinning, setSpinning] = useState<boolean>(false);
@@ -100,7 +113,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
             {/* 카드 앞면 */}
             <div style={{ backfaceVisibility: "hidden" }}>
               <Image
-                src={aiCard.imagePath}
+                src={imagePathMap[aiCard.imageId] ?? "/images/feeling_sad.png"}
                 alt="감정 카드"
                 width={160}
                 height={220}
@@ -119,7 +132,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
               }}
             >
               <div
-                className={`h-55 w-40 rounded-none bg-linear-to-b ${cardBackGradientMap[aiCard.imageId] ?? "from-gray-950 via-gray-900 to-slate-950"}`}
+                className={`h-55 w-40 rounded-none bg-linear-to-b ${cardBackGradientMap[imageIdNum] ?? "from-gray-950 via-gray-900 to-slate-950"}`}
               />
             </div>
           </motion.div>
