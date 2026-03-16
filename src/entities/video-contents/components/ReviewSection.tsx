@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowUp, Loader2 } from "lucide-react";
 import { CommonButton, ConfirmModal, Toggle } from "@base-components";
@@ -62,8 +62,8 @@ export default function ReviewSection({
   const { mutateAsync: editReview, isPending: isEditPending } = useEditReview();
   const { mutate: deleteReview, isPending: isDeletePending } =
     useDeleteMyreview();
-  
-  // ========== 상세 페이지 이동 후 스크롤 기능 ==========
+
+  // 상세 페이지 이동 후 스크롤 기능
   const targetCommentRef = useRef<HTMLDivElement>(null); // 스크롤 대상 댓글 위치 useRef
   const reviewListRef = useRef<HTMLDivElement>(null); // 댓글 목록 스크롤 useRef
   const hasScrolledRef = useRef(false); // 스크롤 중복 실행 방지해주는 useRef
@@ -73,8 +73,9 @@ export default function ReviewSection({
     if (!commentId) return;
     if (hasScrolledRef.current) return; // 이미 스크롤했으면 종료
 
-    // review = 댓글 하나하나...
-    const found = filteredSpoilerReviews.find(review => review.commentId === commentId);
+    const found = filteredSpoilerReviews.find(
+      (review) => review.commentId === commentId,
+    );
     if (found) {
       setTimeout(() => {
         if (targetCommentRef.current && reviewListRef.current) {
@@ -82,7 +83,7 @@ export default function ReviewSection({
           const target = targetCommentRef.current;
           container.scrollTo({
             top: target.offsetTop - container.offsetTop,
-            behavior: "smooth"
+            behavior: "smooth",
           });
           hasScrolledRef.current = true; // 스크롤 완료된 것 표시
         }
@@ -90,8 +91,13 @@ export default function ReviewSection({
     } else if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [commentId, filteredSpoilerReviews, hasNextPage, isFetchingNextPage, fetchNextPage]);
-  // =================================================
+  }, [
+    commentId,
+    filteredSpoilerReviews,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  ]);
 
   // 등록
   const handleSubmitReview = async () => {
@@ -133,7 +139,7 @@ export default function ReviewSection({
       content: editingReview,
       isSpoiler: editingSpoiler,
     });
-
+    if (editingSpoiler) setShowSpoiler(true);
     setEditingReviewId(null);
     setEditingReview("");
     setEditingSpoiler(false);
@@ -149,11 +155,6 @@ export default function ReviewSection({
   const closeConfirmModal = () => setDeleteTargetId(null);
 
   const slideTransition = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
-
-  const containerVariants = {
-    collapsed: { height: "60vh" },
-    expanded: { height: "100vh" },
-  };
 
   const reviewInput = (idPrefix: string) => (
     <>
@@ -271,7 +272,6 @@ export default function ReviewSection({
                         {item.nickname} ⋅ {formatDate(item.createdAt)}
                       </p>
                     </div>
-                    {/* FIXME: 응답값 추가 요청함 */}
                     {item.mine && (
                       <div className="ml-auto flex items-center justify-center">
                         <button
@@ -314,49 +314,38 @@ export default function ReviewSection({
 
   return (
     <>
-      <motion.div
-        layout
-        className="mb-6 flex flex-col overflow-hidden rounded-lg p-6"
-        variants={containerVariants}
-        initial={false}
-        animate={isExpandAllReviews ? "expanded" : "collapsed"}
-        transition={slideTransition}
-      >
+      <div className="mb-6 flex flex-col rounded-lg p-6">
         <div className="flex flex-row justify-between">
           <p className="text-ot-text mb-3 text-2xl font-bold">댓글</p>
 
-          {isExpandAllReviews ? (
-            <button
-              onClick={() => {
-                handleCancelEdit();
-                setIsExpandAllReviews(false);
-              }}
-              className="group flex cursor-pointer items-center gap-1"
-            >
-              <ArrowUp className="stroke-ot-gray-600 group-hover:stroke-ot-gray-800 h-4 w-4 stroke-1" />
-              <p className="text-ot-gray-600 group-hover:text-ot-gray-800 text-sm">
-                접기
-              </p>
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                handleCancelEdit();
-                setIsExpandAllReviews(true);
-              }}
-              className="group flex cursor-pointer items-center gap-1"
-            >
-              <ArrowDown className="stroke-ot-gray-600 group-hover:stroke-ot-gray-800 h-4 w-4 stroke-1" />
-              <p className="text-ot-gray-600 group-hover:text-ot-gray-800 text-sm">
-                전체 보기
-              </p>
-            </button>
-          )}
+          <button
+            onClick={() => {
+              handleCancelEdit();
+              setIsExpandAllReviews(!isExpandAllReviews);
+            }}
+            className="group flex cursor-pointer items-center gap-1"
+          >
+            <ArrowDown
+              className={`stroke-ot-gray-600 group-hover:stroke-ot-gray-800 h-4 w-4 stroke-1 transition-all duration-300 ${
+                isExpandAllReviews ? "rotate-180" : "rotate-0"
+              }`}
+            />
+            <p className="text-ot-gray-600 group-hover:text-ot-gray-800 text-sm transition-all duration-300">
+              {isExpandAllReviews ? "접기" : "전체 보기"}
+            </p>
+          </button>
         </div>
 
         {reviewInput(isExpandAllReviews ? "expanded" : "collapsed")}
-        {reviewListJSX}
-      </motion.div>
+        <motion.div
+          initial={false}
+          animate={{ height: isExpandAllReviews ? "80vh" : "35vh" }}
+          transition={slideTransition}
+          className="overflow-y-auto"
+        >
+          {reviewListJSX}
+        </motion.div>
+      </div>
 
       <ConfirmModal
         isOpen={deleteTargetId !== null}
