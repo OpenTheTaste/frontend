@@ -4,7 +4,7 @@ import { DashboardContentList } from "@features/dashboard/components";
 import { useTagRanking } from "@entities/dashboard/hooks/useTagRanking";
 import { DashboardData } from "@shared/types/mypage/dashboard";
 
-const COLORS = ["#55021a", "#9f0040", "#ff5474", "#ffa9b6", "#fffefe"];
+const COLORS = ["#5f001b", "#9c003e", "#ff5f7c", "#ffd1d8", "#f2f2f2"];
 
 export default function DashboardContentBox() {
   const { data, isLoading, isError } = useTagRanking();

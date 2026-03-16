@@ -91,8 +91,8 @@ export default function DashboardContentList({
       padding: {
         top: 60,
         bottom: 60,
-        left: 300,
-        right: 200,
+        left: 150, // 300 -> 120
+        right: 50, // 200 -> 80
       },
     },
     plugins: {
@@ -134,7 +134,7 @@ export default function DashboardContentList({
   };
 
   return (
-    <div className="flex h-125 w-full items-center justify-center">
+    <div className="flex h-125 w-full min-w-150 items-center justify-center overflow-x-auto">
       <Pie data={data} options={options} />
       {selectedTag && (
         <TagStatsModal
