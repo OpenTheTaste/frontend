@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
@@ -11,25 +11,25 @@ export const Header = () => {
   const isHomePage = pathname === "/";
 
   return (
-    <header className="w-full flex items-center justify-between bg-ot-background text-ot-text px-11 py-4">
+    <header className="bg-ot-background text-ot-text flex w-full items-center justify-between px-11 py-5">
       <div className="flex items-center gap-12">
         <Link
           href="/"
-          className="flex items-center justify-center cursor-pointer"
+          className="flex cursor-pointer items-center justify-center"
         >
           <Image
-            src="/icons/logo.svg"
+            src="/icons/headerLogo.svg"
             alt="Logo"
-            width={45}
-            height={45}
-            className="object-contain"
+            width={64}
+            height={60}
+            className="object-contain transition-all duration-150 hover:opacity-70"
           />
         </Link>
 
         {isHomePage && (
           <Link
             href="/shorts"
-            className="text-[1.125rem] font-bold text-ot-text hover:text-ot-primary-500 transition-colors cursor-pointer"
+            className="text-ot-text hover:text-ot-primary-500 cursor-pointer text-[1.125rem] font-bold transition-colors"
           >
             숏폼
           </Link>
@@ -37,7 +37,7 @@ export const Header = () => {
         {isHomePage && (
           <Link
             href="/custom"
-            className="text-[1.125rem] font-bold text-ot-text hover:text-ot-primary-500 transition-colors cursor-pointer"
+            className="text-ot-text hover:text-ot-primary-500 cursor-pointer text-[1.125rem] font-bold transition-colors"
           >
             커스텀 추천
           </Link>
@@ -59,7 +59,7 @@ export const Header = () => {
 
         <Link
           href="/mypage"
-          className="group inline-flex items-center justify-center rounded-full hover:bg-ot-gray-900/60"
+          className="group hover:bg-ot-gray-900/60 inline-flex items-center justify-center rounded-full"
         >
           <Image
             src="/icons/logo.svg"

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAutoPlayStore } from "@store";
+import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
 import {
@@ -62,7 +63,15 @@ export default function SingleSideSection({
         commentId={commentId}
       />
 
-      {!isExpandAllReviews && (
+      <motion.div
+        initial={false}
+        animate={{
+          height: isExpandAllReviews ? 0 : "45vh",
+          opacity: isExpandAllReviews ? 0 : 1,
+        }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        className="overflow-hidden"
+      >
         <div className="flex h-[45vh] flex-col rounded-lg px-5 py-4">
           <p className="text-ot-text border-ot-gray-700 border-b pb-3 text-2xl font-bold">
             다음 재생목록
@@ -113,7 +122,7 @@ export default function SingleSideSection({
             )}
           </div>
         </div>
-      )}
+      </motion.div>
     </div>
   );
 }

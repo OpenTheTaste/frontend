@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/auth", "/api/auth"]; // kakao oauth 콜백 경로 추가
+const PUBLIC_PATHS = ["/auth", "/api/auth", "/help", "/policy"]; // kakao oauth 콜백 경로 추가
 
 function isPublicPath(pathname: string) {
   return PUBLIC_PATHS.some((p) => pathname.startsWith(p));
@@ -37,10 +37,9 @@ export function proxy(request: NextRequest) {
   //   return response;
   // }
 
-  const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  if (!accessToken && !refreshToken) {
+  if (!refreshToken) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
