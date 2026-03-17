@@ -1,10 +1,10 @@
-import { Header } from "@layouts";
 import { BackButton } from "@base-components";
-import { ShortsContainer } from "@entities/shorts/components";
+import { Header } from "@layouts";
+import { ShortsContainer } from "@features/shorts/components";
 
 export default function ShortsPage() {
   return (
-    <div className="relative min-h-screen bg-ot-background flex flex-col overflow-hidden">
+    <div className="bg-ot-background relative flex min-h-screen flex-col overflow-hidden">
       <Header />
       <div className="relative flex-1">
         <BackButton />
