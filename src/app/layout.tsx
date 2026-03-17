@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FloatingPlayer } from "@/features/player/components/FloatingPlayer";
 import QueryClientProvider from "@/shared/lib/QueryClientProvider";
+import { UserInitializer } from "@/shared/components/UserInitializer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <QueryClientProvider>
+          <UserInitializer />
           {/* 최대 넓이 570 -> 2280px 지정 */}
           <div className="bg-ot-background mx-auto flex min-h-screen max-w-570 flex-col">
             {children}
