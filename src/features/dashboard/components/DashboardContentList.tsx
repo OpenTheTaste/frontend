@@ -29,7 +29,7 @@ export default function DashboardContentList({
 
   const {
     data: monthlyStats,
-    isLoading: isStatsLoading,
+    isPending: isStatsPending,
     isError: isStatsError,
   } = useTagMonthlyStats(selectedTagId ?? 0);
 
@@ -107,7 +107,7 @@ export default function DashboardContentList({
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           tagName={selectedTag.name}
-          isLoading={isStatsLoading}
+          isPending={isStatsPending}
           isError={isStatsError}
           monthlyStats={{
             thisMonth: monthlyStats?.currentMonth.count ?? 0,

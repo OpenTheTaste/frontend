@@ -7,13 +7,14 @@ import {
   TagStatsModalGraph,
   TagStatsModalList,
 } from "@features/dashboard/components";
+import { TagStatsModalSkeleton } from "@entities/dashboard/components";
 import { useOutsideClick } from "@shared/hooks";
 
 interface TagStatsModalProps {
   isOpen: boolean;
   onClose: () => void;
   tagName: string;
-  isLoading: boolean;
+  isPending: boolean;
   isError: boolean;
   monthlyStats: {
     thisMonth: number;
@@ -26,7 +27,7 @@ export default function TagStatsModal({
   isOpen,
   onClose,
   tagName,
-  isLoading,
+  isPending,
   isError,
   monthlyStats,
   selectedTagId,
@@ -63,10 +64,8 @@ export default function TagStatsModal({
           <X size={24} strokeWidth={2} />
         </button>
 
-        {isLoading ? (
-          <div className="flex h-40 items-center justify-center">
-            <p className="text-ot-gray-600">로딩 중...</p>
-          </div>
+        {isPending ? (
+          <TagStatsModalSkeleton />
         ) : isError ? (
           <div className="flex h-40 items-center justify-center">
             <p className="text-ot-gray-600">데이터를 불러올 수 없습니다.</p>
