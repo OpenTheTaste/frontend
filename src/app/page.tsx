@@ -1,23 +1,32 @@
-import { Header, Footer } from "@layouts";
+import { Suspense } from "react";
+import { Footer, Header } from "@layouts";
 import {
+  CustomRecommendCarousel,
+  HistoryCarousel,
   MainCarousel,
-  TrendingCarousel,
   RecommendCarousel,
   RecommendTagsSection,
-  HistoryCarousel,
-  CustomRecommendCarousel
+  TrendingCarousel,
 } from "@entities/home/components";
+import HomeSkeleton from "./HomeSkeleton";
 
 export default function Home() {
   return (
     <div>
       <Header />
-      <MainCarousel title="" itemCount={5} itemHeight={400} itemWidth={1350} />
-      <CustomRecommendCarousel/>
-      <TrendingCarousel />
-      <RecommendCarousel />
-      <HistoryCarousel/>
-      <RecommendTagsSection />
+      <Suspense fallback={<HomeSkeleton />}>
+        <MainCarousel
+          title=""
+          itemCount={5}
+          itemHeight={400}
+          itemWidth={1350}
+        />
+        <CustomRecommendCarousel />
+        <TrendingCarousel />
+        <RecommendCarousel />
+        <HistoryCarousel />
+        <RecommendTagsSection />
+      </Suspense>
       <Footer />
     </div>
   );

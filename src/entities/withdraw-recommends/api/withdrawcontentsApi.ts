@@ -19,7 +19,7 @@ export interface RecommendPlaylistItem {
 }
 
 // 추천 플레이리스트 응답 전체
-interface RecommendPlaylistResponse {
+export interface RecommendPlaylistResponse {
   pageInfo: PageInfo;
   dataList: RecommendPlaylistItem[];
 }

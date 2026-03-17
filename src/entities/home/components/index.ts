@@ -7,3 +7,6 @@ export { default as RecommendTagsSection } from "./RecommendTagsSection";
 export { default as HistoryCarousel } from "./HistoryCarousel";
 export { default as CustomRecommendCarousel } from "./CustomRecommendCarousel";
 export { default as AiCardSlide } from "./AiCardSlide";
+
+export { MainCarouselSkeleton } from "./MainCarouselSkeleton";
+export { ContentCarouselSkeleton } from "./ContentCarouselSkeleton";
