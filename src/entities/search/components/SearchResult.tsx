@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
-import { SearchTip } from "@entities/search/components";
+import { SearchResultSkeleton, SearchTip } from "@entities/search/components";
 import { useInfiniteSearchList } from "@entities/search/hooks";
 import { useMediaLink } from "@shared/hooks";
 
@@ -32,6 +32,10 @@ export default function SearchResult({ keyword }: SearchResultProps) {
         <SearchTip />
       </>
     );
+  }
+
+  if (isFetching && !hasResults) {
+    return <SearchResultSkeleton />;
   }
 
   if (!isFetching && !hasResults) {
