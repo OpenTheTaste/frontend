@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
-import { useMemberProfile } from "@entities/profile/hooks";
+import { useUserStore } from "@store";
 import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
 import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
 import { useMediaLink } from "@shared/hooks";
@@ -12,13 +12,13 @@ import { useMediaLink } from "@shared/hooks";
 export default function RecommendCarousel() {
   const [page, setPage] = useState(0);
   const { data } = useWithdrawContents({ page, size: 20 });
-  const { data: profile } = useMemberProfile();
+  const nickname = useUserStore((state) => state.nickname);
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
   return (
     <ContentCarousel
-      title={`${profile?.nickname ?? ""}님이 좋아하실만한 콘텐츠`}
+      title={`${nickname ?? ""}님이 좋아하실만한 콘텐츠`}
       itemWidth={180}
       itemHeight={240}
       items={items}

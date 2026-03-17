@@ -4,19 +4,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
 import { useTagsList } from "@entities/home/hooks";
-import { useMemberProfile } from "@entities/profile/hooks";
+import { useUserStore } from "@store";
 import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@/shared/types";
 
 export default function RecommendTagsCarousel({ index }: { index: number }) {
   const { data } = useTagsList({ page: 0, size: 20, index });
-  const { data: profile } = useMemberProfile();
+  const nickname = useUserStore((state) => state.nickname);
   const items = data?.medias.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
   const title =
-    data?.tag.name && profile?.nickname
-      ? `${profile.nickname}님이 좋아하는 #${data.tag.name}`
+    data?.tag.name && nickname
+      ? `${nickname}님이 좋아하는 #${data.tag.name}`
       : "";
 
   return (
