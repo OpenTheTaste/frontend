@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Play, X, Loader2 } from "lucide-react";
+import { Loader2, Play, X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { useBookmarkShortForms } from "@entities/bookmark/hooks";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
@@ -12,8 +13,16 @@ export default function BookmarkShortsList() {
   const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
     useState<boolean>(false);
   const [selectedMediaId, setSelectedMediaId] = useState<number | null>(null);
+  const router = useRouter();
 
-  const { bookmarkShortForms, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useBookmarkShortForms();
+  const {
+    bookmarkShortForms,
+    isLoading,
+    isError,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useBookmarkShortForms();
   const { mutate: deleteBookmark, isPending } = useToggleBookmark();
 
   const { observerRef } = useInfiniteScroll({
@@ -61,6 +70,7 @@ export default function BookmarkShortsList() {
         {bookmarkShortForms.map((item) => (
           <div
             key={item.mediaId}
+            onClick={() => router.push(`/shorts/${item.mediaId}`)}
             className="group hover:bg-ot-gray-900 relative flex w-full cursor-pointer items-center gap-8 rounded-xl p-4 transition-all duration-200"
           >
             {/* 숏폼 이미지 (9:16) */}
@@ -118,7 +128,10 @@ export default function BookmarkShortsList() {
       {/* 무한스크롤 감지 영역 */}
       <div ref={observerRef} className="flex h-4 justify-center">
         {isFetchingNextPage && (
-          <Loader2 className="text-ot-placeholder mt-4 animate-spin" size={20} />
+          <Loader2
+            className="text-ot-placeholder mt-4 animate-spin"
+            size={20}
+          />
         )}
       </div>
 
