@@ -21,6 +21,8 @@ export const ShortsPlayer = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const hlsRef = useHls({
     src,
@@ -81,13 +83,19 @@ export const ShortsPlayer = ({
 
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
+    const handleTimeUpdate = () => setCurrentTime(video.currentTime);
+    const handleLoadedMetadata = () => setDuration(video.duration);
 
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
 
     return () => {
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
   }, []);
 
@@ -124,6 +132,14 @@ export const ShortsPlayer = ({
           <Play className="fill-ot-text text-ot-text h-16 w-16" />
         </div>
       )}
+
+      {/* 재생 progress bar */}
+      <div className="absolute right-0 bottom-0 left-0 h-1.5 bg-white/30">
+        <div
+          className="bg-ot-primary-400 h-full transition-none"
+          style={{ width: duration > 0 ? `${(currentTime / duration) * 100}%` : "0%" }}
+        />
+      </div>
     </div>
   );
 };
