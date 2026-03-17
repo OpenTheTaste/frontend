@@ -1,6 +1,7 @@
 "use client";
 
 import { WithdrawContentList } from "@features/withdraw/components";
+import { WithdrawContentSkeleton } from "@entities/withdraw-recommends/components";
 import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
 
 export default function WithdrawContentBox() {
@@ -9,7 +10,7 @@ export default function WithdrawContentBox() {
     size: 20,
   });
   const dataList = data?.dataList ?? [];
-
+  if (!isLoading) return <WithdrawContentSkeleton />;
   return (
     <div className="border-ot-text mx-auto flex w-full flex-col items-center rounded-lg border p-8">
       <h2 className="text-ot-text pt-2 pb-2 text-[24px] font-semibold">
@@ -18,7 +19,6 @@ export default function WithdrawContentBox() {
       </h2>
 
       <div className="text-ot-gray-600">
-        {isLoading && <div>로딩 중...</div>}
         {isError && <div>추천 콘텐츠를 불러오지 못했습니다.</div>}
         {!isLoading && !isError && dataList.length === 0 && (
           <div>추천 콘텐츠가 없습니다.</div>
