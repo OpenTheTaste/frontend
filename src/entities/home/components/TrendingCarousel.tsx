@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
@@ -9,8 +8,7 @@ import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
 
 export default function TrendingCarousel() {
-  const [page, setPage] = useState(0);
-  const { data } = useTrendingList({ page, size: 20 });
+  const { data } = useTrendingList({ page: 0, size: 20 });
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
@@ -20,7 +18,7 @@ export default function TrendingCarousel() {
       itemWidth={180}
       itemHeight={240}
       items={items}
-      onRefresh={setPage}
+
       renderItem={(item: PlaylistItem) => (
         <Link
           href={getMediaHref(item.mediaId, item.mediaType, {

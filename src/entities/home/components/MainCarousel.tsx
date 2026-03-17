@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@shared/components";
-import { mockActiveAiCard } from "@shared/mocks/mockAiCardList";
+import { useMoodCard } from "@entities/home/hooks";
 import AiCardSlide from "./AiCardSlide";
 
 const GAP = 16;
@@ -24,7 +24,8 @@ export default function MainCarousel({
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [aiCard, setAiCard] = useState(mockActiveAiCard);
+  const { data: aiCardData } = useMoodCard();
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -76,10 +77,10 @@ export default function MainCarousel({
                 style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
               >
                 {/* ============================== 추가한 부분 ============================== */}
-                {idx === 0 && aiCard ? (
+                {idx === 0 && aiCardData && !dismissed ? (
                   <AiCardSlide
-                    aiCard={aiCard}
-                    onClose={() => setAiCard(null)}
+                    aiCard={aiCardData}
+                    onClose={() => setDismissed(true)}
                   />
                 ) : null}
                 {/* ====================================================================== */}

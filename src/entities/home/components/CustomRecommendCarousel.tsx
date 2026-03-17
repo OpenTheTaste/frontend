@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ContentCarousel } from "@entities/home/components";
-import { useMemberProfile } from "@entities/profile/hooks";
+import { useUserStore } from "@store";
 import { useMediaLink } from "@shared/hooks";
 import { useRadarRecommend } from "@/entities/custom/hooks";
 import { PlaylistItem } from "@/shared/types";
@@ -12,7 +12,7 @@ import { PlaylistItem } from "@/shared/types";
 export default function CustomRecommendCarousel() {
   const [page, setPage] = useState(0);
   const { data } = useRadarRecommend({ page, size: 20 });
-  const { data: profile } = useMemberProfile();
+  const nickname = useUserStore((state) => state.nickname);
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
@@ -20,7 +20,7 @@ export default function CustomRecommendCarousel() {
 
   return (
     <ContentCarousel
-      title={`${profile?.nickname ?? ""}님의 커스텀 추천 플레이리스트`}
+      title={`${nickname ?? ""}님의 커스텀 추천 플레이리스트`}
       itemWidth={180}
       itemHeight={240}
       items={items}

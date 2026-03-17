@@ -4,12 +4,25 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { AiCardItem } from "@shared/mocks/mockAiCardList";
+import { MoodCardResponse } from "@entities/home/apis";
+import { useHideMood } from "@entities/home/hooks";
 
 interface AiCardSlideProps {
-  aiCard: AiCardItem;
+  aiCard: MoodCardResponse;
   onClose: () => void;
 }
+
+// imageId("1"~"8") → 카드 이미지 경로 매핑
+const imagePathMap: Record<string, string> = {
+  "1": "/images/feeling_sad.png",
+  "2": "/images/feeling_fear.png",
+  "3": "/images/feeling_joyful.png",
+  "4": "/images/feeling_healing.png",
+  "5": "/images/feeling_excitement.png",
+  "6": "/images/feeling_knowledge.png",
+  "7": "/images/feeling_stimulation.png",
+  "8": "/images/feeling_dopamine.png",
+};
 
 // 캐러셀 뷰 그라데이션 배경색
 const gradientMap: Record<number, string> = {
@@ -36,11 +49,18 @@ const cardBackGradientMap: Record<number, string> = {
 };
 
 export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
+  const imageIdNum = parseInt(aiCard.imageId);
   const gradient =
-    gradientMap[aiCard.imageId] ?? "from-gray-900 via-gray-800 to-slate-900";
+    gradientMap[imageIdNum] ?? "from-gray-900 via-gray-800 to-slate-900";
 
   const [rotation, setRotation] = useState<number>(0);
   const [spinning, setSpinning] = useState<boolean>(false);
+  const { hideMood, isLoading } = useHideMood();
+
+  const handleClose = async () => {
+    await hideMood(aiCard.refreshId);
+    onClose();
+  };
 
   // 한 바퀴 회전
   const handleCardClick = () => {
@@ -51,25 +71,29 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
 
   return (
     <div
-      className={`relative flex h-full w-full items-center bg-linear-to-r ${gradient} rounded-xl`}
+      className={`relative flex h-full w-full flex-col bg-linear-to-r ${gradient} rounded-xl px-8 py-6`}
     >
       {/* 닫기 버튼 */}
       <button
-        onClick={onClose}
-        className="text-ot-text absolute top-4 right-4 flex h-8 w-8 items-center justify-center transition-colors hover:text-gray-600"
+        onClick={handleClose}
+        disabled={isLoading}
+        className="text-ot-text absolute top-4 right-4 flex h-8 w-8 items-center justify-center transition-colors hover:text-gray-600 disabled:opacity-50"
         aria-label="닫기"
       >
         <X size={20} />
       </button>
 
-      {/* 왼쪽) 내 감정 상태는? 텍스트 + 감정 카드 이미지 */}
-      <div className="flex shrink-0 flex-col items-center justify-center gap-5 px-30 pb-6">
-        <p className="text-ot-text text-2xl font-bold whitespace-nowrap">
-          현재 나의 감정 상태는?
-        </p>
+      {/* 제목 */}
+      <p className="text-ot-text mb-4 text-2xl font-bold">
+        현재 나의 감정 상태는?
+      </p>
+
+      {/* 중단: 카드(좌) + 말풍선+포스터(우) */}
+      <div className="flex flex-1 items-center gap-8">
+        {/* 왼쪽) 감정 카드 이미지 */}
         <div
           onClick={handleCardClick}
-          className="cursor-pointer"
+          className="shrink-0 cursor-pointer"
           style={{ perspective: "1000px" }}
         >
           <motion.div
@@ -92,7 +116,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
             {/* 카드 앞면 */}
             <div style={{ backfaceVisibility: "hidden" }}>
               <Image
-                src={aiCard.imagePath}
+                src={imagePathMap[aiCard.imageId] ?? "/images/feeling_sad.png"}
                 alt="감정 카드"
                 width={160}
                 height={220}
@@ -111,37 +135,58 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
               }}
             >
               <div
-                className={`h-55 w-40 rounded-none bg-linear-to-b ${cardBackGradientMap[aiCard.imageId] ?? "from-gray-950 via-gray-900 to-slate-950"}`}
+                className={`h-55 w-40 rounded-none bg-linear-to-b ${cardBackGradientMap[imageIdNum] ?? "from-gray-950 via-gray-900 to-slate-950"}`}
               />
             </div>
           </motion.div>
         </div>
+
+        {/* 오른쪽) 말풍선 + 포스터 3개 */}
+        <div className="flex flex-1 flex-col items-center gap-5">
+          {/* 말풍선 */}
+          <div className="relative rounded-xl bg-yellow-50 px-5 py-3 text-center">
+            <div className="absolute top-1/2 -left-3 -translate-y-1/2 border-8 border-transparent border-r-yellow-50" />
+            <p className="text-sm font-semibold text-gray-800">
+              &quot;분위기 전환으로 딱 좋은 작품들이에요!&quot;
+            </p>
+          </div>
+
+          {/* 포스터 3개 */}
+          <div className="flex gap-4">
+            {aiCard.recommendedMediaList.slice(0, 3).map((media) => (
+              <div key={media.mediaId} className="group shrink-0 cursor-pointer">
+                <div className="relative h-50 w-37.5 overflow-hidden rounded-lg">
+                  <Image
+                    src={media.posterUrl}
+                    alt="추천 콘텐츠"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* 세로 구분선 */}
-      <div className="bg-ot-text ml-6 h-56 w-px shrink" />
-
-      {/* 오른쪽) 포스터 이미지 3개 + 안내 메시지 */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-6">
-        <p className="text-ot-text text-center text-xl font-semibold">
-          &quot;분위기 전환으로 딱 좋은 작품들이에요!&quot;
-        </p>
-        <div className="flex gap-5">
-          {aiCard.recommendedMediaList.slice(0, 3).map((media) => (
-            <div key={media.mediaId} className="group shrink-0 cursor-pointer">
-              <div className="relative h-50 w-37.5 overflow-hidden rounded-lg">
-                <Image
-                  src={media.posterUrl}
-                  alt="추천 콘텐츠"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-            </div>
+      {/* 하단: 해시태그 + 자막 + 마무리 문구 */}
+      <div className="mt-4 flex flex-col gap-2">
+        {/* 해시태그 배지 */}
+        <div className="flex gap-2">
+          {aiCard.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full bg-white/20 px-3 py-1 text-sm text-ot-text"
+            >
+              #{tag}
+            </span>
           ))}
         </div>
-        <p className="text-ot-text font-regular text-center">
-          {aiCard.subtitle}
+
+        <p className="text-ot-text text-sm">{aiCard.subtitle}</p>
+
+        <p className="text-ot-text text-center text-sm">
+          지금 기분에 맞는 콘텐츠로 마음을 채워보세요 💗
         </p>
       </div>
     </div>

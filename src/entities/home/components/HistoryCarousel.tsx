@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ContentCarousel } from "@entities/home/components";
 import { useHistoryList } from "@entities/home/hooks";
-import { useMemberProfile } from "@entities/profile/hooks";
+import { useUserStore } from "@store";
 import { ViewProgressBar } from "@shared/components";
 import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
 
 export default function HistoryCarousel() {
   const { data } = useHistoryList({ page: 0, size: 20 });
-  const { data: profile } = useMemberProfile();
+  const nickname = useUserStore((state) => state.nickname);
   const items = data?.dataList ?? [];
   const { getMediaHref } = useMediaLink();
 
@@ -19,7 +19,7 @@ export default function HistoryCarousel() {
 
   return (
     <ContentCarousel
-      title={`${profile?.nickname ?? ""}님이 시청하신 콘텐츠`}
+      title={`${nickname ?? ""}님이 시청하신 콘텐츠`}
       itemWidth={240}
       itemHeight={180}
       items={items}
