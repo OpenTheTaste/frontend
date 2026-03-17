@@ -92,7 +92,7 @@ export function CustomSetting() {
         <div className="mb-10 flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="text-ot-gray-400 hover:text-ot-text cursor-pointer transition"
+            className="text-ot-text hover:text-ot-gray-600 transition"
           >
             <ChevronLeft className="h-7 w-7" />
           </button>
