@@ -1,18 +1,20 @@
 "use client";
 
 import { RecentContentList } from "@features/recent-history/components";
-import { useRecentHistory } from "@/entities/recenthistory/hooks";
+import { RecentContentSkeleton } from "@entities/recenthistory/components";
+import { useRecentHistory } from "@entities/recenthistory/hooks";
 
 export default function RecentContentBox() {
-  const { recentHistoryList, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useRecentHistory();
+  const {
+    recentHistoryList,
+    isLoading,
+    isError,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useRecentHistory();
 
-  if (isLoading) {
-    return (
-      <div className="flex h-100 items-center justify-center">
-        <p className="text-ot-gray-600">로딩 중...</p>
-      </div>
-    );
-  }
+  if (isLoading) return <RecentContentSkeleton />;
 
   if (isError) {
     return (
