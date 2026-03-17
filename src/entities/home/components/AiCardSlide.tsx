@@ -71,7 +71,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
 
   return (
     <div
-      className={`relative flex h-full w-full items-center bg-linear-to-r ${gradient} rounded-xl`}
+      className={`relative flex h-full w-full flex-col bg-linear-to-r ${gradient} rounded-xl px-8 py-6`}
     >
       {/* 닫기 버튼 */}
       <button
@@ -83,14 +83,17 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
         <X size={20} />
       </button>
 
-      {/* 왼쪽) 내 감정 상태는? 텍스트 + 감정 카드 이미지 */}
-      <div className="flex shrink-0 flex-col items-center justify-center gap-5 px-30 pb-6">
-        <p className="text-ot-text text-2xl font-bold whitespace-nowrap">
-          현재 나의 감정 상태는?
-        </p>
+      {/* 제목 */}
+      <p className="text-ot-text mb-4 text-2xl font-bold">
+        현재 나의 감정 상태는?
+      </p>
+
+      {/* 중단: 카드(좌) + 말풍선+포스터(우) */}
+      <div className="flex flex-1 items-center gap-8">
+        {/* 왼쪽) 감정 카드 이미지 */}
         <div
           onClick={handleCardClick}
-          className="cursor-pointer"
+          className="shrink-0 cursor-pointer"
           style={{ perspective: "1000px" }}
         >
           <motion.div
@@ -137,32 +140,53 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
             </div>
           </motion.div>
         </div>
+
+        {/* 오른쪽) 말풍선 + 포스터 3개 */}
+        <div className="flex flex-1 flex-col items-center gap-5">
+          {/* 말풍선 */}
+          <div className="relative rounded-xl bg-yellow-50 px-5 py-3 text-center">
+            <div className="absolute top-1/2 -left-3 -translate-y-1/2 border-8 border-transparent border-r-yellow-50" />
+            <p className="text-sm font-semibold text-gray-800">
+              &quot;분위기 전환으로 딱 좋은 작품들이에요!&quot;
+            </p>
+          </div>
+
+          {/* 포스터 3개 */}
+          <div className="flex gap-4">
+            {aiCard.recommendedMediaList.slice(0, 3).map((media) => (
+              <div key={media.mediaId} className="group shrink-0 cursor-pointer">
+                <div className="relative h-50 w-37.5 overflow-hidden rounded-lg">
+                  <Image
+                    src={media.posterUrl}
+                    alt="추천 콘텐츠"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* 세로 구분선 */}
-      <div className="bg-ot-text ml-6 h-56 w-px shrink" />
-
-      {/* 오른쪽) 포스터 이미지 3개 + 안내 메시지 */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-6">
-        <p className="text-ot-text text-center text-xl font-semibold">
-          &quot;분위기 전환으로 딱 좋은 작품들이에요!&quot;
-        </p>
-        <div className="flex gap-5">
-          {aiCard.recommendedMediaList.slice(0, 3).map((media) => (
-            <div key={media.mediaId} className="group shrink-0 cursor-pointer">
-              <div className="relative h-50 w-37.5 overflow-hidden rounded-lg">
-                <Image
-                  src={media.posterUrl}
-                  alt="추천 콘텐츠"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-            </div>
+      {/* 하단: 해시태그 + 자막 + 마무리 문구 */}
+      <div className="mt-4 flex flex-col gap-2">
+        {/* 해시태그 배지 */}
+        <div className="flex gap-2">
+          {aiCard.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full bg-white/20 px-3 py-1 text-sm text-ot-text"
+            >
+              #{tag}
+            </span>
           ))}
         </div>
-        <p className="text-ot-text font-regular text-center">
-          {aiCard.subtitle}
+
+        <p className="text-ot-text text-sm">{aiCard.subtitle}</p>
+
+        <p className="text-ot-text text-center text-sm">
+          지금 기분에 맞는 콘텐츠로 마음을 채워보세요 💗
         </p>
       </div>
     </div>
