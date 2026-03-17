@@ -6,11 +6,10 @@ import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { ConfirmModal } from "@base-components";
 import { Pagination } from "@features/myreviews/components";
-import { useMyreviews } from "@entities/myreview/hooks";
-import { useDeleteMyreview } from "@entities/myreview/hooks";
+import { MyReviewSkeleton } from "@entities/myreview/components";
+import { useDeleteMyreview, useMyreviews } from "@entities/myreview/hooks";
 import { useMediaLink } from "@shared/hooks";
 import { formatDate } from "@shared/lib";
-import { MyReviewSkeleton } from "@/entities/myreview/components";
 
 export default function MyReviewList() {
   const [currentPage, setCurrentPage] = useState<number>(0); // 페이지네이션 관련
@@ -29,8 +28,19 @@ export default function MyReviewList() {
     });
   };
   if (isLoading) return <MyReviewSkeleton />;
-  if (isError) return <p>댓글을 불러오지 못했습니다.</p>;
-  if (myreviews.length === 0) return <p>작성한 댓글이 없습니다. </p>;
+  if (isError)
+    return (
+      <div className="flex min-h-96 items-center justify-center">
+        <p className="text-ot-gray-600">댓글을 불러오지 못했습니다.</p>
+      </div>
+    );
+
+  if (myreviews.length === 0)
+    return (
+      <div className="flex min-h-96 items-center justify-center">
+        <p className="text-ot-gray-600">작성한 댓글이 없습니다.</p>
+      </div>
+    );
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col">
