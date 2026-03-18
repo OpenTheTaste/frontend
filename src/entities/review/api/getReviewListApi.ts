@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse, BasePaginationParams, PageInfo } from "@shared/types";
 
 // 댓글 목록 api
@@ -22,7 +23,7 @@ export interface GetReviewListParams extends BasePaginationParams {
 
 export const getReviewListApi = async (params: GetReviewListParams) => {
   const res = await api.get<ApiResponse<ReviewListResponse>>(
-    `/comments/${params.mediaId}/comments`,
+    END_POINTS.COMMENTS_BY_MEDIA(params.mediaId),
     {
       params: {
         page: params.page,

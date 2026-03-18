@@ -1,5 +1,6 @@
 import { WriteReviewResponse } from "@entities/review/api";
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse } from "@shared/types";
 
 // 댓글 수정
@@ -15,7 +16,7 @@ export const patchEditReviewApi = async (
   body: EditReviewRequest,
 ) => {
   const res = await api.patch<ApiResponse<EditReviewResponse>>(
-    `/comments/${commentId}`,
+    END_POINTS.COMMENTS_DETAIL(commentId),
     body,
   );
   return res.data.data;
