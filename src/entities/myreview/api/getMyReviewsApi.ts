@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse, MediaType, PageInfo } from "@shared/types";
 
 // 내가 쓴 댓글 형태 안쪽 타입
@@ -21,6 +22,6 @@ export interface MyReviewListResponse {
 }
 
 export const getMyReviewsApi = async (page: number) =>
-  await api.get<ApiResponse<MyReviewListResponse>>("/comments/me", {
+  await api.get<ApiResponse<MyReviewListResponse>>(END_POINTS.COMMENTS_ME, {
     params: { page, size: 20 },
   });
