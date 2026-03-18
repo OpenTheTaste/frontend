@@ -12,7 +12,7 @@ import {
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { TagStatsModal } from "@features/dashboard/components";
 import { useTagMonthlyStats } from "@entities/dashboard/hooks";
-import { DashboardData } from "@shared/types/mypage";
+import { DashboardData } from "@shared/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 

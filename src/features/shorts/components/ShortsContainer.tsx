@@ -16,8 +16,7 @@ import {
   ShortsSkeleton,
 } from "@entities/shorts/components";
 import { useMediaLink } from "@shared/hooks";
-import { MediaType } from "@shared/types";
-import { ShortsData } from "@shared/types/player";
+import { MediaType, ShortsData } from "@shared/types";
 
 interface ShortsContainerProps {
   initialShortsId?: number;

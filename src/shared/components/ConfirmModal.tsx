@@ -28,7 +28,7 @@ export default function ConfirmModal({
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
+  useOutsideClick(modalRef, onClose, isOpen);
 
   const handleConfirm = () => {
     if (!disabled) onConfirm();
@@ -47,7 +47,7 @@ export default function ConfirmModal({
           onClose();
         }
       };
-      window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
+      window.addEventListener("keydown", handleEsc);
       return () => {
         document.body.style.overflow = "unset";
         window.removeEventListener("keydown", handleEsc);

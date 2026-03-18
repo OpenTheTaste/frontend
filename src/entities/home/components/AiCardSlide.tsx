@@ -55,7 +55,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
   const [rotation, setRotation] = useState<number>(0);
   const [spinning, setSpinning] = useState<boolean>(false);
   const { hideMood, isLoading } = useHideMood();
-  const { getMediaHref } = useMediaLink(); // 추가
+  const { getMediaHref } = useMediaLink();
 
   const handleClose = async () => {
     await hideMood(aiCard.refreshId);

@@ -1,5 +1,5 @@
-import { Header, Footer } from '@layouts';
-import { CustomSetting } from '@features/custom/components'
+import { Footer, Header } from "@layouts";
+import { CustomSetting } from "@features/custom/components";
 
 export default function CustomPage() {
   return (

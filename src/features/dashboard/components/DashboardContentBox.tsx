@@ -3,7 +3,7 @@
 import { DashboardContentList } from "@features/dashboard/components";
 import { DashboardSkeleton } from "@entities/dashboard/components";
 import { useTagRanking } from "@entities/dashboard/hooks";
-import { DashboardData } from "@shared/types/mypage";
+import { DashboardData } from "@shared/types";
 
 const COLORS = ["#5f001b", "#9c003e", "#ff5f7c", "#ffd1d8", "#f2f2f2"];
 
