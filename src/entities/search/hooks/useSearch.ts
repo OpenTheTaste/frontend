@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { SearchItem, getSearchApi } from "@entities/search/api";
+import { useInfiniteScroll } from "@shared/hooks";
 import { BasePaginationParams } from "@shared/types";
-import { useInfiniteScroll } from "@/shared/hooks";
 
 export const useInfiniteSearchList = ({
   page,

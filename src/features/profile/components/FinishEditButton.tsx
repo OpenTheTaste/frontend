@@ -1,7 +1,7 @@
 "use client";
 
-import { CommonButton } from "@base-components";
-import { useEditProfile } from "@/entities/profile/hooks";
+import { useEditProfile } from "@entities/profile/hooks";
+import { CommonButton } from "@shared/components";
 
 interface FinishEditButtonProps {
   nickname: string;

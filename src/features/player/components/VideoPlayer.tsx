@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useAutoPlayStore, usePipStore } from "@store";
 import type { Level } from "hls.js";
 import {
   ArrowLeft,
@@ -24,6 +23,7 @@ import { putPlaybackApi, putWatchHistoryApi } from "@entities/player/api";
 import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
+import { useAutoPlayStore, usePipStore } from "@shared/store";
 
 export const AUTO_PLAY_THRESHOLD = 0.95; // 영상길이 대 현재재생길이에 대한 비율 상수
 

@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useUserStore } from "@store";
 import { ContentCarousel } from "@entities/home/components";
 import { useHistoryList } from "@entities/home/hooks";
 import { ViewProgressBar } from "@shared/components";
 import { useMediaLink } from "@shared/hooks";
+import { useUserStore } from "@shared/store";
 import { PlaylistItem } from "@shared/types";
 
 export default function HistoryCarousel() {

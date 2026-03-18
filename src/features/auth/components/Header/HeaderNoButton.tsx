@@ -1,8 +1,8 @@
-import HeaderBrand from "@/features/auth/components/Header/HeaderBrand";
+import { HeaderBrand } from "@features/auth/components";
 
 export default function HeaderNoButton() {
   return (
-    <header className="flex justify-between items-center px-6 py-4 bg-ot-background">
+    <header className="bg-ot-background flex items-center justify-between px-6 py-4">
       <HeaderBrand />
     </header>
   );

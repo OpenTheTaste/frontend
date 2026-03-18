@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useMemberProfile } from "@entities/profile/hooks";
-import { useUserStore } from "@store";
+import { useUserStore } from "@shared/store";
 
 export function UserInitializer() {
   const { data } = useMemberProfile();

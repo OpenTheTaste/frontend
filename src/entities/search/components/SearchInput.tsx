@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Search, X } from "lucide-react";
-import { Input } from "@base-components";
+import { Input } from "@shared/components";
 
 interface SearchInputProps {
   keyword?: string;

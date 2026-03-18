@@ -20,7 +20,6 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@base-components": ["./src/shared/components"],
       "@layouts": ["./src/layouts"],
       "@entities/*": ["./src/entities/*"],
       "@features/*": ["./src/features/*"],

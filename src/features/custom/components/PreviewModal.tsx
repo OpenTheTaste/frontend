@@ -1,10 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
-import { CommonButton } from "@base-components";
 import { useRadarRecommend } from "@entities/custom/hooks";
+import { CommonButton } from "@shared/components";
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -25,31 +25,34 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
       onClick={onClose}
     >
       <div
-        className="bg-ot-gray-900 rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl"
+        className="bg-ot-gray-900 mx-4 w-full max-w-lg rounded-2xl p-8 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <h3 className="text-xl font-bold">추천 미리보기</h3>
           <button
             onClick={onClose}
-            className="cursor-pointer text-ot-gray-400 hover:text-ot-text transition"
+            className="text-ot-gray-400 hover:text-ot-text cursor-pointer transition"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        <p className="text-sm text-ot-gray-400 mb-5">
+        <p className="text-ot-gray-400 mb-5 text-sm">
           설정한 가중치로 추천된 콘텐츠입니다. 마음에 드시나요?
         </p>
 
         <div className="flex flex-col gap-4">
           {previewItems.map((item) => (
-            <div key={item.mediaId} className="flex items-center gap-4 bg-ot-gray-800 rounded-xl p-4">
-              <div className="relative w-20 h-14 rounded-lg bg-ot-gray-700 shrink-0 overflow-hidden">
+            <div
+              key={item.mediaId}
+              className="bg-ot-gray-800 flex items-center gap-4 rounded-xl p-4"
+            >
+              <div className="bg-ot-gray-700 relative h-14 w-20 shrink-0 overflow-hidden rounded-lg">
                 <Image
                   src={item.thumbnailUrl}
                   alt={item.title}
@@ -60,17 +63,21 @@ export function PreviewModal({ isOpen, onClose }: PreviewModalProps) {
               </div>
               <div className="flex-1">
                 <p className="font-semibold">{item.title}</p>
-                <p className="text-sm text-ot-gray-400">{item.mediaType}</p>
+                <p className="text-ot-gray-400 text-sm">{item.mediaType}</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="flex gap-4">
-          <CommonButton onClick={handleLike} className="w-full mt-6 py-3">
+          <CommonButton onClick={handleLike} className="mt-6 w-full py-3">
             좋아요
           </CommonButton>
-          <CommonButton onClick={onClose} variant="secondary" className="w-full mt-6 py-3">
+          <CommonButton
+            onClick={onClose}
+            variant="secondary"
+            className="mt-6 w-full py-3"
+          >
             별로예요
           </CommonButton>
         </div>

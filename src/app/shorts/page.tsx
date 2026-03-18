@@ -1,6 +1,6 @@
-import { BackButton } from "@base-components";
 import { Header } from "@layouts";
 import { ShortsContainer } from "@features/shorts/components";
+import { BackButton } from "@shared/components";
 
 export default function ShortsPage() {
   return (

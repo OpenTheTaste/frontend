@@ -6,8 +6,8 @@ import {
   Smartphone,
   User,
 } from "lucide-react";
-import { BackButton } from "@base-components";
 import { HeaderBrand } from "@features/auth/components";
+import { BackButton } from "@shared/components";
 
 export default function HelpPage() {
   return (

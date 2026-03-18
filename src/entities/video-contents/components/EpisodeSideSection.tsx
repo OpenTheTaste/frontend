@@ -3,13 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useAutoPlayStore } from "@store";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
 import { ViewProgressBar } from "@shared/components";
 import { useInfiniteScroll } from "@shared/hooks";
+import { useAutoPlayStore } from "@shared/store";
 
 interface EpisodeSideSectionProps {
   seriesMediaId: number;

@@ -1,4 +1,4 @@
-import { Factor, INITIAL_VALUES } from "@/entities/custom/constants/factors";
+import { Factor, INITIAL_VALUES } from "@entities/custom/constants";
 
 export interface Preset {
   id: string;

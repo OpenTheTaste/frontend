@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useAutoPlayStore } from "@store";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ReviewSection } from "@entities/video-contents/components";
@@ -12,6 +11,7 @@ import {
   usePlaylist,
 } from "@entities/video-contents/hooks";
 import { useInfiniteScroll, useMediaLink } from "@shared/hooks";
+import { useAutoPlayStore } from "@shared/store";
 import { PlaylistItem, PlaylistParams } from "@shared/types";
 
 interface SingleSideSectionProps {

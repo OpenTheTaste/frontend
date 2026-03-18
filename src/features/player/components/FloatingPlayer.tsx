@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { usePipStore } from "@store";
 import { Maximize2, Pause, Play, X } from "lucide-react";
 import { useHideControls, useHls } from "@entities/player/hooks";
+import { usePipStore } from "@shared/store";
 
 const PADDING = 16;
 const PLAYER_WIDTH = 400;

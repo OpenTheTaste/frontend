@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
-import { ConfirmModal } from "@base-components";
 import { Pagination } from "@features/myreviews/components";
 import { MyReviewSkeleton } from "@entities/myreview/components";
 import { useDeleteMyreview, useMyreviews } from "@entities/myreview/hooks";
+import { ConfirmModal } from "@shared/components";
 import { useMediaLink } from "@shared/hooks";
 import { formatDate } from "@shared/lib";
 

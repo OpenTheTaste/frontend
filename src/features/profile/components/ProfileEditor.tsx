@@ -1,15 +1,18 @@
 "use client";
 
-import { useState, useEffect, KeyboardEvent } from "react";
 import Image from "next/image";
-import { Input } from "@base-components";
+import { KeyboardEvent, useEffect, useState } from "react";
+import { Input } from "@shared/components";
 
 interface ProfileEditorProps {
   nickname: string;
   onNicknameChange: (nickname: string) => void;
 }
 
-export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEditorProps) {
+export default function ProfileEditor({
+  nickname,
+  onNicknameChange,
+}: ProfileEditorProps) {
   const [draftName, setDraftName] = useState<string>(nickname ?? "");
   const [error, setError] = useState<string | null>(null);
 
@@ -51,21 +54,25 @@ export default function ProfileEditor({ nickname, onNicknameChange }: ProfileEdi
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex w-full flex-col items-center">
       {/* 프로필 아이콘 */}
-      <div className="relative w-16 h-16 rounded-full overflow-hidden">
-        <Image src="/icons/logo.svg" alt="Profile Logo" fill className="object-cover" />
+      <div className="relative h-16 w-16 overflow-hidden rounded-full">
+        <Image
+          src="/icons/logo.svg"
+          alt="Profile Logo"
+          fill
+          className="object-cover"
+        />
       </div>
 
       {/* 이름 영역 */}
-      <div className="w-full max-w-100 h-10 mt-4 mb-3 flex flex-col items-center">
+      <div className="mt-4 mb-3 flex h-10 w-full max-w-100 flex-col items-center">
         <Input
           value={draftName}
           onChange={(e) => handleChange(e.target.value)}
           onBlur={commitNickname}
           onKeyDown={handleKeyDown}
-          className={`w-full h-full text-ot-text text-center outline-none transition-all
-            ${error ? "border border-red-500 animate-shake" : "border border-ot-gray-300"}`}
+          className={`text-ot-text h-full w-full text-center transition-all outline-none ${error ? "animate-shake border border-red-500" : "border-ot-gray-300 border"}`}
         />
       </div>
     </div>

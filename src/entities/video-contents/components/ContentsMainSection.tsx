@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronDown, Play } from "lucide-react";
-import { Badge, CommonButton, InteractionButton } from "@base-components";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
 import { useLikes } from "@entities/likes/hooks";
 import { putWatchHistoryApi } from "@entities/player/api";
@@ -15,6 +14,7 @@ import {
 } from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
+import { Badge, CommonButton, InteractionButton } from "@shared/components";
 import { MediaType } from "@shared/types";
 
 interface ContentsMainSectionProps {

@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useUserStore } from "@store";
 import { useRadarRecommend } from "@entities/custom/hooks";
 import { ContentCarousel } from "@entities/home/components";
 import { useMediaLink } from "@shared/hooks";
+import { useUserStore } from "@shared/store";
 import { PlaylistItem } from "@shared/types";
 
 export default function CustomRecommendCarousel() {

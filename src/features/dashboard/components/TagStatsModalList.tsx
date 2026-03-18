@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ScrollEdgeButton } from "@base-components";
 import { useTagRecommendPlaylist } from "@entities/dashboard/hooks";
+import { ScrollEdgeButton } from "@shared/components";
 import { useMediaLink } from "@shared/hooks";
 
 interface TagStatsModalListProps {

@@ -1,5 +1,5 @@
-import { api } from "@/shared/api";
-import { ApiResponse } from "@/shared/types";
+import { api } from "@shared/api";
+import { ApiResponse } from "@shared/types";
 
 export interface RadarResponse {
   popularity: number;
