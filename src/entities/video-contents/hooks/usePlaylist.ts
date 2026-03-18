@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getBookmarkPlaylistApi } from "@entities/bookmark/api";
 import {
+  getHistoryListApi,
   getTagsTopList,
-  historyListApi,
   trendingListApi,
 } from "@entities/home/apis";
 import { searchPlaylistApi } from "@entities/search/api";
@@ -54,7 +54,7 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
           );
         }
         case "history":
-          return historyListApi(baseParams) as Promise<PlaylistResponse>;
+          return getHistoryListApi(baseParams) as Promise<PlaylistResponse>;
         case "bookmarks":
           return getBookmarkPlaylistApi(
             baseParams,

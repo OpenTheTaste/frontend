@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSeriesDetail } from "../api/seriesDetail";
+import { getSeriesDetail } from "@entities/video-contents/api";
 
 export function useSeriesDetail(mediaId: number) {
   return useQuery({
