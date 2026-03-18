@@ -43,7 +43,7 @@ export default function MainCarousel({
     return () => observer.disconnect();
   }, []);
 
-  const itemCount = 1 + BANNER_IMAGES.length;
+  const itemCount = (aiCardData && !dismissed ? 1 : 0) + BANNER_IMAGES.length;
   const itemsPerPage = Math.max(
     1,
     Math.floor((containerWidth - 2 * PEEK + GAP) / (itemWidth + GAP)),
@@ -75,17 +75,20 @@ export default function MainCarousel({
               transform: `translateX(-${translateX}px)`,
             }}
           >
-            <div
-              className="bg-ot-gray-800 relative shrink-0 overflow-hidden rounded-xl"
-              style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
-            >
-              {aiCardData && !dismissed && (
+            {aiCardData && !dismissed && (
+              <div
+                className="bg-ot-gray-800 relative shrink-0 overflow-hidden rounded-xl"
+                style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
+              >
                 <AiCardSlide
                   aiCard={aiCardData}
-                  onClose={() => setDismissed(true)}
+                  onClose={() => {
+                    setDismissed(true);
+                    setCurrentPage(0);
+                  }}
                 />
-              )}
-            </div>
+              </div>
+            )}
 
             {BANNER_IMAGES.map((banner, idx) => (
               <div
