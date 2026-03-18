@@ -173,7 +173,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
                 </span>
               ))}
             </div>
-            <p className="text-ot-text w-full text-sm">{aiCard.subtitle}</p>
+            <p className="text-ot-text text-sm">{aiCard.subtitle}</p>
           </div>
         </div>
       </div>
