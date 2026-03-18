@@ -20,7 +20,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { AutoPlayNextBanner, SettingModal } from "@features/player/components";
-import { playbackApi, watchHistoryApi } from "@entities/player/api";
+import { putPlaybackApi, putWatchHistoryApi } from "@entities/player/api";
 import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
@@ -327,7 +327,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     if (videoRef.current && !videoRef.current.paused) {
       videoRef.current.pause();
     }
-    await playbackApi(mediaId, currentTimeRef.current).catch(() => {});
+    await putPlaybackApi(mediaId, currentTimeRef.current).catch(() => {});
 
     if (data?.seriesMediaId) {
       router.push(
@@ -356,7 +356,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
     isSavedRef.current = true;
     video.pause();
-    await playbackApi(mediaId, video.currentTime).catch(() => {});
+    await putPlaybackApi(mediaId, video.currentTime).catch(() => {});
     enterPip(data?.masterPlaylistUrl, mediaId, video.currentTime);
     router.back();
   };
@@ -371,7 +371,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     if (nextMedia.mediaType === "SERIES") {
       router.push(`/contents/${nextMedia.mediaId}?type=SERIES`);
     } else {
-      await watchHistoryApi(nextMedia.mediaId).catch(() => {});
+      await putWatchHistoryApi(nextMedia.mediaId).catch(() => {});
       router.push(`/player/${nextMedia.mediaId}`);
     }
   }, [nextMedia, router]);
@@ -387,7 +387,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     return () => {
       if (isSavedRef.current) return;
       if (currentTimeRef.current === 0) return;
-      playbackApi(mediaId, currentTimeRef.current).catch(() => {});
+      putPlaybackApi(mediaId, currentTimeRef.current).catch(() => {});
     };
   }, [mediaId]);
 

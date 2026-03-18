@@ -1,2 +1,2 @@
-export { watchHistoryApi } from "./watchHistoryApi";
-export { playbackApi } from "./playbackApi";
+export { putWatchHistoryApi } from "./putWatchHistoryApi";
+export { putPlaybackApi } from "./putPlaybackApi";

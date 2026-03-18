@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { playbackApi } from "@entities/player/api";
+import { putPlaybackApi } from "@entities/player/api";
 
 interface usePlaybackProps {
   mediaId: number;
@@ -18,7 +18,7 @@ export const usePlayback = ({
     const interval = setInterval(async () => {
       if (!isPlayingRef.current) return;
       try {
-        await playbackApi(mediaId, getCurrentPostionSec());
+        await putPlaybackApi(mediaId, getCurrentPostionSec());
       } catch {}
     }, 10000);
 
