@@ -5,7 +5,7 @@ export function useRadar() {
   return useQuery({
     queryKey: ["radar"],
     queryFn: async () => {
-      const res = await getRadarApi.getRadar();
+      const res = await getRadarApi();
       return res.data;
     },
   });

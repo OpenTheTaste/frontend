@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { putRadarApi } from "@entities/custom/apis";
-import { RadarResponse } from "@entities/custom/apis";
+import { RadarResponse, putRadarApi } from "@entities/custom/apis";
 
 export function usePutRadar() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (body: RadarResponse) => putRadarApi.putRadar(body),
+    mutationFn: (body: RadarResponse) => putRadarApi(body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["radar"] });
     },
