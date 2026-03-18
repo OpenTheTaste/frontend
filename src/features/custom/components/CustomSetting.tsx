@@ -224,7 +224,7 @@ export function CustomSetting() {
             <ol className="mb-5 list-inside list-decimal space-y-1">
               <li>
                 가중치 조절 : 오른쪽 슬라이더 바를 움직여 대중성, 몰입도 등
-                6가지 요소의 값을 0에서 100 사이로 자유롭게 설정하세요.
+                5가지 요소의 값을 0에서 100 사이로 자유롭게 설정하세요.
               </li>
               <li>
                 차트 확인 : 설정한 수치에 따라 왼쪽의 육각형 레이더 차트가
