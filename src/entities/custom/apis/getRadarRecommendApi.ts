@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -17,7 +18,7 @@ export interface GetRadarListParams extends BasePaginationParams {
 
 export const getRadarRecommendApi = async (params: GetRadarListParams) => {
   const res = await api.get<ApiResponse<RadarRecommendResponse>>(
-    "/radar/recommend",
+    END_POINTS.RADAR_RECOMMEND,
     {
       params: {
         ...(params.excludeMediaId !== undefined && {
