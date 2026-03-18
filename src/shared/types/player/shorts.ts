@@ -1,11 +1,11 @@
+import { MediaType } from "@shared/types";
+
 export interface ContentLink {
   title: string;
   url: string;
   editor: string;
   date: string;
 }
-
-import { MediaType } from "@shared/types";
 
 export interface ShortsData {
   id: number;

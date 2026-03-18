@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { BookmarkBox } from "@features/bookmark/components";
 import { TabBar } from "@features/mypage/components";
 import { RecentContentBox } from "@features/recent-history/components";
-import { BookmarkBox } from "@features/bookmark/components";
 
 type TabType = "recenthistory" | "bookmark";
 
@@ -35,13 +35,12 @@ export default function MyPageContent() {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       {/* [3개월 내 시청내역 | 북마크] 선택 탭 바 & 구분선 묶음 */}
-      <div className="mt-8 flex justify-start relative z-10">
+      <div className="relative z-10 mt-8 flex justify-start">
         {/* 탭 바 */}
         <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
-        {/* 구분선 */}
-        <div className="w-full border-t border-ot-gray-800 absolute bottom-0 left-0 z-0" />
+        <div className="border-ot-gray-800 absolute bottom-0 left-0 z-0 w-full border-t" />
       </div>
 
       {/* 탭 뭐눌렀는지에 따라 불러오는거 구분 */}

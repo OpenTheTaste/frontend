@@ -12,8 +12,7 @@ import {
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { TagStatsModal } from "@features/dashboard/components";
 import { useTagMonthlyStats } from "@entities/dashboard/hooks";
-import { useTagRecommendPlaylist } from "@entities/dashboard/hooks";
-import { DashboardData } from "@shared/types/mypage/dashboard";
+import { DashboardData } from "@shared/types/mypage";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -27,29 +26,21 @@ export default function DashboardContentList({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState<{ name: string } | null>(null);
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
+
   const {
     data: monthlyStats,
-    isLoading: isStatsLoading,
+    isPending: isStatsPending,
     isError: isStatsError,
   } = useTagMonthlyStats(selectedTagId ?? 0);
-  const {
-    data: playlist,
-    isLoading: isPlaylistLoading,
-    isError: isPlaylistError,
-  } = useTagRecommendPlaylist(selectedTagId ?? 0);
 
-  // 차트 스타일 & 동작 옵션
   const options: ChartOptions<"pie"> = {
     responsive: true,
     maintainAspectRatio: false,
-
     onClick: (event, elements, chart) => {
       if (elements.length > 0) {
         const index = elements[0].index;
         const label = chart.data.labels?.[index] as string;
-        if (label === "기타") {
-          return;
-        }
+        if (label === "기타") return;
         const tagId = data.tagIds?.[index];
         if (tagId) {
           setSelectedTagId(tagId);
@@ -70,63 +61,38 @@ export default function DashboardContentList({
         }
       }
     },
-
     animation: {
-      duration: 1500, // 애니메이션 지속 시간 (1.5초)
-      easing: "easeOutQuart", // (easeInBounce, easeOutCirc, easeInOutBack 등 있음)
+      duration: 1500,
+      easing: "easeOutQuart",
       animateRotate: true,
       animateScale: true,
     },
-    hover: {
-      mode: "nearest",
-      intersect: true,
-    },
-    elements: {
-      arc: {
-        borderWidth: 0,
-        hoverOffset: 0,
-      },
-    },
-    layout: {
-      padding: {
-        top: 60,
-        bottom: 60,
-        left: 150, // 300 -> 120
-        right: 50, // 200 -> 80
-      },
-    },
+    hover: { mode: "nearest", intersect: true },
+    elements: { arc: { borderWidth: 0, hoverOffset: 0 } },
+    layout: { padding: { top: 60, bottom: 60, left: 150, right: 50 } },
     plugins: {
       legend: {
-        display: true, // false = 기본 범례 숨김 (커스텀)
+        display: true,
         position: "right",
         align: "center",
         labels: {
           color: "#fafaf8",
-          font: {
-            size: 16,
-            family: "Pretendard",
-          },
+          font: { size: 16, family: "Pretendard" },
           usePointStyle: true,
           pointStyle: "circle",
           padding: 20,
         },
       },
-      tooltip: {
-        enabled: true, // 호버 시 툴팁 활성화
-      },
+      tooltip: { enabled: true },
       datalabels: {
         anchor: "end",
         align: "end",
         offset: 20,
         color: "#fafaf8",
-        font: {
-          size: 14,
-        },
+        font: { size: 14 },
         formatter: (value, context) => {
           const idx = context.dataIndex;
-          const label = context.chart.data.labels
-            ? context.chart.data.labels[idx]
-            : "-ui";
+          const label = context.chart.data.labels?.[idx] ?? "-";
           return `${label} - ${value}번`;
         },
       },
@@ -141,18 +107,13 @@ export default function DashboardContentList({
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           tagName={selectedTag.name}
-          isLoading={isStatsLoading || isPlaylistLoading}
-          isError={isStatsError || isPlaylistError}
+          isPending={isStatsPending}
+          isError={isStatsError}
           monthlyStats={{
             thisMonth: monthlyStats?.currentMonth.count ?? 0,
             lastMonth: monthlyStats?.previousMonth?.count ?? 0,
           }}
-          recommendations={
-            playlist?.dataList.map((item) => ({
-              id: item.mediaId,
-              image: item.posterUrl,
-            })) ?? []
-          } // 없으면 빈 칸
+          selectedTagId={selectedTagId}
         />
       )}
     </div>

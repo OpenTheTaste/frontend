@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AxiosError } from "axios";
 import { Clapperboard } from "lucide-react";
 import {
+  ContentsDetailSkeleton,
   ContentsMainSection,
   EpisodeSideSection,
   SeriesSideSection,
@@ -57,7 +58,7 @@ export default function ContentsContainer({
     seriesErrorObj instanceof AxiosError &&
     (seriesErrorObj as AxiosError<ApiError>).response?.data?.code === "B108";
 
-  if (isLoading) return <div className="flex-1">로딩중...</div>;
+  // if (isLoading) return <div className="flex-1">로딩중...</div>;
 
   if (isNoEpisode) {
     return (
@@ -83,6 +84,8 @@ export default function ContentsContainer({
       </div>
     );
   }
+
+  if (isLoading) return <ContentsDetailSkeleton isSeries={isSeries} />;
 
   if (isError || !data)
     return <div className="flex-1">콘텐츠를 찾을 수 없습니다.</div>;

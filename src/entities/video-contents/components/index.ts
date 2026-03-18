@@ -4,3 +4,4 @@ export { default as EpisodeSideSection } from "./EpisodeSideSection";
 export { default as ReviewSection } from "./ReviewSection";
 export { default as SeriesSideSection } from "./SeriesSideSection";
 export { default as SingleSideSection } from "./SingleSideSection";
+export { ContentsDetailSkeleton } from "./ContentsDetailSkeleton";

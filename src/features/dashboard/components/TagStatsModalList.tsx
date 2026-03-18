@@ -1,15 +1,27 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { RecommendedContent } from "@shared/types/mypage/dashboard";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { ScrollEdgeButton } from "@base-components";
+import { useTagRecommendPlaylist } from "@entities/dashboard/hooks";
+import { useMediaLink } from "@shared/hooks";
 
 interface TagStatsModalListProps {
-  items: RecommendedContent[];
+  selectedTagId: number | null;
 }
 
-export default function TagStatsModalList({ items }: TagStatsModalListProps) {
+export default function TagStatsModalList({
+  selectedTagId,
+}: TagStatsModalListProps) {
+  const {
+    data: playlist,
+    isLoading,
+    isError,
+  } = useTagRecommendPlaylist(selectedTagId ?? 0);
+  const items = playlist?.dataList ?? [];
+
+  const { getMediaHref } = useMediaLink();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showRightButton, setShowRightButton] = useState<boolean>(true); // 오른쪽 버튼 상태 (처음은 있음)
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false); // 왼쪽 버튼 상태 (처음엔 없음)
@@ -28,12 +40,9 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
     }
   };
 
-  // 가로 휠 스크롤 기능
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el) {
-      return;
-    }
+    if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
       if (e.deltaY === 0) {
@@ -50,8 +59,6 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
 
     el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("scroll", checkScrollPosition);
-
-    // 초기 상태 확인
     checkScrollPosition();
 
     return () => {
@@ -60,7 +67,6 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
     };
   }, []);
 
-  // 오른쪽 끝으로 한 번에 스크롤
   const scrollToRight = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({
@@ -82,27 +88,40 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
     }
   };
 
+  if (isLoading) return <div className="text-ot-gray-600 py-4">로딩 중...</div>;
+  if (isError)
+    return (
+      <div className="text-ot-gray-600 py-4">
+        추천 콘텐츠를 불러올 수 없습니다.
+      </div>
+    );
+
   return (
-    <div className="w-full max-w-250 mx-auto relative group">
-      {/* 가로 스크롤 */}
+    <div className="group relative mx-auto w-full max-w-250">
       <div
         ref={scrollRef}
-        className="flex gap-6 py-4 overflow-x-auto no-scrollbar"
+        className="no-scrollbar flex gap-6 overflow-x-auto py-4"
       >
         {items.map((item) => (
-          <div key={item.id} className="shrink-0">
-            {/* 포스터 이미지 영역 (그림 320 * 240 크기) */}
-            <div className="w-45 aspect-4/3 relative flex items-center justify-center bg-ot-gray-800 rounded-lg overflow-hidden">
-              {item.image ? (
-                <Image
-                  src={item.image}
-                  alt={`content-${item.id}`}
-                  fill
-                  className="object-cover"
-                />
+          <div key={item.mediaId} className="shrink-0">
+            <div className="bg-ot-gray-800 relative flex aspect-4/3 w-45 items-center justify-center overflow-hidden rounded-lg">
+              {item.posterUrl ? (
+                <Link
+                  href={getMediaHref(item.mediaId, item.mediaType, {
+                    type: "recommend",
+                  })}
+                  className="block"
+                >
+                  <Image
+                    src={item.posterUrl}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                  />
+                </Link>
               ) : (
-                <span className="text-ot-gray-400 text-sm px-2 text-center">
-                  콘텐츠 {item.id}
+                <span className="text-ot-gray-400 px-2 text-center text-sm">
+                  콘텐츠 {item.mediaId}
                 </span>
               )}
             </div>
@@ -110,12 +129,9 @@ export default function TagStatsModalList({ items }: TagStatsModalListProps) {
         ))}
       </div>
 
-      {/* 왼쪽 끝에 스크롤 버튼 */}
       {showLeftButton && (
         <ScrollEdgeButton direction="left" onClick={scrollToLeft} />
       )}
-
-      {/* 오른쪽 끝에 스크롤 버튼 */}
       {showRightButton && (
         <ScrollEdgeButton direction="right" onClick={scrollToRight} />
       )}

@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2, Play, X } from "lucide-react";
 import { ConfirmModal } from "@base-components";
-import { useBookmarkShortForms } from "@entities/bookmark/hooks";
-import { useToggleBookmark } from "@entities/bookmark/hooks";
-import { useInfiniteScroll } from "@/shared/hooks";
+import { BookmarkShortsSkeleton } from "@entities/bookmark/components";
+import {
+  useBookmarkShortForms,
+  useToggleBookmark,
+} from "@entities/bookmark/hooks";
+import { useInfiniteScroll } from "@shared/hooks";
 
 export default function BookmarkShortsList() {
   const [isDeleteShortsModalOpen, setIsDeleteShortsModalOpen] =
@@ -37,14 +40,7 @@ export default function BookmarkShortsList() {
       onSuccess: () => setIsDeleteShortsModalOpen(false),
     });
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex h-[50vh] items-center justify-center">
-        <p className="text-ot-gray-600">로딩 중...</p>
-      </div>
-    );
-  }
+  if (isLoading) return <BookmarkShortsSkeleton />;
 
   if (isError) {
     return (
@@ -75,10 +71,10 @@ export default function BookmarkShortsList() {
           >
             {/* 숏폼 이미지 (9:16) */}
             <div className="bg-ot-gray-800 relative aspect-9/16 w-20 shrink-0 overflow-hidden rounded-lg">
-              {item.thumbnailUrl ? (
+              {item.posterUrl ? (
                 <>
                   <Image
-                    src={item.thumbnailUrl}
+                    src={item.posterUrl}
                     alt={item.title}
                     fill
                     className="object-cover transition-all duration-200 group-hover:brightness-50"

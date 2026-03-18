@@ -23,7 +23,7 @@ export interface BookmarkShortFormItem {
   mediaId: number;
   title: string;
   description: string;
-  thumbnailUrl: string;
+  posterUrl: string;
 }
 
 // 북마크 콘텐츠 조회 목록 전체 틀

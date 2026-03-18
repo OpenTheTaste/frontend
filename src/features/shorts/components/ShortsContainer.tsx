@@ -1,20 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShortsPlayer } from "@/entities/shorts/components";
-import { ShortsInformation } from "@/entities/shorts/components";
-import { ShortsActionButtons } from "@/entities/shorts/components";
-import { ShortsData } from "@shared/types/player/shorts";
-import { postLikes } from "@entities/likes/api";
+import { useEffect, useState } from "react";
+import { ShortsPlayer } from "@features/shorts/components";
 import { toggleBookmark } from "@entities/bookmark/api";
+import { postLikes } from "@entities/likes/api";
 import {
+  getShortLists,
   postShortsCta,
   postShortsEvents,
-  getShortLists,
- } from "@entities/shorts/api";
+} from "@entities/shorts/api";
+import {
+  ShortsActionButtons,
+  ShortsInformation,
+  ShortsSkeleton,
+} from "@entities/shorts/components";
 import { useMediaLink } from "@shared/hooks";
 import { MediaType } from "@shared/types";
+import { ShortsData } from "@shared/types/player";
 
 interface ShortsContainerProps {
   initialShortsId?: number;
@@ -26,7 +29,9 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const [shortsList, setShortsList] = useState<ShortsData[]>([]);
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
   const [likedToggles, setLikedToggles] = useState<Set<number>>(new Set());
-  const [bookmarkToggles, setBookmarkToggles] = useState<Set<number>>(new Set());
+  const [bookmarkToggles, setBookmarkToggles] = useState<Set<number>>(
+    new Set(),
+  );
 
   useEffect(() => {
     getShortLists({ page: 0, size: 10 }).then(({ dataList }) => {
@@ -69,7 +74,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     return () => clearTimeout(timer);
   }, [currentShorts]);
 
-  if (!currentShorts) return null;
+  if (!currentShorts) return <ShortsSkeleton />;
 
   const isLiked = currentShorts.isLiked !== likedToggles.has(currentShorts.id);
   const isBookmarked =
@@ -81,13 +86,15 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
 
   const handlePrevShorts = () => {
     setCurrentShortsIndex((prev) =>
-      prev === 0 ? shortsList.length - 1 : prev - 1
+      prev === 0 ? shortsList.length - 1 : prev - 1,
     );
   };
 
   const handleContentLinkClick = () => {
     postShortsCta(currentShorts.id);
-    router.push(getMediaHref(currentShorts.originMediaId, currentShorts.mediaType));
+    router.push(
+      getMediaHref(currentShorts.originMediaId, currentShorts.mediaType),
+    );
   };
 
   const toggleLiked = (id: number) =>
@@ -125,32 +132,30 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center px-8">
-      <div className="flex items-end gap-4">
-        <div className="max-w-sm mr-4">
-          <ShortsInformation
-            contentLink={currentShorts.contentLink}
-            onContentLinkClick={handleContentLinkClick}
-          />
-        </div>
+    <div className="grid w-full grid-cols-[1fr_auto_1fr] items-end justify-items-center px-8">
+      <div className="mr-4 max-w-sm justify-self-end">
+        <ShortsInformation
+          contentLink={currentShorts.contentLink}
+          onContentLinkClick={handleContentLinkClick}
+        />
+      </div>
 
-        <div className="h-[80vh] max-h-[720px] aspect-9/16 bg-ot-gray-800 rounded-lg overflow-hidden">
-          <ShortsPlayer
-            src={currentShorts.src}
-            shortsId={currentShorts.id}
-            onNextShorts={handleNextShorts}
-            onPrevShorts={handlePrevShorts}
-          />
-        </div>
+      <div className="bg-ot-gray-800 aspect-9/16 h-[80vh] max-h-180 overflow-hidden rounded-lg">
+        <ShortsPlayer
+          src={currentShorts.src}
+          shortsId={currentShorts.id}
+          onNextShorts={handleNextShorts}
+          onPrevShorts={handlePrevShorts}
+        />
+      </div>
 
-        <div className="ml-4">
-          <ShortsActionButtons
-            isLiked={isLiked}
-            isBookmarked={isBookmarked}
-            onLikeClick={handleLikeClick}
-            onBookmarkClick={handleBookmarkClick}
-          />
-        </div>
+      <div className="ml-4 justify-self-start">
+        <ShortsActionButtons
+          isLiked={isLiked}
+          isBookmarked={isBookmarked}
+          onLikeClick={handleLikeClick}
+          onBookmarkClick={handleBookmarkClick}
+        />
       </div>
     </div>
   );

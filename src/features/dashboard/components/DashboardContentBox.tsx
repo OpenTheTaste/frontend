@@ -1,21 +1,16 @@
 "use client";
 
 import { DashboardContentList } from "@features/dashboard/components";
-import { useTagRanking } from "@entities/dashboard/hooks/useTagRanking";
-import { DashboardData } from "@shared/types/mypage/dashboard";
+import { DashboardSkeleton } from "@entities/dashboard/components";
+import { useTagRanking } from "@entities/dashboard/hooks";
+import { DashboardData } from "@shared/types/mypage";
 
 const COLORS = ["#5f001b", "#9c003e", "#ff5f7c", "#ffd1d8", "#f2f2f2"];
 
 export default function DashboardContentBox() {
   const { data, isLoading, isError } = useTagRanking();
 
-  if (isLoading) {
-    return (
-      <div className="flex h-100 items-center justify-center">
-        <p className="text-ot-gray-600">로딩 중...</p>
-      </div>
-    );
-  }
+  if (isLoading) return <DashboardSkeleton />;
 
   if (isError) {
     return (
@@ -45,7 +40,6 @@ export default function DashboardContentBox() {
     tagIds: data?.rankings.map((tag) => tag.tagId) ?? [],
   };
 
-  // 테스트) 데이터 없을 때 모달창 띄울거면 아래 빈 거 체크하는 부분 주석으로 하기
   return (
     <div className="border-ot-text mx-auto flex w-full flex-col items-center rounded-lg border pt-6 pb-3">
       {data?.rankings.length === 0 ? (
