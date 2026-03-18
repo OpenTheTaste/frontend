@@ -18,6 +18,7 @@ interface AutoPlayStore {
     currentMediaId: number,
     source?: PlaylistSource,
   ) => void; // 현재 저장되어있는 콘텐츠 리스트와 mediaId 저장
+  setCurrentMediaId: (mediaId: number) => void;
   getNextMedia: () => AutoPlayMedia | null;
   clear: () => void;
 }
@@ -31,7 +32,8 @@ export const useAutoPlayStore = create<AutoPlayStore>()(
 
       setQueue: (queue, currentMediaId, source) =>
         set({ queue, currentMediaId, source }, false, "setQueue"),
-
+      setCurrentMediaId: (mediaId: number) =>
+        set({ currentMediaId: mediaId }, false, "setCurrentMediaId"),
       getNextMedia: () => {
         const { queue, currentMediaId } = get();
         const idx = queue.findIndex((item) => item.mediaId === currentMediaId);
