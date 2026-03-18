@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { tagRankingApi } from "@entities/dashboard/api";
+import { getTagRankingsApi } from "@entities/dashboard/api";
 
 export function useTagRanking() {
   return useQuery({
     queryKey: ["tagRanking"],
     queryFn: async () => {
-      const res = await tagRankingApi.getTagRankings();
+      const res = await getTagRankingsApi();
       return res.data.data;
     },
   });

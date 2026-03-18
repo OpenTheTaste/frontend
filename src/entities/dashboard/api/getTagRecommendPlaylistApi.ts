@@ -18,7 +18,5 @@ export interface TagPlaylistResponse {
   dataList: TagPlaylistItem[];
 }
 
-export const tagRecommendPlaylistApi = {
-  getTagRecommendPlaylist: async (tagId: number) =>
-    await api.get<ApiResponse<TagPlaylistResponse>>(`/playlists/tags/${tagId}`),
-};
+export const getTagRecommendPlaylistApi = async (tagId: number) =>
+  await api.get<ApiResponse<TagPlaylistResponse>>(`/playlists/tags/${tagId}`);

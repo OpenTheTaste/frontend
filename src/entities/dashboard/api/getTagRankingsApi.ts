@@ -12,6 +12,5 @@ export interface TagRankingResponse {
   rankings: TagRanking[];
 }
 
-export const tagRankingApi = {
-  getTagRankings: async () => await api.get<ApiResponse<TagRankingResponse>>("/tag/me/ranking"),
-};
+export const getTagRankingsApi = async () =>
+  await api.get<ApiResponse<TagRankingResponse>>("/tag/me/ranking");

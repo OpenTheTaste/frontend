@@ -15,7 +15,7 @@ export interface TagMonthlyStatsResponse {
   previousMonth: MonthStat | null;
 }
 
-export const tagMonthlyStatsApi = {
-  getTagMonthlyStats: async (tagId: number) =>
-    await api.get<ApiResponse<TagMonthlyStatsResponse>>(`/tag/me/ranking/${tagId}`),
-};
+export const getTagMonthlyStatsApi = async (tagId: number) =>
+  await api.get<ApiResponse<TagMonthlyStatsResponse>>(
+    `/tag/me/ranking/${tagId}`,
+  );
