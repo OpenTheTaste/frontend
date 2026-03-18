@@ -6,8 +6,9 @@ import {
   FinishEditButton,
   ProfileEditor,
 } from "@features/profile/components";
-import { MemberProfile } from "@/entities/profile/api";
-import { useMemberProfile } from "@/entities/profile/hooks";
+import { MemberProfile } from "@entities/profile/api";
+import { ProfileEditSkeleton } from "@entities/profile/components";
+import { useMemberProfile } from "@entities/profile/hooks";
 
 function ProfileEditContent({ profile }: { profile: MemberProfile }) {
   const initialTagIds = profile.preferredTags.map((t) => t.tagId);
@@ -39,9 +40,9 @@ function ProfileEditContent({ profile }: { profile: MemberProfile }) {
 }
 
 export default function ProfileEditContainer() {
-  const { data: profile } = useMemberProfile();
+  const { data: profile, isLoading } = useMemberProfile();
 
+  if (isLoading) return <ProfileEditSkeleton />;
   if (!profile) return null;
-
   return <ProfileEditContent profile={profile} />;
 }
