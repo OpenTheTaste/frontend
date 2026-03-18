@@ -1,5 +1,6 @@
 import { api } from "@shared/api";
 import { ApiResponse, MediaType, PageInfo } from "@shared/types";
+import { END_POINTS } from "@/shared/constants";
 
 // 해당 태그 모달창 아래 뜨는 콘텐츠 안쪽 타입
 export interface TagPlaylistItem {
@@ -19,4 +20,6 @@ export interface TagPlaylistResponse {
 }
 
 export const getTagRecommendPlaylistApi = async (tagId: number) =>
-  await api.get<ApiResponse<TagPlaylistResponse>>(`/playlists/tags/${tagId}`);
+  await api.get<ApiResponse<TagPlaylistResponse>>(
+    END_POINTS.PLAYLISTS_BY_TAG(tagId),
+  );

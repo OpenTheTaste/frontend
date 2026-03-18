@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse } from "@shared/types";
 
 // 해당 달이 언제인지 표시 ex) 2026-03 / 카운트 ex) 12
@@ -17,5 +18,5 @@ export interface TagMonthlyStatsResponse {
 
 export const getTagMonthlyStatsApi = async (tagId: number) =>
   await api.get<ApiResponse<TagMonthlyStatsResponse>>(
-    `/tag/me/ranking/${tagId}`,
+    END_POINTS.TAG_ME_RANKING_DETAIL(tagId),
   );
