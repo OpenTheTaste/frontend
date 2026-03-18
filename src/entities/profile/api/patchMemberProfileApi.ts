@@ -1,5 +1,6 @@
 import { MemberProfile } from "@entities/profile/api";
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 
 export interface UpdateMemberRequest {
   nickname: string;
@@ -12,4 +13,4 @@ export interface EditProfileParams {
 }
 
 export const patchMemberProfileApi = (body: UpdateMemberRequest) =>
-  api.patch<MemberProfile>("/member/me", body);
+  api.patch<MemberProfile>(END_POINTS.MEMBER_ME, body);

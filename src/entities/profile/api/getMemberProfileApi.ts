@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse } from "@shared/types";
 
 /** 회원 프로필 응답 */
@@ -12,4 +13,4 @@ export interface MemberProfile {
 }
 
 export const getMemberProfileApi = () =>
-  api.get<ApiResponse<MemberProfile>>("/member/me");
+  api.get<ApiResponse<MemberProfile>>(END_POINTS.MEMBER_ME);
