@@ -125,12 +125,19 @@ export default function RecentContentList({
               {/* 포스터 이미지 영역 (이미지 4 : 3 비율) */}
               <div className="bg-ot-gray-800 relative flex aspect-4/3 w-60 items-center justify-center overflow-hidden rounded-lg">
                 {item.thumbnailUrl ? (
-                  <Image
-                    src={item.thumbnailUrl}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                  />
+                  <>
+                    <Image
+                      src={item.thumbnailUrl}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 to-transparent p-2">
+                      <p className="text-ot-text line-clamp-2 text-xs font-medium">
+                        {item.title}
+                      </p>
+                    </div>
+                  </>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
                     <span className="text-ot-gray-400 text-sm">
