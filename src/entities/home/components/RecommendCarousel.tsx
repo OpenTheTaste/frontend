@@ -42,8 +42,8 @@ export default function RecommendCarousel() {
               fill
               className="object-cover"
             />
-            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-              <p className="line-clamp-2 text-xs font-medium text-white">
+            <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 to-transparent p-2">
+              <p className="text-ot-text line-clamp-2 text-xs font-medium">
                 {item.title}
               </p>
             </div>

@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useUserStore } from "@store";
 import { ContentCarousel } from "@entities/home/components";
 import { useHistoryList } from "@entities/home/hooks";
-import { useUserStore } from "@store";
 import { ViewProgressBar } from "@shared/components";
 import { useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
@@ -37,8 +37,8 @@ export default function HistoryCarousel() {
               fill
               className="object-cover"
             />
-            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-              <p className="line-clamp-2 text-xs font-medium text-white">
+            <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 to-transparent p-2">
+              <p className="text-ot-text line-clamp-2 text-xs font-medium">
                 {item.title}
               </p>
             </div>
