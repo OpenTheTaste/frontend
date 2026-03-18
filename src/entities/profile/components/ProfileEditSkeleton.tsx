@@ -32,7 +32,7 @@ export function ProfileEditSkeleton() {
             </div>
           </div>
 
-          <div className="border-ot-text mb-3 w-full rounded-lg border p-6">
+          <div className="border-ot-gray-700 mb-3 w-full rounded-lg border p-6">
             <div className="mb-2 flex items-center justify-between">
               <div className="bg-ot-gray-800 h-5 w-28 animate-pulse rounded-md" />
               <div className="bg-ot-gray-800 h-4 w-14 animate-pulse rounded-md" />
