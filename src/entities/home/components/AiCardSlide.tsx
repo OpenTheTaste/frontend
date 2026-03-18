@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { MoodCardResponse } from "@entities/home/apis";
 import { useHideMood } from "@entities/home/hooks";
+import { useMediaLink } from "@shared/hooks";
 
 interface AiCardSlideProps {
   aiCard: MoodCardResponse;
@@ -53,6 +55,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
   const [rotation, setRotation] = useState<number>(0);
   const [spinning, setSpinning] = useState<boolean>(false);
   const { hideMood, isLoading } = useHideMood();
+  const { getMediaHref } = useMediaLink(); // 추가
 
   const handleClose = async () => {
     await hideMood(aiCard.refreshId);
@@ -146,9 +149,12 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
 
           <div className="flex gap-4">
             {aiCard.recommendedMediaList.slice(0, 3).map((media) => (
-              <div
+              <Link
                 key={media.mediaId}
-                className="group shrink-0 cursor-pointer"
+                href={getMediaHref(media.mediaId, media.mediaType, {
+                  type: "recommend",
+                })}
+                className="group shrink-0"
               >
                 <div className="relative aspect-5/7 w-30 overflow-hidden rounded-lg">
                   <Image
@@ -158,7 +164,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
