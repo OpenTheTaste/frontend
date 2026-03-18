@@ -1,5 +1,5 @@
+import { MemberProfile } from "@entities/profile/api";
 import { api } from "@shared/api";
-import { MemberProfile } from "@/entities/profile/api";
 
 export interface UpdateMemberRequest {
   nickname: string;
@@ -11,7 +11,5 @@ export interface EditProfileParams {
   tagIds: number[];
 }
 
-export const editProfileApi = {
-  updateMemberProfile: (body: UpdateMemberRequest) =>
-    api.patch<MemberProfile>("/member/me", body),
-};
+export const patchMemberProfileApi = (body: UpdateMemberRequest) =>
+  api.patch<MemberProfile>("/member/me", body);
