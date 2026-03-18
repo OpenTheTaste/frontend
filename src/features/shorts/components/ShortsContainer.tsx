@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ShortsPlayer } from "@features/shorts/components";
-import { toggleBookmark } from "@entities/bookmark/api";
+import { postBookmarkApi } from "@entities/bookmark/api";
 import { postLikes } from "@entities/likes/api";
 import {
   getShortLists,
@@ -125,7 +125,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const handleBookmarkClick = async () => {
     toggleBookmarked(currentShorts.id);
     try {
-      await toggleBookmark({ mediaId: currentShorts.id });
+      await postBookmarkApi({ mediaId: currentShorts.id });
     } catch {
       toggleBookmarked(currentShorts.id);
     }
