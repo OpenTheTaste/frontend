@@ -101,7 +101,7 @@ export default function ContentsMainSection({
             />
           )}
           <Link href={`/player/${content.mediaId}`} className="relative z-10">
-            <button className="group">
+            <button className="group" onClick={handlePlay}>
               <Play className="fill-ot-text stroke-ot-text h-14 w-14 transition-transform duration-200 group-hover:scale-110" />
             </button>
           </Link>
