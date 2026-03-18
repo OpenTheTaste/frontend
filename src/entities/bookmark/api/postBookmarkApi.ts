@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 
 // 북마크 요청 보낼 때 (추가/삭제 포함)
 export interface BookmarkRequest {
@@ -13,4 +14,4 @@ export interface BookmarkResponse {
 
 // data는 프 -> 백으로 보내는 추가/삭제할 북마크 요소의 mediaId
 export const postBookmarkApi = async (data: BookmarkRequest) =>
-  await api.post<BookmarkResponse>("/bookmarks", data);
+  await api.post<BookmarkResponse>(END_POINTS.BOOKMARKS, data);
