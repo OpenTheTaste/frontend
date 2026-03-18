@@ -7,9 +7,7 @@ export interface RecentHistoryResponse {
   dataList: PlaylistItem[];
 }
 
-export const recentHistoryApi = {
-  getRecentHistorys: async (page: number) =>
-    await api.get<ApiResponse<RecentHistoryResponse>>("/playlists/history", {
-      params: { page },
-    }),
-};
+export const getRecentHistoryApi = async (page: number) =>
+  await api.get<ApiResponse<RecentHistoryResponse>>("/playlists/history", {
+    params: { page },
+  });

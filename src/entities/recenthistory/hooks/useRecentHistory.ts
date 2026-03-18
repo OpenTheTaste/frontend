@@ -1,12 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { recentHistoryApi } from "@entities/recenthistory/api";
+import { getRecentHistoryApi } from "@entities/recenthistory/api";
 import { PlaylistItem } from "@shared/types";
 
 export function useRecentHistory() {
   const query = useInfiniteQuery({
     queryKey: ["recentHistory"],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await recentHistoryApi.getRecentHistorys(pageParam as number);
+      const res = await getRecentHistoryApi(pageParam as number);
       return res.data.data;
     },
     initialPageParam: 0,
@@ -15,7 +15,7 @@ export function useRecentHistory() {
       return currentPage + 1 < totalPage ? currentPage + 1 : undefined;
     },
   });
-  
+
   const recentHistoryList: PlaylistItem[] =
     query.data?.pages.flatMap((page) => page.dataList) ?? [];
 
