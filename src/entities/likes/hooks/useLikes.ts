@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postLikes } from "@entities/likes/api";
+import { postLikesApi } from "@entities/likes/api";
 
 export function useLikes() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (mediaId: number) => postLikes(mediaId),
+    mutationFn: (mediaId: number) => postLikesApi(mediaId),
     onSuccess: (_data, mediaId) => {
       queryClient.invalidateQueries({
         queryKey: ["contents", "detail", mediaId],

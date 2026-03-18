@@ -1,1 +1,1 @@
-export { postLikes } from "./likes";
+export { postLikesApi } from "./postLikesApi";

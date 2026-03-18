@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ShortsPlayer } from "@features/shorts/components";
 import { postBookmarkApi } from "@entities/bookmark/api";
-import { postLikes } from "@entities/likes/api";
+import { postLikesApi } from "@entities/likes/api";
 import {
   getShortLists,
   postShortsCta,
@@ -116,7 +116,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const handleLikeClick = async () => {
     toggleLiked(currentShorts.id);
     try {
-      await postLikes(currentShorts.id);
+      await postLikesApi(currentShorts.id);
     } catch {
       toggleLiked(currentShorts.id);
     }
