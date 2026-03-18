@@ -18,8 +18,8 @@ interface ShortFormsData {
   dataList: ShortFormItem[];
 }
 
-export const getShortLists = async (
-  params: Pick<BasePaginationParams, "page" | "size">
+export const getShortListsApi = async (
+  params: Pick<BasePaginationParams, "page" | "size">,
 ) => {
   const { data } = await api.get<ApiResponse<ShortFormsData>>("/short-forms", {
     params,

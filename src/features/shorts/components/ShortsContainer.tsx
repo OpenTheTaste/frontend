@@ -6,9 +6,9 @@ import { ShortsPlayer } from "@features/shorts/components";
 import { postBookmarkApi } from "@entities/bookmark/api";
 import { postLikesApi } from "@entities/likes/api";
 import {
-  getShortLists,
-  postShortsCta,
-  postShortsEvents,
+  getShortListsApi,
+  postShortsCtaApi,
+  postShortsEventsApi,
 } from "@entities/shorts/api";
 import {
   ShortsActionButtons,
@@ -34,7 +34,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   );
 
   useEffect(() => {
-    getShortLists({ page: 0, size: 10 }).then(({ dataList }) => {
+    getShortListsApi({ page: 0, size: 10 }).then(({ dataList }) => {
       const list = dataList.map((item) => ({
         id: item.shortFormId,
         src: item.shortMasterPlaylistUrl,
@@ -69,7 +69,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   useEffect(() => {
     if (!currentShorts) return;
     const timer = setTimeout(() => {
-      postShortsEvents(currentShorts.id);
+      postShortsEventsApi(currentShorts.id);
     }, 5000);
     return () => clearTimeout(timer);
   }, [currentShorts]);
@@ -91,7 +91,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   };
 
   const handleContentLinkClick = () => {
-    postShortsCta(currentShorts.id);
+    postShortsCtaApi(currentShorts.id);
     router.push(
       getMediaHref(currentShorts.originMediaId, currentShorts.mediaType),
     );
