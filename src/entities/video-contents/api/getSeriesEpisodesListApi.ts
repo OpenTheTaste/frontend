@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -19,7 +20,7 @@ export const getSeriesEpisodesListApi = async (
   params: GetSeriesEpisodesListParams,
 ) => {
   const res = await api.get<ApiResponse<SeriesEpisodesListResponse>>(
-    `/series/${params.seriesMediaId}/contents`,
+    END_POINTS.SERIES_CONTENTS(params.seriesMediaId),
     {
       params: {
         page: params.page,

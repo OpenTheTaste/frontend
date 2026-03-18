@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse } from "@shared/types";
 
 export interface ContentsDetailReponse {
@@ -19,5 +20,7 @@ export interface ContentsDetailReponse {
 
 export const getContentsDetailApi = async (mediaId: number) =>
   await api
-    .get<ApiResponse<ContentsDetailReponse>>(`/contents/${mediaId}`)
+    .get<
+      ApiResponse<ContentsDetailReponse>
+    >(END_POINTS.CONTENTS_DETAIL(mediaId))
     .then((res) => res.data.data);
