@@ -25,8 +25,7 @@
       "@entities/*": ["./src/entities/*"],
       "@features/*": ["./src/features/*"],
       "@shared/*": ["./src/shared/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@store": ["./src/store"]
+      "@layouts/*": ["./src/layouts/*"]
     }
   },
   "include": [
