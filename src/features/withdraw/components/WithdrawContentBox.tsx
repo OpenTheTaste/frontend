@@ -10,7 +10,7 @@ export default function WithdrawContentBox() {
     size: 20,
   });
   const dataList = data?.dataList ?? [];
-  if (!isLoading) return <WithdrawContentSkeleton />;
+  if (isLoading) return <WithdrawContentSkeleton />;
   return (
     <div className="border-ot-text mx-auto flex w-full flex-col items-center rounded-lg border p-8">
       <h2 className="text-ot-text pt-2 pb-2 text-[24px] font-semibold">

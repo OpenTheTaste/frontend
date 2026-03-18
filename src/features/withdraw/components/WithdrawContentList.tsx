@@ -109,7 +109,7 @@ export default function WithdrawContentList({
                 })}
                 className="block"
               >
-                <div className="bg-ot-gray-800 border-ot-gray-700 relative h-45 w-60 overflow-hidden rounded-lg border">
+                <div className="bg-ot-gray-800 relative h-45 w-60 overflow-hidden rounded-lg">
                   {item.thumbnailUrl ? (
                     <Image
                       src={item.thumbnailUrl}
