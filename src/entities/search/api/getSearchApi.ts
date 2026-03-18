@@ -18,7 +18,7 @@ export interface SearchResponse {
   dataList: SearchItem[];
 }
 
-export const searchApi = async (params: BasePaginationParams) => {
+export const getSearchApi = async (params: BasePaginationParams) => {
   const res = await api.get<ApiResponse<SearchResponse>>("/search", { params });
   return res.data.data;
 };

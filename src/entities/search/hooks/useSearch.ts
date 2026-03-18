@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { SearchItem, searchApi } from "@entities/search/api";
+import { SearchItem, getSearchApi } from "@entities/search/api";
 import { BasePaginationParams } from "@shared/types";
 import { useInfiniteScroll } from "@/shared/hooks";
 
@@ -11,7 +11,7 @@ export const useInfiniteSearchList = ({
   const query = useInfiniteQuery({
     queryKey: ["search", { page, size, searchWord }],
     queryFn: ({ pageParam = page }) =>
-      searchApi({ page: pageParam as number, size, searchWord }),
+      getSearchApi({ page: pageParam as number, size, searchWord }),
     initialPageParam: page,
     enabled: !!searchWord && searchWord.trim().length >= 2,
     getNextPageParam: (lastPage) => {

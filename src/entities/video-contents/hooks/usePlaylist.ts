@@ -5,10 +5,9 @@ import {
   getTagsTopList,
   trendingListApi,
 } from "@entities/home/apis";
-import { searchPlaylistApi } from "@entities/search/api";
+import { getSearchPlaylistApi } from "@entities/search/api";
 import { withdrawcontentsApi } from "@entities/withdraw-recommends/api";
-import { PlaylistSource } from "@shared/types";
-import { PlaylistResponse } from "@shared/types";
+import { PlaylistResponse, PlaylistSource } from "@shared/types";
 
 export const parsePlaylistSource = (
   searchParams: URLSearchParams,
@@ -60,7 +59,7 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
             baseParams,
           ) as Promise<PlaylistResponse>;
         case "search":
-          return searchPlaylistApi(baseParams) as Promise<PlaylistResponse>;
+          return getSearchPlaylistApi(baseParams) as Promise<PlaylistResponse>;
         default:
           return trendingListApi(baseParams) as Promise<PlaylistResponse>;
       }

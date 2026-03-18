@@ -15,7 +15,7 @@ export interface SearchPlaylistResponse {
   dataList: PlaylistItem[];
 }
 
-export const searchPlaylistApi = async (params: SearchPlaylistParams) => {
+export const getSearchPlaylistApi = async (params: SearchPlaylistParams) => {
   const res = await api.get<ApiResponse<SearchPlaylistResponse>>(
     "/playlists/search",
     {

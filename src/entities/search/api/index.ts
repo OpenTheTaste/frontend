@@ -1,3 +1,3 @@
-export { searchPlaylistApi } from "./getSearchPlaylistApi";
-export { searchApi } from "./getSearchApi";
+export { getSearchPlaylistApi } from "./getSearchPlaylistApi";
+export { getSearchApi } from "./getSearchApi";
 export type { SearchItem } from "./getSearchApi";
