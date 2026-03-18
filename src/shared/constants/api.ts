@@ -44,6 +44,9 @@ export const END_POINTS = {
   // 이어보기
   PLAYBACK: "/playback",
 
+  // 시청 이력
+  WATCH_HISTORY: "/watch-history",
+
   // 태그
   TAG_ME_RANKING: "/tag/me/ranking",
   TAG_ME_RANKING_DETAIL: (tagId: number) => `/tag/me/ranking/${tagId}`,
@@ -65,7 +68,4 @@ export const END_POINTS = {
   // 시리즈
   SERIES_DETAIL: (mediaId: number) => `/series/${mediaId}`,
   SERIES_CONTENTS: (mediaId: number) => `/series/${mediaId}/contents`,
-
-  // 시청 이력
-  WATCH_HISTORY: "/watch-history",
 } as const;
