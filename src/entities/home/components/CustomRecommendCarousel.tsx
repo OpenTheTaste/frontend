@@ -31,7 +31,7 @@ export default function CustomRecommendCarousel() {
         >
           <div className="bg-ot-gray-800 relative h-full w-full overflow-hidden rounded-lg">
             <Image
-              src={item.thumbnailUrl}
+              src={item.posterUrl}
               alt={item.title}
               fill
               className="object-cover"
