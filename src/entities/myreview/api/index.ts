@@ -1,2 +1,2 @@
-export * from "./myreviewApi";
-export * from "./myreviewDeleteApi";
+export * from "./getMyReviewsApi";
+export * from "./deleteMyReviewApi";
