@@ -3,10 +3,10 @@ import { getBookmarkPlaylistApi } from "@entities/bookmark/api";
 import {
   getHistoryListApi,
   getTagsTopList,
-  trendingListApi,
+  getTrendingListApi,
 } from "@entities/home/apis";
 import { getSearchPlaylistApi } from "@entities/search/api";
-import { withdrawcontentsApi } from "@entities/withdraw-recommends/api";
+import { getWithdrawRecommendsContentsApi } from "@entities/withdraw-recommends/api";
 import { PlaylistResponse, PlaylistSource } from "@shared/types";
 
 export const parsePlaylistSource = (
@@ -42,11 +42,11 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
       const baseParams = { excludeMediaId, page: pageParam, size: 20 };
       switch (source.type) {
         case "trending":
-          return trendingListApi(baseParams) as Promise<PlaylistResponse>;
+          return getTrendingListApi(baseParams) as Promise<PlaylistResponse>;
         case "recommend":
-          return withdrawcontentsApi
-            .getWithdrawRecommendsContents(baseParams)
-            .then((res) => res.data.data as PlaylistResponse);
+          return getWithdrawRecommendsContentsApi(baseParams).then(
+            (res) => res.data.data as PlaylistResponse,
+          );
         case "topTag": {
           return getTagsTopList({ ...baseParams, index: source.index }).then(
             (res) => res.medias as PlaylistResponse,
@@ -61,7 +61,7 @@ export const usePlaylist = (source: PlaylistSource, excludeMediaId: number) => {
         case "search":
           return getSearchPlaylistApi(baseParams) as Promise<PlaylistResponse>;
         default:
-          return trendingListApi(baseParams) as Promise<PlaylistResponse>;
+          return getTrendingListApi(baseParams) as Promise<PlaylistResponse>;
       }
     },
     getNextPageParam: (lastPage) => {

@@ -2,7 +2,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import {
   RecommendPlaylistParams,
   RecommendPlaylistResponse,
-  withdrawcontentsApi,
+  getWithdrawRecommendsContentsApi,
 } from "@entities/withdraw-recommends/api";
 
 export function useWithdrawContents(
@@ -15,8 +15,7 @@ export function useWithdrawContents(
   return useQuery({
     queryKey: ["recommendPlaylists", params],
     queryFn: async () => {
-      const res =
-        await withdrawcontentsApi.getWithdrawRecommendsContents(params);
+      const res = await getWithdrawRecommendsContentsApi(params);
       return res.data.data;
     },
     ...options,

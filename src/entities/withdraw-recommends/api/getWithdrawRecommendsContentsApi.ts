@@ -1,6 +1,10 @@
 import { api } from "@shared/api";
-import { ApiResponse, MediaType } from "@/shared/types";
-import { BasePaginationParams, PageInfo } from "@/shared/types/pagination";
+import {
+  ApiResponse,
+  BasePaginationParams,
+  MediaType,
+  PageInfo,
+} from "@shared/types";
 
 // 추천 플레이리스트 현재 영상 ID (swagger)
 export interface RecommendPlaylistParams extends BasePaginationParams {
@@ -24,10 +28,10 @@ export interface RecommendPlaylistResponse {
   dataList: RecommendPlaylistItem[];
 }
 
-export const withdrawcontentsApi = {
-  getWithdrawRecommendsContents: async (params: RecommendPlaylistParams) =>
-    await api.get<ApiResponse<RecommendPlaylistResponse>>(
-      "/playlists/recommend",
-      { params },
-    ),
-};
+export const getWithdrawRecommendsContentsApi = async (
+  params: RecommendPlaylistParams,
+) =>
+  await api.get<ApiResponse<RecommendPlaylistResponse>>(
+    "/playlists/recommend",
+    { params },
+  );
