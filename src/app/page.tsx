@@ -15,12 +15,7 @@ export default function Home() {
     <div>
       <Header />
       <Suspense fallback={<HomeSkeleton />}>
-        <MainCarousel
-          title=""
-          itemCount={5}
-          itemHeight={400}
-          itemWidth={1350}
-        />
+        <MainCarousel title="" itemHeight={400} itemWidth={1350} />
         <CustomRecommendCarousel />
         <TrendingCarousel />
         <RecommendCarousel />

@@ -38,22 +38,24 @@ export interface BookmarkShortFormResponse {
   dataList: BookmarkShortFormItem[];
 }
 
-export const bookmarkApi = {
-  getBookmarkContents: async (page: number) =>
-    await api.get<ApiResponse<BookmarkContentResponse>>(
-      "/bookmarks/me/contents",
-      {
-        params: { page, size: 10 },
-      },
-    ),
+export const getBookmarkContentsApi = async (page: number) => {
+  const res = await api.get<ApiResponse<BookmarkContentResponse>>(
+    "/bookmarks/me/contents",
+    {
+      params: { page, size: 10 },
+    },
+  );
+  return res.data.data;
+};
 
-  getBookmarkShortForms: async (page: number) =>
-    await api.get<ApiResponse<BookmarkShortFormResponse>>(
-      "/bookmarks/me/short-form",
-      {
-        params: { page, size: 10 },
-      },
-    ),
+export const getBookmarkShortFormsApi = async (page: number) => {
+  const res = await api.get<ApiResponse<BookmarkShortFormResponse>>(
+    "/bookmarks/me/short-form",
+    {
+      params: { page, size: 10 },
+    },
+  );
+  return res.data.data;
 };
 
 /// 북마크 플레이리스트
@@ -66,7 +68,7 @@ export interface BookmarkPlaylistResponse {
   dataList: PlaylistItem[];
 }
 
-export const bookmarkPlaylistApi = async (params: GetBookmarkListParams) => {
+export const getBookmarkPlaylistApi = async (params: GetBookmarkListParams) => {
   const res = await api.get<ApiResponse<BookmarkPlaylistResponse>>(
     "/playlists/bookmarks",
     {

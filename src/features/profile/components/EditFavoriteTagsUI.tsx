@@ -10,8 +10,8 @@ import {
 import {
   CategoryItem,
   TagItem,
-  getCategories,
-  getTags,
+  getCategoriesApi,
+  getTagsApi,
 } from "@entities/auth/api";
 
 interface EditFavoriteTagsUIProps {
@@ -43,7 +43,7 @@ export default function EditFavoriteTagsUI({
   // 카테고리 조회
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories(),
+    queryFn: () => getCategoriesApi(),
   });
 
   // 첫 카테고리 자동 선택
@@ -59,7 +59,7 @@ export default function EditFavoriteTagsUI({
     queryFn: () =>
       Promise.all(
         categories.map((cat) =>
-          getTags(cat.categoryId).then((tags) => ({
+          getTagsApi(cat.categoryId).then((tags) => ({
             categoryId: cat.categoryId,
             tags,
           })),

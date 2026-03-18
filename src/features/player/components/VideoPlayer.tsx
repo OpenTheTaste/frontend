@@ -72,7 +72,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     isPip,
     currentTime: pipCurrentTime,
   } = usePipStore();
-  const { setQueue, source } = useAutoPlayStore();
+  const { setCurrentMediaId, source } = useAutoPlayStore();
 
   // 다음 재생 영상 호출
   const nextMedia = useAutoPlayStore((state) => {
@@ -233,10 +233,17 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
   };
 
-  // 시간 포맷
   const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);
+
+    if (hours > 0) {
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
+    }
+
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
@@ -354,13 +361,12 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     router.back();
   };
 
+  // setQueue 대신 setCurrentMediaId 사용 X — 아무것도 안 해도 됨
   const handleNextConfirm = useCallback(async () => {
     if (!nextMedia) return;
     showNextBannerRef.current = false;
     setShowNextBanner(false);
     isSavedRef.current = true;
-    const { queue, source } = useAutoPlayStore.getState();
-    setQueue(queue, nextMedia.mediaId, source ?? undefined);
 
     if (nextMedia.mediaType === "SERIES") {
       router.push(`/contents/${nextMedia.mediaId}?type=SERIES`);
@@ -368,7 +374,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
       await watchHistoryApi(nextMedia.mediaId).catch(() => {});
       router.push(`/player/${nextMedia.mediaId}`);
     }
-  }, [nextMedia, router, setQueue]);
+  }, [nextMedia, router]);
 
   usePlayback({
     mediaId,
@@ -383,6 +389,10 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
       if (currentTimeRef.current === 0) return;
       playbackApi(mediaId, currentTimeRef.current).catch(() => {});
     };
+  }, [mediaId]);
+
+  useEffect(() => {
+    setCurrentMediaId(mediaId);
   }, [mediaId]);
 
   if (isLoading) return <div className="fixed inset-0 bg-black" />;

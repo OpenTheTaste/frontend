@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toggleBookmark } from "@entities/bookmark/api";
+import { postBookmarkApi } from "@entities/bookmark/api";
 
 export function useToggleBookmark() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (mediaId: number) => toggleBookmark({ mediaId }),
+    mutationFn: (mediaId: number) => postBookmarkApi({ mediaId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookmarkContents"] });
       queryClient.invalidateQueries({ queryKey: ["bookmarkShortForms"] });

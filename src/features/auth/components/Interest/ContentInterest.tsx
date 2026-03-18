@@ -12,10 +12,10 @@ import {
 import {
   CategoryItem,
   TagItem,
-  getCategories,
-  getTags,
-  setPreferredTags,
-  skiptagApi,
+  getCategoriesApi,
+  getTagsApi,
+  postPreferredTagsApi,
+  postSkipTagApi,
 } from "@entities/auth/api";
 import { InterestSkeleton } from "@entities/auth/components";
 
@@ -34,7 +34,7 @@ export default function ContentInterest() {
   const fetchedCategoryIds = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    getCategories().then((cats) => {
+    getCategoriesApi().then((cats) => {
       setCategories(cats);
       setSelectedCategory(cats[0] ?? null);
       setSelectedTagIdsByCategory(
@@ -48,7 +48,7 @@ export default function ContentInterest() {
     if (fetchedCategoryIds.current.has(selectedCategory.categoryId)) return;
 
     fetchedCategoryIds.current.add(selectedCategory.categoryId);
-    getTags(selectedCategory.categoryId).then((tags) => {
+    getTagsApi(selectedCategory.categoryId).then((tags) => {
       setTagsByCategory((prev) => ({
         ...prev,
         [selectedCategory.categoryId]: tags,
@@ -113,7 +113,7 @@ export default function ContentInterest() {
   const handleSubmit = async () => {
     const allTagIds = Object.values(selectedTagIdsByCategory).flat();
     try {
-      await setPreferredTags(allTagIds);
+      await postPreferredTagsApi(allTagIds);
       router.push("/");
     } catch (err) {
       console.error("[관심사 제출] 실패:", err);
@@ -122,7 +122,7 @@ export default function ContentInterest() {
 
   const handleSkip = async () => {
     try {
-      await skiptagApi();
+      await postSkipTagApi();
       router.push("/");
     } catch (err) {
       console.error("건너뛰기 실패", err);

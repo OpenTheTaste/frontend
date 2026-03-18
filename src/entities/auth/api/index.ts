@@ -1,11 +1,10 @@
-export { authApi } from "./auth";
-export type { CategoryItem } from "./category";
-export type { TagItem } from "./category";
-export type { SetPreferredTagsRequest } from "./category";
-export type { SetPreferredTagsResponse } from "./category";
-export { getCategories } from "./category";
-export { getTags } from "./category";
-export { setPreferredTags } from "./category";
-export { logoutApi } from "./logout";
-export { withdrawApi } from "./withdraw";
-export { skiptagApi } from "./skiptag";
+export type { CategoryItem, TagItem } from "./getCategoryApi";
+export {
+  postPreferredTagsApi,
+  type PostPreferredTagsResponse,
+} from "./postPreferredTagsApi";
+export { getKakaoOAuthUrl } from "./getAuthUrl";
+export { getCategoriesApi, getTagsApi } from "./getCategoryApi";
+export { postLogoutApi } from "./postLogoutApi";
+export { deleteWithdrawApi } from "./deleteWithdrawApi";
+export { postSkipTagApi } from "./postSkipTagApi";

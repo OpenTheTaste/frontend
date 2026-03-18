@@ -1,12 +1,14 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { bookmarkApi, BookmarkShortFormItem } from "@entities/bookmark/api";
+import {
+  BookmarkShortFormItem,
+  getBookmarkShortFormsApi,
+} from "@entities/bookmark/api";
 
 export function useBookmarkShortForms() {
   const query = useInfiniteQuery({
     queryKey: ["bookmarkShortForms"],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await bookmarkApi.getBookmarkShortForms(pageParam as number);
-      return res.data.data;
+      return await getBookmarkShortFormsApi(pageParam as number);
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {

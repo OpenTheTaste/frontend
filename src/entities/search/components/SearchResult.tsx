@@ -73,6 +73,11 @@ export default function SearchResult({ keyword }: SearchResultProps) {
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                   className="rounded-lg object-cover"
                 />
+                <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 to-transparent p-2">
+                  <p className="text-ot-text line-clamp-2 text-xs font-medium">
+                    {item.title}
+                  </p>
+                </div>
               </Link>
             </div>
           </div>
