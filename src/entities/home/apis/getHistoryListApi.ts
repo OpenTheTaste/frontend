@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -17,7 +18,7 @@ export interface GetHistoryListParams extends BasePaginationParams {
 
 export const getHistoryListApi = async (params: GetHistoryListParams) => {
   const res = await api.get<ApiResponse<HistoryListResponse>>(
-    "/playlists/history",
+    END_POINTS.PLAYLISTS_HISTORY,
     {
       params: {
         page: params.page,

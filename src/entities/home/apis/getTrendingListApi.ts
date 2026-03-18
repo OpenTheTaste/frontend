@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -17,7 +18,7 @@ export interface TrendingListResponse {
 
 export const getTrendingListApi = async (params: TrendingListParams) => {
   const res = await api.get<ApiResponse<TrendingListResponse>>(
-    "/playlists/trending",
+    END_POINTS.PLAYLISTS_TRENDING,
     {
       params: {
         page: params.page,

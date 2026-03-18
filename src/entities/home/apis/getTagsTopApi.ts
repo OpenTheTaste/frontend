@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -29,7 +30,7 @@ export interface GetRecommendTagListParams extends BasePaginationParams {
 
 export const getTagsTopList = async (params: GetRecommendTagListParams) => {
   const res = await api.get<ApiResponse<RecommendTagListResponse>>(
-    "/playlists/tags/top",
+    END_POINTS.PLAYLISTS_TAGS_TOP,
     {
       params: {
         page: params.page,
