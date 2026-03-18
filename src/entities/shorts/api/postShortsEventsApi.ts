@@ -1,5 +1,6 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 
 export const postShortsEventsApi = async (shortFormId: number) => {
-  await api.post("/short-forms/events", { shortFormId });
+  await api.post(END_POINTS.SHORT_FORMS_EVENTS, { shortFormId });
 };
