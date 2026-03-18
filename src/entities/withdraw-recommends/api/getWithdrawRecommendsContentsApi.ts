@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -32,6 +33,6 @@ export const getWithdrawRecommendsContentsApi = async (
   params: RecommendPlaylistParams,
 ) =>
   await api.get<ApiResponse<RecommendPlaylistResponse>>(
-    "/playlists/recommend",
+    END_POINTS.PLAYLISTS_RECOMMEND,
     { params },
   );
