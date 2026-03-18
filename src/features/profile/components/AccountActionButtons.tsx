@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { CommonButton, ConfirmModal } from "@base-components";
-import { logoutApi } from "@/entities/auth/api";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { CommonButton, ConfirmModal } from "@base-components";
+import { postLogoutApi } from "@entities/auth/api";
 
 export default function AccountActionButtons() {
   const router = useRouter();
@@ -13,10 +13,10 @@ export default function AccountActionButtons() {
   const handleLogout = async () => {
     // 실제 로그아웃 처리 로직 작성 부분 (API 호출 등)
     try {
-      await logoutApi();
+      await postLogoutApi();
       router.push("/auth");
-    } catch (error) { 
-      console.error('[로그아웃 실패]', error);
+    } catch (error) {
+      console.error("[로그아웃 실패]", error);
       setIsLogoutModalOpen(false);
     }
   };
@@ -27,7 +27,7 @@ export default function AccountActionButtons() {
       <CommonButton
         onClick={() => setIsLogoutModalOpen(true)}
         variant="secondary"
-        className="py-2 px-5 text-ot-text text-[14px] font-semibold"
+        className="text-ot-text px-5 py-2 text-[14px] font-semibold"
       >
         로그아웃
       </CommonButton>
@@ -35,7 +35,7 @@ export default function AccountActionButtons() {
       <Link href="/mypage/withdraw">
         <CommonButton
           variant="secondary"
-          className="py-2 px-5 text-ot-text text-[14px] font-semibold"
+          className="text-ot-text px-5 py-2 text-[14px] font-semibold"
         >
           회원탈퇴
         </CommonButton>
