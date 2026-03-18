@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getSeriesEpisodesList } from "@entities/video-contents/api";
+import { getSeriesEpisodesListApi } from "@entities/video-contents/api";
 
 export function useSeriesEpisodeList(
   seriesMediaId: number,
@@ -9,7 +9,7 @@ export function useSeriesEpisodeList(
     queryKey: ["series", "episodes", seriesMediaId],
     initialPageParam: 0,
     queryFn: ({ pageParam = 0 }) =>
-      getSeriesEpisodesList({ seriesMediaId, page: pageParam, size: 24 }),
+      getSeriesEpisodesListApi({ seriesMediaId, page: pageParam, size: 24 }),
     getNextPageParam: (lastPage) =>
       lastPage.pageInfo.currentPage + 1 < lastPage.pageInfo.totalPage
         ? lastPage.pageInfo.currentPage + 1

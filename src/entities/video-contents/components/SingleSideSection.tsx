@@ -11,8 +11,7 @@ import {
   parsePlaylistSource,
   usePlaylist,
 } from "@entities/video-contents/hooks";
-import { useInfiniteScroll } from "@shared/hooks";
-import { useMediaLink } from "@shared/hooks/useMediaLink";
+import { useInfiniteScroll, useMediaLink } from "@shared/hooks";
 import { PlaylistItem, PlaylistParams } from "@shared/types";
 
 interface SingleSideSectionProps {

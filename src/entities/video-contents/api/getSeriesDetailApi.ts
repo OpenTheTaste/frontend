@@ -15,7 +15,7 @@ export interface SeriesDetailReponse {
   resumeMediaId: number;
 }
 
-export const getSeriesDetail = async (mediaId: number) =>
+export const getSeriesDetailApi = async (mediaId: number) =>
   await api
     .get<ApiResponse<SeriesDetailReponse>>(`/series/${mediaId}`)
     .then((res) => {

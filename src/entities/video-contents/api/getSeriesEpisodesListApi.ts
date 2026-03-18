@@ -15,7 +15,7 @@ export interface GetSeriesEpisodesListParams extends BasePaginationParams {
   seriesMediaId: number;
 }
 
-export const getSeriesEpisodesList = async (
+export const getSeriesEpisodesListApi = async (
   params: GetSeriesEpisodesListParams,
 ) => {
   const res = await api.get<ApiResponse<SeriesEpisodesListResponse>>(

@@ -17,7 +17,7 @@ export interface ContentsDetailReponse {
   positionSec: number;
 }
 
-export const getContentsDetail = async (mediaId: number) =>
+export const getContentsDetailApi = async (mediaId: number) =>
   await api
     .get<ApiResponse<ContentsDetailReponse>>(`/contents/${mediaId}`)
     .then((res) => res.data.data);

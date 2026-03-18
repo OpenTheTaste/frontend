@@ -1,8 +1,8 @@
-export { getContentsDetail } from "./contentsDetail";
-export type { ContentsDetailReponse } from "./contentsDetail";
+export { getContentsDetailApi } from "./getContentsDetailApi";
+export type { ContentsDetailReponse } from "./getContentsDetailApi";
 
-export { getSeriesDetail } from "./seriesDetail";
-export type { SeriesDetailReponse } from "./seriesDetail";
+export { getSeriesDetailApi } from "./getSeriesDetailApi";
+export type { SeriesDetailReponse } from "./getSeriesDetailApi";
 
-export { getSeriesEpisodesList } from "./seriesEpisodeList";
-export type * from "./seriesEpisodeList";
+export { getSeriesEpisodesListApi } from "./getSeriesEpisodesListApi";
+export type * from "./getSeriesEpisodesListApi";
