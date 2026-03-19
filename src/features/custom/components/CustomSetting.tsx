@@ -45,16 +45,13 @@ export function CustomSetting() {
 
   const [genre, setGenre] = useState<string>("템플릿");
   const [isGenreOpen, setIsGenreOpen] = useState<boolean>(false);
-
-  const [isRecommended, setIsRecommended] = useState<boolean>(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
+  const [isRecommended, setIsRecommended] = useState<boolean>(false);
 
   const { data: radarData, isLoading } = useRadar();
   const { mutate: putRadar } = usePutRadar();
 
   const serverValues = radarData ? toFactorValues(radarData) : INITIAL_VALUES;
-
-  // null = 사용자가 아직 수정 안 함 → serverValues로 fallback
   const [localValues, setLocalValues] = useState<Record<Factor, number> | null>(
     null,
   );
@@ -65,7 +62,6 @@ export function CustomSetting() {
 
   const values = localValues ?? serverValues;
   const chartValues = confirmedValues ?? serverValues;
-
   const total = FACTORS.reduce((sum, f) => sum + values[f], 0);
   const remaining = 100 - total;
   const isComplete = remaining === 0;
@@ -74,6 +70,7 @@ export function CustomSetting() {
     const otherTotal = total - values[key];
     const capped = Math.min(raw, 100 - otherTotal);
     setLocalValues((prev) => ({ ...(prev ?? serverValues), [key]: capped }));
+    setIsRecommended(false);
   };
 
   const handleRecommend = () => {
@@ -124,7 +121,6 @@ export function CustomSetting() {
                   남은 포인트 {remaining}
                 </span>
 
-                {/* 장르 드롭다운 */}
                 <div className="relative">
                   <button
                     onClick={() => setIsGenreOpen((p) => !p)}
@@ -150,15 +146,13 @@ export function CustomSetting() {
                         <button
                           key={preset.id}
                           onClick={() => {
-                            setIsRecommended(false);
-                            if (preset.id === "reset") {
-                              setGenre("템플릿");
-                            } else {
-                              setGenre(preset.label);
-                            }
+                            setGenre(
+                              preset.id === "reset" ? "템플릿" : preset.label,
+                            );
                             setLocalValues(preset.values);
                             setConfirmedValues(preset.values);
                             setIsGenreOpen(false);
+                            setIsRecommended(false);
                           }}
                           className={`block w-full cursor-pointer px-4 py-2.5 text-left text-sm transition ${
                             genre === preset.label
@@ -189,30 +183,34 @@ export function CustomSetting() {
               ))}
             </div>
 
-            {/* 버튼 */}
-            <div className="mt-8 flex gap-4">
-              <button
-                disabled={!isRecommended}
-                onClick={() => isRecommended && setIsPreviewOpen(true)}
-                className={`flex-1 rounded-xl py-3 text-sm font-semibold transition ${
-                  isRecommended
-                    ? "bg-ot-secondary-800 text-ot-text hover:bg-ot-secondary-600 cursor-pointer"
-                    : "bg-ot-gray-800 text-ot-text cursor-not-allowed"
-                }`}
-              >
-                추천 미리보기
-              </button>
-              <button
-                disabled={!isComplete}
-                onClick={handleRecommend}
-                className={`flex-1 rounded-xl py-3 text-sm font-semibold transition ${
-                  isComplete
-                    ? "bg-ot-primary-gradient text-ot-text cursor-pointer hover:opacity-90"
-                    : "bg-ot-gray-800 text-ot-text cursor-not-allowed"
-                }`}
-              >
-                추천받기
-              </button>
+            <div className="mt-auto flex flex-col gap-2">
+              <p className="text-ot-primary-400 h-6 text-center text-xs">
+                {isRecommended ? "홈에 플레이리스트가 추가되었어요!" : ""}
+              </p>
+              <div className="flex gap-4">
+                <button
+                  disabled={!isRecommended}
+                  onClick={() => isRecommended && setIsPreviewOpen(true)}
+                  className={`flex-1 rounded-xl py-3 text-sm font-semibold transition ${
+                    isRecommended
+                      ? "bg-ot-secondary-800 text-ot-text hover:bg-ot-secondary-600 cursor-pointer"
+                      : "bg-ot-gray-800 text-ot-text cursor-not-allowed"
+                  }`}
+                >
+                  추천 미리보기
+                </button>
+                <button
+                  disabled={!isComplete}
+                  onClick={handleRecommend}
+                  className={`flex-1 rounded-xl py-3 text-sm font-semibold transition ${
+                    isComplete
+                      ? "bg-ot-primary-gradient text-ot-text cursor-pointer hover:opacity-90"
+                      : "bg-ot-gray-800 text-ot-text cursor-not-allowed"
+                  }`}
+                >
+                  추천받기
+                </button>
+              </div>
             </div>
           </div>
         </div>
