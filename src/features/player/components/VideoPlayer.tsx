@@ -23,6 +23,7 @@ import { putPlaybackApi, putWatchHistoryApi } from "@entities/player/api";
 import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
+import { formatTime } from "@shared/lib";
 import { useAutoPlayStore, usePipStore } from "@shared/store";
 
 export const AUTO_PLAY_THRESHOLD = 0.95; // 영상길이 대 현재재생길이에 대한 비율 상수
@@ -231,20 +232,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     } catch (error) {
       console.error("전체화면 전환 실패:", error);
     }
-  };
-
-  const formatTime = (time: number) => {
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor((time % 3600) / 60);
-    const seconds = Math.floor(time % 60);
-
-    if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`;
-    }
-
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   // seek bar (= 시간대 조정 bar)

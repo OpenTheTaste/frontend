@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Maximize2, Pause, Play, X } from "lucide-react";
 import { useHideControls, useHls } from "@entities/player/hooks";
+import { formatTime } from "@shared/lib";
 import { usePipStore } from "@shared/store";
 
 const PADDING = 16;
@@ -151,12 +152,6 @@ export const FloatingPlayer = () => {
     }
     setCurrentTime(video.currentTime);
     router.push(`/player/${mediaId}`);
-  };
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   const progressPercent = duration ? (progress / duration) * 100 : 0;
