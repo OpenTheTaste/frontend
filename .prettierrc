@@ -17,7 +17,6 @@
   "importOrder": [
     "^(react|next)(.*)$",
     "<THIRD_PARTY_MODULES>",
-    "^@base-components$",
     "^@layouts(.*)$",
     "^@features(.*)$",
     "^@entities(.*)$",

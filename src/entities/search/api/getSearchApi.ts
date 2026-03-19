@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -18,7 +19,9 @@ export interface SearchResponse {
   dataList: SearchItem[];
 }
 
-export const searchApi = async (params: BasePaginationParams) => {
-  const res = await api.get<ApiResponse<SearchResponse>>("/search", { params });
+export const getSearchApi = async (params: BasePaginationParams) => {
+  const res = await api.get<ApiResponse<SearchResponse>>(END_POINTS.SEARCH, {
+    params,
+  });
   return res.data.data;
 };

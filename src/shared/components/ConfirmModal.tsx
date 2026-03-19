@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { CommonButton } from "@base-components";
+import { CommonButton } from "@shared/components";
 import { useOutsideClick } from "@shared/hooks";
 
 interface ConfirmModalProps {
@@ -28,7 +28,7 @@ export default function ConfirmModal({
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(modalRef, onClose, isOpen); // 관련 hook 추가하여 사용
+  useOutsideClick(modalRef, onClose, isOpen);
 
   const handleConfirm = () => {
     if (!disabled) onConfirm();
@@ -47,7 +47,7 @@ export default function ConfirmModal({
           onClose();
         }
       };
-      window.addEventListener("keydown", handleEsc); // ESC 누르면 모달창 닫음
+      window.addEventListener("keydown", handleEsc);
       return () => {
         document.body.style.overflow = "unset";
         window.removeEventListener("keydown", handleEsc);
@@ -66,11 +66,11 @@ export default function ConfirmModal({
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50">
       <div
         ref={modalRef}
-        className="relative pt-18 px-20 pb-14 rounded-xl bg-ot-gray-800 shadow-2xl"
+        className="bg-ot-gray-800 relative rounded-xl px-20 pt-18 pb-14 shadow-2xl"
       >
         {/* 모달창 닫기 X 버튼 */}
         <button
-          className="absolute right-7 top-7 transition-opacity hover:opacity-70 cursor-pointer"
+          className="absolute top-7 right-7 cursor-pointer transition-opacity hover:opacity-70"
           onClick={handleClose}
           disabled={disabled}
         >
@@ -80,7 +80,7 @@ export default function ConfirmModal({
         <div className="flex flex-col items-center">
           {/* 안내 문구 */}
           <div className="pb-10">
-            <p className="w-72 text-center text-[24px] font-bold text-ot-text leading-tight">
+            <p className="text-ot-text w-72 text-center text-[24px] leading-tight font-bold">
               {message}
             </p>
           </div>
@@ -88,7 +88,7 @@ export default function ConfirmModal({
           {/* 버튼 두 개 묶음 */}
           <div className="flex gap-8">
             <CommonButton
-              className="w-32 h-10 text-ot-text transition-opacity hover:opacity-70"
+              className="text-ot-text h-10 w-32 transition-opacity hover:opacity-70"
               onClick={handleConfirm}
               disabled={disabled}
             >
@@ -96,7 +96,7 @@ export default function ConfirmModal({
             </CommonButton>
             <CommonButton
               variant="secondary"
-              className="w-32 h-10 text-ot-text"
+              className="text-ot-text h-10 w-32"
               onClick={handleClose}
               disabled={disabled}
             >

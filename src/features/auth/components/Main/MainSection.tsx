@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { CommonButton } from "@base-components";
+import { CommonButton } from "@shared/components";
 
 export default function MainSection() {
   return (
-    <section className="w-full max-w-480 flex flex-col items-center justify-center py-12 px-3 mx-auto ">
-      <h1 className="text-[3rem] font-bold text-ot-text mb-2">O+T</h1>
+    <section className="mx-auto flex w-full max-w-480 flex-col items-center justify-center px-3 py-12">
+      <h1 className="text-ot-text mb-2 text-[3rem] font-bold">O+T</h1>
 
-      <p className="text-[1.75rem] text-ot-text text-center mb-1 font-bold">
+      <p className="text-ot-text mb-1 text-center text-[1.75rem] font-bold">
         무엇을 원하든, 알맞는 추천
       </p>
 
-      <p className="text-[1rem] font-bold text-ot-text text-center mb-6 leading-relaxed">
+      <p className="text-ot-text mb-6 text-center text-[1rem] leading-relaxed font-bold">
         정확한 지표를 통한 태그 기반 추천으로
         <br />
         숏폼까지 볼 수 있는 O+T를 시작해보세요

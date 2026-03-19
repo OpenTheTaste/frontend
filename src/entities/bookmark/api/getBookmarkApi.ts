@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import {
   ApiResponse,
   BasePaginationParams,
@@ -40,7 +41,7 @@ export interface BookmarkShortFormResponse {
 
 export const getBookmarkContentsApi = async (page: number) => {
   const res = await api.get<ApiResponse<BookmarkContentResponse>>(
-    "/bookmarks/me/contents",
+    END_POINTS.BOOKMARKS_ME_CONTENTS,
     {
       params: { page, size: 10 },
     },
@@ -50,7 +51,7 @@ export const getBookmarkContentsApi = async (page: number) => {
 
 export const getBookmarkShortFormsApi = async (page: number) => {
   const res = await api.get<ApiResponse<BookmarkShortFormResponse>>(
-    "/bookmarks/me/short-form",
+    END_POINTS.BOOKMARKS_ME_SHORT_FORM,
     {
       params: { page, size: 10 },
     },
@@ -70,7 +71,7 @@ export interface BookmarkPlaylistResponse {
 
 export const getBookmarkPlaylistApi = async (params: GetBookmarkListParams) => {
   const res = await api.get<ApiResponse<BookmarkPlaylistResponse>>(
-    "/playlists/bookmarks",
+    END_POINTS.PLAYLISTS_BOOKMARKS,
     {
       params: {
         page: params.page,

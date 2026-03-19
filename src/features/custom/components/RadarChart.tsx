@@ -2,16 +2,16 @@
 
 import { Radar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  type ChartEvent,
   type ActiveElement,
+  type ChartEvent,
+  Chart as ChartJS,
+  Filler,
+  LineElement,
+  PointElement,
+  RadialLinearScale,
+  Tooltip,
 } from "chart.js";
-import { FACTORS, Factor } from "@/entities/custom/constants";
+import { FACTORS, Factor } from "@entities/custom/constants";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 

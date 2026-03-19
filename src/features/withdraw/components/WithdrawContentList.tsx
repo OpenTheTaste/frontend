@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ScrollEdgeButton } from "@base-components";
 import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
-import { useMediaLink } from "@/shared/hooks";
+import { ScrollEdgeButton } from "@shared/components";
+import { useMediaLink } from "@shared/hooks";
 
 interface WithdrawContentListProps {
   items: RecommendPlaylistItem[];

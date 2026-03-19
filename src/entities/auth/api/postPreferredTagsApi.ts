@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 
 export interface PostPreferredTagsResponse {
   tagId: number[];
@@ -6,4 +7,6 @@ export interface PostPreferredTagsResponse {
 }
 
 export const postPreferredTagsApi = async (tagsId: number[]) =>
-  await api.post<PostPreferredTagsResponse>("/member/me/tags", { tagsId });
+  await api.post<PostPreferredTagsResponse>(END_POINTS.MEMBER_ME_TAGS, {
+    tagsId,
+  });

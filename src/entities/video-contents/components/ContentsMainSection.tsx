@@ -5,16 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronDown, Play } from "lucide-react";
-import { Badge, CommonButton, InteractionButton } from "@base-components";
 import { useToggleBookmark } from "@entities/bookmark/hooks";
 import { useLikes } from "@entities/likes/hooks";
-import { watchHistoryApi } from "@entities/player/api";
+import { putWatchHistoryApi } from "@entities/player/api";
 import {
   ContentsDetailReponse,
   SeriesDetailReponse,
 } from "@entities/video-contents/api";
 import { DESCRIPTION_MAX_LENGTH } from "@entities/video-contents/constants";
 import { useSeriesEpisodeList } from "@entities/video-contents/hooks";
+import { Badge, CommonButton, InteractionButton } from "@shared/components";
 import { MediaType } from "@shared/types";
 
 interface ContentsMainSectionProps {
@@ -56,7 +56,7 @@ export default function ContentsMainSection({
   const handlePlay = async () => {
     if (mediaType === "CONTENTS") {
       router.push(`/player/${mediaId}`);
-      await watchHistoryApi(mediaId).catch(() => {});
+      await putWatchHistoryApi(mediaId).catch(() => {});
     } else {
       const resumeId =
         "resumeMediaId" in content ? content.resumeMediaId : null;
@@ -65,7 +65,7 @@ export default function ContentsMainSection({
 
       if (!targetId) return;
       router.push(`/contents/${mediaId}/episode/${targetId}?type=SERIES`);
-      await watchHistoryApi(targetId).catch(() => {});
+      await putWatchHistoryApi(targetId).catch(() => {});
     }
   };
   const truncatedDescription = (text: string) =>

@@ -1,3 +1,3 @@
-export * from "./getRadar";
-export { putRadarApi } from "./putRadar";
-export * from "./getRadarRecommend";
+export * from "./getRadarApi";
+export * from "./putRadarApi";
+export * from "./getRadarRecommendApi";

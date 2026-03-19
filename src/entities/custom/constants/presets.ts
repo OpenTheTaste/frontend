@@ -1,4 +1,4 @@
-import { Factor, INITIAL_VALUES } from "@/entities/custom/constants/factors";
+import { Factor, INITIAL_VALUES } from "@entities/custom/constants";
 
 export interface Preset {
   id: string;
@@ -10,7 +10,7 @@ export interface Preset {
 export const CUSTOM_PRESETS: Record<string, Preset> = {
   POPULAR: {
     id: "popular",
-    label: "인기작 위주",
+    label: " 인기작 위주",
     icon: "🔥",
     values: {
       대중성: 60,
@@ -22,7 +22,7 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
   },
   HIDDEN_GEM: {
     id: "hidden_gem",
-    label: "숨은 명작",
+    label: " 숨은 명작",
     icon: "💎",
     values: {
       대중성: 0,
@@ -34,7 +34,7 @@ export const CUSTOM_PRESETS: Record<string, Preset> = {
   },
   RESET: {
     id: "reset",
-    label: "초기화",
+    label: " 초기화",
     icon: "↩️",
     values: { ...INITIAL_VALUES },
   },

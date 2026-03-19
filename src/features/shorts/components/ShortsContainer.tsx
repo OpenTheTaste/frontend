@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ShortsPlayer } from "@features/shorts/components";
 import { postBookmarkApi } from "@entities/bookmark/api";
-import { postLikes } from "@entities/likes/api";
+import { postLikesApi } from "@entities/likes/api";
 import {
-  getShortLists,
-  postShortsCta,
-  postShortsEvents,
+  getShortListsApi,
+  postShortsCtaApi,
+  postShortsEventsApi,
 } from "@entities/shorts/api";
 import {
   ShortsActionButtons,
@@ -16,8 +16,7 @@ import {
   ShortsSkeleton,
 } from "@entities/shorts/components";
 import { useMediaLink } from "@shared/hooks";
-import { MediaType } from "@shared/types";
-import { ShortsData } from "@shared/types/player";
+import { MediaType, ShortsData } from "@shared/types";
 
 interface ShortsContainerProps {
   initialShortsId?: number;
@@ -34,7 +33,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   );
 
   useEffect(() => {
-    getShortLists({ page: 0, size: 10 }).then(({ dataList }) => {
+    getShortListsApi({ page: 0, size: 10 }).then(({ dataList }) => {
       const list = dataList.map((item) => ({
         id: item.shortFormId,
         src: item.shortMasterPlaylistUrl,
@@ -69,7 +68,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   useEffect(() => {
     if (!currentShorts) return;
     const timer = setTimeout(() => {
-      postShortsEvents(currentShorts.id);
+      postShortsEventsApi(currentShorts.id);
     }, 5000);
     return () => clearTimeout(timer);
   }, [currentShorts]);
@@ -91,7 +90,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   };
 
   const handleContentLinkClick = () => {
-    postShortsCta(currentShorts.id);
+    postShortsCtaApi(currentShorts.id);
     router.push(
       getMediaHref(currentShorts.originMediaId, currentShorts.mediaType),
     );
@@ -116,7 +115,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const handleLikeClick = async () => {
     toggleLiked(currentShorts.id);
     try {
-      await postLikes(currentShorts.id);
+      await postLikesApi(currentShorts.id);
     } catch {
       toggleLiked(currentShorts.id);
     }

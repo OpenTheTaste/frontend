@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useAutoPlayStore, usePipStore } from "@store";
 import type { Level } from "hls.js";
 import {
   ArrowLeft,
@@ -20,10 +19,12 @@ import {
   VolumeX,
 } from "lucide-react";
 import { AutoPlayNextBanner, SettingModal } from "@features/player/components";
-import { playbackApi, watchHistoryApi } from "@entities/player/api";
+import { putPlaybackApi, putWatchHistoryApi } from "@entities/player/api";
 import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { useContentsDetail } from "@entities/video-contents/hooks";
 import { useOutsideClick } from "@shared/hooks";
+import { formatTime } from "@shared/lib";
+import { useAutoPlayStore, usePipStore } from "@shared/store";
 
 export const AUTO_PLAY_THRESHOLD = 0.95; // 영상길이 대 현재재생길이에 대한 비율 상수
 
@@ -233,20 +234,6 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
   };
 
-  const formatTime = (time: number) => {
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor((time % 3600) / 60);
-    const seconds = Math.floor(time % 60);
-
-    if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`;
-    }
-
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  };
-
   // seek bar (= 시간대 조정 bar)
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const video = videoRef.current;
@@ -327,7 +314,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     if (videoRef.current && !videoRef.current.paused) {
       videoRef.current.pause();
     }
-    await playbackApi(mediaId, currentTimeRef.current).catch(() => {});
+    await putPlaybackApi(mediaId, currentTimeRef.current).catch(() => {});
 
     if (data?.seriesMediaId) {
       router.push(
@@ -356,7 +343,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     }
     isSavedRef.current = true;
     video.pause();
-    await playbackApi(mediaId, video.currentTime).catch(() => {});
+    await putPlaybackApi(mediaId, video.currentTime).catch(() => {});
     enterPip(data?.masterPlaylistUrl, mediaId, video.currentTime);
     router.back();
   };
@@ -371,7 +358,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     if (nextMedia.mediaType === "SERIES") {
       router.push(`/contents/${nextMedia.mediaId}?type=SERIES`);
     } else {
-      await watchHistoryApi(nextMedia.mediaId).catch(() => {});
+      await putWatchHistoryApi(nextMedia.mediaId).catch(() => {});
       router.push(`/player/${nextMedia.mediaId}`);
     }
   }, [nextMedia, router]);
@@ -387,7 +374,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     return () => {
       if (isSavedRef.current) return;
       if (currentTimeRef.current === 0) return;
-      playbackApi(mediaId, currentTimeRef.current).catch(() => {});
+      putPlaybackApi(mediaId, currentTimeRef.current).catch(() => {});
     };
   }, [mediaId]);
 

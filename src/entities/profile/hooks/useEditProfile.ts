@@ -2,7 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EditProfileParams, editProfileApi } from "@entities/profile/api";
+import {
+  EditProfileParams,
+  patchMemberProfileApi,
+} from "@entities/profile/api";
 
 export function useEditProfile() {
   const router = useRouter();
@@ -10,7 +13,7 @@ export function useEditProfile() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ nickname, tagIds }: EditProfileParams) =>
-      editProfileApi.updateMemberProfile({ nickname, tagIds }),
+      patchMemberProfileApi({ nickname, tagIds }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["memberProfile"] });
       router.push("/mypage");

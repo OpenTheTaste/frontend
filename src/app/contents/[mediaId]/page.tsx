@@ -16,7 +16,14 @@ export default async function ContentsDetailPage({
   }>;
 }) {
   const mediaId = Number((await params).mediaId);
-  const { type: mediaType, playlist, tagId, index, query, commentId } = await searchParams;
+  const {
+    type: mediaType,
+    playlist,
+    tagId,
+    index,
+    query,
+    commentId,
+  } = await searchParams;
 
   const playlistParams = {
     playlist,

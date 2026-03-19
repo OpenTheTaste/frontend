@@ -4,10 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
-import { ScrollEdgeButton, ViewProgressBar } from "@base-components";
-import { useInfiniteScroll } from "@shared/hooks";
+import { ScrollEdgeButton, ViewProgressBar } from "@shared/components";
+import { useInfiniteScroll, useMediaLink } from "@shared/hooks";
 import { PlaylistItem } from "@shared/types";
-import { useMediaLink } from "@/shared/hooks";
 
 interface RecentContentListProps {
   items: PlaylistItem[];

@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { myreviewDeleteApi } from "@entities/myreview/api";
+import { deleteMyReviewApi } from "@entities/myreview/api";
 
 export function useDeleteMyreview() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (commentId: number) =>
-      myreviewDeleteApi.postMyreviewDelete(commentId),
+    mutationFn: (commentId: number) => deleteMyReviewApi(commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myreviews"] });
       queryClient.invalidateQueries({ queryKey: ["review", "list"] });

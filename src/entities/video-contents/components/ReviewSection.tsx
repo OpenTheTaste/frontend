@@ -3,11 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Loader2 } from "lucide-react";
-import { CommonButton, ConfirmModal, Toggle } from "@base-components";
 import { useDeleteMyreview } from "@entities/myreview/hooks";
-import { ReviewListItem } from "@entities/review/api/review";
-import { useEditReview, useWriteReview } from "@entities/review/hooks";
-import { useInfiniteReviewList } from "@entities/review/hooks";
+import { ReviewListItem } from "@entities/review/api";
+import {
+  useEditReview,
+  useInfiniteReviewList,
+  useWriteReview,
+} from "@entities/review/hooks";
+import { CommonButton, ConfirmModal, Toggle } from "@shared/components";
 import { useInfiniteScroll } from "@shared/hooks";
 import { formatDate } from "@shared/lib";
 

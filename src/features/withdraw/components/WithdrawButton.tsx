@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CommonButton, ConfirmModal } from "@base-components";
 import { deleteWithdrawApi } from "@entities/auth/api";
+import { CommonButton, ConfirmModal } from "@shared/components";
 
 export default function WithdrawButton() {
   const router = useRouter();

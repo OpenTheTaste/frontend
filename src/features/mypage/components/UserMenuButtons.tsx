@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { CommonButton } from "@base-components";
+import { CommonButton } from "@shared/components";
 
 export default function UserMenuButtons() {
   const router = useRouter();

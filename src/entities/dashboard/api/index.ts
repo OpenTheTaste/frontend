@@ -1,3 +1,3 @@
-export * from "./tagRankingApi";
-export * from "./tagMonthlyStatsApi"
-export * from "./tagRecommendPlaylistApi"
+export * from "./getTagRankingsApi";
+export * from "./getTagMonthlyStatsApi";
+export * from "./getTagRecommendPlaylistApi";

@@ -1,6 +1,6 @@
-export { withdrawcontentsApi } from "./withdrawcontentsApi";
+export { getWithdrawRecommendsContentsApi } from "./getWithdrawRecommendsContentsApi";
 export type {
   RecommendPlaylistParams,
   RecommendPlaylistItem,
   RecommendPlaylistResponse,
-} from "./withdrawcontentsApi";
+} from "./getWithdrawRecommendsContentsApi";

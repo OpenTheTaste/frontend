@@ -1,5 +1,5 @@
-import { BackButton } from "@base-components";
 import { HeaderBrand } from "@features/auth/components";
+import { BackButton } from "@shared/components";
 
 export default function PrivacyPage() {
   return (

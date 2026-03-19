@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSeriesDetail } from "../api/seriesDetail";
+import { getSeriesDetailApi } from "@entities/video-contents/api";
 
 export function useSeriesDetail(mediaId: number) {
   return useQuery({
     queryKey: ["series", "detail", mediaId],
-    queryFn: () => getSeriesDetail(mediaId),
+    queryFn: () => getSeriesDetailApi(mediaId),
     enabled: !!mediaId,
   });
 }

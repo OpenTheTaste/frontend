@@ -6,10 +6,10 @@ export default async function EpisodeDetailPage({
   searchParams,
 }: {
   params: Promise<{ mediaId: string; episodeId: string }>;
-    searchParams: Promise<{
-      type?: string;
-      commentId?: string;
-     }>;
+  searchParams: Promise<{
+    type?: string;
+    commentId?: string;
+  }>;
 }) {
   const seriesMediaId = Number((await params).mediaId);
   const episodeId = Number((await params).episodeId);

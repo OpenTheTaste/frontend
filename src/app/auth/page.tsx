@@ -1,11 +1,19 @@
-import { OnboardHeader, MainSection, FAQSection, PosterBackground } from "@features/auth/components";
 import { Footer } from "@layouts";
+import {
+  FAQSection,
+  MainSection,
+  OnboardHeader,
+  PosterBackground,
+} from "@features/auth/components";
 
 export default function OTPage() {
   return (
-    <div className="bg-ot-background min-h-screen flex flex-col relative overflow-hidden">
-      <PosterBackground/>
-      <div style={{ position: "relative", zIndex: 1 }} className="flex flex-col min-h-screen">
+    <div className="bg-ot-background relative flex min-h-screen flex-col overflow-hidden">
+      <PosterBackground />
+      <div
+        style={{ position: "relative", zIndex: 1 }}
+        className="flex min-h-screen flex-col"
+      >
         <OnboardHeader />
         <MainSection />
         <FAQSection />

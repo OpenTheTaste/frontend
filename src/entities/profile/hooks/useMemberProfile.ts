@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { memberApi } from "@entities/profile/api";
+import { getMemberProfileApi } from "@entities/profile/api";
 
 export function useMemberProfile() {
   return useQuery({
     queryKey: ["memberProfile"],
     queryFn: async () => {
-      const res = await memberApi.getMemberProfile();
+      const res = await getMemberProfileApi();
       return res.data.data;
     },
   });

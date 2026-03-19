@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2, Play, X } from "lucide-react";
-import { ConfirmModal } from "@base-components";
 import { BookmarkContentSkeleton } from "@entities/bookmark/components";
 import {
   useBookmarkContents,
   useToggleBookmark,
 } from "@entities/bookmark/hooks";
+import { ConfirmModal } from "@shared/components";
 import { useInfiniteScroll, useMediaLink } from "@shared/hooks";
 
 export default function BookmarkContentList() {

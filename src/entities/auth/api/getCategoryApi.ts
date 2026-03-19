@@ -1,4 +1,5 @@
 import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
 import { ApiResponse } from "@shared/types";
 
 export interface CategoryItem {
@@ -13,7 +14,7 @@ export interface TagItem {
 
 export const getCategoriesApi = async () =>
   await api
-    .get<ApiResponse<CategoryItem[]>>("/categories")
+    .get<ApiResponse<CategoryItem[]>>(END_POINTS.CATEGORIES)
     .then((res) => res.data.data);
 
 export const getTagsApi = async (categoryId: number) =>

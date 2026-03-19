@@ -4,7 +4,7 @@ import { getMoodCardApi } from "@entities/home/apis";
 export const useMoodCard = () => {
   return useQuery({
     queryKey: ["moodCard"],
-    queryFn: () => getMoodCardApi.getMoodCards(),
+    queryFn: () => getMoodCardApi(),
     select: (res) => res.data.data,
   });
 };

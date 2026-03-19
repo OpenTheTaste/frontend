@@ -55,7 +55,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
   const [rotation, setRotation] = useState<number>(0);
   const [spinning, setSpinning] = useState<boolean>(false);
   const { hideMood, isLoading } = useHideMood();
-  const { getMediaHref } = useMediaLink(); // 추가
+  const { getMediaHref } = useMediaLink();
 
   const handleClose = async () => {
     await hideMood(aiCard.refreshId);
@@ -67,6 +67,8 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
     setSpinning(true);
     setRotation(360);
   };
+  const splitByPunctuation = (text: string) =>
+    text.split(/(?<=[.!?])\s+/).filter(Boolean);
 
   return (
     <div
@@ -179,7 +181,13 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
                 </span>
               ))}
             </div>
-            <p className="text-ot-text text-sm">{aiCard.subtitle}</p>
+            <p className="text-ot-text w-full text-center text-sm leading-relaxed">
+              {splitByPunctuation(aiCard.subtitle).map((sentence, i) => (
+                <span key={i} className="block">
+                  {sentence}
+                </span>
+              ))}
+            </p>
           </div>
         </div>
       </div>

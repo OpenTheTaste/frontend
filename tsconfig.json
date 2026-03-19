@@ -20,13 +20,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@base-components": ["./src/shared/components"],
       "@layouts": ["./src/layouts"],
       "@entities/*": ["./src/entities/*"],
       "@features/*": ["./src/features/*"],
       "@shared/*": ["./src/shared/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@store": ["./src/store"]
+      "@layouts/*": ["./src/layouts/*"]
     }
   },
   "include": [

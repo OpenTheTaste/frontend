@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   GetReviewListParams,
   ReviewListItem,
-  getReviewList,
+  getReviewListApi,
 } from "@entities/review/api";
 
 export const useInfiniteReviewList = ({
@@ -19,7 +19,7 @@ export const useInfiniteReviewList = ({
       { page, size, searchWord, mediaId, includeSpoiler },
     ],
     queryFn: ({ pageParam = 0 }) =>
-      getReviewList({
+      getReviewListApi({
         page: pageParam as number,
         size,
         searchWord: searchWord || undefined,

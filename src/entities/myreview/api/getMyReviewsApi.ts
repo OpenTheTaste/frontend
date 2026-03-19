@@ -1,0 +1,27 @@
+import { api } from "@shared/api";
+import { END_POINTS } from "@shared/constants";
+import { ApiResponse, MediaType, PageInfo } from "@shared/types";
+
+// 내가 쓴 댓글 형태 안쪽 타입
+export interface MyReview {
+  mediaId: number;
+  seriesMediaId: number | null; // 시리즈 전용 Id
+  mediaType: MediaType;
+  commentId: number;
+  content: string;
+  contentsPosterUrl: string;
+  writerId: number;
+  writerNickname: string;
+  createdDate: string;
+}
+
+// 내가 쓴 댓글 목록 조회될 때 타입
+export interface MyReviewListResponse {
+  pageInfo: PageInfo;
+  dataList: MyReview[];
+}
+
+export const getMyReviewsApi = async (page: number) =>
+  await api.get<ApiResponse<MyReviewListResponse>>(END_POINTS.COMMENTS_ME, {
+    params: { page, size: 20 },
+  });

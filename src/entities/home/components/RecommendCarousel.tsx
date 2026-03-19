@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useUserStore } from "@store";
 import { ContentCarousel } from "@entities/home/components";
 import { RecommendPlaylistItem } from "@entities/withdraw-recommends/api";
 import { useWithdrawContents } from "@entities/withdraw-recommends/hooks";
 import { useMediaLink } from "@shared/hooks";
+import { useUserStore } from "@shared/store";
 
 export default function RecommendCarousel() {
   const [page, setPage] = useState(0);

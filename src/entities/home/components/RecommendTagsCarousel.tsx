@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useUserStore } from "@store";
 import { ContentCarousel } from "@entities/home/components";
 import { useTagsList } from "@entities/home/hooks";
 import { useMediaLink } from "@shared/hooks";
+import { useUserStore } from "@shared/store";
 import { PlaylistItem } from "@shared/types";
 
 export default function RecommendTagsCarousel({ index }: { index: number }) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { InteractionButton } from "@/shared/components";
+import { InteractionButton } from "@shared/components";
 
 interface ShortsActionButtonsProps {
   isLiked: boolean;

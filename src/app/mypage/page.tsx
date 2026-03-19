@@ -1,10 +1,6 @@
 import { Suspense } from "react";
 import { Footer, Header } from "@layouts";
-import {
-  MyPageContent,
-  ProfileInfo,
-  UserMenuButtons,
-} from "@features/mypage/components";
+import { MyPageContent, ProfileInfo } from "@features/mypage/components";
 import { TabBarSkeleton } from "@entities/profile/components";
 
 export default function MyPage() {

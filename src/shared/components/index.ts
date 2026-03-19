@@ -7,6 +7,7 @@ export { Input } from "./Input";
 export { InteractionButton } from "./InteractionButton";
 export { ScrollEdgeButton } from "./ScrollEdgeButton";
 export { Toggle } from "./Toggle";
+export { UserInitializer } from "./UserInitializer";
 
 export type { CommonButtonProps } from "./CommonButton";
 export type { ToggleProps } from "./Toggle";
