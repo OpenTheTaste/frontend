@@ -2,8 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Maximize2, Pause, Play, X } from "lucide-react";
-import { useHideControls, useHls } from "@entities/player/hooks";
+import { putPlaybackApi } from "@entities/player/api";
+import { useHideControls, useHls, usePlayback } from "@entities/player/hooks";
 import { formatTime } from "@shared/lib";
 import { usePipStore } from "@shared/store";
 
@@ -23,6 +25,7 @@ const snapToCorner = (x: number, y: number, actualHeight: number) => {
 };
 
 export const FloatingPlayer = () => {
+  const queryClient = useQueryClient();
   const { isPip, src, mediaId, currentTime, exitPip, setCurrentTime } =
     usePipStore();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -122,6 +125,12 @@ export const FloatingPlayer = () => {
     };
   }, [isDragging]);
 
+  usePlayback({
+    mediaId: mediaId ?? 0,
+    getCurrentPostionSec: () => videoRef.current?.currentTime ?? 0,
+    isPlaying,
+  });
+
   if (!isPip) return null;
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -153,6 +162,18 @@ export const FloatingPlayer = () => {
     setCurrentTime(video.currentTime);
     router.push(`/player/${mediaId}`);
   };
+  const handleClose = async () => {
+    const video = videoRef.current;
+    const positionSec = video?.currentTime ?? progress;
+
+    if (mediaId && positionSec > 0) {
+      await putPlaybackApi(mediaId, positionSec).catch(() => {});
+      queryClient.invalidateQueries({
+        queryKey: ["contents", "detail", mediaId],
+      });
+    }
+    exitPip();
+  };
 
   const progressPercent = duration ? (progress / duration) * 100 : 0;
 
@@ -178,7 +199,7 @@ export const FloatingPlayer = () => {
           {/* 상단: 닫기 */}
           <div className="flex justify-end bg-linear-to-b from-black/50 to-transparent p-2">
             <button
-              onClick={exitPip}
+              onClick={handleClose}
               className="text-ot-text rounded-full bg-black/40 p-1 backdrop-blur-sm transition-colors hover:bg-black/60"
             >
               <X className="h-3 w-3" />

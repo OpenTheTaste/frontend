@@ -15,6 +15,8 @@ export const usePlayback = ({
   isPlayingRef.current = isPlaying;
 
   useEffect(() => {
+    if (!mediaId) return;
+
     const interval = setInterval(async () => {
       if (!isPlayingRef.current) return;
       try {
