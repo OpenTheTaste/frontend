@@ -73,6 +73,14 @@ export const ShortsPlayer = ({
     else video.pause();
   };
 
+  const handleSeek = (newTime: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = newTime;
+    setCurrentTime(newTime);
+    if (newTime >= duration - 0.5) onEnded();
+  };
+
   return (
     <div
       className="relative flex h-full w-full shrink-0 cursor-pointer items-center justify-center bg-black"
@@ -110,15 +118,11 @@ export const ShortsPlayer = ({
           max={duration || 0}
           step={0.1}
           value={currentTime}
-          onChange={(e) => {
-            const video = videoRef.current;
-            if (!video) return;
-            video.currentTime = Number(e.target.value);
-            setCurrentTime(Number(e.target.value));
-          }}
+          onChange={(e) => handleSeek(Number(e.target.value))}
           className="absolute bottom-0 left-0 h-1.5 w-full cursor-pointer opacity-0"
           onClick={(e) => e.stopPropagation()}
           onMouseDown={(e) => e.stopPropagation()}
+          onMouseUp={(e) => e.stopPropagation()}
         />
       </div>
     </div>
