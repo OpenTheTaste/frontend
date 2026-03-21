@@ -12,6 +12,8 @@ export function useShortformList() {
       const { currentPage } = lastPage.pageInfo;
       return lastPage.dataList.length > 0 ? currentPage + 1 : undefined;
     },
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const seen = new Set<number>();
