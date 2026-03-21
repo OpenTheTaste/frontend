@@ -5,18 +5,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ShortsPlayer } from "@features/shorts/components";
 import { postBookmarkApi } from "@entities/bookmark/api";
 import { postLikesApi } from "@entities/likes/api";
-import {
-  getShortListsApi,
-  postShortsCtaApi,
-  postShortsEventsApi,
-} from "@entities/shorts/api";
+import { postShortsCtaApi, postShortsEventsApi } from "@entities/shorts/api";
 import {
   ShortsActionButtons,
   ShortsInformation,
   ShortsSkeleton,
 } from "@entities/shorts/components";
+import { useShortformList } from "@entities/shorts/hooks";
 import { useMediaLink } from "@shared/hooks";
-import { MediaType, ShortsData } from "@shared/types";
 
 interface ShortsContainerProps {
   initialShortsId?: number;
@@ -25,74 +21,37 @@ interface ShortsContainerProps {
 export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const router = useRouter();
   const { getMediaHref } = useMediaLink();
-  const [shortsList, setShortsList] = useState<ShortsData[]>([]);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
   const [likedToggles, setLikedToggles] = useState<Set<number>>(new Set());
   const [bookmarkToggles, setBookmarkToggles] = useState<Set<number>>(
     new Set(),
   );
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    getShortListsApi({ page: 0, size: 10 }).then(({ dataList }) => {
-      const list = dataList.map((item) => ({
-        id: item.shortFormId,
-        src: item.shortMasterPlaylistUrl,
-        isLiked: item.isLiked,
-        isBookmarked: item.isBookmarked,
-        originMediaId: item.originMediaId,
-        mediaType: item.mediaType as MediaType,
-        contentLink: {
-          title: item.title,
-          url: `/contents/${item.originMediaId}`,
-          editor: item.editorName,
-          date: item.uploadDate.slice(0, 10).replace(/-/g, ".") + ".",
-        },
-      }));
-
-      setShortsList(list);
-
-      if (initialShortsId) {
-        const idx = list.findIndex((s) => s.id === initialShortsId);
-        if (idx !== -1) {
-          setCurrentShortsIndex(idx);
-          requestAnimationFrame(() => {
-            if (scrollContainerRef.current) {
-              scrollContainerRef.current.scrollTop =
-                idx * scrollContainerRef.current.clientHeight;
-            }
-          });
-        }
-      }
-    });
-  }, [initialShortsId]);
-
-  const handleScroll = () => {
-    if (!scrollContainerRef.current) return;
-    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-
-    scrollTimeoutRef.current = setTimeout(() => {
-      if (!scrollContainerRef.current) return;
-      const { scrollTop, clientHeight } = scrollContainerRef.current;
-      const newIndex = Math.round(scrollTop / clientHeight);
-      setCurrentShortsIndex(newIndex);
-    }, 150);
-  };
-
-  // 영상 끝나면 다음 영상 자동 재생
-  const handleShortsEnded = useCallback(() => {
-    if (!scrollContainerRef.current) return;
-    const nextIndex = currentShortsIndex + 1;
-    if (nextIndex >= shortsList.length) return;
-
-    scrollContainerRef.current.scrollTo({
-      top: nextIndex * scrollContainerRef.current.clientHeight,
-      behavior: "smooth",
-    });
-  }, [currentShortsIndex, shortsList.length]);
+  const {
+    shortsList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useShortformList();
 
   const currentShorts = shortsList[currentShortsIndex];
+
+  useEffect(() => {
+    if (!initialShortsId || !shortsList.length) return;
+    const idx = shortsList.findIndex((s) => s.id === initialShortsId);
+    if (idx === -1) return;
+    setCurrentShortsIndex(idx);
+    requestAnimationFrame(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop =
+          idx * scrollContainerRef.current.clientHeight;
+      }
+    });
+  }, [initialShortsId, shortsList]);
 
   useEffect(() => {
     if (!currentShorts) return;
@@ -101,27 +60,50 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
 
   useEffect(() => {
     if (!currentShorts) return;
-    const timer = setTimeout(() => {
-      postShortsEventsApi(currentShorts.id);
-    }, 5000);
+    const timer = setTimeout(() => postShortsEventsApi(currentShorts.id), 5000);
     return () => clearTimeout(timer);
   }, [currentShorts]);
 
-  if (!shortsList.length) return <ShortsSkeleton />;
+  const handleScroll = useCallback(() => {
+    if (!scrollContainerRef.current) return;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      if (!scrollContainerRef.current) return;
+      const { scrollTop, clientHeight } = scrollContainerRef.current;
+      const newIndex = Math.round(scrollTop / clientHeight);
+      setCurrentShortsIndex(newIndex);
+
+      if (
+        hasNextPage &&
+        !isFetchingNextPage &&
+        newIndex >= shortsList.length - 3
+      ) {
+        fetchNextPage();
+      }
+    }, 150);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, shortsList.length]);
+
+  const handleShortsEnded = useCallback(() => {
+    const nextIndex = currentShortsIndex + 1;
+    if (!scrollContainerRef.current || nextIndex >= shortsList.length) return;
+    scrollContainerRef.current.scrollTo({
+      top: nextIndex * scrollContainerRef.current.clientHeight,
+      behavior: "smooth",
+    });
+  }, [currentShortsIndex, shortsList.length]);
 
   const toggleLiked = (id: number) =>
     setLikedToggles((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
 
   const toggleBookmarked = (id: number) =>
     setBookmarkToggles((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
 
@@ -153,12 +135,14 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     );
   };
 
-  const isLiked = currentShorts
-    ? currentShorts.isLiked !== likedToggles.has(currentShorts.id)
-    : false;
-  const isBookmarked = currentShorts
-    ? currentShorts.isBookmarked !== bookmarkToggles.has(currentShorts.id)
-    : false;
+  if (isLoading) return <ShortsSkeleton />;
+
+  const isLiked =
+    !!currentShorts &&
+    currentShorts.isLiked !== likedToggles.has(currentShorts.id);
+  const isBookmarked =
+    !!currentShorts &&
+    currentShorts.isBookmarked !== bookmarkToggles.has(currentShorts.id);
 
   return (
     <div className="grid w-full grid-cols-[1fr_auto_1fr] items-end justify-items-center px-8">
@@ -185,7 +169,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
       >
         {shortsList.map((shorts, index) => (
           <ShortsPlayer
-            key={shorts.id}
+            key={index}
             src={shorts.src}
             shortsId={shorts.id}
             isActive={index === currentShortsIndex}
