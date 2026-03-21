@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ShortsPlayer } from "@features/shorts/components";
 import { postBookmarkApi } from "@entities/bookmark/api";
 import { postLikesApi } from "@entities/likes/api";
@@ -57,7 +57,6 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
         const idx = list.findIndex((s) => s.id === initialShortsId);
         if (idx !== -1) {
           setCurrentShortsIndex(idx);
-          // 초기 스크롤 위치 설정
           requestAnimationFrame(() => {
             if (scrollContainerRef.current) {
               scrollContainerRef.current.scrollTop =
@@ -69,7 +68,6 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     });
   }, [initialShortsId]);
 
-  // 스크롤 위치로 현재 인덱스 감지
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
@@ -81,6 +79,18 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
       setCurrentShortsIndex(newIndex);
     }, 150);
   };
+
+  // 영상 끝나면 다음 영상 자동 재생
+  const handleShortsEnded = useCallback(() => {
+    if (!scrollContainerRef.current) return;
+    const nextIndex = currentShortsIndex + 1;
+    if (nextIndex >= shortsList.length) return;
+
+    scrollContainerRef.current.scrollTo({
+      top: nextIndex * scrollContainerRef.current.clientHeight,
+      behavior: "smooth",
+    });
+  }, [currentShortsIndex, shortsList.length]);
 
   const currentShorts = shortsList[currentShortsIndex];
 
@@ -179,6 +189,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
             src={shorts.src}
             shortsId={shorts.id}
             isActive={index === currentShortsIndex}
+            onEnded={handleShortsEnded}
           />
         ))}
       </div>

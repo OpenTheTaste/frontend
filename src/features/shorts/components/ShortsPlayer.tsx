@@ -8,12 +8,14 @@ interface ShortsPlayerProps {
   src: string;
   shortsId: number;
   isActive: boolean;
+  onEnded: () => void;
 }
 
 export const ShortsPlayer = ({
   src,
   shortsId,
   isActive,
+  onEnded,
 }: ShortsPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -36,19 +38,22 @@ export const ShortsPlayer = ({
     const handlePause = () => setIsPlaying(false);
     const handleTimeUpdate = () => setCurrentTime(video.currentTime);
     const handleLoadedMetadata = () => setDuration(video.duration);
+    const handleEnded = () => onEnded();
 
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("ended", handleEnded);
 
     return () => {
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("ended", handleEnded);
     };
-  }, []);
+  }, [onEnded]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -71,18 +76,14 @@ export const ShortsPlayer = ({
   return (
     <div
       className="relative flex h-full w-full shrink-0 cursor-pointer items-center justify-center bg-black"
-      style={{
-        scrollSnapAlign: "start",
-        scrollSnapStop: "always",
-      }}
+      style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
       onClick={togglePlay}
     >
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
-        muted
         playsInline
-        loop
+        autoPlay
       />
 
       {!isPlaying && (
