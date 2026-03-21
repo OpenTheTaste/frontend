@@ -7,75 +7,28 @@ import { useHls } from "@entities/player/hooks";
 interface ShortsPlayerProps {
   src: string;
   shortsId: number;
-  onNextShorts: () => void;
-  onPrevShorts: () => void;
+  isActive: boolean;
+  onEnded: () => void;
 }
 
 export const ShortsPlayer = ({
   src,
   shortsId,
-  onNextShorts,
-  onPrevShorts,
+  isActive,
+  onEnded,
 }: ShortsPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const hlsRef = useHls({
-    src,
-    videoRef,
-  });
+  const hlsRef = useHls({ src, videoRef });
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = src;
-      return;
-    }
+    if (video.canPlayType("application/vnd.apple.mpegurl")) video.src = src;
   }, [src]);
-
-  const isScrollingRef = useRef(false);
-
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    if (!isScrollingRef.current) {
-      isScrollingRef.current = true;
-      if (e.deltaY > 0) {
-        onNextShorts();
-      } else if (e.deltaY < 0) {
-        onPrevShorts();
-      }
-      setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 800);
-    }
-  };
-
-  const [mouseDown, setMouseDown] = useState(false);
-  const [startY, setStartY] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    setMouseDown(true);
-    setStartY(e.clientY);
-  };
-
-  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!mouseDown) return;
-    setMouseDown(false);
-
-    const endY = e.clientY;
-    const diff = startY - endY;
-
-    if (diff > 50) {
-      onNextShorts();
-    } else if (diff < -50) {
-      onPrevShorts();
-    }
-  };
 
   useEffect(() => {
     const video = videoRef.current;
@@ -85,53 +38,76 @@ export const ShortsPlayer = ({
     const handlePause = () => setIsPlaying(false);
     const handleTimeUpdate = () => setCurrentTime(video.currentTime);
     const handleLoadedMetadata = () => setDuration(video.duration);
+    const handleEnded = () => onEnded();
 
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("ended", handleEnded);
 
     return () => {
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("ended", handleEnded);
     };
-  }, []);
+  }, [onEnded]);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.play().catch(() => {});
-  }, [src]);
+
+    if (isActive) {
+      const playVideo = () => {
+        video.muted = true;
+        video
+          .play()
+          .then(() => {
+            video.muted = false;
+          })
+          .catch(() => {});
+      };
+
+      if (video.readyState >= 2) {
+        playVideo();
+      } else {
+        video.addEventListener("canplay", playVideo, { once: true });
+        return () => video.removeEventListener("canplay", playVideo);
+      }
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [isActive]);
 
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
+    if (video.paused) video.play();
+    else video.pause();
+  };
 
-    if (video.paused) {
-      video.play();
-    } else {
-      video.pause();
-    }
+  const handleSeek = (newTime: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = newTime;
+    setCurrentTime(newTime);
+    if (newTime >= duration - 0.5) onEnded();
   };
 
   return (
     <div
-      ref={containerRef}
       className="relative flex h-full w-full cursor-pointer items-center justify-center bg-black"
-      tabIndex={0}
-      onWheel={handleWheel}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
       onClick={togglePlay}
     >
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
+        playsInline
         autoPlay
         muted
-        playsInline
       />
 
       {!isPlaying && (
@@ -140,12 +116,9 @@ export const ShortsPlayer = ({
         </div>
       )}
 
-      {/* 재생 progress bar */}
       <div
         className="absolute right-0 bottom-0 left-0 h-4 cursor-pointer"
         onClick={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
-        onMouseUp={(e) => e.stopPropagation()}
       >
         <div className="absolute right-0 bottom-0 left-0 h-1.5 bg-white/30">
           <div
@@ -155,20 +128,17 @@ export const ShortsPlayer = ({
             }}
           />
         </div>
-
         <input
           type="range"
           min={0}
           max={duration || 0}
           step={0.1}
           value={currentTime}
-          onChange={(e) => {
-            const video = videoRef.current;
-            if (!video) return;
-            video.currentTime = Number(e.target.value);
-            setCurrentTime(Number(e.target.value));
-          }}
+          onChange={(e) => handleSeek(Number(e.target.value))}
           className="absolute bottom-0 left-0 h-1.5 w-full cursor-pointer opacity-0"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          onMouseUp={(e) => e.stopPropagation()}
         />
       </div>
     </div>
