@@ -1,3 +1,4 @@
+// ShortsPlayer.tsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -58,8 +59,24 @@ export const ShortsPlayer = ({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
     if (isActive) {
-      video.play().catch(() => {});
+      const playVideo = () => {
+        video.muted = true;
+        video
+          .play()
+          .then(() => {
+            video.muted = false;
+          })
+          .catch(() => {});
+      };
+
+      if (video.readyState >= 2) {
+        playVideo();
+      } else {
+        video.addEventListener("canplay", playVideo, { once: true });
+        return () => video.removeEventListener("canplay", playVideo);
+      }
     } else {
       video.pause();
       video.currentTime = 0;
@@ -83,8 +100,7 @@ export const ShortsPlayer = ({
 
   return (
     <div
-      className="relative flex h-full w-full shrink-0 cursor-pointer items-center justify-center bg-black"
-      style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
+      className="relative flex h-full w-full cursor-pointer items-center justify-center bg-black"
       onClick={togglePlay}
     >
       <video
@@ -92,6 +108,7 @@ export const ShortsPlayer = ({
         className="h-full w-full object-cover"
         playsInline
         autoPlay
+        muted
       />
 
       {!isPlaying && (

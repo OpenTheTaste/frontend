@@ -23,6 +23,7 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const { getMediaHref } = useMediaLink();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const initializedRef = useRef(false);
 
   const [currentShortsIndex, setCurrentShortsIndex] = useState(0);
   const [likedToggles, setLikedToggles] = useState<Set<number>>(new Set());
@@ -41,9 +42,11 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
   const currentShorts = shortsList[currentShortsIndex];
 
   useEffect(() => {
-    if (!initialShortsId || !shortsList.length) return;
+    if (!initialShortsId || !shortsList.length || initializedRef.current)
+      return;
     const idx = shortsList.findIndex((s) => s.id === initialShortsId);
     if (idx === -1) return;
+    initializedRef.current = true;
     setCurrentShortsIndex(idx);
     requestAnimationFrame(() => {
       if (scrollContainerRef.current) {
@@ -135,7 +138,10 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     );
   };
 
-  if (isLoading) return <ShortsSkeleton />;
+  // ✅ initialShortsId가 있고 아직 초기화 안 됐으면 skeleton 유지
+  if (isLoading || (initialShortsId && !initializedRef.current)) {
+    return <ShortsSkeleton />;
+  }
 
   const isLiked =
     !!currentShorts &&
@@ -167,15 +173,25 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
           msOverflowStyle: "none",
         }}
       >
-        {shortsList.map((shorts, index) => (
-          <ShortsPlayer
-            key={index}
-            src={shorts.src}
-            shortsId={shorts.id}
-            isActive={index === currentShortsIndex}
-            onEnded={handleShortsEnded}
-          />
-        ))}
+        {shortsList.map((shorts, index) => {
+          const isNearby = Math.abs(index - currentShortsIndex) <= 1;
+          return (
+            <div
+              key={index}
+              className="relative flex h-full w-full shrink-0 bg-black"
+              style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
+            >
+              {isNearby && (
+                <ShortsPlayer
+                  src={shorts.src}
+                  shortsId={shorts.id}
+                  isActive={index === currentShortsIndex}
+                  onEnded={handleShortsEnded}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div className="ml-4 justify-self-start">
