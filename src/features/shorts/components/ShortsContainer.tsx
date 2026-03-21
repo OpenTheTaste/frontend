@@ -138,7 +138,6 @@ export const ShortsContainer = ({ initialShortsId }: ShortsContainerProps) => {
     );
   };
 
-  // ✅ initialShortsId가 있고 아직 초기화 안 됐으면 skeleton 유지
   if (isLoading || (initialShortsId && !initializedRef.current)) {
     return <ShortsSkeleton />;
   }
