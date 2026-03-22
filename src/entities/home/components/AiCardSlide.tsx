@@ -72,7 +72,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
 
   return (
     <div
-      className={`relative flex h-full w-full flex-col bg-linear-to-r ${gradient} overflow-y-auto rounded-xl px-8 py-6`}
+      className={`no-scrollbar relative flex h-full w-full flex-col overflow-y-auto bg-linear-to-r ${gradient} rounded-xl px-8 py-6`}
     >
       {/* 닫기 버튼 */}
       <button
@@ -88,11 +88,11 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
       <p className="text-ot-text text-2xl font-bold">현재 나의 감정 상태는?</p>
 
       {/* 중단: 카드(좌) + 구분선 + 말풍선+포스터(우) */}
-      <div className="flex flex-1 items-center justify-center gap-20">
+      <div className="flex flex-1 justify-center gap-20">
         {/* 왼쪽) 감정 카드 이미지 */}
         <div
           onClick={handleCardClick}
-          className="flex shrink-0 cursor-pointer flex-col items-center justify-center"
+          className="flex shrink-0 cursor-pointer flex-col items-center justify-center self-center"
           style={{ perspective: "1000px" }}
         >
           <motion.div
@@ -138,7 +138,7 @@ export default function AiCardSlide({ aiCard, onClose }: AiCardSlideProps) {
         </div>
 
         {/* 세로 구분선 */}
-        <div className="h-60 w-px shrink-0 bg-white/20" />
+        <div className="h-60 w-px shrink-0 self-center bg-white/20" />
 
         {/* 오른쪽) 말풍선 + 포스터 3개 */}
         <div className="flex flex-col items-center gap-4">
