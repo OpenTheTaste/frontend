@@ -17,13 +17,11 @@ const BANNER_IMAGES = [
 
 interface ContentCarouselProps {
   title: string;
-  itemWidth?: number;
   itemHeight?: number;
 }
 
 export default function MainCarousel({
   title,
-  itemWidth = 160,
   itemHeight = 220,
 }: ContentCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -43,6 +41,7 @@ export default function MainCarousel({
     return () => observer.disconnect();
   }, []);
 
+  const itemWidth = containerWidth > 0 ? containerWidth - 2 * PEEK : 0;
   const itemCount = (aiCardData && !dismissed ? 1 : 0) + BANNER_IMAGES.length;
   const itemsPerPage = Math.max(
     1,
