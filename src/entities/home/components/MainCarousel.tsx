@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { AiCardSlide } from "@entities/home/components";
 import { useMoodCard } from "@entities/home/hooks";
 import { ScrollEdgeButton } from "@shared/components";
@@ -24,40 +24,20 @@ export default function MainCarousel({
   title,
   itemHeight = 220,
 }: ContentCarouselProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const { data: aiCardData } = useMoodCard();
   const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const observer = new ResizeObserver(([entry]) => {
-      setContainerWidth(entry.contentRect.width);
-      setCurrentPage(0);
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const itemWidth = containerWidth > 0 ? containerWidth - 2 * PEEK : 0;
   const itemCount = (aiCardData && !dismissed ? 1 : 0) + BANNER_IMAGES.length;
-  const itemsPerPage = Math.max(
-    1,
-    Math.floor((containerWidth - 2 * PEEK + GAP) / (itemWidth + GAP)),
-  );
-  const pageWidth = itemsPerPage * (itemWidth + GAP);
-  const totalPages = Math.ceil(itemCount / itemsPerPage);
+  const totalPages = itemCount;
   const isFirst = currentPage === 0;
   const isLast = currentPage >= totalPages - 1;
-  const translateX = isFirst ? 0 : currentPage * pageWidth - PEEK;
 
   return (
     <div className="bg-ot-background w-full pt-[1.33rem] pr-12 pb-[1.33rem] pl-12">
       <h2 className="text-ot-text mb-5 text-2xl font-bold">{title}</h2>
 
-      <div className="relative" ref={containerRef}>
+      <div className="relative">
         {!isFirst && (
           <ScrollEdgeButton
             direction="left"
@@ -71,13 +51,19 @@ export default function MainCarousel({
             className="flex transition-transform duration-300 ease-in-out"
             style={{
               gap: `${GAP}px`,
-              transform: `translateX(-${translateX}px)`,
+              transform: `translateX(calc(
+                -${currentPage} * (100% - ${PEEK * 2}px + ${GAP}px)
+                + ${currentPage > 0 ? PEEK : 0}px
+              ))`,
             }}
           >
             {aiCardData && !dismissed && (
               <div
                 className="bg-ot-gray-800 relative shrink-0 overflow-hidden rounded-xl"
-                style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
+                style={{
+                  width: `calc(100% - ${PEEK * 2}px)`,
+                  height: `${itemHeight}px`,
+                }}
               >
                 <AiCardSlide
                   aiCard={aiCardData}
@@ -93,7 +79,10 @@ export default function MainCarousel({
               <div
                 key={idx}
                 className="bg-ot-gray-800 relative shrink-0 overflow-hidden rounded-xl"
-                style={{ width: `${itemWidth}px`, height: `${itemHeight}px` }}
+                style={{
+                  width: `calc(100% - ${PEEK * 2}px)`,
+                  height: `${itemHeight}px`,
+                }}
               >
                 <Image
                   src={banner.src}
