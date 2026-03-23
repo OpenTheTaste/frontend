@@ -74,13 +74,11 @@ export const AutoPlayNextBanner = memo(
     // 콘텐츠
     if (type === "contents") {
       return (
-        <div
+        <button
+          onClick={handleConfirm}
           className={`bg-ot-gray-900/90 hover:bg-ot-gray-800/90 absolute right-4 ${bottomClass} flex items-center gap-4 rounded-md px-3 py-3 shadow-lg backdrop-blur-sm transition-all`}
         >
-          <div
-            className="relative h-14 w-22 shrink-0 cursor-pointer overflow-hidden rounded-md"
-            onClick={handleConfirm}
-          >
+          <div className="relative h-14 w-22 shrink-0 overflow-hidden rounded-md">
             <Image
               src={nextMedia.thumbnailUrl}
               alt={nextMedia.title}
@@ -89,11 +87,8 @@ export const AutoPlayNextBanner = memo(
             />
           </div>
 
-          <div
-            className="flex cursor-pointer flex-col gap-1"
-            onClick={handleConfirm}
-          >
-            <p className="text-ot-text line-clamp-1 max-w-35 text-sm leading-tight font-semibold">
+          <div className="flex flex-col gap-1">
+            <p className="text-ot-text line-clamp-1 max-w-35 text-left text-sm leading-tight font-semibold">
               {nextMedia.title}
             </p>
             <p className="text-ot-gray-400 text-xs">
@@ -101,14 +96,18 @@ export const AutoPlayNextBanner = memo(
             </p>
           </div>
 
-          <button
-            onClick={handleCancel}
-            className="text-ot-gray-600 hover:text-ot-text ml-1 shrink-0 self-start p-1 transition-colors"
+          <div
+            role="button"
             aria-label="자동재생 취소"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCancel();
+            }}
+            className="text-ot-gray-600 hover:text-ot-text ml-1 shrink-0 self-start p-1 transition-colors"
           >
             <X size={16} />
-          </button>
-        </div>
+          </div>
+        </button>
       );
     }
 
