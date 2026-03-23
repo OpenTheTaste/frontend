@@ -357,7 +357,23 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
     video.pause();
     await putPlaybackApi(mediaId, video.currentTime).catch(() => {});
     enterPip(data?.masterPlaylistUrl, mediaId, video.currentTime);
-    router.back();
+
+    if (data?.seriesMediaId) {
+      router.push(
+        `/contents/${data.seriesMediaId}/episode/${mediaId}?type=SERIES`,
+      );
+    } else if (source) {
+      const params = new URLSearchParams({
+        type: "CONTENTS",
+        playlist: source.type,
+      });
+      if (source.type === "topTag" && "index" in source) {
+        params.set("index", String(source.index));
+      }
+      router.push(`/contents/${mediaId}?${params.toString()}`);
+    } else {
+      router.push(`/contents/${mediaId}?type=CONTENTS`);
+    }
   };
 
   // setQueue 대신 setCurrentMediaId 사용 X — 아무것도 안 해도 됨
