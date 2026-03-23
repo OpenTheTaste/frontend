@@ -19,9 +19,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const refreshToken = request.cookies.get("refreshToken")?.value;
+  const userRefreshToken = request.cookies.get("userRefreshToken")?.value;
 
-  if (!refreshToken) {
+  if (!userRefreshToken) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
