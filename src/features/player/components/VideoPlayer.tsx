@@ -94,10 +94,13 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
       if (duration <= 0) return;
 
       const ratio = currentTime / duration;
-
       if (ratio < AUTO_PLAY_THRESHOLD) {
         isCancelledRef.current = false;
-        showNextBannerRef.current = false;
+        if (showNextBannerRef.current) {
+          showNextBannerRef.current = false;
+          setShowNextBanner(false);
+        }
+        return;
       }
 
       if (
