@@ -66,7 +66,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
 
   const [showNextBanner, setShowNextBanner] = useState<boolean>(false);
   const showNextBannerRef = useRef(false);
-
+  const isCancelledRef = useRef(false);
   const {
     enterPip,
     exitPip,
@@ -91,10 +91,19 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
       currentTimeRef.current = videoRef.current.currentTime;
 
       const { currentTime, duration } = videoRef.current;
+      if (duration <= 0) return;
+
+      const ratio = currentTime / duration;
+
+      if (ratio < AUTO_PLAY_THRESHOLD) {
+        isCancelledRef.current = false;
+        showNextBannerRef.current = false;
+      }
+
       if (
-        duration > 0 &&
-        currentTime / duration >= AUTO_PLAY_THRESHOLD &&
-        !showNextBannerRef.current
+        ratio >= AUTO_PLAY_THRESHOLD &&
+        !showNextBannerRef.current &&
+        !isCancelledRef.current
       ) {
         showNextBannerRef.current = true;
         setShowNextBanner(true);
@@ -352,7 +361,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
   const handleNextConfirm = useCallback(async () => {
     if (!nextMedia) return;
     showNextBannerRef.current = false;
-    setShowNextBanner(false);
+    // setShowNextBanner(false);
     isSavedRef.current = true;
 
     if (nextMedia.mediaType === "SERIES") {
@@ -425,6 +434,7 @@ export const VideoPlayer = ({ mediaId }: VideoPlayerProps) => {
           nextMedia={nextMedia}
           onConfirm={handleNextConfirm}
           onCancel={() => {
+            isCancelledRef.current = true;
             showNextBannerRef.current = false;
             setShowNextBanner(false);
           }}
